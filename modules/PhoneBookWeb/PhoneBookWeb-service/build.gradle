@@ -1,0 +1,11 @@
+dependencies {
+	compile project(":modules:PhoneBookWeb:PhoneBookWeb-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.portal.api"
+}
+
+buildService {
+	apiDir = "../PhoneBookWeb-api/src/main/java"
+}
+
+group = "com.sain.phonebook"

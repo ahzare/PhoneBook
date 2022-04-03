@@ -1,0 +1,10 @@
+Bundle-Name: PhoneBookWeb-api
+Bundle-SymbolicName: com.sain.phonebook.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	com.sain.phonebook.exception,\
+	com.sain.phonebook.model,\
+	com.sain.phonebook.service,\
+	com.sain.phonebook.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../PhoneBookWeb-service/service.xml
