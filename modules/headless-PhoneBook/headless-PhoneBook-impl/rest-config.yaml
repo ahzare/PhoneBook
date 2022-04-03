@@ -1,0 +1,9 @@
+apiDir: "../headless-PhoneBook-api/src/main/java"
+apiPackagePath: "com.sain.headless.phonebook"
+application:
+    baseURI: "/headless-PhoneBook"
+    className: "HeadlessPhoneBookApplication"
+    name: "HeadlessPhoneBook"
+author: "Amir"
+clientDir: "../headless-PhoneBook-client/src/main/java"
+testDir: "../headless-PhoneBook-test/src/testIntegration/java"

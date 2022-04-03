@@ -1,0 +1,3 @@
+Bundle-Name: headless-PhoneBook-impl
+Bundle-SymbolicName: com.sain.headless.phonebook.impl
+Bundle-Version: 1.0.0
