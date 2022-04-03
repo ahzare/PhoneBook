@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+
+<model-hints>
+	<model name="com.sain.phonebook.model.Address">
+		<field name="uuid" type="String" />
+		<field name="addressId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="name" type="String" />
+	</model>
+	<model name="com.sain.phonebook.model.Department">
+		<field name="uuid" type="String" />
+		<field name="departmentId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="name" type="String" />
+	</model>
+	<model name="com.sain.phonebook.model.Part">
+		<field name="uuid" type="String" />
+		<field name="partId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="addressId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="name" type="String" />
+		<field name="internalPhone" type="String" />
+	</model>
+	<model name="com.sain.phonebook.model.Person">
+		<field name="uuid" type="String" />
+		<field name="personId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="unitId" type="long" />
+		<field name="roleId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="firstName" type="String" />
+		<field name="lastName" type="String" />
+		<field name="localPhoneNumber" type="String" />
+		<field name="phoneNumber" type="String" />
+		<field name="faxNumber" type="String" />
+		<field name="roomNumber" type="String" />
+		<field name="email" type="String" />
+		<field name="website" type="String" />
+	</model>
+	<model name="com.sain.phonebook.model.Role">
+		<field name="uuid" type="String" />
+		<field name="roleId" type="long" />
+		<field name="groupId" type="long" />
+		<field name="unitId" type="long" />
+		<field name="companyId" type="long" />
+		<field name="userId" type="long" />
+		<field name="userName" type="String" />
+		<field name="createDate" type="Date" />
+		<field name="modifiedDate" type="Date" />
+		<field name="name" type="String" />
+	</model>
+</model-hints>
