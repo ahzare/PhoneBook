@@ -107,18 +107,18 @@ public interface PersonModel
 	public void setGroupId(long groupId);
 
 	/**
-	 * Returns the unit ID of this person.
+	 * Returns the department ID of this person.
 	 *
-	 * @return the unit ID of this person
+	 * @return the department ID of this person
 	 */
-	public long getUnitId();
+	public long getDepartmentId();
 
 	/**
-	 * Sets the unit ID of this person.
+	 * Sets the department ID of this person.
 	 *
-	 * @param unitId the unit ID of this person
+	 * @param departmentId the department ID of this person
 	 */
-	public void setUnitId(long unitId);
+	public void setDepartmentId(long departmentId);
 
 	/**
 	 * Returns the role ID of this person.

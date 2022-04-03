@@ -45,7 +45,7 @@ public class RoleWrapper
 		attributes.put("uuid", getUuid());
 		attributes.put("roleId", getRoleId());
 		attributes.put("groupId", getGroupId());
-		attributes.put("unitId", getUnitId());
+		attributes.put("departmentId", getDepartmentId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
 		attributes.put("userName", getUserName());
@@ -76,10 +76,10 @@ public class RoleWrapper
 			setGroupId(groupId);
 		}
 
-		Long unitId = (Long)attributes.get("unitId");
+		Long departmentId = (Long)attributes.get("departmentId");
 
-		if (unitId != null) {
-			setUnitId(unitId);
+		if (departmentId != null) {
+			setDepartmentId(departmentId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -140,6 +140,16 @@ public class RoleWrapper
 	}
 
 	/**
+	 * Returns the department ID of this role.
+	 *
+	 * @return the department ID of this role
+	 */
+	@Override
+	public long getDepartmentId() {
+		return model.getDepartmentId();
+	}
+
+	/**
 	 * Returns the group ID of this role.
 	 *
 	 * @return the group ID of this role
@@ -187,16 +197,6 @@ public class RoleWrapper
 	@Override
 	public long getRoleId() {
 		return model.getRoleId();
-	}
-
-	/**
-	 * Returns the unit ID of this role.
-	 *
-	 * @return the unit ID of this role
-	 */
-	@Override
-	public long getUnitId() {
-		return model.getUnitId();
 	}
 
 	/**
@@ -265,6 +265,16 @@ public class RoleWrapper
 	}
 
 	/**
+	 * Sets the department ID of this role.
+	 *
+	 * @param departmentId the department ID of this role
+	 */
+	@Override
+	public void setDepartmentId(long departmentId) {
+		model.setDepartmentId(departmentId);
+	}
+
+	/**
 	 * Sets the group ID of this role.
 	 *
 	 * @param groupId the group ID of this role
@@ -312,16 +322,6 @@ public class RoleWrapper
 	@Override
 	public void setRoleId(long roleId) {
 		model.setRoleId(roleId);
-	}
-
-	/**
-	 * Sets the unit ID of this role.
-	 *
-	 * @param unitId the unit ID of this role
-	 */
-	@Override
-	public void setUnitId(long unitId) {
-		model.setUnitId(unitId);
 	}
 
 	/**

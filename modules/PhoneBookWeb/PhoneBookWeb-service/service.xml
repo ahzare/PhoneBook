@@ -16,7 +16,7 @@
 
 		<column name="groupId" type="long"/>
 
-		<column name="unitId" type="long"/>
+		<column name="departmentId" type="long"/>
 		<column name="roleId" type="long"/>
 
 		<!-- Audit fields -->
@@ -66,7 +66,7 @@
 
 		<column name="groupId" type="long"/>
 
-		<column name="unitId" type="long"/>
+		<column name="departmentId" type="long"/>
 
 		<!-- Audit fields -->
 
@@ -91,8 +91,8 @@
 		<finder name="RoleId" return-type="Role">
 			<finder-column name="roleId"/>
 		</finder>
-		<finder name="UnitId" return-type="Role">
-			<finder-column name="unitId"/>
+		<finder name="DepartmentId" return-type="Role">
+			<finder-column name="departmentId"/>
 		</finder>
 
 		<!-- References -->

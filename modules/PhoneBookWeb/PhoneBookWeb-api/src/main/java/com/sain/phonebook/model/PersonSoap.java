@@ -36,7 +36,7 @@ public class PersonSoap implements Serializable {
 		soapModel.setUuid(model.getUuid());
 		soapModel.setPersonId(model.getPersonId());
 		soapModel.setGroupId(model.getGroupId());
-		soapModel.setUnitId(model.getUnitId());
+		soapModel.setDepartmentId(model.getDepartmentId());
 		soapModel.setRoleId(model.getRoleId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
@@ -127,12 +127,12 @@ public class PersonSoap implements Serializable {
 		_groupId = groupId;
 	}
 
-	public long getUnitId() {
-		return _unitId;
+	public long getDepartmentId() {
+		return _departmentId;
 	}
 
-	public void setUnitId(long unitId) {
-		_unitId = unitId;
+	public void setDepartmentId(long departmentId) {
+		_departmentId = departmentId;
 	}
 
 	public long getRoleId() {
@@ -250,7 +250,7 @@ public class PersonSoap implements Serializable {
 	private String _uuid;
 	private long _personId;
 	private long _groupId;
-	private long _unitId;
+	private long _departmentId;
 	private long _roleId;
 	private long _companyId;
 	private long _userId;

@@ -430,46 +430,48 @@ public interface RolePersistence extends BasePersistence<Role> {
 	public int countByRoleId(long roleId);
 
 	/**
-	 * Returns the role where unitId = &#63; or throws a <code>NoSuchRoleException</code> if it could not be found.
+	 * Returns the role where departmentId = &#63; or throws a <code>NoSuchRoleException</code> if it could not be found.
 	 *
-	 * @param unitId the unit ID
+	 * @param departmentId the department ID
 	 * @return the matching role
 	 * @throws NoSuchRoleException if a matching role could not be found
 	 */
-	public Role findByUnitId(long unitId) throws NoSuchRoleException;
+	public Role findByDepartmentId(long departmentId)
+		throws NoSuchRoleException;
 
 	/**
-	 * Returns the role where unitId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 * Returns the role where departmentId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
 	 *
-	 * @param unitId the unit ID
+	 * @param departmentId the department ID
 	 * @return the matching role, or <code>null</code> if a matching role could not be found
 	 */
-	public Role fetchByUnitId(long unitId);
+	public Role fetchByDepartmentId(long departmentId);
 
 	/**
-	 * Returns the role where unitId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 * Returns the role where departmentId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
 	 *
-	 * @param unitId the unit ID
+	 * @param departmentId the department ID
 	 * @param useFinderCache whether to use the finder cache
 	 * @return the matching role, or <code>null</code> if a matching role could not be found
 	 */
-	public Role fetchByUnitId(long unitId, boolean useFinderCache);
+	public Role fetchByDepartmentId(long departmentId, boolean useFinderCache);
 
 	/**
-	 * Removes the role where unitId = &#63; from the database.
+	 * Removes the role where departmentId = &#63; from the database.
 	 *
-	 * @param unitId the unit ID
+	 * @param departmentId the department ID
 	 * @return the role that was removed
 	 */
-	public Role removeByUnitId(long unitId) throws NoSuchRoleException;
+	public Role removeByDepartmentId(long departmentId)
+		throws NoSuchRoleException;
 
 	/**
-	 * Returns the number of roles where unitId = &#63;.
+	 * Returns the number of roles where departmentId = &#63;.
 	 *
-	 * @param unitId the unit ID
+	 * @param departmentId the department ID
 	 * @return the number of matching roles
 	 */
-	public int countByUnitId(long unitId);
+	public int countByDepartmentId(long departmentId);
 
 	/**
 	 * Caches the role in the entity cache if it is enabled.

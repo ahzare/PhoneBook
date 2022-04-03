@@ -69,8 +69,8 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 		sb.append(personId);
 		sb.append(", groupId=");
 		sb.append(groupId);
-		sb.append(", unitId=");
-		sb.append(unitId);
+		sb.append(", departmentId=");
+		sb.append(departmentId);
 		sb.append(", roleId=");
 		sb.append(roleId);
 		sb.append(", companyId=");
@@ -117,7 +117,7 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 
 		personImpl.setPersonId(personId);
 		personImpl.setGroupId(groupId);
-		personImpl.setUnitId(unitId);
+		personImpl.setDepartmentId(departmentId);
 		personImpl.setRoleId(roleId);
 		personImpl.setCompanyId(companyId);
 		personImpl.setUserId(userId);
@@ -212,7 +212,7 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 
 		groupId = objectInput.readLong();
 
-		unitId = objectInput.readLong();
+		departmentId = objectInput.readLong();
 
 		roleId = objectInput.readLong();
 
@@ -245,7 +245,7 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 
 		objectOutput.writeLong(groupId);
 
-		objectOutput.writeLong(unitId);
+		objectOutput.writeLong(departmentId);
 
 		objectOutput.writeLong(roleId);
 
@@ -323,7 +323,7 @@ public class PersonCacheModel implements CacheModel<Person>, Externalizable {
 	public String uuid;
 	public long personId;
 	public long groupId;
-	public long unitId;
+	public long departmentId;
 	public long roleId;
 	public long companyId;
 	public long userId;

@@ -44,6 +44,19 @@ public class PersonLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.sain.phonebook.service.impl.PersonLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Person addPerson(
+			long personId, String firstName, String lastName,
+			String localPhoneNumber, String phoneNumber, String faxNumber,
+			String roomNumber, String email, String website, long departmentId,
+			long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addPerson(
+			personId, firstName, lastName, localPhoneNumber, phoneNumber,
+			faxNumber, roomNumber, email, website, departmentId, roleId,
+			serviceContext);
+	}
 
 	/**
 	 * Adds the person to the database. Also notifies the appropriate model listeners.
@@ -329,6 +342,34 @@ public class PersonLocalServiceUtil {
 	 */
 	public static int getPersonsCount() {
 		return getService().getPersonsCount();
+	}
+
+	public static Person patchPersistedVitamin(
+			long personId, String firstName, String lastName,
+			String localPhoneNumber, String phoneNumber, String faxNumber,
+			String roomNumber, String email, String website, long departmentId,
+			long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().patchPersistedVitamin(
+			personId, firstName, lastName, localPhoneNumber, phoneNumber,
+			faxNumber, roomNumber, email, website, departmentId, roleId,
+			serviceContext);
+	}
+
+	public static Person updatePerson(
+			long personId, String firstName, String lastName,
+			String localPhoneNumber, String phoneNumber, String faxNumber,
+			String roomNumber, String email, String website, long departmentId,
+			long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updatePerson(
+			personId, firstName, lastName, localPhoneNumber, phoneNumber,
+			faxNumber, roomNumber, email, website, departmentId, roleId,
+			serviceContext);
 	}
 
 	/**

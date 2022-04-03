@@ -79,7 +79,7 @@ public class PersonModelImpl
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"uuid_", Types.VARCHAR}, {"personId", Types.BIGINT},
-		{"groupId", Types.BIGINT}, {"unitId", Types.BIGINT},
+		{"groupId", Types.BIGINT}, {"departmentId", Types.BIGINT},
 		{"roleId", Types.BIGINT}, {"companyId", Types.BIGINT},
 		{"userId", Types.BIGINT}, {"userName", Types.VARCHAR},
 		{"createDate", Types.TIMESTAMP}, {"modifiedDate", Types.TIMESTAMP},
@@ -96,7 +96,7 @@ public class PersonModelImpl
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("personId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("unitId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("departmentId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("roleId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
@@ -114,7 +114,7 @@ public class PersonModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table PhoneBook_Person (uuid_ VARCHAR(75) null,personId LONG not null primary key,groupId LONG,unitId LONG,roleId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,firstName VARCHAR(75) null,lastName VARCHAR(75) null,localPhoneNumber VARCHAR(75) null,phoneNumber VARCHAR(75) null,faxNumber VARCHAR(75) null,roomNumber VARCHAR(75) null,email VARCHAR(75) null,website VARCHAR(75) null)";
+		"create table PhoneBook_Person (uuid_ VARCHAR(75) null,personId LONG not null primary key,groupId LONG,departmentId LONG,roleId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,firstName VARCHAR(75) null,lastName VARCHAR(75) null,localPhoneNumber VARCHAR(75) null,phoneNumber VARCHAR(75) null,faxNumber VARCHAR(75) null,roomNumber VARCHAR(75) null,email VARCHAR(75) null,website VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table PhoneBook_Person";
 
@@ -192,7 +192,7 @@ public class PersonModelImpl
 		model.setUuid(soapModel.getUuid());
 		model.setPersonId(soapModel.getPersonId());
 		model.setGroupId(soapModel.getGroupId());
-		model.setUnitId(soapModel.getUnitId());
+		model.setDepartmentId(soapModel.getDepartmentId());
 		model.setRoleId(soapModel.getRoleId());
 		model.setCompanyId(soapModel.getCompanyId());
 		model.setUserId(soapModel.getUserId());
@@ -361,9 +361,9 @@ public class PersonModelImpl
 		attributeGetterFunctions.put("groupId", Person::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Person, Long>)Person::setGroupId);
-		attributeGetterFunctions.put("unitId", Person::getUnitId);
+		attributeGetterFunctions.put("departmentId", Person::getDepartmentId);
 		attributeSetterBiConsumers.put(
-			"unitId", (BiConsumer<Person, Long>)Person::setUnitId);
+			"departmentId", (BiConsumer<Person, Long>)Person::setDepartmentId);
 		attributeGetterFunctions.put("roleId", Person::getRoleId);
 		attributeSetterBiConsumers.put(
 			"roleId", (BiConsumer<Person, Long>)Person::setRoleId);
@@ -495,17 +495,17 @@ public class PersonModelImpl
 
 	@JSON
 	@Override
-	public long getUnitId() {
-		return _unitId;
+	public long getDepartmentId() {
+		return _departmentId;
 	}
 
 	@Override
-	public void setUnitId(long unitId) {
+	public void setDepartmentId(long departmentId) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
-		_unitId = unitId;
+		_departmentId = departmentId;
 	}
 
 	@JSON
@@ -860,7 +860,7 @@ public class PersonModelImpl
 		personImpl.setUuid(getUuid());
 		personImpl.setPersonId(getPersonId());
 		personImpl.setGroupId(getGroupId());
-		personImpl.setUnitId(getUnitId());
+		personImpl.setDepartmentId(getDepartmentId());
 		personImpl.setRoleId(getRoleId());
 		personImpl.setCompanyId(getCompanyId());
 		personImpl.setUserId(getUserId());
@@ -964,7 +964,7 @@ public class PersonModelImpl
 
 		personCacheModel.groupId = getGroupId();
 
-		personCacheModel.unitId = getUnitId();
+		personCacheModel.departmentId = getDepartmentId();
 
 		personCacheModel.roleId = getRoleId();
 
@@ -1153,7 +1153,7 @@ public class PersonModelImpl
 	private String _uuid;
 	private long _personId;
 	private long _groupId;
-	private long _unitId;
+	private long _departmentId;
 	private long _roleId;
 	private long _companyId;
 	private long _userId;
@@ -1202,7 +1202,7 @@ public class PersonModelImpl
 		_columnOriginalValues.put("uuid_", _uuid);
 		_columnOriginalValues.put("personId", _personId);
 		_columnOriginalValues.put("groupId", _groupId);
-		_columnOriginalValues.put("unitId", _unitId);
+		_columnOriginalValues.put("departmentId", _departmentId);
 		_columnOriginalValues.put("roleId", _roleId);
 		_columnOriginalValues.put("companyId", _companyId);
 		_columnOriginalValues.put("userId", _userId);
@@ -1246,7 +1246,7 @@ public class PersonModelImpl
 
 		columnBitmasks.put("groupId", 4L);
 
-		columnBitmasks.put("unitId", 8L);
+		columnBitmasks.put("departmentId", 8L);
 
 		columnBitmasks.put("roleId", 16L);
 

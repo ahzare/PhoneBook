@@ -30,6 +30,21 @@ public class PersonLocalServiceWrapper
 		_personLocalService = personLocalService;
 	}
 
+	@Override
+	public com.sain.phonebook.model.Person addPerson(
+			long personId, String firstName, String lastName,
+			String localPhoneNumber, String phoneNumber, String faxNumber,
+			String roomNumber, String email, String website, long departmentId,
+			long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _personLocalService.addPerson(
+			personId, firstName, lastName, localPhoneNumber, phoneNumber,
+			faxNumber, roomNumber, email, website, departmentId, roleId,
+			serviceContext);
+	}
+
 	/**
 	 * Adds the person to the database. Also notifies the appropriate model listeners.
 	 *
@@ -360,6 +375,36 @@ public class PersonLocalServiceWrapper
 	@Override
 	public int getPersonsCount() {
 		return _personLocalService.getPersonsCount();
+	}
+
+	@Override
+	public com.sain.phonebook.model.Person patchPersistedVitamin(
+			long personId, String firstName, String lastName,
+			String localPhoneNumber, String phoneNumber, String faxNumber,
+			String roomNumber, String email, String website, long departmentId,
+			long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _personLocalService.patchPersistedVitamin(
+			personId, firstName, lastName, localPhoneNumber, phoneNumber,
+			faxNumber, roomNumber, email, website, departmentId, roleId,
+			serviceContext);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Person updatePerson(
+			long personId, String firstName, String lastName,
+			String localPhoneNumber, String phoneNumber, String faxNumber,
+			String roomNumber, String email, String website, long departmentId,
+			long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _personLocalService.updatePerson(
+			personId, firstName, lastName, localPhoneNumber, phoneNumber,
+			faxNumber, roomNumber, email, website, departmentId, roleId,
+			serviceContext);
 	}
 
 	/**

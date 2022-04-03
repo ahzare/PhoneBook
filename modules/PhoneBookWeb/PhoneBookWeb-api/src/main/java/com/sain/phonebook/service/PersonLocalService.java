@@ -23,10 +23,13 @@ import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -63,6 +66,14 @@ public interface PersonLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.sain.phonebook.service.impl.PersonLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the person local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PersonLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Person addPerson(
+			long personId, String firstName, String lastName,
+			String localPhoneNumber, String phoneNumber, String faxNumber,
+			String roomNumber, String email, String website, long departmentId,
+			long roleId, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * Adds the person to the database. Also notifies the appropriate model listeners.
@@ -124,6 +135,7 @@ public interface PersonLocalService
 	 * @return the person that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Person deletePerson(Person person);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -299,6 +311,24 @@ public interface PersonLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getPersonsCount();
+
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Person patchPersistedVitamin(
+			long personId, String firstName, String lastName,
+			String localPhoneNumber, String phoneNumber, String faxNumber,
+			String roomNumber, String email, String website, long departmentId,
+			long roleId, ServiceContext serviceContext)
+		throws PortalException;
+
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Person updatePerson(
+			long personId, String firstName, String lastName,
+			String localPhoneNumber, String phoneNumber, String faxNumber,
+			String roomNumber, String email, String website, long departmentId,
+			long roleId, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * Updates the person in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

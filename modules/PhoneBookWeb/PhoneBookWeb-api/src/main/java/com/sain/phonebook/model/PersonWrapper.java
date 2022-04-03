@@ -45,7 +45,7 @@ public class PersonWrapper
 		attributes.put("uuid", getUuid());
 		attributes.put("personId", getPersonId());
 		attributes.put("groupId", getGroupId());
-		attributes.put("unitId", getUnitId());
+		attributes.put("departmentId", getDepartmentId());
 		attributes.put("roleId", getRoleId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
@@ -84,10 +84,10 @@ public class PersonWrapper
 			setGroupId(groupId);
 		}
 
-		Long unitId = (Long)attributes.get("unitId");
+		Long departmentId = (Long)attributes.get("departmentId");
 
-		if (unitId != null) {
-			setUnitId(unitId);
+		if (departmentId != null) {
+			setDepartmentId(departmentId);
 		}
 
 		Long roleId = (Long)attributes.get("roleId");
@@ -193,6 +193,16 @@ public class PersonWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
+	}
+
+	/**
+	 * Returns the department ID of this person.
+	 *
+	 * @return the department ID of this person
+	 */
+	@Override
+	public long getDepartmentId() {
+		return model.getDepartmentId();
 	}
 
 	/**
@@ -316,16 +326,6 @@ public class PersonWrapper
 	}
 
 	/**
-	 * Returns the unit ID of this person.
-	 *
-	 * @return the unit ID of this person
-	 */
-	@Override
-	public long getUnitId() {
-		return model.getUnitId();
-	}
-
-	/**
 	 * Returns the user ID of this person.
 	 *
 	 * @return the user ID of this person
@@ -398,6 +398,16 @@ public class PersonWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		model.setCreateDate(createDate);
+	}
+
+	/**
+	 * Sets the department ID of this person.
+	 *
+	 * @param departmentId the department ID of this person
+	 */
+	@Override
+	public void setDepartmentId(long departmentId) {
+		model.setDepartmentId(departmentId);
 	}
 
 	/**
@@ -518,16 +528,6 @@ public class PersonWrapper
 	@Override
 	public void setRoomNumber(String roomNumber) {
 		model.setRoomNumber(roomNumber);
-	}
-
-	/**
-	 * Sets the unit ID of this person.
-	 *
-	 * @param unitId the unit ID of this person
-	 */
-	@Override
-	public void setUnitId(long unitId) {
-		model.setUnitId(unitId);
 	}
 
 	/**

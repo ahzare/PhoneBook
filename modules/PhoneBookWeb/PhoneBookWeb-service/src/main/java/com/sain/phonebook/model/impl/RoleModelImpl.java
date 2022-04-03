@@ -78,7 +78,7 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	public static final Object[][] TABLE_COLUMNS = {
 		{"uuid_", Types.VARCHAR}, {"roleId", Types.BIGINT},
-		{"groupId", Types.BIGINT}, {"unitId", Types.BIGINT},
+		{"groupId", Types.BIGINT}, {"departmentId", Types.BIGINT},
 		{"companyId", Types.BIGINT}, {"userId", Types.BIGINT},
 		{"userName", Types.VARCHAR}, {"createDate", Types.TIMESTAMP},
 		{"modifiedDate", Types.TIMESTAMP}, {"name", Types.VARCHAR}
@@ -91,7 +91,7 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 		TABLE_COLUMNS_MAP.put("uuid_", Types.VARCHAR);
 		TABLE_COLUMNS_MAP.put("roleId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("groupId", Types.BIGINT);
-		TABLE_COLUMNS_MAP.put("unitId", Types.BIGINT);
+		TABLE_COLUMNS_MAP.put("departmentId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("companyId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userId", Types.BIGINT);
 		TABLE_COLUMNS_MAP.put("userName", Types.VARCHAR);
@@ -101,7 +101,7 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table PhoneBook_Role (uuid_ VARCHAR(75) null,roleId LONG not null primary key,groupId LONG,unitId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null)";
+		"create table PhoneBook_Role (uuid_ VARCHAR(75) null,roleId LONG not null primary key,groupId LONG,departmentId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table PhoneBook_Role";
 
@@ -126,19 +126,19 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long GROUPID_COLUMN_BITMASK = 2L;
+	public static final long DEPARTMENTID_COLUMN_BITMASK = 2L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long ROLEID_COLUMN_BITMASK = 4L;
+	public static final long GROUPID_COLUMN_BITMASK = 4L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
 	 */
 	@Deprecated
-	public static final long UNITID_COLUMN_BITMASK = 8L;
+	public static final long ROLEID_COLUMN_BITMASK = 8L;
 
 	/**
 	 * @deprecated As of Athanasius (7.3.x), replaced by {@link #getColumnBitmask(String)}
@@ -185,7 +185,7 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 		model.setUuid(soapModel.getUuid());
 		model.setRoleId(soapModel.getRoleId());
 		model.setGroupId(soapModel.getGroupId());
-		model.setUnitId(soapModel.getUnitId());
+		model.setDepartmentId(soapModel.getDepartmentId());
 		model.setCompanyId(soapModel.getCompanyId());
 		model.setUserId(soapModel.getUserId());
 		model.setUserName(soapModel.getUserName());
@@ -345,9 +345,9 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 		attributeGetterFunctions.put("groupId", Role::getGroupId);
 		attributeSetterBiConsumers.put(
 			"groupId", (BiConsumer<Role, Long>)Role::setGroupId);
-		attributeGetterFunctions.put("unitId", Role::getUnitId);
+		attributeGetterFunctions.put("departmentId", Role::getDepartmentId);
 		attributeSetterBiConsumers.put(
-			"unitId", (BiConsumer<Role, Long>)Role::setUnitId);
+			"departmentId", (BiConsumer<Role, Long>)Role::setDepartmentId);
 		attributeGetterFunctions.put("companyId", Role::getCompanyId);
 		attributeSetterBiConsumers.put(
 			"companyId", (BiConsumer<Role, Long>)Role::setCompanyId);
@@ -452,17 +452,17 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 	@JSON
 	@Override
-	public long getUnitId() {
-		return _unitId;
+	public long getDepartmentId() {
+		return _departmentId;
 	}
 
 	@Override
-	public void setUnitId(long unitId) {
+	public void setDepartmentId(long departmentId) {
 		if (_columnOriginalValues == Collections.EMPTY_MAP) {
 			_setColumnOriginalValues();
 		}
 
-		_unitId = unitId;
+		_departmentId = departmentId;
 	}
 
 	/**
@@ -470,8 +470,9 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	 *             #getColumnOriginalValue(String)}
 	 */
 	@Deprecated
-	public long getOriginalUnitId() {
-		return GetterUtil.getLong(this.<Long>getColumnOriginalValue("unitId"));
+	public long getOriginalDepartmentId() {
+		return GetterUtil.getLong(
+			this.<Long>getColumnOriginalValue("departmentId"));
 	}
 
 	@JSON
@@ -671,7 +672,7 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 		roleImpl.setUuid(getUuid());
 		roleImpl.setRoleId(getRoleId());
 		roleImpl.setGroupId(getGroupId());
-		roleImpl.setUnitId(getUnitId());
+		roleImpl.setDepartmentId(getDepartmentId());
 		roleImpl.setCompanyId(getCompanyId());
 		roleImpl.setUserId(getUserId());
 		roleImpl.setUserName(getUserName());
@@ -767,7 +768,7 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 		roleCacheModel.groupId = getGroupId();
 
-		roleCacheModel.unitId = getUnitId();
+		roleCacheModel.departmentId = getDepartmentId();
 
 		roleCacheModel.companyId = getCompanyId();
 
@@ -898,7 +899,7 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 	private String _uuid;
 	private long _roleId;
 	private long _groupId;
-	private long _unitId;
+	private long _departmentId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;
@@ -939,7 +940,7 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 		_columnOriginalValues.put("uuid_", _uuid);
 		_columnOriginalValues.put("roleId", _roleId);
 		_columnOriginalValues.put("groupId", _groupId);
-		_columnOriginalValues.put("unitId", _unitId);
+		_columnOriginalValues.put("departmentId", _departmentId);
 		_columnOriginalValues.put("companyId", _companyId);
 		_columnOriginalValues.put("userId", _userId);
 		_columnOriginalValues.put("userName", _userName);
@@ -975,7 +976,7 @@ public class RoleModelImpl extends BaseModelImpl<Role> implements RoleModel {
 
 		columnBitmasks.put("groupId", 4L);
 
-		columnBitmasks.put("unitId", 8L);
+		columnBitmasks.put("departmentId", 8L);
 
 		columnBitmasks.put("companyId", 16L);
 
