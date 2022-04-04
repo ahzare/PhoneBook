@@ -1,4 +1,0 @@
-Bundle-Name: headless-PhoneBook-test
-Bundle-SymbolicName: com.sain.headless.phonebook.test
-Bundle-Version: 1.0.0
--includeresource: com.sain.headless.phonebook.client.jar=../headless-PhoneBook-client/build/libs/com.sain.headless.phonebook.client-1.0.0.jar;lib:=true

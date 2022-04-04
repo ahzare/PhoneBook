@@ -1,8 +1,872 @@
-info:
-    description: "HeadlessPhoneBook REST API"
-    license:
-        name: "Apache 2.0"
-        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-    title: "HeadlessPhoneBook"
-    version: v1.0
+components:
+  schemas:
+    Person:
+      description: Contains all of the data for a single person.
+      properties:
+        id:
+          description: The person internal ID.
+          type: string
+        firstName:
+          description: The person first name.
+          type: string
+        lastName:
+          description: The person last name.
+          type: string
+        localPhoneNumber:
+          description: The person local phone number.
+          type: string
+        phoneNumber:
+          description: The person phone number.
+          type: string
+        faxNumber:
+          description: The person fax number.
+          type: string
+        roomNumber:
+          description: The person room number.
+          type: string
+        email:
+          description: The person email.
+          type: string
+        website:
+          description: The person website.
+          type: string
+        role:
+          $ref: "#/components/schemas/Role"
+        department:
+          $ref: "#/components/schemas/Department"
+      type: object
+    Role:
+      description: Contains all of the data for a single role.
+      properties:
+        id:
+          description: The role internal ID.
+          type: string
+        name:
+          description: The role name.
+          type: string
+
+        department:
+          $ref: "#/components/schemas/Department"
+      type: object
+    Department:
+      description: Contains all of the data for a single department.
+      properties:
+        id:
+          description: The role internal ID.
+          type: string
+        name:
+          description: The role name.
+          type: string
+      type: object
+
+    Part:
+      description: Contains all of the data for a single part.
+      properties:
+        id:
+          description: The part internal ID.
+          type: string
+        name:
+          description: The part name.
+          type: string
+        internalPhone:
+          description: The part internal phone.
+          type: string
+        address:
+          $ref: "#/components/schemas/Address"
+      type: object
+    Address:
+      description: Contains all of the data for a single address.
+      properties:
+        id:
+          description: The address internal ID.
+          type: string
+        name:
+          description: The address name.
+          type: string
+      type: object
 openapi: 3.0.1
+info:
+  description: "HeadlessPhoneBook REST API"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  title: "HeadlessPhoneBook"
+  version: v1.0
+paths:
+  "/persons":
+    get:
+      operationId: getPersonsPage
+      tags: [ "Person" ]
+      description: Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted.
+      parameters:
+        - in: query
+          name: filter
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+        - in: query
+          name: sort
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Person"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Person"
+                type: array
+    post:
+      operationId: postPerson
+      tags: [ "Person" ]
+      description: Create a new person.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Person"
+  "/persons/{personId}":
+    get:
+      operationId: getPerson
+      tags: [ "Person" ]
+      description: Retrieves the person via its ID.
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Person"
+    put:
+      operationId: putPerson
+      tags: [ "Person" ]
+      description: Replaces the person with the information sent in the request body. Any missing fields are deleted, unless they are required.
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        200:
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Person"
+    patch:
+      operationId: patchPerson
+      tags: [ "Person" ]
+      description: Replaces the person with the information sent in the request body. Any missing fields are deleted, unless they are required.
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Person"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Person"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Person"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Person"
+    delete:
+      operationId: deletePerson
+      tags: [ "Person" ]
+      description: Deletes the person and returns a 204 if the operation succeeds.
+      parameters:
+        - name: personId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: ""
+          content:
+            application/json: { }
+            application/xml: { }
+  "/roles":
+    get:
+      operationId: getRolesPage
+      tags: [ "Role" ]
+      description: Retrieves the list of roles. Results can be paginated, filtered, searched, and sorted.
+      parameters:
+        - in: query
+          name: filter
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+        - in: query
+          name: sort
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Role"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Role"
+                type: array
+    post:
+      operationId: postRole
+      tags: [ "Role" ]
+      description: Create a new role.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Role"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Role"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Role"
+  "/roles/{roleId}":
+    get:
+      operationId: getRole
+      tags: [ "Role" ]
+      description: Retrieves the role via its ID.
+      parameters:
+        - name: roleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Role"
+    put:
+      operationId: putRole
+      tags: [ "Role" ]
+      description: Replaces the role with the information sent in the request body. Any missing fields are deleted, unless they are required.
+      parameters:
+        - name: roleId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Role"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Role"
+      responses:
+        200:
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Role"
+    patch:
+      operationId: patchRole
+      tags: [ "Role" ]
+      description: Replaces the role with the information sent in the request body. Any missing fields are deleted, unless they are required.
+      parameters:
+        - name: roleId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Role"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Role"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Role"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Role"
+    delete:
+      operationId: deleteRole
+      tags: [ "Role" ]
+      description: Deletes the role and returns a 204 if the operation succeeds.
+      parameters:
+        - name: roleId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: ""
+          content:
+            application/json: { }
+            application/xml: { }
+  "/departments":
+    get:
+      operationId: getDepartmentsPage
+      tags: [ "Department" ]
+      description: Retrieves the list of departments. Results can be paginated, filtered, searched, and sorted.
+      parameters:
+        - in: query
+          name: filter
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+        - in: query
+          name: sort
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Department"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Department"
+                type: array
+    post:
+      operationId: postDepartment
+      tags: [ "Department" ]
+      description: Create a new department.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Department"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Department"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Department"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Department"
+  "/departments/{departmentId}":
+    get:
+      operationId: getDepartment
+      tags: [ "Department" ]
+      description: Retrieves the department via its ID.
+      parameters:
+        - name: departmentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Department"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Department"
+    put:
+      operationId: putDepartment
+      tags: [ "Department" ]
+      description: Replaces the department with the information sent in the request body. Any missing fields are deleted, unless they are required.
+      parameters:
+        - name: departmentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Department"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Department"
+      responses:
+        200:
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Department"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Department"
+    patch:
+      operationId: patchDepartment
+      tags: [ "Department" ]
+      description: Replaces the department with the information sent in the request body. Any missing fields are deleted, unless they are required.
+      parameters:
+        - name: departmentId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Department"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Department"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Department"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Department"
+    delete:
+      operationId: deleteDepartment
+      tags: [ "Department" ]
+      description: Deletes the department and returns a 204 if the operation succeeds.
+      parameters:
+        - name: departmentId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: ""
+          content:
+            application/json: { }
+            application/xml: { }
+
+  "/parts":
+    get:
+      operationId: getPartPage
+      tags: [ "Part" ]
+      description: Retrieves the list of parts. Results can be paginated, filtered, searched, and sorted.
+      parameters:
+        - in: query
+          name: filter
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+        - in: query
+          name: sort
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Part"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Part"
+                type: array
+    post:
+      operationId: postPart
+      tags: [ "Part" ]
+      description: Create a new part.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Part"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Part"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Part"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Part"
+  "/parts/{partId}":
+    get:
+      operationId: getPart
+      tags: [ "Part" ]
+      description: Retrieves the part via its ID.
+      parameters:
+        - name: partId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Part"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Part"
+    put:
+      operationId: putPart
+      tags: [ "Part" ]
+      description: Replaces the part with the information sent in the request body. Any missing fields are deleted, unless they are required.
+      parameters:
+        - name: partId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Part"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Part"
+      responses:
+        200:
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Part"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Part"
+    patch:
+      operationId: patchPart
+      tags: [ "Part" ]
+      description: Replaces the part with the information sent in the request body. Any missing fields are deleted, unless they are required.
+      parameters:
+        - name: partId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Part"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Part"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Part"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Part"
+    delete:
+      operationId: deletePart
+      tags: [ "Part" ]
+      description: Deletes the part and returns a 204 if the operation succeeds.
+      parameters:
+        - name: partId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: ""
+          content:
+            application/json: { }
+            application/xml: { }
+  "/addresses":
+    get:
+      operationId: getAddressesPage
+      tags: [ "Address" ]
+      description: Retrieves the list of addresses. Results can be paginated, filtered, searched, and sorted.
+      parameters:
+        - in: query
+          name: filter
+          schema:
+            type: string
+        - in: query
+          name: page
+          schema:
+            type: integer
+        - in: query
+          name: pageSize
+          schema:
+            type: integer
+        - in: query
+          name: search
+          schema:
+            type: string
+        - in: query
+          name: sort
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Address"
+                type: array
+            application/xml:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Address"
+                type: array
+    post:
+      operationId: postAddress
+      tags: [ "Address" ]
+      description: Create a new address.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Address"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Address"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Address"
+  "/addresses/{addressId}":
+    get:
+      operationId: getAddress
+      tags: [ "Address" ]
+      description: Retrieves the address via its ID.
+      parameters:
+        - name: addressId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Address"
+    put:
+      operationId: putAddress
+      tags: [ "Address" ]
+      description: Replaces the address with the information sent in the request body. Any missing fields are deleted, unless they are required.
+      parameters:
+        - name: addressId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Address"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Address"
+      responses:
+        200:
+          description: Default Response
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Address"
+    patch:
+      operationId: patchAddress
+      tags: [ "Address" ]
+      description: Replaces the address with the information sent in the request body. Any missing fields are deleted, unless they are required.
+      parameters:
+        - name: addressId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Address"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/Address"
+      responses:
+        200:
+          description: ""
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Address"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/Address"
+    delete:
+      operationId: deleteAddress
+      tags: [ "Address" ]
+      description: Deletes the address and returns a 204 if the operation succeeds.
+      parameters:
+        - name: addressId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        204:
+          description: ""
+          content:
+            application/json: { }
+            application/xml: { }
+
