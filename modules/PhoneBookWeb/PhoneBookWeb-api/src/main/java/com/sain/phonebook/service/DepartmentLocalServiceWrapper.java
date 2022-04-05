@@ -49,6 +49,16 @@ public class DepartmentLocalServiceWrapper
 		return _departmentLocalService.addDepartment(department);
 	}
 
+	@Override
+	public com.sain.phonebook.model.Department addDepartment(
+			long departmentId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _departmentLocalService.addDepartment(
+			departmentId, name, serviceContext);
+	}
+
 	/**
 	 * Creates a new department with the primary key. Does not add the department to the database.
 	 *
@@ -372,6 +382,16 @@ public class DepartmentLocalServiceWrapper
 		return _departmentLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public com.sain.phonebook.model.Department patchPersistedVitamin(
+			long departmentId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _departmentLocalService.patchPersistedVitamin(
+			departmentId, name, serviceContext);
+	}
+
 	/**
 	 * Updates the department in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -387,6 +407,16 @@ public class DepartmentLocalServiceWrapper
 		com.sain.phonebook.model.Department department) {
 
 		return _departmentLocalService.updateDepartment(department);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Department updateDepartment(
+			long departmentId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _departmentLocalService.updateDepartment(
+			departmentId, name, serviceContext);
 	}
 
 	@Override

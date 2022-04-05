@@ -23,10 +23,13 @@ import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -77,6 +80,12 @@ public interface DepartmentLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	public Department addDepartment(Department department);
 
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Department addDepartment(
+			long departmentId, String name, ServiceContext serviceContext)
+		throws PortalException;
+
 	/**
 	 * Creates a new department with the primary key. Does not add the department to the database.
 	 *
@@ -103,6 +112,7 @@ public interface DepartmentLocalService
 	 * @return the department that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Department deleteDepartment(Department department);
 
 	/**
@@ -302,6 +312,12 @@ public interface DepartmentLocalService
 	public PersistedModel getPersistedModel(Serializable primaryKeyObj)
 		throws PortalException;
 
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Department patchPersistedVitamin(
+			long departmentId, String name, ServiceContext serviceContext)
+		throws PortalException;
+
 	/**
 	 * Updates the department in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -314,5 +330,11 @@ public interface DepartmentLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Department updateDepartment(Department department);
+
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Department updateDepartment(
+			long departmentId, String name, ServiceContext serviceContext)
+		throws PortalException;
 
 }

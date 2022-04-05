@@ -44,6 +44,13 @@ public class RoleLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.sain.phonebook.service.impl.RoleLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Role addRole(
+			long roleId, String name, long departmentId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addRole(roleId, name, departmentId, serviceContext);
+	}
 
 	/**
 	 * Adds the role to the database. Also notifies the appropriate model listeners.
@@ -327,6 +334,24 @@ public class RoleLocalServiceUtil {
 	 */
 	public static int getRolesCount() {
 		return getService().getRolesCount();
+	}
+
+	public static Role patchPersistedVitamin(
+			long roleId, String name, long departmentId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().patchPersistedVitamin(
+			roleId, name, departmentId, serviceContext);
+	}
+
+	public static Role updateRole(
+			long roleId, String name, long departmentId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateRole(
+			roleId, name, departmentId, serviceContext);
 	}
 
 	/**

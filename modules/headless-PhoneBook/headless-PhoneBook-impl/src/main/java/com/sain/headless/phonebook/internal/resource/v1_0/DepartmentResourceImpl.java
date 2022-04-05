@@ -13,4 +13,5 @@ import org.osgi.service.component.annotations.ServiceScope;
 	scope = ServiceScope.PROTOTYPE, service = DepartmentResource.class
 )
 public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
+
 }

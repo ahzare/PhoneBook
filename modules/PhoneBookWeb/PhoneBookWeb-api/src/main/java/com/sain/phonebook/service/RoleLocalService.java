@@ -23,10 +23,13 @@ import com.liferay.portal.kernel.dao.orm.Projection;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.model.PersistedModel;
+import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.search.Indexable;
 import com.liferay.portal.kernel.search.IndexableType;
 import com.liferay.portal.kernel.service.BaseLocalService;
 import com.liferay.portal.kernel.service.PersistedModelLocalService;
+import com.liferay.portal.kernel.service.ServiceContext;
+import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.transaction.Isolation;
 import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
@@ -63,6 +66,12 @@ public interface RoleLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.sain.phonebook.service.impl.RoleLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the role local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link RoleLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Role addRole(
+			long roleId, String name, long departmentId,
+			ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * Adds the role to the database. Also notifies the appropriate model listeners.
@@ -124,6 +133,7 @@ public interface RoleLocalService
 	 * @return the role that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Role deleteRole(Role role);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
@@ -298,6 +308,20 @@ public interface RoleLocalService
 	 */
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public int getRolesCount();
+
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Role patchPersistedVitamin(
+			long roleId, String name, long departmentId,
+			ServiceContext serviceContext)
+		throws PortalException;
+
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Role updateRole(
+			long roleId, String name, long departmentId,
+			ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * Updates the role in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.

@@ -50,6 +50,10 @@ import static com.liferay.portal.kernel.util.DateUtil.newDate;
 )
 public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
+    public Person getPerson(final long personId){
+        return personPersistence.fetchByPersonId(personId);
+    }
+
     @Indexable(type = IndexableType.REINDEX)
     @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
     public Person addPerson(final long personId,

@@ -59,6 +59,14 @@ public class DepartmentLocalServiceUtil {
 		return getService().addDepartment(department);
 	}
 
+	public static Department addDepartment(
+			long departmentId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addDepartment(departmentId, name, serviceContext);
+	}
+
 	/**
 	 * Creates a new department with the primary key. Does not add the department to the database.
 	 *
@@ -336,6 +344,15 @@ public class DepartmentLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static Department patchPersistedVitamin(
+			long departmentId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().patchPersistedVitamin(
+			departmentId, name, serviceContext);
+	}
+
 	/**
 	 * Updates the department in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -348,6 +365,15 @@ public class DepartmentLocalServiceUtil {
 	 */
 	public static Department updateDepartment(Department department) {
 		return getService().updateDepartment(department);
+	}
+
+	public static Department updateDepartment(
+			long departmentId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateDepartment(
+			departmentId, name, serviceContext);
 	}
 
 	public static DepartmentLocalService getService() {
