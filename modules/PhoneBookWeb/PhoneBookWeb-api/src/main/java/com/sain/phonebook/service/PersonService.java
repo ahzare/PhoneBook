@@ -19,8 +19,14 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import com.sain.phonebook.model.Person;
+
+import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -47,6 +53,17 @@ public interface PersonService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.sain.phonebook.service.impl.PersonServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the person remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PersonServiceUtil} if injection and service tracking are not available.
 	 */
+	public Person addPerson(
+			String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			ServiceContext serviceContext)
+		throws PortalException;
+
+	public void deletePerson(long personId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Person> getAll();
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -54,5 +71,22 @@ public interface PersonService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Person getPerson(long personId) throws PortalException;
+
+	public Person patchPerson(
+			long id, String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			ServiceContext serviceContext)
+		throws PortalException;
+
+	public Person updatePerson(
+			long id, String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			ServiceContext serviceContext)
+		throws PortalException;
 
 }

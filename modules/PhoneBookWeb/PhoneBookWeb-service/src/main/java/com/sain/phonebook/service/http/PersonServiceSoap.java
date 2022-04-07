@@ -14,9 +14,16 @@
 
 package com.sain.phonebook.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import com.sain.phonebook.service.PersonServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>com.sain.phonebook.service.PersonServiceUtil</code> service
+ * <code>PersonServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -56,4 +63,120 @@ package com.sain.phonebook.service.http;
  */
 @Deprecated
 public class PersonServiceSoap {
+
+	public static com.sain.phonebook.model.PersonSoap getPerson(long personId)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Person returnValue =
+				PersonServiceUtil.getPerson(personId);
+
+			return com.sain.phonebook.model.PersonSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.PersonSoap addPerson(
+			String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Person returnValue =
+				PersonServiceUtil.addPerson(
+					firstName, lastName, localPhoneNumber, phoneNumber,
+					faxNumber, roomNumber, email, website, departmentId, roleId,
+					serviceContext);
+
+			return com.sain.phonebook.model.PersonSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.PersonSoap updatePerson(
+			long id, String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Person returnValue =
+				PersonServiceUtil.updatePerson(
+					id, firstName, lastName, localPhoneNumber, phoneNumber,
+					faxNumber, roomNumber, email, website, departmentId, roleId,
+					serviceContext);
+
+			return com.sain.phonebook.model.PersonSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.PersonSoap patchPerson(
+			long id, String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Person returnValue =
+				PersonServiceUtil.patchPerson(
+					id, firstName, lastName, localPhoneNumber, phoneNumber,
+					faxNumber, roomNumber, email, website, departmentId, roleId,
+					serviceContext);
+
+			return com.sain.phonebook.model.PersonSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static void deletePerson(long personId) throws RemoteException {
+		try {
+			PersonServiceUtil.deletePerson(personId);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.PersonSoap[] getAll()
+		throws RemoteException {
+
+		try {
+			java.util.List<com.sain.phonebook.model.Person> returnValue =
+				PersonServiceUtil.getAll();
+
+			return com.sain.phonebook.model.PersonSoap.toSoapModels(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(PersonServiceSoap.class);
+
 }

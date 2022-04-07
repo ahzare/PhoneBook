@@ -60,11 +60,11 @@ public class DepartmentLocalServiceUtil {
 	}
 
 	public static Department addDepartment(
-			long departmentId, String name,
+			String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
-		return getService().addDepartment(departmentId, name, serviceContext);
+		return getService().addDepartment(name, serviceContext);
 	}
 
 	/**
@@ -344,13 +344,12 @@ public class DepartmentLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
-	public static Department patchPersistedVitamin(
+	public static Department patchDepartment(
 			long departmentId, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
-		return getService().patchPersistedVitamin(
-			departmentId, name, serviceContext);
+		return getService().patchDepartment(departmentId, name, serviceContext);
 	}
 
 	/**

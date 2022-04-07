@@ -14,6 +14,12 @@
 
 package com.sain.phonebook.service;
 
+import com.liferay.portal.kernel.exception.PortalException;
+
+import com.sain.phonebook.model.Role;
+
+import java.util.List;
+
 /**
  * Provides the remote service utility for Role. This utility wraps
  * <code>com.sain.phonebook.service.impl.RoleServiceImpl</code> and is an
@@ -33,14 +39,49 @@ public class RoleServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.sain.phonebook.service.impl.RoleServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Role addRole(
+			String name, long departmentId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addRole(name, departmentId, serviceContext);
+	}
+
+	public static void deleteRole(long roleId) throws PortalException {
+		getService().deleteRole(roleId);
+	}
+
+	public static List<Role> getAll() {
+		return getService().getAll();
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static Role getRole(long roleId) throws PortalException {
+		return getService().getRole(roleId);
+	}
+
+	public static Role patchRole(
+			long id, String name, long departmentId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().patchRole(id, name, departmentId, serviceContext);
+	}
+
+	public static Role updateRole(
+			long id, String name, long departmentId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateRole(id, name, departmentId, serviceContext);
 	}
 
 	public static RoleService getService() {

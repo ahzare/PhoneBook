@@ -19,8 +19,14 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import com.sain.phonebook.model.Department;
+
+import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -47,6 +53,16 @@ public interface DepartmentService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.sain.phonebook.service.impl.DepartmentServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the department remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link DepartmentServiceUtil} if injection and service tracking are not available.
 	 */
+	public Department addDepartment(String name, ServiceContext serviceContext)
+		throws PortalException;
+
+	public void deleteDepartment(long departmentId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Department> getAll();
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Department getDepartment(long departmentId) throws PortalException;
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -54,5 +70,13 @@ public interface DepartmentService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	public Department patchDepartment(
+			long id, String name, ServiceContext serviceContext)
+		throws PortalException;
+
+	public Department updateDepartment(
+			long id, String name, ServiceContext serviceContext)
+		throws PortalException;
 
 }

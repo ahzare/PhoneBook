@@ -30,6 +30,31 @@ public class PersonServiceWrapper
 		_personService = personService;
 	}
 
+	@Override
+	public com.sain.phonebook.model.Person addPerson(
+			String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _personService.addPerson(
+			firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
+			roomNumber, email, website, departmentId, roleId, serviceContext);
+	}
+
+	@Override
+	public void deletePerson(long personId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_personService.deletePerson(personId);
+	}
+
+	@Override
+	public java.util.List<com.sain.phonebook.model.Person> getAll() {
+		return _personService.getAll();
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -38,6 +63,39 @@ public class PersonServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _personService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.sain.phonebook.model.Person getPerson(long personId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _personService.getPerson(personId);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Person patchPerson(
+			long id, String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _personService.patchPerson(
+			id, firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
+			roomNumber, email, website, departmentId, roleId, serviceContext);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Person updatePerson(
+			long id, String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _personService.updatePerson(
+			id, firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
+			roomNumber, email, website, departmentId, roleId, serviceContext);
 	}
 
 	@Override

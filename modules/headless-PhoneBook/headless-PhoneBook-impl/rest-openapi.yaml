@@ -52,10 +52,10 @@ components:
       description: Contains all of the data for a single department.
       properties:
         id:
-          description: The role internal ID.
+          description: The department internal ID.
           type: string
         name:
-          description: The role name.
+          description: The department name.
           type: string
       type: object
 

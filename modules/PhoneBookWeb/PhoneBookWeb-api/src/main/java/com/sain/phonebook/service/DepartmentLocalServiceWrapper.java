@@ -51,12 +51,11 @@ public class DepartmentLocalServiceWrapper
 
 	@Override
 	public com.sain.phonebook.model.Department addDepartment(
-			long departmentId, String name,
+			String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _departmentLocalService.addDepartment(
-			departmentId, name, serviceContext);
+		return _departmentLocalService.addDepartment(name, serviceContext);
 	}
 
 	/**
@@ -383,12 +382,12 @@ public class DepartmentLocalServiceWrapper
 	}
 
 	@Override
-	public com.sain.phonebook.model.Department patchPersistedVitamin(
+	public com.sain.phonebook.model.Department patchDepartment(
 			long departmentId, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _departmentLocalService.patchPersistedVitamin(
+		return _departmentLocalService.patchDepartment(
 			departmentId, name, serviceContext);
 	}
 

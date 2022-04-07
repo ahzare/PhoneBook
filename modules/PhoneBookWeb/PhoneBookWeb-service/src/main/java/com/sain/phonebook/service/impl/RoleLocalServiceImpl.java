@@ -52,13 +52,13 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 
     @Indexable(type = IndexableType.REINDEX)
     @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-    public Role addRole(final long roleId,
+    public Role addRole(
                             final String name,
                             final long departmentId,
                             final ServiceContext serviceContext)
             throws PortalException {
         Role role = createRole(counterLocalService.increment(Role.class.getName()));
-        role.setRoleId(roleId);
+        role.setRoleId(role.getRoleId());
         role.setName(name);
         role.setDepartmentId(departmentId);
 
@@ -124,7 +124,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 
     @Indexable(type = IndexableType.REINDEX)
     @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-    public Role patchPersistedVitamin(final long roleId,
+    public Role patchRole(final long roleId,
                                         final String name,
                                         final long departmentId,
                                         final ServiceContext serviceContext)

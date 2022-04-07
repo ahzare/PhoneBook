@@ -14,6 +14,12 @@
 
 package com.sain.phonebook.service;
 
+import com.liferay.portal.kernel.exception.PortalException;
+
+import com.sain.phonebook.model.Department;
+
+import java.util.List;
+
 /**
  * Provides the remote service utility for Department. This utility wraps
  * <code>com.sain.phonebook.service.impl.DepartmentServiceImpl</code> and is an
@@ -33,14 +39,53 @@ public class DepartmentServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.sain.phonebook.service.impl.DepartmentServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Department addDepartment(
+			String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addDepartment(name, serviceContext);
+	}
+
+	public static void deleteDepartment(long departmentId)
+		throws PortalException {
+
+		getService().deleteDepartment(departmentId);
+	}
+
+	public static List<Department> getAll() {
+		return getService().getAll();
+	}
+
+	public static Department getDepartment(long departmentId)
+		throws PortalException {
+
+		return getService().getDepartment(departmentId);
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static Department patchDepartment(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().patchDepartment(id, name, serviceContext);
+	}
+
+	public static Department updateDepartment(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateDepartment(id, name, serviceContext);
 	}
 
 	public static DepartmentService getService() {

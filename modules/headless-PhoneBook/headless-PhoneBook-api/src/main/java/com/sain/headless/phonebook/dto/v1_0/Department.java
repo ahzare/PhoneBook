@@ -44,7 +44,7 @@ public class Department implements Serializable {
 		return ObjectMapperUtil.unsafeReadValue(Department.class, json);
 	}
 
-	@Schema(description = "The role internal ID.")
+	@Schema(description = "The department internal ID.")
 	public String getId() {
 		return id;
 	}
@@ -66,11 +66,11 @@ public class Department implements Serializable {
 		}
 	}
 
-	@GraphQLField(description = "The role internal ID.")
+	@GraphQLField(description = "The department internal ID.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String id;
 
-	@Schema(description = "The role name.")
+	@Schema(description = "The department name.")
 	public String getName() {
 		return name;
 	}
@@ -92,7 +92,7 @@ public class Department implements Serializable {
 		}
 	}
 
-	@GraphQLField(description = "The role name.")
+	@GraphQLField(description = "The department name.")
 	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
 	protected String name;
 

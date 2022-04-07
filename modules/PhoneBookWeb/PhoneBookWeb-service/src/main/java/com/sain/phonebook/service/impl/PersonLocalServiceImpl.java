@@ -56,7 +56,7 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
     @Indexable(type = IndexableType.REINDEX)
     @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-    public Person addPerson(final long personId,
+    public Person addPerson(
                             final String firstName,
                             final String lastName,
                             final String localPhoneNumber,
@@ -70,7 +70,7 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
                             final ServiceContext serviceContext)
             throws PortalException {
         Person person = createPerson(counterLocalService.increment(Person.class.getName()));
-        person.setPersonId(personId);
+        person.setPersonId(person.getPersonId());
         person.setFirstName(firstName);
         person.setLastName(lastName);
         person.setLocalPhoneNumber(localPhoneNumber);
@@ -160,7 +160,7 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
     @Indexable(type = IndexableType.REINDEX)
     @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-    public Person patchPersistedVitamin(final long personId,
+    public Person patchPerson(final long personId,
                                         final String firstName,
                                         final String lastName,
                                         final String localPhoneNumber,

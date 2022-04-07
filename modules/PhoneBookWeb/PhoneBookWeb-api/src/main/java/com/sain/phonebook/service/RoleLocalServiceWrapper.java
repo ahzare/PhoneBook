@@ -30,16 +30,6 @@ public class RoleLocalServiceWrapper
 		_roleLocalService = roleLocalService;
 	}
 
-	@Override
-	public com.sain.phonebook.model.Role addRole(
-			long roleId, String name, long departmentId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _roleLocalService.addRole(
-			roleId, name, departmentId, serviceContext);
-	}
-
 	/**
 	 * Adds the role to the database. Also notifies the appropriate model listeners.
 	 *
@@ -55,6 +45,15 @@ public class RoleLocalServiceWrapper
 		com.sain.phonebook.model.Role role) {
 
 		return _roleLocalService.addRole(role);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Role addRole(
+			String name, long departmentId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _roleLocalService.addRole(name, departmentId, serviceContext);
 	}
 
 	/**
@@ -372,12 +371,12 @@ public class RoleLocalServiceWrapper
 	}
 
 	@Override
-	public com.sain.phonebook.model.Role patchPersistedVitamin(
+	public com.sain.phonebook.model.Role patchRole(
 			long roleId, String name, long departmentId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _roleLocalService.patchPersistedVitamin(
+		return _roleLocalService.patchRole(
 			roleId, name, departmentId, serviceContext);
 	}
 

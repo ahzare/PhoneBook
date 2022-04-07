@@ -66,12 +66,6 @@ public interface RoleLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.sain.phonebook.service.impl.RoleLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the role local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link RoleLocalServiceUtil} if injection and service tracking are not available.
 	 */
-	@Indexable(type = IndexableType.REINDEX)
-	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Role addRole(
-			long roleId, String name, long departmentId,
-			ServiceContext serviceContext)
-		throws PortalException;
 
 	/**
 	 * Adds the role to the database. Also notifies the appropriate model listeners.
@@ -85,6 +79,12 @@ public interface RoleLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Role addRole(Role role);
+
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Role addRole(
+			String name, long departmentId, ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * @throws PortalException
@@ -311,7 +311,7 @@ public interface RoleLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Role patchPersistedVitamin(
+	public Role patchRole(
 			long roleId, String name, long departmentId,
 			ServiceContext serviceContext)
 		throws PortalException;

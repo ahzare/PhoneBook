@@ -14,6 +14,12 @@
 
 package com.sain.phonebook.service;
 
+import com.liferay.portal.kernel.exception.PortalException;
+
+import com.sain.phonebook.model.Person;
+
+import java.util.List;
+
 /**
  * Provides the remote service utility for Person. This utility wraps
  * <code>com.sain.phonebook.service.impl.PersonServiceImpl</code> and is an
@@ -33,14 +39,61 @@ public class PersonServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.sain.phonebook.service.impl.PersonServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Person addPerson(
+			String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addPerson(
+			firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
+			roomNumber, email, website, departmentId, roleId, serviceContext);
+	}
+
+	public static void deletePerson(long personId) throws PortalException {
+		getService().deletePerson(personId);
+	}
+
+	public static List<Person> getAll() {
+		return getService().getAll();
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static Person getPerson(long personId) throws PortalException {
+		return getService().getPerson(personId);
+	}
+
+	public static Person patchPerson(
+			long id, String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().patchPerson(
+			id, firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
+			roomNumber, email, website, departmentId, roleId, serviceContext);
+	}
+
+	public static Person updatePerson(
+			long id, String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updatePerson(
+			id, firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
+			roomNumber, email, website, departmentId, roleId, serviceContext);
 	}
 
 	public static PersonService getService() {

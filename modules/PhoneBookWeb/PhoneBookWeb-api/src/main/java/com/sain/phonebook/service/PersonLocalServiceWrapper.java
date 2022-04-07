@@ -30,21 +30,6 @@ public class PersonLocalServiceWrapper
 		_personLocalService = personLocalService;
 	}
 
-	@Override
-	public com.sain.phonebook.model.Person addPerson(
-			long personId, String firstName, String lastName,
-			String localPhoneNumber, String phoneNumber, String faxNumber,
-			String roomNumber, String email, String website, long departmentId,
-			long roleId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		return _personLocalService.addPerson(
-			personId, firstName, lastName, localPhoneNumber, phoneNumber,
-			faxNumber, roomNumber, email, website, departmentId, roleId,
-			serviceContext);
-	}
-
 	/**
 	 * Adds the person to the database. Also notifies the appropriate model listeners.
 	 *
@@ -60,6 +45,19 @@ public class PersonLocalServiceWrapper
 		com.sain.phonebook.model.Person person) {
 
 		return _personLocalService.addPerson(person);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Person addPerson(
+			String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _personLocalService.addPerson(
+			firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
+			roomNumber, email, website, departmentId, roleId, serviceContext);
 	}
 
 	/**
@@ -378,7 +376,7 @@ public class PersonLocalServiceWrapper
 	}
 
 	@Override
-	public com.sain.phonebook.model.Person patchPersistedVitamin(
+	public com.sain.phonebook.model.Person patchPerson(
 			long personId, String firstName, String lastName,
 			String localPhoneNumber, String phoneNumber, String faxNumber,
 			String roomNumber, String email, String website, long departmentId,
@@ -386,7 +384,7 @@ public class PersonLocalServiceWrapper
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _personLocalService.patchPersistedVitamin(
+		return _personLocalService.patchPerson(
 			personId, firstName, lastName, localPhoneNumber, phoneNumber,
 			faxNumber, roomNumber, email, website, departmentId, roleId,
 			serviceContext);

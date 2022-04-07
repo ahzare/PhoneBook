@@ -51,12 +51,12 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 
 	@Indexable(type = IndexableType.REINDEX)
 	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Department addDepartment(final long departmentId,
+	public Department addDepartment(
 						final String name,
 						final ServiceContext serviceContext)
 			throws PortalException {
 		Department department = createDepartment(counterLocalService.increment(Department.class.getName()));
-		department.setDepartmentId(departmentId);
+		department.setDepartmentId(department.getDepartmentId());
 		department.setName(name);
 
 		Date current = newDate();
@@ -74,7 +74,7 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 		department = addDepartment(department);
 
 		System.out.println("dep = " + department);
-		resourceLocalService.addResources(
+		/*resourceLocalService.addResources(
 				serviceContext.getCompanyId(),
 				serviceContext.getScopeGroupId(),
 				serviceContext.getUserId(),
@@ -82,7 +82,7 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 				department.getDepartmentId(),
 				false,
 				serviceContext.isAddGroupPermissions(),
-				serviceContext.isAddGuestPermissions());
+				serviceContext.isAddGuestPermissions());*/
 
 		System.out.println(department);
 		return department;
@@ -122,7 +122,7 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 
 	@Indexable(type = IndexableType.REINDEX)
 	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Department patchPersistedVitamin(final long departmentId,
+	public Department patchDepartment(final long departmentId,
 									  final String name,
 									  final ServiceContext serviceContext)
 			throws PortalException {
@@ -174,7 +174,7 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	@Override
 	public Department deleteDepartment(Department department){
-		try{
+		/*try{
 			resourceLocalService.deleteResource(
 					department.getCompanyId(),
 					Department.class.getName(),
@@ -183,12 +183,13 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 		}catch(PortalException e){
 			_log.warn("Error deleting persisted department permissions: "+
 					e.getMessage(), e);
-		}
+		}*/
 
 //        todo: delete department departments and departments
 
 // call the super action method to try the delete.
-		return departmentLocalService.deleteDepartment(department);
+		return super.deleteDepartment(department);
+//		return departmentPersistence.remove(department);
 	}
 
 	private static final Logger _log =

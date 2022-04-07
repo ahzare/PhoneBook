@@ -30,6 +30,34 @@ public class DepartmentServiceWrapper
 		_departmentService = departmentService;
 	}
 
+	@Override
+	public com.sain.phonebook.model.Department addDepartment(
+			String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _departmentService.addDepartment(name, serviceContext);
+	}
+
+	@Override
+	public void deleteDepartment(long departmentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_departmentService.deleteDepartment(departmentId);
+	}
+
+	@Override
+	public java.util.List<com.sain.phonebook.model.Department> getAll() {
+		return _departmentService.getAll();
+	}
+
+	@Override
+	public com.sain.phonebook.model.Department getDepartment(long departmentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _departmentService.getDepartment(departmentId);
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -38,6 +66,24 @@ public class DepartmentServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _departmentService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.sain.phonebook.model.Department patchDepartment(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _departmentService.patchDepartment(id, name, serviceContext);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Department updateDepartment(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _departmentService.updateDepartment(id, name, serviceContext);
 	}
 
 	@Override

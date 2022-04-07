@@ -30,6 +30,27 @@ public class RoleServiceWrapper
 		_roleService = roleService;
 	}
 
+	@Override
+	public com.sain.phonebook.model.Role addRole(
+			String name, long departmentId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _roleService.addRole(name, departmentId, serviceContext);
+	}
+
+	@Override
+	public void deleteRole(long roleId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_roleService.deleteRole(roleId);
+	}
+
+	@Override
+	public java.util.List<com.sain.phonebook.model.Role> getAll() {
+		return _roleService.getAll();
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -38,6 +59,31 @@ public class RoleServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _roleService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.sain.phonebook.model.Role getRole(long roleId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _roleService.getRole(roleId);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Role patchRole(
+			long id, String name, long departmentId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _roleService.patchRole(id, name, departmentId, serviceContext);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Role updateRole(
+			long id, String name, long departmentId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _roleService.updateRole(id, name, departmentId, serviceContext);
 	}
 
 	@Override

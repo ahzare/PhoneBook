@@ -44,19 +44,6 @@ public class PersonLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.sain.phonebook.service.impl.PersonLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
-	public static Person addPerson(
-			long personId, String firstName, String lastName,
-			String localPhoneNumber, String phoneNumber, String faxNumber,
-			String roomNumber, String email, String website, long departmentId,
-			long roleId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws PortalException {
-
-		return getService().addPerson(
-			personId, firstName, lastName, localPhoneNumber, phoneNumber,
-			faxNumber, roomNumber, email, website, departmentId, roleId,
-			serviceContext);
-	}
 
 	/**
 	 * Adds the person to the database. Also notifies the appropriate model listeners.
@@ -70,6 +57,18 @@ public class PersonLocalServiceUtil {
 	 */
 	public static Person addPerson(Person person) {
 		return getService().addPerson(person);
+	}
+
+	public static Person addPerson(
+			String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addPerson(
+			firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
+			roomNumber, email, website, departmentId, roleId, serviceContext);
 	}
 
 	/**
@@ -344,7 +343,7 @@ public class PersonLocalServiceUtil {
 		return getService().getPersonsCount();
 	}
 
-	public static Person patchPersistedVitamin(
+	public static Person patchPerson(
 			long personId, String firstName, String lastName,
 			String localPhoneNumber, String phoneNumber, String faxNumber,
 			String roomNumber, String email, String website, long departmentId,
@@ -352,7 +351,7 @@ public class PersonLocalServiceUtil {
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
-		return getService().patchPersistedVitamin(
+		return getService().patchPerson(
 			personId, firstName, lastName, localPhoneNumber, phoneNumber,
 			faxNumber, roomNumber, email, website, departmentId, roleId,
 			serviceContext);

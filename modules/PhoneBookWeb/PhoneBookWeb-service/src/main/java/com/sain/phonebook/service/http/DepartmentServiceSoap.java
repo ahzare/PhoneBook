@@ -14,9 +14,16 @@
 
 package com.sain.phonebook.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import com.sain.phonebook.service.DepartmentServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>com.sain.phonebook.service.DepartmentServiceUtil</code> service
+ * <code>DepartmentServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -56,4 +63,114 @@ package com.sain.phonebook.service.http;
  */
 @Deprecated
 public class DepartmentServiceSoap {
+
+	public static com.sain.phonebook.model.DepartmentSoap getDepartment(
+			long departmentId)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Department returnValue =
+				DepartmentServiceUtil.getDepartment(departmentId);
+
+			return com.sain.phonebook.model.DepartmentSoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.DepartmentSoap addDepartment(
+			String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Department returnValue =
+				DepartmentServiceUtil.addDepartment(name, serviceContext);
+
+			return com.sain.phonebook.model.DepartmentSoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.DepartmentSoap updateDepartment(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Department returnValue =
+				DepartmentServiceUtil.updateDepartment(
+					id, name, serviceContext);
+
+			return com.sain.phonebook.model.DepartmentSoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.DepartmentSoap patchDepartment(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Department returnValue =
+				DepartmentServiceUtil.patchDepartment(id, name, serviceContext);
+
+			return com.sain.phonebook.model.DepartmentSoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static void deleteDepartment(long departmentId)
+		throws RemoteException {
+
+		try {
+			DepartmentServiceUtil.deleteDepartment(departmentId);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.DepartmentSoap[] getAll()
+		throws RemoteException {
+
+		try {
+			java.util.List<com.sain.phonebook.model.Department> returnValue =
+				DepartmentServiceUtil.getAll();
+
+			return com.sain.phonebook.model.DepartmentSoap.toSoapModels(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(
+		DepartmentServiceSoap.class);
+
 }

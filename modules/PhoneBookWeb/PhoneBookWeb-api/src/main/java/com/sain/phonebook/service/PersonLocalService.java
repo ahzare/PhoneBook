@@ -66,14 +66,6 @@ public interface PersonLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.sain.phonebook.service.impl.PersonLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the person local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link PersonLocalServiceUtil} if injection and service tracking are not available.
 	 */
-	@Indexable(type = IndexableType.REINDEX)
-	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Person addPerson(
-			long personId, String firstName, String lastName,
-			String localPhoneNumber, String phoneNumber, String faxNumber,
-			String roomNumber, String email, String website, long departmentId,
-			long roleId, ServiceContext serviceContext)
-		throws PortalException;
 
 	/**
 	 * Adds the person to the database. Also notifies the appropriate model listeners.
@@ -87,6 +79,15 @@ public interface PersonLocalService
 	 */
 	@Indexable(type = IndexableType.REINDEX)
 	public Person addPerson(Person person);
+
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Person addPerson(
+			String firstName, String lastName, String localPhoneNumber,
+			String phoneNumber, String faxNumber, String roomNumber,
+			String email, String website, long departmentId, long roleId,
+			ServiceContext serviceContext)
+		throws PortalException;
 
 	/**
 	 * @throws PortalException
@@ -314,7 +315,7 @@ public interface PersonLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Person patchPersistedVitamin(
+	public Person patchPerson(
 			long personId, String firstName, String lastName,
 			String localPhoneNumber, String phoneNumber, String faxNumber,
 			String roomNumber, String email, String website, long departmentId,

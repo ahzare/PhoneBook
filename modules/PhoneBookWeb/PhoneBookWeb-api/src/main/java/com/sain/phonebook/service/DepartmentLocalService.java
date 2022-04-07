@@ -82,8 +82,7 @@ public interface DepartmentLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Department addDepartment(
-			long departmentId, String name, ServiceContext serviceContext)
+	public Department addDepartment(String name, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**
@@ -314,7 +313,7 @@ public interface DepartmentLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Department patchPersistedVitamin(
+	public Department patchDepartment(
 			long departmentId, String name, ServiceContext serviceContext)
 		throws PortalException;
 
