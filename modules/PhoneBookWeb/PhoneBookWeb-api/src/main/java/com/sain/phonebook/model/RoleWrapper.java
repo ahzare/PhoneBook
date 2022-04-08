@@ -45,7 +45,6 @@ public class RoleWrapper
 		attributes.put("uuid", getUuid());
 		attributes.put("roleId", getRoleId());
 		attributes.put("groupId", getGroupId());
-		attributes.put("departmentId", getDepartmentId());
 		attributes.put("companyId", getCompanyId());
 		attributes.put("userId", getUserId());
 		attributes.put("userName", getUserName());
@@ -74,12 +73,6 @@ public class RoleWrapper
 
 		if (groupId != null) {
 			setGroupId(groupId);
-		}
-
-		Long departmentId = (Long)attributes.get("departmentId");
-
-		if (departmentId != null) {
-			setDepartmentId(departmentId);
 		}
 
 		Long companyId = (Long)attributes.get("companyId");
@@ -137,16 +130,6 @@ public class RoleWrapper
 	@Override
 	public Date getCreateDate() {
 		return model.getCreateDate();
-	}
-
-	/**
-	 * Returns the department ID of this role.
-	 *
-	 * @return the department ID of this role
-	 */
-	@Override
-	public long getDepartmentId() {
-		return model.getDepartmentId();
 	}
 
 	/**
@@ -262,16 +245,6 @@ public class RoleWrapper
 	@Override
 	public void setCreateDate(Date createDate) {
 		model.setCreateDate(createDate);
-	}
-
-	/**
-	 * Sets the department ID of this role.
-	 *
-	 * @param departmentId the department ID of this role
-	 */
-	@Override
-	public void setDepartmentId(long departmentId) {
-		model.setDepartmentId(departmentId);
 	}
 
 	/**

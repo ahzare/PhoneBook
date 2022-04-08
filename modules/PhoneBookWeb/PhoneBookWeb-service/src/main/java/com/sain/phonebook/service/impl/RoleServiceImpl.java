@@ -53,21 +53,21 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
         return role;
     }
 
-    public Role addRole( final String name, final long departmentId, final ServiceContext serviceContext) throws PortalException {
+    public Role addRole( final String name, final ServiceContext serviceContext) throws PortalException {
 //        ModelResourcePermissionHelper.check(_roleModelResourcePermission, getPermissionChecker(),
 //        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
-        return roleLocalService.addRole( name, departmentId, serviceContext);
+        return roleLocalService.addRole( name, serviceContext);
     }
 
-    public Role updateRole(final long id, final String name, final long departmentId, final ServiceContext serviceContext) throws PortalException {
+    public Role updateRole(final long id, final String name, final ServiceContext serviceContext) throws PortalException {
 //        _roleModelResourcePermission.check(getPermissionChecker(), roleLocalService.getRole(oldId), ActionKeys.UPDATE);
-        return roleLocalService.updateRole(id, name, departmentId, serviceContext);
+        return roleLocalService.updateRole(id, name, serviceContext);
     }
 
-    public Role patchRole(final long id, final String name, final long departmentId, final ServiceContext serviceContext)
+    public Role patchRole(final long id, final String name, final ServiceContext serviceContext)
             throws PortalException {
 //        _roleModelResourcePermission.check(getPermissionChecker(), roleLocalService.getRole(oldId), ActionKeys.UPDATE);
-        return roleLocalService.patchRole(id, name, departmentId, serviceContext);
+        return roleLocalService.patchRole(id, name,  serviceContext);
     }
 
     public void deleteRole(final long roleId)

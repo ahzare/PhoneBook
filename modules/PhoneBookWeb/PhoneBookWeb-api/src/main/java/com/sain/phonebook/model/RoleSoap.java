@@ -36,7 +36,6 @@ public class RoleSoap implements Serializable {
 		soapModel.setUuid(model.getUuid());
 		soapModel.setRoleId(model.getRoleId());
 		soapModel.setGroupId(model.getGroupId());
-		soapModel.setDepartmentId(model.getDepartmentId());
 		soapModel.setCompanyId(model.getCompanyId());
 		soapModel.setUserId(model.getUserId());
 		soapModel.setUserName(model.getUserName());
@@ -119,14 +118,6 @@ public class RoleSoap implements Serializable {
 		_groupId = groupId;
 	}
 
-	public long getDepartmentId() {
-		return _departmentId;
-	}
-
-	public void setDepartmentId(long departmentId) {
-		_departmentId = departmentId;
-	}
-
 	public long getCompanyId() {
 		return _companyId;
 	}
@@ -178,7 +169,6 @@ public class RoleSoap implements Serializable {
 	private String _uuid;
 	private long _roleId;
 	private long _groupId;
-	private long _departmentId;
 	private long _companyId;
 	private long _userId;
 	private String _userName;

@@ -91,7 +91,7 @@ public class RoleServiceHttp {
 	}
 
 	public static com.sain.phonebook.model.Role addRole(
-			HttpPrincipal httpPrincipal, String name, long departmentId,
+			HttpPrincipal httpPrincipal, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -100,7 +100,7 @@ public class RoleServiceHttp {
 				RoleServiceUtil.class, "addRole", _addRoleParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, name, departmentId, serviceContext);
+				methodKey, name, serviceContext);
 
 			Object returnObj = null;
 
@@ -132,7 +132,6 @@ public class RoleServiceHttp {
 
 	public static com.sain.phonebook.model.Role updateRole(
 			HttpPrincipal httpPrincipal, long id, String name,
-			long departmentId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -142,7 +141,7 @@ public class RoleServiceHttp {
 				_updateRoleParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, id, name, departmentId, serviceContext);
+				methodKey, id, name, serviceContext);
 
 			Object returnObj = null;
 
@@ -174,7 +173,6 @@ public class RoleServiceHttp {
 
 	public static com.sain.phonebook.model.Role patchRole(
 			HttpPrincipal httpPrincipal, long id, String name,
-			long departmentId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -183,7 +181,7 @@ public class RoleServiceHttp {
 				RoleServiceUtil.class, "patchRole", _patchRoleParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, id, name, departmentId, serviceContext);
+				methodKey, id, name, serviceContext);
 
 			Object returnObj = null;
 
@@ -283,15 +281,14 @@ public class RoleServiceHttp {
 		long.class
 	};
 	private static final Class<?>[] _addRoleParameterTypes1 = new Class[] {
-		String.class, long.class,
-		com.liferay.portal.kernel.service.ServiceContext.class
+		String.class, com.liferay.portal.kernel.service.ServiceContext.class
 	};
 	private static final Class<?>[] _updateRoleParameterTypes2 = new Class[] {
-		long.class, String.class, long.class,
+		long.class, String.class,
 		com.liferay.portal.kernel.service.ServiceContext.class
 	};
 	private static final Class<?>[] _patchRoleParameterTypes3 = new Class[] {
-		long.class, String.class, long.class,
+		long.class, String.class,
 		com.liferay.portal.kernel.service.ServiceContext.class
 	};
 	private static final Class<?>[] _deleteRoleParameterTypes4 = new Class[] {

@@ -82,8 +82,7 @@ public interface RoleLocalService
 
 	@Indexable(type = IndexableType.REINDEX)
 	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Role addRole(
-			String name, long departmentId, ServiceContext serviceContext)
+	public Role addRole(String name, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**
@@ -312,15 +311,13 @@ public interface RoleLocalService
 	@Indexable(type = IndexableType.REINDEX)
 	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
 	public Role patchRole(
-			long roleId, String name, long departmentId,
-			ServiceContext serviceContext)
+			long roleId, String name, ServiceContext serviceContext)
 		throws PortalException;
 
 	@Indexable(type = IndexableType.REINDEX)
 	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
 	public Role updateRole(
-			long roleId, String name, long departmentId,
-			ServiceContext serviceContext)
+			long roleId, String name, ServiceContext serviceContext)
 		throws PortalException;
 
 	/**

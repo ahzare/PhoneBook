@@ -32,11 +32,11 @@ public class RoleServiceWrapper
 
 	@Override
 	public com.sain.phonebook.model.Role addRole(
-			String name, long departmentId,
+			String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _roleService.addRole(name, departmentId, serviceContext);
+		return _roleService.addRole(name, serviceContext);
 	}
 
 	@Override
@@ -70,20 +70,20 @@ public class RoleServiceWrapper
 
 	@Override
 	public com.sain.phonebook.model.Role patchRole(
-			long id, String name, long departmentId,
+			long id, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _roleService.patchRole(id, name, departmentId, serviceContext);
+		return _roleService.patchRole(id, name, serviceContext);
 	}
 
 	@Override
 	public com.sain.phonebook.model.Role updateRole(
-			long id, String name, long departmentId,
+			long id, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		return _roleService.updateRole(id, name, departmentId, serviceContext);
+		return _roleService.updateRole(id, name, serviceContext);
 	}
 
 	@Override

@@ -81,13 +81,13 @@ public class RoleServiceSoap {
 	}
 
 	public static com.sain.phonebook.model.RoleSoap addRole(
-			String name, long departmentId,
+			String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws RemoteException {
 
 		try {
 			com.sain.phonebook.model.Role returnValue = RoleServiceUtil.addRole(
-				name, departmentId, serviceContext);
+				name, serviceContext);
 
 			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
 		}
@@ -99,14 +99,13 @@ public class RoleServiceSoap {
 	}
 
 	public static com.sain.phonebook.model.RoleSoap updateRole(
-			long id, String name, long departmentId,
+			long id, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws RemoteException {
 
 		try {
 			com.sain.phonebook.model.Role returnValue =
-				RoleServiceUtil.updateRole(
-					id, name, departmentId, serviceContext);
+				RoleServiceUtil.updateRole(id, name, serviceContext);
 
 			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
 		}
@@ -118,14 +117,13 @@ public class RoleServiceSoap {
 	}
 
 	public static com.sain.phonebook.model.RoleSoap patchRole(
-			long id, String name, long departmentId,
+			long id, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws RemoteException {
 
 		try {
 			com.sain.phonebook.model.Role returnValue =
-				RoleServiceUtil.patchRole(
-					id, name, departmentId, serviceContext);
+				RoleServiceUtil.patchRole(id, name, serviceContext);
 
 			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
 		}

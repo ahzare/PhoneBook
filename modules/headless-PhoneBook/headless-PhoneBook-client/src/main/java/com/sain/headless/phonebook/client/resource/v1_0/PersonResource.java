@@ -27,13 +27,13 @@ public interface PersonResource {
 	}
 
 	public Page<Person> getPersonsPage(
-			String search, String filterString, Pagination pagination,
-			String sortString)
+			String search, Long departmentId, Long roleId, String filterString,
+			Pagination pagination, String sortString)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse getPersonsPageHttpResponse(
-			String search, String filterString, Pagination pagination,
-			String sortString)
+			String search, Long departmentId, Long roleId, String filterString,
+			Pagination pagination, String sortString)
 		throws Exception;
 
 	public Person postPerson(Person person) throws Exception;
@@ -156,12 +156,13 @@ public interface PersonResource {
 	public static class PersonResourceImpl implements PersonResource {
 
 		public Page<Person> getPersonsPage(
-				String search, String filterString, Pagination pagination,
-				String sortString)
+				String search, Long departmentId, Long roleId,
+				String filterString, Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = getPersonsPageHttpResponse(
-				search, filterString, pagination, sortString);
+				search, departmentId, roleId, filterString, pagination,
+				sortString);
 
 			String content = httpResponse.getContent();
 
@@ -201,8 +202,8 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse getPersonsPageHttpResponse(
-				String search, String filterString, Pagination pagination,
-				String sortString)
+				String search, Long departmentId, Long roleId,
+				String filterString, Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -228,6 +229,15 @@ public interface PersonResource {
 
 			if (search != null) {
 				httpInvoker.parameter("search", String.valueOf(search));
+			}
+
+			if (departmentId != null) {
+				httpInvoker.parameter(
+					"departmentId", String.valueOf(departmentId));
+			}
+
+			if (roleId != null) {
+				httpInvoker.parameter("roleId", String.valueOf(roleId));
 			}
 
 			if (filterString != null) {

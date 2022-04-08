@@ -46,21 +46,19 @@ import static com.liferay.portal.kernel.util.DateUtil.newDate;
 )
 public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 
-    public Role getRole(final long roleId){
+    public Role getRole(final long roleId) {
         return rolePersistence.fetchByRoleId(roleId);
     }
 
     @Indexable(type = IndexableType.REINDEX)
     @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-    public Role addRole(
-                            final String name,
-                            final long departmentId,
-                            final ServiceContext serviceContext)
+    public Role addRole(final String name,
+                        final ServiceContext serviceContext)
             throws PortalException {
         Role role = createRole(counterLocalService.increment(Role.class.getName()));
         role.setRoleId(role.getRoleId());
         role.setName(name);
-        role.setDepartmentId(departmentId);
+//        role.setDepartmentId(departmentId);
 
         Date current = newDate();
         role.setCompanyId(serviceContext.getCompanyId());
@@ -76,7 +74,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
         }
         role = addRole(role);
 
-        resourceLocalService.addResources(
+        /*resourceLocalService.addResources(
                 serviceContext.getCompanyId(),
                 serviceContext.getScopeGroupId(),
                 serviceContext.getUserId(),
@@ -84,16 +82,15 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
                 role.getRoleId(),
                 false,
                 serviceContext.isAddGroupPermissions(),
-                serviceContext.isAddGuestPermissions());
+                serviceContext.isAddGuestPermissions());*/
         return role;
     }
 
     @Indexable(type = IndexableType.REINDEX)
     @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
     public Role updateRole(final long roleId,
-                               final String name,
-                               final long departmentId,
-                               final ServiceContext serviceContext)
+                           final String name,
+                           final ServiceContext serviceContext)
             throws PortalException {
 // find our instance using the old id
         Role role = fetchRole(roleId);
@@ -106,7 +103,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
         Date current = newDate();
         role.setRoleId(roleId);
         role.setName(name);
-        role.setDepartmentId(departmentId);
+//        role.setDepartmentId(departmentId);
 
         role.setModifiedDate(serviceContext.getModifiedDate(current));
 
@@ -125,9 +122,8 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
     @Indexable(type = IndexableType.REINDEX)
     @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
     public Role patchRole(final long roleId,
-                                        final String name,
-                                        final long departmentId,
-                                        final ServiceContext serviceContext)
+                          final String name,
+                          final ServiceContext serviceContext)
             throws PortalException {
 // find our instance using the old id
         Role role = fetchRole(roleId);
@@ -143,10 +139,10 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
             role.setName(name);
             changed = true;
         }
-        if (departmentId != role.getDepartmentId()) {
+        /*if (departmentId != role.getDepartmentId()) {
             role.setDepartmentId(departmentId);
             changed = true;
-        }
+        }*/
         if (roleId != role.getRoleId()) {
             role.setRoleId(roleId);
             changed = true;
@@ -167,21 +163,22 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
         return role;
     }
 
-    @Indexable(type =IndexableType.DELETE)
+    @Indexable(type = IndexableType.DELETE)
     @Override
     public Role deleteRole(long roleId)
-            throws PortalException{
-        Role role =fetchRole(roleId);
-        if(role !=null){
+            throws PortalException {
+        Role role = fetchRole(roleId);
+        if (role != null) {
             return deleteRole(role);
         }
         return null;
     }
+
     @Indexable(type = IndexableType.DELETE)
     @SystemEvent(type = SystemEventConstants.TYPE_DELETE)
     @Override
-    public Role deleteRole(Role role){
-        try{
+    public Role deleteRole(Role role) {
+        /*try{
             resourceLocalService.deleteResource(
                     role.getCompanyId(),
                     Role.class.getName(),
@@ -190,7 +187,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
         }catch(PortalException e){
             _log.warn("Error deleting persisted role permissions: "+
                     e.getMessage(), e);
-        }
+        }*/
 
 //        todo: delete role roles and departments
 

@@ -71,6 +71,14 @@ public abstract class BasePersonResourceImpl
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "departmentId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "roleId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "filter"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
@@ -98,6 +106,12 @@ public abstract class BasePersonResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("search")
 			String search,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("departmentId")
+			Long departmentId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("roleId")
+			Long roleId,
 			@javax.ws.rs.core.Context Filter filter,
 			@javax.ws.rs.core.Context Pagination pagination,
 			@javax.ws.rs.core.Context Sort[] sorts)
@@ -475,7 +489,10 @@ public abstract class BasePersonResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return getPersonsPage(search, filter, pagination, sorts);
+		return getPersonsPage(
+			search, Long.parseLong((String)parameters.get("departmentId")),
+			Long.parseLong((String)parameters.get("roleId")), filter,
+			pagination, sorts);
 	}
 
 	@Override

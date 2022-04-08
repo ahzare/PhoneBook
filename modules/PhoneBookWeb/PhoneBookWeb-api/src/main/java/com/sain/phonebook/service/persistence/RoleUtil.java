@@ -579,65 +579,6 @@ public class RoleUtil {
 	}
 
 	/**
-	 * Returns the role where departmentId = &#63; or throws a <code>NoSuchRoleException</code> if it could not be found.
-	 *
-	 * @param departmentId the department ID
-	 * @return the matching role
-	 * @throws NoSuchRoleException if a matching role could not be found
-	 */
-	public static Role findByDepartmentId(long departmentId)
-		throws com.sain.phonebook.exception.NoSuchRoleException {
-
-		return getPersistence().findByDepartmentId(departmentId);
-	}
-
-	/**
-	 * Returns the role where departmentId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param departmentId the department ID
-	 * @return the matching role, or <code>null</code> if a matching role could not be found
-	 */
-	public static Role fetchByDepartmentId(long departmentId) {
-		return getPersistence().fetchByDepartmentId(departmentId);
-	}
-
-	/**
-	 * Returns the role where departmentId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param departmentId the department ID
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the matching role, or <code>null</code> if a matching role could not be found
-	 */
-	public static Role fetchByDepartmentId(
-		long departmentId, boolean useFinderCache) {
-
-		return getPersistence().fetchByDepartmentId(
-			departmentId, useFinderCache);
-	}
-
-	/**
-	 * Removes the role where departmentId = &#63; from the database.
-	 *
-	 * @param departmentId the department ID
-	 * @return the role that was removed
-	 */
-	public static Role removeByDepartmentId(long departmentId)
-		throws com.sain.phonebook.exception.NoSuchRoleException {
-
-		return getPersistence().removeByDepartmentId(departmentId);
-	}
-
-	/**
-	 * Returns the number of roles where departmentId = &#63;.
-	 *
-	 * @param departmentId the department ID
-	 * @return the number of matching roles
-	 */
-	public static int countByDepartmentId(long departmentId) {
-		return getPersistence().countByDepartmentId(departmentId);
-	}
-
-	/**
 	 * Caches the role in the entity cache if it is enabled.
 	 *
 	 * @param role the role

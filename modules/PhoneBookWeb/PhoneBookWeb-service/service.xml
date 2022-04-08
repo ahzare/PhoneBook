@@ -66,7 +66,7 @@
 
 		<column name="groupId" type="long"/>
 
-		<column name="departmentId" type="long"/>
+<!--		<column name="departmentId" type="long"/>-->
 
 		<!-- Audit fields -->
 
@@ -91,9 +91,9 @@
 		<finder name="RoleId" return-type="Role">
 			<finder-column name="roleId"/>
 		</finder>
-		<finder name="DepartmentId" return-type="Role">
+		<!--<finder name="DepartmentId" return-type="Role">
 			<finder-column name="departmentId"/>
-		</finder>
+		</finder>-->
 
 		<!-- References -->
 

@@ -61,7 +61,7 @@ public class RoleCacheModel implements CacheModel<Role>, Externalizable {
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(21);
+		StringBundler sb = new StringBundler(19);
 
 		sb.append("{uuid=");
 		sb.append(uuid);
@@ -69,8 +69,6 @@ public class RoleCacheModel implements CacheModel<Role>, Externalizable {
 		sb.append(roleId);
 		sb.append(", groupId=");
 		sb.append(groupId);
-		sb.append(", departmentId=");
-		sb.append(departmentId);
 		sb.append(", companyId=");
 		sb.append(companyId);
 		sb.append(", userId=");
@@ -101,7 +99,6 @@ public class RoleCacheModel implements CacheModel<Role>, Externalizable {
 
 		roleImpl.setRoleId(roleId);
 		roleImpl.setGroupId(groupId);
-		roleImpl.setDepartmentId(departmentId);
 		roleImpl.setCompanyId(companyId);
 		roleImpl.setUserId(userId);
 
@@ -146,8 +143,6 @@ public class RoleCacheModel implements CacheModel<Role>, Externalizable {
 
 		groupId = objectInput.readLong();
 
-		departmentId = objectInput.readLong();
-
 		companyId = objectInput.readLong();
 
 		userId = objectInput.readLong();
@@ -169,8 +164,6 @@ public class RoleCacheModel implements CacheModel<Role>, Externalizable {
 		objectOutput.writeLong(roleId);
 
 		objectOutput.writeLong(groupId);
-
-		objectOutput.writeLong(departmentId);
 
 		objectOutput.writeLong(companyId);
 
@@ -197,7 +190,6 @@ public class RoleCacheModel implements CacheModel<Role>, Externalizable {
 	public String uuid;
 	public long roleId;
 	public long groupId;
-	public long departmentId;
 	public long companyId;
 	public long userId;
 	public String userName;

@@ -107,20 +107,6 @@ public interface RoleModel
 	public void setGroupId(long groupId);
 
 	/**
-	 * Returns the department ID of this role.
-	 *
-	 * @return the department ID of this role
-	 */
-	public long getDepartmentId();
-
-	/**
-	 * Sets the department ID of this role.
-	 *
-	 * @param departmentId the department ID of this role
-	 */
-	public void setDepartmentId(long departmentId);
-
-	/**
 	 * Returns the company ID of this role.
 	 *
 	 * @return the company ID of this role

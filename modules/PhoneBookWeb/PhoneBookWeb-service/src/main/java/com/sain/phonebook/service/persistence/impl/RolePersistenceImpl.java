@@ -1661,217 +1661,6 @@ public class RolePersistenceImpl
 	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2 =
 		"role_.roleId = ?";
 
-	private FinderPath _finderPathFetchByDepartmentId;
-	private FinderPath _finderPathCountByDepartmentId;
-
-	/**
-	 * Returns the role where departmentId = &#63; or throws a <code>NoSuchRoleException</code> if it could not be found.
-	 *
-	 * @param departmentId the department ID
-	 * @return the matching role
-	 * @throws NoSuchRoleException if a matching role could not be found
-	 */
-	@Override
-	public Role findByDepartmentId(long departmentId)
-		throws NoSuchRoleException {
-
-		Role role = fetchByDepartmentId(departmentId);
-
-		if (role == null) {
-			StringBundler sb = new StringBundler(4);
-
-			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
-
-			sb.append("departmentId=");
-			sb.append(departmentId);
-
-			sb.append("}");
-
-			if (_log.isDebugEnabled()) {
-				_log.debug(sb.toString());
-			}
-
-			throw new NoSuchRoleException(sb.toString());
-		}
-
-		return role;
-	}
-
-	/**
-	 * Returns the role where departmentId = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
-	 *
-	 * @param departmentId the department ID
-	 * @return the matching role, or <code>null</code> if a matching role could not be found
-	 */
-	@Override
-	public Role fetchByDepartmentId(long departmentId) {
-		return fetchByDepartmentId(departmentId, true);
-	}
-
-	/**
-	 * Returns the role where departmentId = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
-	 *
-	 * @param departmentId the department ID
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the matching role, or <code>null</code> if a matching role could not be found
-	 */
-	@Override
-	public Role fetchByDepartmentId(long departmentId, boolean useFinderCache) {
-		Object[] finderArgs = null;
-
-		if (useFinderCache) {
-			finderArgs = new Object[] {departmentId};
-		}
-
-		Object result = null;
-
-		if (useFinderCache) {
-			result = finderCache.getResult(
-				_finderPathFetchByDepartmentId, finderArgs, this);
-		}
-
-		if (result instanceof Role) {
-			Role role = (Role)result;
-
-			if (departmentId != role.getDepartmentId()) {
-				result = null;
-			}
-		}
-
-		if (result == null) {
-			StringBundler sb = new StringBundler(3);
-
-			sb.append(_SQL_SELECT_ROLE__WHERE);
-
-			sb.append(_FINDER_COLUMN_DEPARTMENTID_DEPARTMENTID_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(departmentId);
-
-				List<Role> list = query.list();
-
-				if (list.isEmpty()) {
-					if (useFinderCache) {
-						finderCache.putResult(
-							_finderPathFetchByDepartmentId, finderArgs, list);
-					}
-				}
-				else {
-					if (list.size() > 1) {
-						Collections.sort(list, Collections.reverseOrder());
-
-						if (_log.isWarnEnabled()) {
-							if (!useFinderCache) {
-								finderArgs = new Object[] {departmentId};
-							}
-
-							_log.warn(
-								"RolePersistenceImpl.fetchByDepartmentId(long, boolean) with parameters (" +
-									StringUtil.merge(finderArgs) +
-										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
-						}
-					}
-
-					Role role = list.get(0);
-
-					result = role;
-
-					cacheResult(role);
-				}
-			}
-			catch (Exception exception) {
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		if (result instanceof List<?>) {
-			return null;
-		}
-		else {
-			return (Role)result;
-		}
-	}
-
-	/**
-	 * Removes the role where departmentId = &#63; from the database.
-	 *
-	 * @param departmentId the department ID
-	 * @return the role that was removed
-	 */
-	@Override
-	public Role removeByDepartmentId(long departmentId)
-		throws NoSuchRoleException {
-
-		Role role = findByDepartmentId(departmentId);
-
-		return remove(role);
-	}
-
-	/**
-	 * Returns the number of roles where departmentId = &#63;.
-	 *
-	 * @param departmentId the department ID
-	 * @return the number of matching roles
-	 */
-	@Override
-	public int countByDepartmentId(long departmentId) {
-		FinderPath finderPath = _finderPathCountByDepartmentId;
-
-		Object[] finderArgs = new Object[] {departmentId};
-
-		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
-
-		if (count == null) {
-			StringBundler sb = new StringBundler(2);
-
-			sb.append(_SQL_COUNT_ROLE__WHERE);
-
-			sb.append(_FINDER_COLUMN_DEPARTMENTID_DEPARTMENTID_2);
-
-			String sql = sb.toString();
-
-			Session session = null;
-
-			try {
-				session = openSession();
-
-				Query query = session.createQuery(sql);
-
-				QueryPos queryPos = QueryPos.getInstance(query);
-
-				queryPos.add(departmentId);
-
-				count = (Long)query.uniqueResult();
-
-				finderCache.putResult(finderPath, finderArgs, count);
-			}
-			catch (Exception exception) {
-				throw processException(exception);
-			}
-			finally {
-				closeSession(session);
-			}
-		}
-
-		return count.intValue();
-	}
-
-	private static final String _FINDER_COLUMN_DEPARTMENTID_DEPARTMENTID_2 =
-		"role_.departmentId = ?";
-
 	public RolePersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -1900,10 +1689,6 @@ public class RolePersistenceImpl
 
 		finderCache.putResult(
 			_finderPathFetchByRoleId, new Object[] {role.getRoleId()}, role);
-
-		finderCache.putResult(
-			_finderPathFetchByDepartmentId,
-			new Object[] {role.getDepartmentId()}, role);
 	}
 
 	private int _valueObjectFinderCacheListThreshold;
@@ -1993,13 +1778,6 @@ public class RolePersistenceImpl
 			_finderPathCountByRoleId, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByRoleId, args, roleModelImpl, false);
-
-		args = new Object[] {roleModelImpl.getDepartmentId()};
-
-		finderCache.putResult(
-			_finderPathCountByDepartmentId, args, Long.valueOf(1), false);
-		finderCache.putResult(
-			_finderPathFetchByDepartmentId, args, roleModelImpl, false);
 	}
 
 	/**
@@ -2520,16 +2298,6 @@ public class RolePersistenceImpl
 		_finderPathCountByRoleId = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRoleId",
 			new String[] {Long.class.getName()}, new String[] {"roleId"},
-			false);
-
-		_finderPathFetchByDepartmentId = _createFinderPath(
-			FINDER_CLASS_NAME_ENTITY, "fetchByDepartmentId",
-			new String[] {Long.class.getName()}, new String[] {"departmentId"},
-			true);
-
-		_finderPathCountByDepartmentId = _createFinderPath(
-			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDepartmentId",
-			new String[] {Long.class.getName()}, new String[] {"departmentId"},
 			false);
 
 		_setRoleUtilPersistence(this);

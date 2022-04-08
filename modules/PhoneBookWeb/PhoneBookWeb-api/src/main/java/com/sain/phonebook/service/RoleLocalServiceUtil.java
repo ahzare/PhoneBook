@@ -60,11 +60,11 @@ public class RoleLocalServiceUtil {
 	}
 
 	public static Role addRole(
-			String name, long departmentId,
+			String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
-		return getService().addRole(name, departmentId, serviceContext);
+		return getService().addRole(name, serviceContext);
 	}
 
 	/**
@@ -338,21 +338,19 @@ public class RoleLocalServiceUtil {
 	}
 
 	public static Role patchRole(
-			long roleId, String name, long departmentId,
+			long roleId, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
-		return getService().patchRole(
-			roleId, name, departmentId, serviceContext);
+		return getService().patchRole(roleId, name, serviceContext);
 	}
 
 	public static Role updateRole(
-			long roleId, String name, long departmentId,
+			long roleId, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws PortalException {
 
-		return getService().updateRole(
-			roleId, name, departmentId, serviceContext);
+		return getService().updateRole(roleId, name, serviceContext);
 	}
 
 	/**

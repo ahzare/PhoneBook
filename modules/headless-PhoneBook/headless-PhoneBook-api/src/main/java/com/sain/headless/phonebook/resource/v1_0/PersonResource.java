@@ -46,7 +46,8 @@ public interface PersonResource {
 	}
 
 	public Page<Person> getPersonsPage(
-			String search, Filter filter, Pagination pagination, Sort[] sorts)
+			String search, Long departmentId, Long roleId, Filter filter,
+			Pagination pagination, Sort[] sorts)
 		throws Exception;
 
 	public Person postPerson(Person person) throws Exception;

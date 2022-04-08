@@ -61,7 +61,6 @@ create table PhoneBook_Role (
 	uuid_ VARCHAR(75) null,
 	roleId LONG not null primary key,
 	groupId LONG,
-	departmentId LONG,
 	companyId LONG,
 	userId LONG,
 	userName VARCHAR(75) null,

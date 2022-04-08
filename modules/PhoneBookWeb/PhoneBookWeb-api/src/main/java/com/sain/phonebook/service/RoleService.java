@@ -53,8 +53,7 @@ public interface RoleService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.sain.phonebook.service.impl.RoleServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the role remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link RoleServiceUtil} if injection and service tracking are not available.
 	 */
-	public Role addRole(
-			String name, long departmentId, ServiceContext serviceContext)
+	public Role addRole(String name, ServiceContext serviceContext)
 		throws PortalException;
 
 	public void deleteRole(long roleId) throws PortalException;
@@ -72,14 +71,10 @@ public interface RoleService extends BaseService {
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public Role getRole(long roleId) throws PortalException;
 
-	public Role patchRole(
-			long id, String name, long departmentId,
-			ServiceContext serviceContext)
+	public Role patchRole(long id, String name, ServiceContext serviceContext)
 		throws PortalException;
 
-	public Role updateRole(
-			long id, String name, long departmentId,
-			ServiceContext serviceContext)
+	public Role updateRole(long id, String name, ServiceContext serviceContext)
 		throws PortalException;
 
 }

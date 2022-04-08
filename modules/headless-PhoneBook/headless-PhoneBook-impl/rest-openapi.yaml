@@ -119,6 +119,16 @@ paths:
           name: sort
           schema:
             type: string
+        - in: query
+          name: departmentId
+          schema:
+            format: int64
+            type: integer
+        - in: query
+          name: roleId
+          schema:
+            format: int64
+            type: integer
       responses:
         200:
           description: ""
