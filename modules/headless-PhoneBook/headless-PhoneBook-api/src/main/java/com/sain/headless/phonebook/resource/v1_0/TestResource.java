@@ -1,6 +1,5 @@
 package com.sain.headless.phonebook.resource.v1_0;
 
-import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.ResourceActionLocalService;
@@ -9,10 +8,8 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
-import com.liferay.portal.vulcan.pagination.Page;
-import com.liferay.portal.vulcan.pagination.Pagination;
 
-import com.sain.headless.phonebook.dto.v1_0.Person;
+import com.sain.headless.phonebook.dto.v1_0.Test;
 
 import java.util.Collections;
 import java.util.List;
@@ -24,7 +21,6 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -39,38 +35,13 @@ import org.osgi.annotation.versioning.ProviderType;
  */
 @Generated("")
 @ProviderType
-public interface PersonResource {
+public interface TestResource {
 
 	public static Builder builder() {
 		return FactoryHolder.factory.create();
 	}
 
-	public Page<Person> getPersonsPage(
-			String search, Long departmentId, Long roleId, Filter filter,
-			Pagination pagination, Sort[] sorts)
-		throws Exception;
-
-	public Person postPerson(Long roleId, Long departmentId, Person person)
-		throws Exception;
-
-	public Response postPersonBatch(
-			Long roleId, Long departmentId, String callbackURL, Object object)
-		throws Exception;
-
-	public void deletePerson(String personId) throws Exception;
-
-	public Response deletePersonBatch(String callbackURL, Object object)
-		throws Exception;
-
-	public Person getPerson(String personId) throws Exception;
-
-	public Person patchPersonAPI(
-			String personId, Long roleId, Long departmentId, Person person)
-		throws Exception;
-
-	public Person putPersonAPI(
-			String personId, Long roleId, Long departmentId, Person person)
-		throws Exception;
+	public Test test(String pathParam, String queryParam) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {
@@ -129,7 +100,7 @@ public interface PersonResource {
 	@ProviderType
 	public interface Builder {
 
-		public PersonResource build();
+		public TestResource build();
 
 		public Builder checkPermissions(boolean checkPermissions);
 

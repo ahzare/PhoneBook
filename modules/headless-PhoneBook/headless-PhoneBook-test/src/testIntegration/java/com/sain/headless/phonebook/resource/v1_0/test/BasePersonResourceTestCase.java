@@ -34,6 +34,7 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 
 import com.sain.headless.phonebook.client.dto.v1_0.Person;
+import com.sain.headless.phonebook.client.dto.v1_0.Test;
 import com.sain.headless.phonebook.client.http.HttpInvoker;
 import com.sain.headless.phonebook.client.pagination.Page;
 import com.sain.headless.phonebook.client.pagination.Pagination;
@@ -598,49 +599,29 @@ public abstract class BasePersonResourceTestCase {
 	}
 
 	@Test
-	public void testPatchPerson() throws Exception {
-		Person postPerson = testPatchPerson_addPerson();
-
-		Person randomPatchPerson = randomPatchPerson();
-
-		@SuppressWarnings("PMD.UnusedLocalVariable")
-		Person patchPerson = personResource.patchPerson(
-			postPerson.getId(), randomPatchPerson);
-
-		Person expectedPatchPerson = postPerson.clone();
-
-		_beanUtilsBean.copyProperties(expectedPatchPerson, randomPatchPerson);
-
-		Person getPerson = personResource.getPerson(patchPerson.getId());
-
-		assertEquals(expectedPatchPerson, getPerson);
-		assertValid(getPerson);
-	}
-
-	protected Person testPatchPerson_addPerson() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+	public void testPatchPersonAPI() throws Exception {
+		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testPutPerson() throws Exception {
-		Person postPerson = testPutPerson_addPerson();
+	public void testPutPersonAPI() throws Exception {
+		Person postPerson = testPutPersonAPI_addPerson();
 
 		Person randomPerson = randomPerson();
 
-		Person putPerson = personResource.putPerson(
+		Person putPerson = personResource.putPersonAPI(
 			postPerson.getId(), null, null, randomPerson);
 
 		assertEquals(randomPerson, putPerson);
 		assertValid(putPerson);
 
-		Person getPerson = personResource.getPerson(putPerson.getId());
+		Person getPerson = personResource.getPersonAPI(putPerson.getId());
 
 		assertEquals(randomPerson, getPerson);
 		assertValid(getPerson);
 	}
 
-	protected Person testPutPerson_addPerson() throws Exception {
+	protected Person testPutPersonAPI_addPerson() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}

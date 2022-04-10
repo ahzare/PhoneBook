@@ -17,11 +17,13 @@ import com.sain.headless.phonebook.dto.v1_0.Department;
 import com.sain.headless.phonebook.dto.v1_0.Part;
 import com.sain.headless.phonebook.dto.v1_0.Person;
 import com.sain.headless.phonebook.dto.v1_0.Role;
+import com.sain.headless.phonebook.dto.v1_0.Test;
 import com.sain.headless.phonebook.resource.v1_0.AddressResource;
 import com.sain.headless.phonebook.resource.v1_0.DepartmentResource;
 import com.sain.headless.phonebook.resource.v1_0.PartResource;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 import com.sain.headless.phonebook.resource.v1_0.RoleResource;
+import com.sain.headless.phonebook.resource.v1_0.TestResource;
 
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -80,6 +82,14 @@ public class Query {
 
 		_roleResourceComponentServiceObjects =
 			roleResourceComponentServiceObjects;
+	}
+
+	public static void setTestResourceComponentServiceObjects(
+		ComponentServiceObjects<TestResource>
+			testResourceComponentServiceObjects) {
+
+		_testResourceComponentServiceObjects =
+			testResourceComponentServiceObjects;
 	}
 
 	/**
@@ -290,6 +300,23 @@ public class Query {
 			roleResource -> roleResource.getRole(roleId));
 	}
 
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {test(pathParam: ___, queryParam: ___){text}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField
+	public Test test(
+			@GraphQLName("pathParam") String pathParam,
+			@GraphQLName("queryParam") String queryParam)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_testResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			testResource -> testResource.test(pathParam, queryParam));
+	}
+
 	@GraphQLName("AddressPage")
 	public class AddressPage {
 
@@ -455,6 +482,39 @@ public class Query {
 
 	}
 
+	@GraphQLName("TestPage")
+	public class TestPage {
+
+		public TestPage(Page testPage) {
+			actions = testPage.getActions();
+
+			items = testPage.getItems();
+			lastPage = testPage.getLastPage();
+			page = testPage.getPage();
+			pageSize = testPage.getPageSize();
+			totalCount = testPage.getTotalCount();
+		}
+
+		@GraphQLField
+		protected Map<String, Map> actions;
+
+		@GraphQLField
+		protected java.util.Collection<Test> items;
+
+		@GraphQLField
+		protected long lastPage;
+
+		@GraphQLField
+		protected long page;
+
+		@GraphQLField
+		protected long pageSize;
+
+		@GraphQLField
+		protected long totalCount;
+
+	}
+
 	private <T, R, E1 extends Throwable, E2 extends Throwable> R
 			_applyComponentServiceObjects(
 				ComponentServiceObjects<T> componentServiceObjects,
@@ -539,6 +599,19 @@ public class Query {
 		roleResource.setRoleLocalService(_roleLocalService);
 	}
 
+	private void _populateResourceContext(TestResource testResource)
+		throws Exception {
+
+		testResource.setContextAcceptLanguage(_acceptLanguage);
+		testResource.setContextCompany(_company);
+		testResource.setContextHttpServletRequest(_httpServletRequest);
+		testResource.setContextHttpServletResponse(_httpServletResponse);
+		testResource.setContextUriInfo(_uriInfo);
+		testResource.setContextUser(_user);
+		testResource.setGroupLocalService(_groupLocalService);
+		testResource.setRoleLocalService(_roleLocalService);
+	}
+
 	private static ComponentServiceObjects<AddressResource>
 		_addressResourceComponentServiceObjects;
 	private static ComponentServiceObjects<DepartmentResource>
@@ -549,6 +622,8 @@ public class Query {
 		_personResourceComponentServiceObjects;
 	private static ComponentServiceObjects<RoleResource>
 		_roleResourceComponentServiceObjects;
+	private static ComponentServiceObjects<TestResource>
+		_testResourceComponentServiceObjects;
 
 	private AcceptLanguage _acceptLanguage;
 	private com.liferay.portal.kernel.model.Company _company;

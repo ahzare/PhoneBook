@@ -363,59 +363,20 @@ public abstract class BasePersonResourceImpl
 	@javax.ws.rs.Path("/persons/{personId}")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Person patchPerson(
+	public Person patchPersonAPI(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("personId")
 			String personId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
 			@javax.ws.rs.QueryParam("roleId")
 			Long roleId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
 			@javax.ws.rs.QueryParam("departmentId")
 			Long departmentId,
 			Person person)
 		throws Exception {
 
-		Person existingPerson = getPerson(personId);
-
-		if (person.getEmail() != null) {
-			existingPerson.setEmail(person.getEmail());
-		}
-
-		if (person.getFaxNumber() != null) {
-			existingPerson.setFaxNumber(person.getFaxNumber());
-		}
-
-		if (person.getFirstName() != null) {
-			existingPerson.setFirstName(person.getFirstName());
-		}
-
-		if (person.getLastName() != null) {
-			existingPerson.setLastName(person.getLastName());
-		}
-
-		if (person.getLocalPhoneNumber() != null) {
-			existingPerson.setLocalPhoneNumber(person.getLocalPhoneNumber());
-		}
-
-		if (person.getPhoneNumber() != null) {
-			existingPerson.setPhoneNumber(person.getPhoneNumber());
-		}
-
-		if (person.getRoomNumber() != null) {
-			existingPerson.setRoomNumber(person.getRoomNumber());
-		}
-
-		if (person.getWebsite() != null) {
-			existingPerson.setWebsite(person.getWebsite());
-		}
-
-		preparePatch(person, existingPerson);
-
-		return putPerson(personId, existingPerson);
+		return new Person();
 	}
 
 	/**
@@ -450,83 +411,20 @@ public abstract class BasePersonResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@javax.ws.rs.PUT
 	@Override
-	public Person putPerson(
+	public Person putPersonAPI(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("personId")
 			String personId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
 			@javax.ws.rs.QueryParam("roleId")
 			Long roleId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
 			@javax.ws.rs.QueryParam("departmentId")
 			Long departmentId,
 			Person person)
 		throws Exception {
 
 		return new Person();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'PUT' 'http://localhost:8080/o/headless-PhoneBook/v1.0/persons/batch'  -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "roleId"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "departmentId"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "callbackURL"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Person")}
-	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path("/persons/batch")
-	@javax.ws.rs.Produces("application/json")
-	@javax.ws.rs.PUT
-	@Override
-	public Response putPersonBatch(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.QueryParam("roleId")
-			Long roleId,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
-			@javax.ws.rs.QueryParam("departmentId")
-			Long departmentId,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
-			String callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.putImportTask(
-				Person.class.getName(), callbackURL, object)
-		).build();
 	}
 
 	@Override
@@ -611,13 +509,6 @@ public abstract class BasePersonResourceImpl
 			java.util.Collection<Person> persons,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Person person : persons) {
-			putPerson(
-				person.getId() != null ? person.getId() :
-					(String)parameters.get("personId"),
-				roleId, departmentId, person);
-		}
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
@@ -741,9 +632,6 @@ public abstract class BasePersonResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
-	}
-
-	protected void preparePatch(Person person, Person existingPerson) {
 	}
 
 	protected <T, R> List<R> transform(

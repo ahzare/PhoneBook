@@ -413,7 +413,7 @@ public class Mutation {
 	@GraphQLField(
 		description = "Replaces the person with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
-	public Person patchPerson(
+	public Person patchPersonAPI(
 			@GraphQLName("personId") String personId,
 			@GraphQLName("roleId") Long roleId,
 			@GraphQLName("departmentId") Long departmentId,
@@ -423,14 +423,14 @@ public class Mutation {
 		return _applyComponentServiceObjects(
 			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			personResource -> personResource.patchPerson(
+			personResource -> personResource.patchPersonAPI(
 				personId, roleId, departmentId, person));
 	}
 
 	@GraphQLField(
 		description = "Replaces the person with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
-	public Person updatePerson(
+	public Person updatePersonAPI(
 			@GraphQLName("personId") String personId,
 			@GraphQLName("roleId") Long roleId,
 			@GraphQLName("departmentId") Long departmentId,
@@ -440,23 +440,8 @@ public class Mutation {
 		return _applyComponentServiceObjects(
 			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			personResource -> personResource.putPerson(
+			personResource -> personResource.putPersonAPI(
 				personId, roleId, departmentId, person));
-	}
-
-	@GraphQLField
-	public Response updatePersonBatch(
-			@GraphQLName("roleId") Long roleId,
-			@GraphQLName("departmentId") Long departmentId,
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("object") Object object)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_personResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			personResource -> personResource.putPersonBatch(
-				roleId, departmentId, callbackURL, object));
 	}
 
 	@GraphQLField(description = "Create a new role.")

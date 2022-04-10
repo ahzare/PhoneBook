@@ -231,7 +231,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
     }
 
     @Override
-    public Person patchPerson(@NotNull String personId, Long roleId,
+    public Person patchPersonAPI(@NotNull String personId, Long roleId,
                               Long departmentId, Person person)
             throws Exception {
         try {
@@ -256,7 +256,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
     }
 
     @Override
-    public Person putPerson(@NotNull String personId, Long roleId,
+    public Person putPersonAPI(@NotNull String personId, Long roleId,
                             Long departmentId, Person person) throws Exception {
         try {
             com.sain.phonebook.model.Person persistedPerson =
