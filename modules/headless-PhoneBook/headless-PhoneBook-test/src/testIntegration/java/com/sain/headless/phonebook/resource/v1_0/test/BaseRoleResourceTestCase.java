@@ -698,14 +698,6 @@ public abstract class BaseRoleResourceTestCase {
 		for (String additionalAssertFieldName :
 				getAdditionalAssertFieldNames()) {
 
-			if (Objects.equals("department", additionalAssertFieldName)) {
-				if (role.getDepartment() == null) {
-					valid = false;
-				}
-
-				continue;
-			}
-
 			if (Objects.equals("name", additionalAssertFieldName)) {
 				if (role.getName() == null) {
 					valid = false;
@@ -803,16 +795,6 @@ public abstract class BaseRoleResourceTestCase {
 
 		for (String additionalAssertFieldName :
 				getAdditionalAssertFieldNames()) {
-
-			if (Objects.equals("department", additionalAssertFieldName)) {
-				if (!Objects.deepEquals(
-						role1.getDepartment(), role2.getDepartment())) {
-
-					return false;
-				}
-
-				continue;
-			}
 
 			if (Objects.equals("id", additionalAssertFieldName)) {
 				if (!Objects.deepEquals(role1.getId(), role2.getId())) {
@@ -926,11 +908,6 @@ public abstract class BaseRoleResourceTestCase {
 		sb.append(" ");
 		sb.append(operator);
 		sb.append(" ");
-
-		if (entityFieldName.equals("department")) {
-			throw new IllegalArgumentException(
-				"Invalid entity field " + entityFieldName);
-		}
 
 		if (entityFieldName.equals("id")) {
 			sb.append("'");

@@ -629,7 +629,7 @@ public abstract class BasePersonResourceTestCase {
 		Person randomPerson = randomPerson();
 
 		Person putPerson = personResource.putPerson(
-			postPerson.getId(), randomPerson);
+			postPerson.getId(), null, null, randomPerson);
 
 		assertEquals(randomPerson, putPerson);
 		assertValid(putPerson);

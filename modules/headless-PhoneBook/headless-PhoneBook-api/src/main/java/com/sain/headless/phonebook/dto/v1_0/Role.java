@@ -21,8 +21,6 @@ import java.util.Set;
 
 import javax.annotation.Generated;
 
-import javax.validation.Valid;
-
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -44,35 +42,6 @@ public class Role implements Serializable {
 	public static Role unsafeToDTO(String json) {
 		return ObjectMapperUtil.unsafeReadValue(Role.class, json);
 	}
-
-	@Schema
-	@Valid
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-
-	@JsonIgnore
-	public void setDepartment(
-		UnsafeSupplier<Department, Exception> departmentUnsafeSupplier) {
-
-		try {
-			department = departmentUnsafeSupplier.get();
-		}
-		catch (RuntimeException re) {
-			throw re;
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	@GraphQLField
-	@JsonProperty(access = JsonProperty.Access.READ_WRITE)
-	protected Department department;
 
 	@Schema(description = "The role internal ID.")
 	public String getId() {
@@ -152,16 +121,6 @@ public class Role implements Serializable {
 		StringBundler sb = new StringBundler();
 
 		sb.append("{");
-
-		if (department != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"department\": ");
-
-			sb.append(String.valueOf(department));
-		}
 
 		if (id != null) {
 			if (sb.length() > 1) {

@@ -128,6 +128,18 @@ public abstract class BasePersonResourceImpl
 	@io.swagger.v3.oas.annotations.Operation(
 		description = "Create a new person."
 	)
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "roleId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "departmentId"
+			)
+		}
+	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Person")}
 	)
@@ -136,7 +148,18 @@ public abstract class BasePersonResourceImpl
 	@javax.ws.rs.POST
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Person postPerson(Person person) throws Exception {
+	public Person postPerson(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("roleId")
+			Long roleId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("departmentId")
+			Long departmentId,
+			Person person)
+		throws Exception {
+
 		return new Person();
 	}
 
@@ -147,6 +170,14 @@ public abstract class BasePersonResourceImpl
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "roleId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "departmentId"
+			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "callbackURL"
@@ -162,6 +193,14 @@ public abstract class BasePersonResourceImpl
 	@javax.ws.rs.Produces("application/json")
 	@Override
 	public Response postPersonBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("roleId")
+			Long roleId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("departmentId")
+			Long departmentId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
@@ -305,6 +344,14 @@ public abstract class BasePersonResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
 				name = "personId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "roleId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "departmentId"
 			)
 		}
 	)
@@ -321,6 +368,14 @@ public abstract class BasePersonResourceImpl
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("personId")
 			String personId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("roleId")
+			Long roleId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("departmentId")
+			Long departmentId,
 			Person person)
 		throws Exception {
 
@@ -376,6 +431,14 @@ public abstract class BasePersonResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
 				name = "personId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "roleId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "departmentId"
 			)
 		}
 	)
@@ -392,6 +455,14 @@ public abstract class BasePersonResourceImpl
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("personId")
 			String personId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("roleId")
+			Long roleId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("departmentId")
+			Long departmentId,
 			Person person)
 		throws Exception {
 
@@ -407,6 +478,14 @@ public abstract class BasePersonResourceImpl
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "roleId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "departmentId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "callbackURL"
 			)
 		}
@@ -420,6 +499,14 @@ public abstract class BasePersonResourceImpl
 	@javax.ws.rs.PUT
 	@Override
 	public Response putPersonBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("roleId")
+			Long roleId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.validation.constraints.NotNull
+			@javax.ws.rs.QueryParam("departmentId")
+			Long departmentId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
@@ -450,7 +537,9 @@ public abstract class BasePersonResourceImpl
 		throws Exception {
 
 		UnsafeConsumer<Person, Exception> personUnsafeConsumer =
-			person -> postPerson(person);
+			person -> postPerson(
+				Long.parseLong((String)parameters.get("roleId")),
+				Long.parseLong((String)parameters.get("departmentId")), person);
 
 		for (Person person : persons) {
 			personUnsafeConsumer.accept(person);
@@ -527,7 +616,7 @@ public abstract class BasePersonResourceImpl
 			putPerson(
 				person.getId() != null ? person.getId() :
 					(String)parameters.get("personId"),
-				person);
+				roleId, departmentId, person);
 		}
 	}
 

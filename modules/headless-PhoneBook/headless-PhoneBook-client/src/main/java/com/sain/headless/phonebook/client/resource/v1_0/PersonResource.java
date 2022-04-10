@@ -36,16 +36,19 @@ public interface PersonResource {
 			Pagination pagination, String sortString)
 		throws Exception;
 
-	public Person postPerson(Person person) throws Exception;
-
-	public HttpInvoker.HttpResponse postPersonHttpResponse(Person person)
+	public Person postPerson(Long roleId, Long departmentId, Person person)
 		throws Exception;
 
-	public void postPersonBatch(String callbackURL, Object object)
+	public HttpInvoker.HttpResponse postPersonHttpResponse(
+			Long roleId, Long departmentId, Person person)
+		throws Exception;
+
+	public void postPersonBatch(
+			Long roleId, Long departmentId, String callbackURL, Object object)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse postPersonBatchHttpResponse(
-			String callbackURL, Object object)
+			Long roleId, Long departmentId, String callbackURL, Object object)
 		throws Exception;
 
 	public void deletePerson(String personId) throws Exception;
@@ -65,23 +68,28 @@ public interface PersonResource {
 	public HttpInvoker.HttpResponse getPersonHttpResponse(String personId)
 		throws Exception;
 
-	public Person patchPerson(String personId, Person person) throws Exception;
+	public Person patchPerson(
+			String personId, Long roleId, Long departmentId, Person person)
+		throws Exception;
 
 	public HttpInvoker.HttpResponse patchPersonHttpResponse(
-			String personId, Person person)
+			String personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
-	public Person putPerson(String personId, Person person) throws Exception;
+	public Person putPerson(
+			String personId, Long roleId, Long departmentId, Person person)
+		throws Exception;
 
 	public HttpInvoker.HttpResponse putPersonHttpResponse(
-			String personId, Person person)
+			String personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
-	public void putPersonBatch(String callbackURL, Object object)
+	public void putPersonBatch(
+			Long roleId, Long departmentId, String callbackURL, Object object)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse putPersonBatchHttpResponse(
-			String callbackURL, Object object)
+			Long roleId, Long departmentId, String callbackURL, Object object)
 		throws Exception;
 
 	public static class Builder {
@@ -265,9 +273,11 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public Person postPerson(Person person) throws Exception {
+		public Person postPerson(Long roleId, Long departmentId, Person person)
+			throws Exception {
+
 			HttpInvoker.HttpResponse httpResponse = postPersonHttpResponse(
-				person);
+				roleId, departmentId, person);
 
 			String content = httpResponse.getContent();
 
@@ -306,7 +316,8 @@ public interface PersonResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse postPersonHttpResponse(Person person)
+		public HttpInvoker.HttpResponse postPersonHttpResponse(
+				Long roleId, Long departmentId, Person person)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -332,6 +343,15 @@ public interface PersonResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
 
+			if (roleId != null) {
+				httpInvoker.parameter("roleId", String.valueOf(roleId));
+			}
+
+			if (departmentId != null) {
+				httpInvoker.parameter(
+					"departmentId", String.valueOf(departmentId));
+			}
+
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + "/o/headless-PhoneBook/v1.0/persons");
@@ -342,11 +362,13 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public void postPersonBatch(String callbackURL, Object object)
+		public void postPersonBatch(
+				Long roleId, Long departmentId, String callbackURL,
+				Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = postPersonBatchHttpResponse(
-				callbackURL, object);
+				roleId, departmentId, callbackURL, object);
 
 			String content = httpResponse.getContent();
 
@@ -375,7 +397,8 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse postPersonBatchHttpResponse(
-				String callbackURL, Object object)
+				Long roleId, Long departmentId, String callbackURL,
+				Object object)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -400,6 +423,15 @@ public interface PersonResource {
 			}
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
+
+			if (roleId != null) {
+				httpInvoker.parameter("roleId", String.valueOf(roleId));
+			}
+
+			if (departmentId != null) {
+				httpInvoker.parameter(
+					"departmentId", String.valueOf(departmentId));
+			}
 
 			if (callbackURL != null) {
 				httpInvoker.parameter(
@@ -649,11 +681,12 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public Person patchPerson(String personId, Person person)
+		public Person patchPerson(
+				String personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = patchPersonHttpResponse(
-				personId, person);
+				personId, roleId, departmentId, person);
 
 			String content = httpResponse.getContent();
 
@@ -693,7 +726,7 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse patchPersonHttpResponse(
-				String personId, Person person)
+				String personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -719,6 +752,15 @@ public interface PersonResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PATCH);
 
+			if (roleId != null) {
+				httpInvoker.parameter("roleId", String.valueOf(roleId));
+			}
+
+			if (departmentId != null) {
+				httpInvoker.parameter(
+					"departmentId", String.valueOf(departmentId));
+			}
+
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
@@ -732,11 +774,12 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public Person putPerson(String personId, Person person)
+		public Person putPerson(
+				String personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = putPersonHttpResponse(
-				personId, person);
+				personId, roleId, departmentId, person);
 
 			String content = httpResponse.getContent();
 
@@ -776,7 +819,7 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse putPersonHttpResponse(
-				String personId, Person person)
+				String personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -802,6 +845,15 @@ public interface PersonResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
 
+			if (roleId != null) {
+				httpInvoker.parameter("roleId", String.valueOf(roleId));
+			}
+
+			if (departmentId != null) {
+				httpInvoker.parameter(
+					"departmentId", String.valueOf(departmentId));
+			}
+
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
@@ -815,11 +867,13 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public void putPersonBatch(String callbackURL, Object object)
+		public void putPersonBatch(
+				Long roleId, Long departmentId, String callbackURL,
+				Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = putPersonBatchHttpResponse(
-				callbackURL, object);
+				roleId, departmentId, callbackURL, object);
 
 			String content = httpResponse.getContent();
 
@@ -848,7 +902,8 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse putPersonBatchHttpResponse(
-				String callbackURL, Object object)
+				Long roleId, Long departmentId, String callbackURL,
+				Object object)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -873,6 +928,15 @@ public interface PersonResource {
 			}
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
+
+			if (roleId != null) {
+				httpInvoker.parameter("roleId", String.valueOf(roleId));
+			}
+
+			if (departmentId != null) {
+				httpInvoker.parameter(
+					"departmentId", String.valueOf(departmentId));
+			}
 
 			if (callbackURL != null) {
 				httpInvoker.parameter(

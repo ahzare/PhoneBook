@@ -45,8 +45,8 @@ components:
           description: The role name.
           type: string
 
-        department:
-          $ref: "#/components/schemas/Department"
+      #        department:
+      #          $ref: "#/components/schemas/Department"
       type: object
     Department:
       description: Contains all of the data for a single department.
@@ -147,6 +147,19 @@ paths:
       operationId: postPerson
       tags: [ "Person" ]
       description: Create a new person.
+      parameters:
+        - in: query
+          required: true
+          name: roleId
+          schema:
+            format: int64
+            type: integer
+        - in: query
+          required: true
+          name: departmentId
+          schema:
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -196,6 +209,18 @@ paths:
           required: true
           schema:
             type: string
+        - in: query
+          required: true
+          name: roleId
+          schema:
+            format: int64
+            type: integer
+        - in: query
+          required: true
+          name: departmentId
+          schema:
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -224,6 +249,18 @@ paths:
           required: true
           schema:
             type: string
+        - in: query
+          required: true
+          name: roleId
+          schema:
+            format: int64
+            type: integer
+        - in: query
+          required: true
+          name: departmentId
+          schema:
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -879,4 +916,3 @@ paths:
           content:
             application/json: { }
             application/xml: { }
-

@@ -39,16 +39,6 @@ public class RoleSerDes {
 
 		sb.append("{");
 
-		if (role.getDepartment() != null) {
-			if (sb.length() > 1) {
-				sb.append(", ");
-			}
-
-			sb.append("\"department\": ");
-
-			sb.append(String.valueOf(role.getDepartment()));
-		}
-
 		if (role.getId() != null) {
 			if (sb.length() > 1) {
 				sb.append(", ");
@@ -95,13 +85,6 @@ public class RoleSerDes {
 
 		Map<String, String> map = new TreeMap<>();
 
-		if (role.getDepartment() == null) {
-			map.put("department", null);
-		}
-		else {
-			map.put("department", String.valueOf(role.getDepartment()));
-		}
-
 		if (role.getId() == null) {
 			map.put("id", null);
 		}
@@ -136,13 +119,7 @@ public class RoleSerDes {
 			Role role, String jsonParserFieldName,
 			Object jsonParserFieldValue) {
 
-			if (Objects.equals(jsonParserFieldName, "department")) {
-				if (jsonParserFieldValue != null) {
-					role.setDepartment(
-						DepartmentSerDes.toDTO((String)jsonParserFieldValue));
-				}
-			}
-			else if (Objects.equals(jsonParserFieldName, "id")) {
+			if (Objects.equals(jsonParserFieldName, "id")) {
 				if (jsonParserFieldValue != null) {
 					role.setId((String)jsonParserFieldValue);
 				}

@@ -20,27 +20,6 @@ public class Role implements Cloneable, Serializable {
 		return RoleSerDes.toDTO(json);
 	}
 
-	public Department getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(Department department) {
-		this.department = department;
-	}
-
-	public void setDepartment(
-		UnsafeSupplier<Department, Exception> departmentUnsafeSupplier) {
-
-		try {
-			department = departmentUnsafeSupplier.get();
-		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected Department department;
-
 	public String getId() {
 		return id;
 	}

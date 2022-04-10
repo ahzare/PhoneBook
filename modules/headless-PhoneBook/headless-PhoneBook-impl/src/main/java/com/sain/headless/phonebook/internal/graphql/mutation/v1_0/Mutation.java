@@ -355,17 +355,23 @@ public class Mutation {
 	}
 
 	@GraphQLField(description = "Create a new person.")
-	public Person createPerson(@GraphQLName("person") Person person)
+	public Person createPerson(
+			@GraphQLName("roleId") Long roleId,
+			@GraphQLName("departmentId") Long departmentId,
+			@GraphQLName("person") Person person)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			personResource -> personResource.postPerson(person));
+			personResource -> personResource.postPerson(
+				roleId, departmentId, person));
 	}
 
 	@GraphQLField
 	public Response createPersonBatch(
+			@GraphQLName("roleId") Long roleId,
+			@GraphQLName("departmentId") Long departmentId,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -374,7 +380,7 @@ public class Mutation {
 			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			personResource -> personResource.postPersonBatch(
-				callbackURL, object));
+				roleId, departmentId, callbackURL, object));
 	}
 
 	@GraphQLField(
@@ -409,13 +415,16 @@ public class Mutation {
 	)
 	public Person patchPerson(
 			@GraphQLName("personId") String personId,
+			@GraphQLName("roleId") Long roleId,
+			@GraphQLName("departmentId") Long departmentId,
 			@GraphQLName("person") Person person)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			personResource -> personResource.patchPerson(personId, person));
+			personResource -> personResource.patchPerson(
+				personId, roleId, departmentId, person));
 	}
 
 	@GraphQLField(
@@ -423,17 +432,22 @@ public class Mutation {
 	)
 	public Person updatePerson(
 			@GraphQLName("personId") String personId,
+			@GraphQLName("roleId") Long roleId,
+			@GraphQLName("departmentId") Long departmentId,
 			@GraphQLName("person") Person person)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			personResource -> personResource.putPerson(personId, person));
+			personResource -> personResource.putPerson(
+				personId, roleId, departmentId, person));
 	}
 
 	@GraphQLField
 	public Response updatePersonBatch(
+			@GraphQLName("roleId") Long roleId,
+			@GraphQLName("departmentId") Long departmentId,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -442,7 +456,7 @@ public class Mutation {
 			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			personResource -> personResource.putPersonBatch(
-				callbackURL, object));
+				roleId, departmentId, callbackURL, object));
 	}
 
 	@GraphQLField(description = "Create a new role.")
