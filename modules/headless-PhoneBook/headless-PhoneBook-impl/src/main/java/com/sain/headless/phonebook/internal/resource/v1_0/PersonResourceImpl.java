@@ -12,7 +12,9 @@ import com.liferay.portal.vulcan.pagination.Pagination;
 import com.sain.headless.phonebook.dto.v1_0.Person;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 
+import com.sain.phonebook.service.DepartmentService;
 import com.sain.phonebook.service.PersonService;
+import com.sain.phonebook.service.RoleService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
@@ -37,6 +39,11 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
     private UserLocalService _userLocalService;
     @Reference
     private PersonService _personService;
+    @Reference
+    private DepartmentService _departmentService;
+    @Reference
+    private RoleService _roleService;
+
     private static final Logger _log =
             LoggerFactory.getLogger(PersonResourceImpl.class);
 
@@ -64,8 +71,11 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
             roomNumber = person.getRoomNumber();
             email = person.getEmail();
             website = person.getWebsite();
-            department = getDepartment();
-            role = getRole();
+            if (person.getDepartmentId() != 0)
+                department = DepartmentResourceImpl._toDepartment(
+                        _departmentService.getDepartment(person.getDepartmentId()));
+            if (person.getRoleId() != 0)
+                role = RoleResourceImpl._toRole(_roleService.getRole(person.getRoleId()));
         }};
 		/*return new Person() {{
 			creator = CreatorUtil.toCreator(_portal,
@@ -155,10 +165,10 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                     return new Person();
                 }).collect(Collectors.toList());*/
 
-        if (departmentId != 0) {
+        if (departmentId != null && departmentId != 0) {
             // get people of specific department
         }
-        if (roleId != 0) {
+        if (roleId != null && roleId != 0) {
             // get people of specific role
         }
 
@@ -231,8 +241,8 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
     }
 
     @Override
-    public Person patchPerson(@NotNull String personId, Long roleId,
-                              Long departmentId, Person person)
+    public Person patchPersonApi(@NotNull String personId, Long roleId,
+                                 Long departmentId, Person person)
             throws Exception {
         try {
             com.sain.phonebook.model.Person persistedPerson =
@@ -245,8 +255,8 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                             person.getRoomNumber(),
                             person.getEmail(),
                             person.getWebsite(),
-                            departmentId,
-                            roleId,
+                            (departmentId != null ? departmentId : 0),
+                            (roleId != null ? roleId : 0),
                             _getServiceContext());
             return _toPerson(persistedPerson);
         } catch (Exception e) {
@@ -256,8 +266,8 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
     }
 
     @Override
-    public Person putPerson(@NotNull String personId, Long roleId,
-                            Long departmentId, Person person) throws Exception {
+    public Person putPersonApi(@NotNull String personId, Long roleId,
+                               Long departmentId, Person person) throws Exception {
         try {
             com.sain.phonebook.model.Person persistedPerson =
                     _personService.updatePerson(Long.parseLong(personId),
@@ -269,8 +279,8 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                             person.getRoomNumber(),
                             person.getEmail(),
                             person.getWebsite(),
-                            departmentId,
-                            roleId,
+                            (departmentId != null ? departmentId : 0),
+                            (roleId != null ? roleId : 0),
                             _getServiceContext());
             return _toPerson(persistedPerson);
         } catch (Exception e) {

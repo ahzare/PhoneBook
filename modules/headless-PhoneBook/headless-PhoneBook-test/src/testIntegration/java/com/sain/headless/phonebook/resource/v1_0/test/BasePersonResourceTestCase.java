@@ -598,49 +598,29 @@ public abstract class BasePersonResourceTestCase {
 	}
 
 	@Test
-	public void testPatchPerson() throws Exception {
-		Person postPerson = testPatchPerson_addPerson();
-
-		Person randomPatchPerson = randomPatchPerson();
-
-		@SuppressWarnings("PMD.UnusedLocalVariable")
-		Person patchPerson = personResource.patchPerson(
-			postPerson.getId(), randomPatchPerson);
-
-		Person expectedPatchPerson = postPerson.clone();
-
-		_beanUtilsBean.copyProperties(expectedPatchPerson, randomPatchPerson);
-
-		Person getPerson = personResource.getPerson(patchPerson.getId());
-
-		assertEquals(expectedPatchPerson, getPerson);
-		assertValid(getPerson);
-	}
-
-	protected Person testPatchPerson_addPerson() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+	public void testPatchPersonApi() throws Exception {
+		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testPutPerson() throws Exception {
-		Person postPerson = testPutPerson_addPerson();
+	public void testPutPersonApi() throws Exception {
+		Person postPerson = testPutPersonApi_addPerson();
 
 		Person randomPerson = randomPerson();
 
-		Person putPerson = personResource.putPerson(
+		Person putPerson = personResource.putPersonApi(
 			postPerson.getId(), null, null, randomPerson);
 
 		assertEquals(randomPerson, putPerson);
 		assertValid(putPerson);
 
-		Person getPerson = personResource.getPerson(putPerson.getId());
+		Person getPerson = personResource.getPersonApi(putPerson.getId());
 
 		assertEquals(randomPerson, getPerson);
 		assertValid(getPerson);
 	}
 
-	protected Person testPutPerson_addPerson() throws Exception {
+	protected Person testPutPersonApi_addPerson() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}

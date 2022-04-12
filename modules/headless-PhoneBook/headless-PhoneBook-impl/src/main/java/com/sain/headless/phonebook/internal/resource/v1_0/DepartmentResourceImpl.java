@@ -55,7 +55,7 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
         return serviceContext;
     }
 
-    protected Department _toDepartment(com.sain.phonebook.model.Department department) throws PortalException {
+    protected static Department _toDepartment(com.sain.phonebook.model.Department department) throws PortalException {
 
         return new Department() {{
             id = String.valueOf(department.getDepartmentId());

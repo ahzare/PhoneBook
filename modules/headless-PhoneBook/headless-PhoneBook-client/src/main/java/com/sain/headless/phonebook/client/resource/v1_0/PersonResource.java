@@ -68,28 +68,20 @@ public interface PersonResource {
 	public HttpInvoker.HttpResponse getPersonHttpResponse(String personId)
 		throws Exception;
 
-	public Person patchPerson(
+	public Person patchPersonApi(
 			String personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse patchPersonHttpResponse(
+	public HttpInvoker.HttpResponse patchPersonApiHttpResponse(
 			String personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
-	public Person putPerson(
+	public Person putPersonApi(
 			String personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse putPersonHttpResponse(
+	public HttpInvoker.HttpResponse putPersonApiHttpResponse(
 			String personId, Long roleId, Long departmentId, Person person)
-		throws Exception;
-
-	public void putPersonBatch(
-			Long roleId, Long departmentId, String callbackURL, Object object)
-		throws Exception;
-
-	public HttpInvoker.HttpResponse putPersonBatchHttpResponse(
-			Long roleId, Long departmentId, String callbackURL, Object object)
 		throws Exception;
 
 	public static class Builder {
@@ -681,11 +673,11 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public Person patchPerson(
+		public Person patchPersonApi(
 				String personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
-			HttpInvoker.HttpResponse httpResponse = patchPersonHttpResponse(
+			HttpInvoker.HttpResponse httpResponse = patchPersonApiHttpResponse(
 				personId, roleId, departmentId, person);
 
 			String content = httpResponse.getContent();
@@ -725,7 +717,7 @@ public interface PersonResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse patchPersonHttpResponse(
+		public HttpInvoker.HttpResponse patchPersonApiHttpResponse(
 				String personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
@@ -774,11 +766,11 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public Person putPerson(
+		public Person putPersonApi(
 				String personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
-			HttpInvoker.HttpResponse httpResponse = putPersonHttpResponse(
+			HttpInvoker.HttpResponse httpResponse = putPersonApiHttpResponse(
 				personId, roleId, departmentId, person);
 
 			String content = httpResponse.getContent();
@@ -818,7 +810,7 @@ public interface PersonResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse putPersonHttpResponse(
+		public HttpInvoker.HttpResponse putPersonApiHttpResponse(
 				String personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
@@ -860,93 +852,6 @@ public interface PersonResource {
 						"/o/headless-PhoneBook/v1.0/persons/{personId}");
 
 			httpInvoker.path("personId", personId);
-
-			httpInvoker.userNameAndPassword(
-				_builder._login + ":" + _builder._password);
-
-			return httpInvoker.invoke();
-		}
-
-		public void putPersonBatch(
-				Long roleId, Long departmentId, String callbackURL,
-				Object object)
-			throws Exception {
-
-			HttpInvoker.HttpResponse httpResponse = putPersonBatchHttpResponse(
-				roleId, departmentId, callbackURL, object);
-
-			String content = httpResponse.getContent();
-
-			if ((httpResponse.getStatusCode() / 100) != 2) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response content: " + content);
-				_logger.log(
-					Level.WARNING,
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.log(
-					Level.WARNING,
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-
-				throw new Problem.ProblemException(Problem.toDTO(content));
-			}
-			else {
-				_logger.fine("HTTP response content: " + content);
-				_logger.fine(
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.fine(
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-			}
-		}
-
-		public HttpInvoker.HttpResponse putPersonBatchHttpResponse(
-				Long roleId, Long departmentId, String callbackURL,
-				Object object)
-			throws Exception {
-
-			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			httpInvoker.body(object.toString(), "application/json");
-
-			if (_builder._locale != null) {
-				httpInvoker.header(
-					"Accept-Language", _builder._locale.toLanguageTag());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._headers.entrySet()) {
-
-				httpInvoker.header(entry.getKey(), entry.getValue());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._parameters.entrySet()) {
-
-				httpInvoker.parameter(entry.getKey(), entry.getValue());
-			}
-
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
-
-			if (roleId != null) {
-				httpInvoker.parameter("roleId", String.valueOf(roleId));
-			}
-
-			if (departmentId != null) {
-				httpInvoker.parameter(
-					"departmentId", String.valueOf(departmentId));
-			}
-
-			if (callbackURL != null) {
-				httpInvoker.parameter(
-					"callbackURL", String.valueOf(callbackURL));
-			}
-
-			httpInvoker.path(
-				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
-						"/o/headless-PhoneBook/v1.0/persons/batch");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

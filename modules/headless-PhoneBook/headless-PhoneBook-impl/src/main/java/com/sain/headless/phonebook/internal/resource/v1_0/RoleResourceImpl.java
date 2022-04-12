@@ -54,7 +54,7 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
         return serviceContext;
     }
 
-    protected Role _toRole(com.sain.phonebook.model.Role role) throws PortalException {
+    protected static Role _toRole(com.sain.phonebook.model.Role role) throws PortalException {
 
         return new Role() {{
             id = String.valueOf(role.getRoleId());

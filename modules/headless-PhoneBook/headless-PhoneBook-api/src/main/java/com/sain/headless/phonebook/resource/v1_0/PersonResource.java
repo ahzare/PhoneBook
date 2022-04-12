@@ -64,16 +64,12 @@ public interface PersonResource {
 
 	public Person getPerson(String personId) throws Exception;
 
-	public Person patchPerson(
+	public Person patchPersonApi(
 			String personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
-	public Person putPerson(
+	public Person putPersonApi(
 			String personId, Long roleId, Long departmentId, Person person)
-		throws Exception;
-
-	public Response putPersonBatch(
-			Long roleId, Long departmentId, String callbackURL, Object object)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

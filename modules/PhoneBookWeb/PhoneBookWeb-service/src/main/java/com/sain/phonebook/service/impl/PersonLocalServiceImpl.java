@@ -50,24 +50,24 @@ import static com.liferay.portal.kernel.util.DateUtil.newDate;
 )
 public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
-    public Person getPerson(final long personId){
+    public Person getPerson(final long personId) {
         return personPersistence.fetchByPersonId(personId);
     }
 
     @Indexable(type = IndexableType.REINDEX)
     @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
     public Person addPerson(
-                            final String firstName,
-                            final String lastName,
-                            final String localPhoneNumber,
-                            final String phoneNumber,
-                            final String faxNumber,
-                            final String roomNumber,
-                            final String email,
-                            final String website,
-                            final long departmentId,
-                            final long roleId,
-                            final ServiceContext serviceContext)
+            final String firstName,
+            final String lastName,
+            final String localPhoneNumber,
+            final String phoneNumber,
+            final String faxNumber,
+            final String roomNumber,
+            final String email,
+            final String website,
+            final long departmentId,
+            final long roleId,
+            final ServiceContext serviceContext)
             throws PortalException {
         Person person = createPerson(counterLocalService.increment(Person.class.getName()));
         person.setPersonId(person.getPersonId());
@@ -96,7 +96,7 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
         }
         person = addPerson(person);
 
-        resourceLocalService.addResources(
+        /*resourceLocalService.addResources(
                 serviceContext.getCompanyId(),
                 serviceContext.getScopeGroupId(),
                 serviceContext.getUserId(),
@@ -104,7 +104,7 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
                 person.getPersonId(),
                 false,
                 serviceContext.isAddGroupPermissions(),
-                serviceContext.isAddGuestPermissions());
+                serviceContext.isAddGuestPermissions());*/
         return person;
     }
 
@@ -161,17 +161,17 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
     @Indexable(type = IndexableType.REINDEX)
     @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
     public Person patchPerson(final long personId,
-                                        final String firstName,
-                                        final String lastName,
-                                        final String localPhoneNumber,
-                                        final String phoneNumber,
-                                        final String faxNumber,
-                                        final String roomNumber,
-                                        final String email,
-                                        final String website,
-                                        final long departmentId,
-                                        final long roleId,
-                                        final ServiceContext serviceContext)
+                              final String firstName,
+                              final String lastName,
+                              final String localPhoneNumber,
+                              final String phoneNumber,
+                              final String faxNumber,
+                              final String roomNumber,
+                              final String email,
+                              final String website,
+                              final long departmentId,
+                              final long roleId,
+                              final ServiceContext serviceContext)
             throws PortalException {
 // find our instance using the old id
         Person person = fetchPerson(personId);
@@ -192,7 +192,7 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
             changed = true;
         }
         if (localPhoneNumber != null) {
-            person.setLastName(localPhoneNumber);
+            person.setLocalPhoneNumber(localPhoneNumber);
             changed = true;
         }
         if (phoneNumber != null) {
@@ -215,12 +215,14 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
             person.setWebsite(website);
             changed = true;
         }
-
-        if (departmentId != person.getDepartmentId()) {
+        System.out.println("dep id = " + departmentId);
+        if (departmentId != 0 && departmentId != person.getDepartmentId()) {
             person.setDepartmentId(departmentId);
             changed = true;
         }
-        if (roleId != person.getRoleId()) {
+        System.out.println("role id = " + departmentId);
+
+        if (roleId != 0 && roleId != person.getRoleId()) {
             person.setRoleId(roleId);
             changed = true;
         }
@@ -240,21 +242,22 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
         return person;
     }
 
-    @Indexable(type =IndexableType.DELETE)
+    @Indexable(type = IndexableType.DELETE)
     @Override
     public Person deletePerson(long personId)
-            throws PortalException{
-        Person person =fetchPerson(personId);
-        if(person !=null){
+            throws PortalException {
+        Person person = fetchPerson(personId);
+        if (person != null) {
             return deletePerson(person);
         }
         return null;
     }
+
     @Indexable(type = IndexableType.DELETE)
     @SystemEvent(type = SystemEventConstants.TYPE_DELETE)
     @Override
-    public Person deletePerson(Person person){
-        try{
+    public Person deletePerson(Person person) {
+       /* try{
             resourceLocalService.deleteResource(
                     person.getCompanyId(),
                     Person.class.getName(),
@@ -263,7 +266,7 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
         }catch(PortalException e){
             _log.warn("Error deleting persisted person permissions: "+
                     e.getMessage(), e);
-        }
+        }*/
 
 //        todo: delete person roles and departments
 
