@@ -197,7 +197,7 @@ public abstract class BaseDepartmentResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("departmentId")
-			String departmentId)
+			Long departmentId)
 		throws Exception {
 	}
 
@@ -272,7 +272,7 @@ public abstract class BaseDepartmentResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("departmentId")
-			String departmentId)
+			Long departmentId)
 		throws Exception {
 
 		return new Department();
@@ -306,7 +306,7 @@ public abstract class BaseDepartmentResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("departmentId")
-			String departmentId,
+			Long departmentId,
 			Department department)
 		throws Exception {
 
@@ -349,7 +349,7 @@ public abstract class BaseDepartmentResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("departmentId")
-			String departmentId,
+			Long departmentId,
 			Department department)
 		throws Exception {
 
@@ -481,7 +481,7 @@ public abstract class BaseDepartmentResourceImpl
 		for (Department department : departments) {
 			putDepartment(
 				department.getId() != null ? department.getId() :
-					(String)parameters.get("departmentId"),
+					Long.parseLong((String)parameters.get("departmentId")),
 				department);
 		}
 	}

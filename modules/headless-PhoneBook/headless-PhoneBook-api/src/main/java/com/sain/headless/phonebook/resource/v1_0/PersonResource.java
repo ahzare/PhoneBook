@@ -57,19 +57,19 @@ public interface PersonResource {
 			Long roleId, Long departmentId, String callbackURL, Object object)
 		throws Exception;
 
-	public void deletePerson(String personId) throws Exception;
+	public void deletePerson(Long personId) throws Exception;
 
 	public Response deletePersonBatch(String callbackURL, Object object)
 		throws Exception;
 
-	public Person getPerson(String personId) throws Exception;
+	public Person getPerson(Long personId) throws Exception;
 
 	public Person patchPersonApi(
-			String personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
 	public Person putPersonApi(
-			String personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

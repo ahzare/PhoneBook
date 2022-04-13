@@ -48,9 +48,9 @@ public interface AddressResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public void deleteAddress(String addressId) throws Exception;
+	public void deleteAddress(Long addressId) throws Exception;
 
-	public HttpInvoker.HttpResponse deleteAddressHttpResponse(String addressId)
+	public HttpInvoker.HttpResponse deleteAddressHttpResponse(Long addressId)
 		throws Exception;
 
 	public void deleteAddressBatch(String callbackURL, Object object)
@@ -60,23 +60,22 @@ public interface AddressResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public Address getAddress(String addressId) throws Exception;
+	public Address getAddress(Long addressId) throws Exception;
 
-	public HttpInvoker.HttpResponse getAddressHttpResponse(String addressId)
+	public HttpInvoker.HttpResponse getAddressHttpResponse(Long addressId)
 		throws Exception;
 
-	public Address patchAddress(String addressId, Address address)
+	public Address patchAddress(Long addressId, Address address)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse patchAddressHttpResponse(
-			String addressId, Address address)
+			Long addressId, Address address)
 		throws Exception;
 
-	public Address putAddress(String addressId, Address address)
-		throws Exception;
+	public Address putAddress(Long addressId, Address address) throws Exception;
 
 	public HttpInvoker.HttpResponse putAddressHttpResponse(
-			String addressId, Address address)
+			Long addressId, Address address)
 		throws Exception;
 
 	public void putAddressBatch(String callbackURL, Object object)
@@ -410,7 +409,7 @@ public interface AddressResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteAddress(String addressId) throws Exception {
+		public void deleteAddress(Long addressId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = deleteAddressHttpResponse(
 				addressId);
 
@@ -452,7 +451,7 @@ public interface AddressResource {
 		}
 
 		public HttpInvoker.HttpResponse deleteAddressHttpResponse(
-				String addressId)
+				Long addressId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -564,7 +563,7 @@ public interface AddressResource {
 			return httpInvoker.invoke();
 		}
 
-		public Address getAddress(String addressId) throws Exception {
+		public Address getAddress(Long addressId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = getAddressHttpResponse(
 				addressId);
 
@@ -605,7 +604,7 @@ public interface AddressResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getAddressHttpResponse(String addressId)
+		public HttpInvoker.HttpResponse getAddressHttpResponse(Long addressId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -642,7 +641,7 @@ public interface AddressResource {
 			return httpInvoker.invoke();
 		}
 
-		public Address patchAddress(String addressId, Address address)
+		public Address patchAddress(Long addressId, Address address)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = patchAddressHttpResponse(
@@ -686,7 +685,7 @@ public interface AddressResource {
 		}
 
 		public HttpInvoker.HttpResponse patchAddressHttpResponse(
-				String addressId, Address address)
+				Long addressId, Address address)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -725,7 +724,7 @@ public interface AddressResource {
 			return httpInvoker.invoke();
 		}
 
-		public Address putAddress(String addressId, Address address)
+		public Address putAddress(Long addressId, Address address)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = putAddressHttpResponse(
@@ -769,7 +768,7 @@ public interface AddressResource {
 		}
 
 		public HttpInvoker.HttpResponse putAddressHttpResponse(
-				String addressId, Address address)
+				Long addressId, Address address)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();

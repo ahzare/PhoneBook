@@ -54,18 +54,17 @@ public interface DepartmentResource {
 	public Response postDepartmentBatch(String callbackURL, Object object)
 		throws Exception;
 
-	public void deleteDepartment(String departmentId) throws Exception;
+	public void deleteDepartment(Long departmentId) throws Exception;
 
 	public Response deleteDepartmentBatch(String callbackURL, Object object)
 		throws Exception;
 
-	public Department getDepartment(String departmentId) throws Exception;
+	public Department getDepartment(Long departmentId) throws Exception;
 
-	public Department patchDepartment(
-			String departmentId, Department department)
+	public Department patchDepartment(Long departmentId, Department department)
 		throws Exception;
 
-	public Department putDepartment(String departmentId, Department department)
+	public Department putDepartment(Long departmentId, Department department)
 		throws Exception;
 
 	public Response putDepartmentBatch(String callbackURL, Object object)

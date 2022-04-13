@@ -173,7 +173,6 @@ public abstract class BaseAddressResourceTestCase {
 
 		Address address = randomAddress();
 
-		address.setId(regex);
 		address.setName(regex);
 
 		String json = AddressSerDes.toJSON(address);
@@ -182,7 +181,6 @@ public abstract class BaseAddressResourceTestCase {
 
 		address = AddressSerDes.toDTO(json);
 
-		Assert.assertEquals(regex, address.getId());
 		Assert.assertEquals(regex, address.getName());
 	}
 
@@ -489,7 +487,7 @@ public abstract class BaseAddressResourceTestCase {
 			404, addressResource.getAddressHttpResponse(address.getId()));
 
 		assertHttpResponseStatusCode(
-			404, addressResource.getAddressHttpResponse("-"));
+			404, addressResource.getAddressHttpResponse(0L));
 	}
 
 	protected Address testDeleteAddress_addAddress() throws Exception {
@@ -508,7 +506,7 @@ public abstract class BaseAddressResourceTestCase {
 						"deleteAddress",
 						new HashMap<String, Object>() {
 							{
-								put("addressId", "\"" + address.getId() + "\"");
+								put("addressId", address.getId());
 							}
 						})),
 				"JSONObject/data", "Object/deleteAddress"));
@@ -519,7 +517,7 @@ public abstract class BaseAddressResourceTestCase {
 					"address",
 					new HashMap<String, Object>() {
 						{
-							put("addressId", "\"" + address.getId() + "\"");
+							put("addressId", address.getId());
 						}
 					},
 					new GraphQLField("id"))),
@@ -557,9 +555,7 @@ public abstract class BaseAddressResourceTestCase {
 								"address",
 								new HashMap<String, Object>() {
 									{
-										put(
-											"addressId",
-											"\"" + address.getId() + "\"");
+										put("addressId", address.getId());
 									}
 								},
 								getGraphQLFields())),
@@ -568,8 +564,7 @@ public abstract class BaseAddressResourceTestCase {
 
 	@Test
 	public void testGraphQLGetAddressNotFound() throws Exception {
-		String irrelevantAddressId =
-			"\"" + RandomTestUtil.randomString() + "\"";
+		Long irrelevantAddressId = RandomTestUtil.randomLong();
 
 		Assert.assertEquals(
 			"Not Found",
@@ -929,11 +924,8 @@ public abstract class BaseAddressResourceTestCase {
 		sb.append(" ");
 
 		if (entityFieldName.equals("id")) {
-			sb.append("'");
-			sb.append(String.valueOf(address.getId()));
-			sb.append("'");
-
-			return sb.toString();
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
 		}
 
 		if (entityFieldName.equals("name")) {
@@ -988,7 +980,7 @@ public abstract class BaseAddressResourceTestCase {
 	protected Address randomAddress() throws Exception {
 		return new Address() {
 			{
-				id = StringUtil.toLowerCase(RandomTestUtil.randomString());
+				id = RandomTestUtil.randomLong();
 				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
 			}
 		};

@@ -176,7 +176,6 @@ public abstract class BasePersonResourceTestCase {
 		person.setEmail(regex);
 		person.setFaxNumber(regex);
 		person.setFirstName(regex);
-		person.setId(regex);
 		person.setLastName(regex);
 		person.setLocalPhoneNumber(regex);
 		person.setPhoneNumber(regex);
@@ -192,7 +191,6 @@ public abstract class BasePersonResourceTestCase {
 		Assert.assertEquals(regex, person.getEmail());
 		Assert.assertEquals(regex, person.getFaxNumber());
 		Assert.assertEquals(regex, person.getFirstName());
-		Assert.assertEquals(regex, person.getId());
 		Assert.assertEquals(regex, person.getLastName());
 		Assert.assertEquals(regex, person.getLocalPhoneNumber());
 		Assert.assertEquals(regex, person.getPhoneNumber());
@@ -500,7 +498,7 @@ public abstract class BasePersonResourceTestCase {
 			404, personResource.getPersonHttpResponse(person.getId()));
 
 		assertHttpResponseStatusCode(
-			404, personResource.getPersonHttpResponse("-"));
+			404, personResource.getPersonHttpResponse(0L));
 	}
 
 	protected Person testDeletePerson_addPerson() throws Exception {
@@ -519,7 +517,7 @@ public abstract class BasePersonResourceTestCase {
 						"deletePerson",
 						new HashMap<String, Object>() {
 							{
-								put("personId", "\"" + person.getId() + "\"");
+								put("personId", person.getId());
 							}
 						})),
 				"JSONObject/data", "Object/deletePerson"));
@@ -530,7 +528,7 @@ public abstract class BasePersonResourceTestCase {
 					"person",
 					new HashMap<String, Object>() {
 						{
-							put("personId", "\"" + person.getId() + "\"");
+							put("personId", person.getId());
 						}
 					},
 					new GraphQLField("id"))),
@@ -568,9 +566,7 @@ public abstract class BasePersonResourceTestCase {
 								"person",
 								new HashMap<String, Object>() {
 									{
-										put(
-											"personId",
-											"\"" + person.getId() + "\"");
+										put("personId", person.getId());
 									}
 								},
 								getGraphQLFields())),
@@ -579,7 +575,7 @@ public abstract class BasePersonResourceTestCase {
 
 	@Test
 	public void testGraphQLGetPersonNotFound() throws Exception {
-		String irrelevantPersonId = "\"" + RandomTestUtil.randomString() + "\"";
+		Long irrelevantPersonId = RandomTestUtil.randomLong();
 
 		Assert.assertEquals(
 			"Not Found",
@@ -1106,11 +1102,8 @@ public abstract class BasePersonResourceTestCase {
 		}
 
 		if (entityFieldName.equals("id")) {
-			sb.append("'");
-			sb.append(String.valueOf(person.getId()));
-			sb.append("'");
-
-			return sb.toString();
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
 		}
 
 		if (entityFieldName.equals("lastName")) {
@@ -1209,7 +1202,7 @@ public abstract class BasePersonResourceTestCase {
 					RandomTestUtil.randomString());
 				firstName = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
-				id = StringUtil.toLowerCase(RandomTestUtil.randomString());
+				id = RandomTestUtil.randomLong();
 				lastName = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
 				localPhoneNumber = StringUtil.toLowerCase(

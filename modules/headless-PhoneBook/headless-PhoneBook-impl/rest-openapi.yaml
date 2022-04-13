@@ -5,7 +5,8 @@ components:
       properties:
         id:
           description: The person internal ID.
-          type: string
+          format: int64
+          type: integer
         firstName:
           description: The person first name.
           type: string
@@ -40,7 +41,8 @@ components:
       properties:
         id:
           description: The role internal ID.
-          type: string
+          format: int64
+          type: integer
         name:
           description: The role name.
           type: string
@@ -53,7 +55,8 @@ components:
       properties:
         id:
           description: The department internal ID.
-          type: string
+          format: int64
+          type: integer
         name:
           description: The department name.
           type: string
@@ -64,7 +67,8 @@ components:
       properties:
         id:
           description: The part internal ID.
-          type: string
+          format: int64
+          type: integer
         name:
           description: The part name.
           type: string
@@ -79,7 +83,8 @@ components:
       properties:
         id:
           description: The address internal ID.
-          type: string
+          format: int64
+          type: integer
         name:
           description: The address name.
           type: string
@@ -188,7 +193,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       responses:
         200:
           description: ""
@@ -208,7 +214,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
         - in: query
           name: roleId
           schema:
@@ -246,7 +253,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
         - in: query
           name: roleId
           schema:
@@ -284,7 +292,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       responses:
         204:
           description: ""
@@ -363,7 +372,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       responses:
         200:
           description: ""
@@ -383,7 +393,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -411,7 +422,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -439,7 +451,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       responses:
         204:
           description: ""
@@ -518,7 +531,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       responses:
         200:
           description: ""
@@ -538,7 +552,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -566,7 +581,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -594,7 +610,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       responses:
         204:
           description: ""
@@ -674,7 +691,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       responses:
         200:
           description: ""
@@ -694,7 +712,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -722,7 +741,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -750,7 +770,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       responses:
         204:
           description: ""
@@ -829,7 +850,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       responses:
         200:
           description: ""
@@ -849,7 +871,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -877,7 +900,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -905,7 +929,8 @@ paths:
           in: path
           required: true
           schema:
-            type: string
+            format: int64
+            type: integer
       responses:
         204:
           description: ""

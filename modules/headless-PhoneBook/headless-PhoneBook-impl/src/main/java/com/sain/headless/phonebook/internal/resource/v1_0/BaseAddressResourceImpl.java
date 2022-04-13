@@ -197,7 +197,7 @@ public abstract class BaseAddressResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("addressId")
-			String addressId)
+			Long addressId)
 		throws Exception {
 	}
 
@@ -272,7 +272,7 @@ public abstract class BaseAddressResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("addressId")
-			String addressId)
+			Long addressId)
 		throws Exception {
 
 		return new Address();
@@ -306,7 +306,7 @@ public abstract class BaseAddressResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("addressId")
-			String addressId,
+			Long addressId,
 			Address address)
 		throws Exception {
 
@@ -349,7 +349,7 @@ public abstract class BaseAddressResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("addressId")
-			String addressId,
+			Long addressId,
 			Address address)
 		throws Exception {
 
@@ -481,7 +481,7 @@ public abstract class BaseAddressResourceImpl
 		for (Address address : addresses) {
 			putAddress(
 				address.getId() != null ? address.getId() :
-					(String)parameters.get("addressId"),
+					Long.parseLong((String)parameters.get("addressId")),
 				address);
 		}
 	}

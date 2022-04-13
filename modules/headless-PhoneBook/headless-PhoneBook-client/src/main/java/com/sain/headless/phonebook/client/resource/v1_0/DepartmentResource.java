@@ -49,10 +49,10 @@ public interface DepartmentResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public void deleteDepartment(String departmentId) throws Exception;
+	public void deleteDepartment(Long departmentId) throws Exception;
 
 	public HttpInvoker.HttpResponse deleteDepartmentHttpResponse(
-			String departmentId)
+			Long departmentId)
 		throws Exception;
 
 	public void deleteDepartmentBatch(String callbackURL, Object object)
@@ -62,25 +62,23 @@ public interface DepartmentResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public Department getDepartment(String departmentId) throws Exception;
+	public Department getDepartment(Long departmentId) throws Exception;
 
-	public HttpInvoker.HttpResponse getDepartmentHttpResponse(
-			String departmentId)
+	public HttpInvoker.HttpResponse getDepartmentHttpResponse(Long departmentId)
 		throws Exception;
 
-	public Department patchDepartment(
-			String departmentId, Department department)
+	public Department patchDepartment(Long departmentId, Department department)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse patchDepartmentHttpResponse(
-			String departmentId, Department department)
+			Long departmentId, Department department)
 		throws Exception;
 
-	public Department putDepartment(String departmentId, Department department)
+	public Department putDepartment(Long departmentId, Department department)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse putDepartmentHttpResponse(
-			String departmentId, Department department)
+			Long departmentId, Department department)
 		throws Exception;
 
 	public void putDepartmentBatch(String callbackURL, Object object)
@@ -417,7 +415,7 @@ public interface DepartmentResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteDepartment(String departmentId) throws Exception {
+		public void deleteDepartment(Long departmentId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse =
 				deleteDepartmentHttpResponse(departmentId);
 
@@ -459,7 +457,7 @@ public interface DepartmentResource {
 		}
 
 		public HttpInvoker.HttpResponse deleteDepartmentHttpResponse(
-				String departmentId)
+				Long departmentId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -571,7 +569,7 @@ public interface DepartmentResource {
 			return httpInvoker.invoke();
 		}
 
-		public Department getDepartment(String departmentId) throws Exception {
+		public Department getDepartment(Long departmentId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = getDepartmentHttpResponse(
 				departmentId);
 
@@ -613,7 +611,7 @@ public interface DepartmentResource {
 		}
 
 		public HttpInvoker.HttpResponse getDepartmentHttpResponse(
-				String departmentId)
+				Long departmentId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -651,7 +649,7 @@ public interface DepartmentResource {
 		}
 
 		public Department patchDepartment(
-				String departmentId, Department department)
+				Long departmentId, Department department)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = patchDepartmentHttpResponse(
@@ -695,7 +693,7 @@ public interface DepartmentResource {
 		}
 
 		public HttpInvoker.HttpResponse patchDepartmentHttpResponse(
-				String departmentId, Department department)
+				Long departmentId, Department department)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -735,7 +733,7 @@ public interface DepartmentResource {
 		}
 
 		public Department putDepartment(
-				String departmentId, Department department)
+				Long departmentId, Department department)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = putDepartmentHttpResponse(
@@ -779,7 +777,7 @@ public interface DepartmentResource {
 		}
 
 		public HttpInvoker.HttpResponse putDepartmentHttpResponse(
-				String departmentId, Department department)
+				Long departmentId, Department department)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();

@@ -58,7 +58,7 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
     protected static Department _toDepartment(com.sain.phonebook.model.Department department) throws PortalException {
 
         return new Department() {{
-            id = String.valueOf(department.getDepartmentId());
+            id = department.getDepartmentId();
             name = department.getName();
         }};
 		/*return new Department() {{
@@ -167,10 +167,10 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
     }
 
     @Override
-    public void deleteDepartment(@NotNull String departmentId) throws Exception {
+    public void deleteDepartment(@NotNull Long departmentId) throws Exception {
         try {
 // super easy case, just pass through to the service layer.
-            _departmentService.deleteDepartment(Long.parseLong(departmentId));
+            _departmentService.deleteDepartment(departmentId);
         } catch (Exception e) {
             _log.error("Error deleting department: " + e.getMessage(), e);
             throw e;
@@ -178,10 +178,10 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
     }
 
     @Override
-    public Department getDepartment(@NotNull String departmentId) throws Exception {
+    public Department getDepartment(@NotNull Long departmentId) throws Exception {
         try {
 // fetch the entity class...
-            com.sain.phonebook.model.Department persistedDepartment = _departmentService.getDepartment(Long.parseLong(departmentId));
+            com.sain.phonebook.model.Department persistedDepartment = _departmentService.getDepartment(departmentId);
             return _toDepartment(persistedDepartment);
         } catch (Exception e) {
             _log.error("Error getting department [" + departmentId + "]: " + e.getMessage(), e);
@@ -207,11 +207,11 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
     }
 
     @Override
-    public Department patchDepartment(@NotNull String departmentId, Department department)
+    public Department patchDepartment(@NotNull Long departmentId, Department department)
             throws Exception {
         try {
             com.sain.phonebook.model.Department persistedDepartment =
-                    _departmentService.patchDepartment(Long.parseLong(departmentId), department.getName(), _getServiceContext());
+                    _departmentService.patchDepartment(departmentId, department.getName(), _getServiceContext());
             return _toDepartment(persistedDepartment);
         } catch (Exception e) {
             _log.error("Error patching department: " + e.getMessage(), e);
@@ -220,10 +220,10 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
     }
 
     @Override
-    public Department putDepartment(@NotNull String departmentId, Department department) throws Exception {
+    public Department putDepartment(@NotNull Long departmentId, Department department) throws Exception {
         try {
             com.sain.phonebook.model.Department persistedDepartment =
-                    _departmentService.updateDepartment(Long.parseLong(departmentId), department.getName(), _getServiceContext());
+                    _departmentService.updateDepartment(departmentId, department.getName(), _getServiceContext());
             return _toDepartment(persistedDepartment);
         } catch (Exception e) {
             _log.error("Error putting department: " + e.getMessage(), e);

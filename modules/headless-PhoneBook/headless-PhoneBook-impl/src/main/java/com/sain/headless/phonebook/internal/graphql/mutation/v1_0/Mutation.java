@@ -105,7 +105,7 @@ public class Mutation {
 	@GraphQLField(
 		description = "Deletes the address and returns a 204 if the operation succeeds."
 	)
-	public boolean deleteAddress(@GraphQLName("addressId") String addressId)
+	public boolean deleteAddress(@GraphQLName("addressId") Long addressId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
@@ -133,7 +133,7 @@ public class Mutation {
 		description = "Replaces the address with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
 	public Address patchAddress(
-			@GraphQLName("addressId") String addressId,
+			@GraphQLName("addressId") Long addressId,
 			@GraphQLName("address") Address address)
 		throws Exception {
 
@@ -148,7 +148,7 @@ public class Mutation {
 		description = "Replaces the address with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
 	public Address updateAddress(
-			@GraphQLName("addressId") String addressId,
+			@GraphQLName("addressId") Long addressId,
 			@GraphQLName("address") Address address)
 		throws Exception {
 
@@ -200,7 +200,7 @@ public class Mutation {
 		description = "Deletes the department and returns a 204 if the operation succeeds."
 	)
 	public boolean deleteDepartment(
-			@GraphQLName("departmentId") String departmentId)
+			@GraphQLName("departmentId") Long departmentId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
@@ -229,7 +229,7 @@ public class Mutation {
 		description = "Replaces the department with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
 	public Department patchDepartment(
-			@GraphQLName("departmentId") String departmentId,
+			@GraphQLName("departmentId") Long departmentId,
 			@GraphQLName("department") Department department)
 		throws Exception {
 
@@ -244,7 +244,7 @@ public class Mutation {
 		description = "Replaces the department with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
 	public Department updateDepartment(
-			@GraphQLName("departmentId") String departmentId,
+			@GraphQLName("departmentId") Long departmentId,
 			@GraphQLName("department") Department department)
 		throws Exception {
 
@@ -291,7 +291,7 @@ public class Mutation {
 	@GraphQLField(
 		description = "Deletes the part and returns a 204 if the operation succeeds."
 	)
-	public boolean deletePart(@GraphQLName("partId") String partId)
+	public boolean deletePart(@GraphQLName("partId") Long partId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
@@ -318,8 +318,7 @@ public class Mutation {
 		description = "Replaces the part with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
 	public Part patchPart(
-			@GraphQLName("partId") String partId,
-			@GraphQLName("part") Part part)
+			@GraphQLName("partId") Long partId, @GraphQLName("part") Part part)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
@@ -332,8 +331,7 @@ public class Mutation {
 		description = "Replaces the part with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
 	public Part updatePart(
-			@GraphQLName("partId") String partId,
-			@GraphQLName("part") Part part)
+			@GraphQLName("partId") Long partId, @GraphQLName("part") Part part)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
@@ -386,7 +384,7 @@ public class Mutation {
 	@GraphQLField(
 		description = "Deletes the person and returns a 204 if the operation succeeds."
 	)
-	public boolean deletePerson(@GraphQLName("personId") String personId)
+	public boolean deletePerson(@GraphQLName("personId") Long personId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
@@ -414,7 +412,7 @@ public class Mutation {
 		description = "Replaces the person with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
 	public Person patchPersonApi(
-			@GraphQLName("personId") String personId,
+			@GraphQLName("personId") Long personId,
 			@GraphQLName("roleId") Long roleId,
 			@GraphQLName("departmentId") Long departmentId,
 			@GraphQLName("person") Person person)
@@ -431,7 +429,7 @@ public class Mutation {
 		description = "Replaces the person with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
 	public Person updatePersonApi(
-			@GraphQLName("personId") String personId,
+			@GraphQLName("personId") Long personId,
 			@GraphQLName("roleId") Long roleId,
 			@GraphQLName("departmentId") Long departmentId,
 			@GraphQLName("person") Person person)
@@ -467,7 +465,7 @@ public class Mutation {
 	@GraphQLField(
 		description = "Deletes the role and returns a 204 if the operation succeeds."
 	)
-	public boolean deleteRole(@GraphQLName("roleId") String roleId)
+	public boolean deleteRole(@GraphQLName("roleId") Long roleId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
@@ -494,8 +492,7 @@ public class Mutation {
 		description = "Replaces the role with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
 	public Role patchRole(
-			@GraphQLName("roleId") String roleId,
-			@GraphQLName("role") Role role)
+			@GraphQLName("roleId") Long roleId, @GraphQLName("role") Role role)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
@@ -508,8 +505,7 @@ public class Mutation {
 		description = "Replaces the role with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
 	public Role updateRole(
-			@GraphQLName("roleId") String roleId,
-			@GraphQLName("role") Role role)
+			@GraphQLName("roleId") Long roleId, @GraphQLName("role") Role role)
 		throws Exception {
 
 		return _applyComponentServiceObjects(

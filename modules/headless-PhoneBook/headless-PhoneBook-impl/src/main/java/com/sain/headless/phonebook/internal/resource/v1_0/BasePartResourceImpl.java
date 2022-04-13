@@ -195,7 +195,7 @@ public abstract class BasePartResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("partId")
-			String partId)
+			Long partId)
 		throws Exception {
 	}
 
@@ -270,7 +270,7 @@ public abstract class BasePartResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("partId")
-			String partId)
+			Long partId)
 		throws Exception {
 
 		return new Part();
@@ -304,7 +304,7 @@ public abstract class BasePartResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("partId")
-			String partId,
+			Long partId,
 			Part part)
 		throws Exception {
 
@@ -351,7 +351,7 @@ public abstract class BasePartResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("partId")
-			String partId,
+			Long partId,
 			Part part)
 		throws Exception {
 
@@ -483,7 +483,7 @@ public abstract class BasePartResourceImpl
 		for (Part part : parts) {
 			putPart(
 				part.getId() != null ? part.getId() :
-					(String)parameters.get("partId"),
+					Long.parseLong((String)parameters.get("partId")),
 				part);
 		}
 	}

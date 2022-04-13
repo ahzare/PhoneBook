@@ -173,7 +173,6 @@ public abstract class BaseDepartmentResourceTestCase {
 
 		Department department = randomDepartment();
 
-		department.setId(regex);
 		department.setName(regex);
 
 		String json = DepartmentSerDes.toJSON(department);
@@ -182,7 +181,6 @@ public abstract class BaseDepartmentResourceTestCase {
 
 		department = DepartmentSerDes.toDTO(json);
 
-		Assert.assertEquals(regex, department.getId());
 		Assert.assertEquals(regex, department.getName());
 	}
 
@@ -505,7 +503,7 @@ public abstract class BaseDepartmentResourceTestCase {
 			departmentResource.getDepartmentHttpResponse(department.getId()));
 
 		assertHttpResponseStatusCode(
-			404, departmentResource.getDepartmentHttpResponse("-"));
+			404, departmentResource.getDepartmentHttpResponse(0L));
 	}
 
 	protected Department testDeleteDepartment_addDepartment() throws Exception {
@@ -524,9 +522,7 @@ public abstract class BaseDepartmentResourceTestCase {
 						"deleteDepartment",
 						new HashMap<String, Object>() {
 							{
-								put(
-									"departmentId",
-									"\"" + department.getId() + "\"");
+								put("departmentId", department.getId());
 							}
 						})),
 				"JSONObject/data", "Object/deleteDepartment"));
@@ -537,9 +533,7 @@ public abstract class BaseDepartmentResourceTestCase {
 					"department",
 					new HashMap<String, Object>() {
 						{
-							put(
-								"departmentId",
-								"\"" + department.getId() + "\"");
+							put("departmentId", department.getId());
 						}
 					},
 					new GraphQLField("id"))),
@@ -578,9 +572,7 @@ public abstract class BaseDepartmentResourceTestCase {
 								"department",
 								new HashMap<String, Object>() {
 									{
-										put(
-											"departmentId",
-											"\"" + department.getId() + "\"");
+										put("departmentId", department.getId());
 									}
 								},
 								getGraphQLFields())),
@@ -589,8 +581,7 @@ public abstract class BaseDepartmentResourceTestCase {
 
 	@Test
 	public void testGraphQLGetDepartmentNotFound() throws Exception {
-		String irrelevantDepartmentId =
-			"\"" + RandomTestUtil.randomString() + "\"";
+		Long irrelevantDepartmentId = RandomTestUtil.randomLong();
 
 		Assert.assertEquals(
 			"Not Found",
@@ -962,11 +953,8 @@ public abstract class BaseDepartmentResourceTestCase {
 		sb.append(" ");
 
 		if (entityFieldName.equals("id")) {
-			sb.append("'");
-			sb.append(String.valueOf(department.getId()));
-			sb.append("'");
-
-			return sb.toString();
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
 		}
 
 		if (entityFieldName.equals("name")) {
@@ -1021,7 +1009,7 @@ public abstract class BaseDepartmentResourceTestCase {
 	protected Department randomDepartment() throws Exception {
 		return new Department() {
 			{
-				id = StringUtil.toLowerCase(RandomTestUtil.randomString());
+				id = RandomTestUtil.randomLong();
 				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
 			}
 		};

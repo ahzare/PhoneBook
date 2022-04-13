@@ -271,7 +271,8 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 //        todo: delete person roles and departments
 
 // call the super action method to try the delete.
-        return personLocalService.deletePerson(person);
+        return super.deletePerson(person);
+//        return personLocalService.deletePerson(person);
     }
 
     private static final Logger _log =

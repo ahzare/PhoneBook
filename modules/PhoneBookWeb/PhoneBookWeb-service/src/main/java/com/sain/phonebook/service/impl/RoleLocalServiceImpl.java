@@ -192,7 +192,8 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 //        todo: delete role roles and departments
 
 // call the super action method to try the delete.
-        return roleLocalService.deleteRole(role);
+        return super.deleteRole(role);
+//        return roleLocalService.deleteRole(role);
     }
 
     private static final Logger _log =

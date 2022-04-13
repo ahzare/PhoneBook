@@ -104,15 +104,15 @@ public class Person implements Cloneable, Serializable {
 
 	protected String firstName;
 
-	public String getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public void setId(UnsafeSupplier<String, Exception> idUnsafeSupplier) {
+	public void setId(UnsafeSupplier<Long, Exception> idUnsafeSupplier) {
 		try {
 			id = idUnsafeSupplier.get();
 		}
@@ -121,7 +121,7 @@ public class Person implements Cloneable, Serializable {
 		}
 	}
 
-	protected String id;
+	protected Long id;
 
 	public String getLastName() {
 		return lastName;

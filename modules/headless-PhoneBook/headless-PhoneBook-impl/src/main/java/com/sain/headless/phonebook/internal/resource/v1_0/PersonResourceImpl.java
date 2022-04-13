@@ -62,7 +62,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
     protected Person _toPerson(com.sain.phonebook.model.Person person) throws PortalException {
 
         return new Person() {{
-            id = String.valueOf(person.getPersonId());
+            id = person.getPersonId();
             firstName = person.getFirstName();
             lastName = person.getLastName();
             localPhoneNumber = person.getLocalPhoneNumber();
@@ -190,10 +190,10 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
     }
 
     @Override
-    public void deletePerson(@NotNull String personId) throws Exception {
+    public void deletePerson(@NotNull Long personId) throws Exception {
         try {
 // super easy case, just pass through to the service layer.
-            _personService.deletePerson(Long.parseLong(personId));
+            _personService.deletePerson(personId);
         } catch (Exception e) {
             _log.error("Error deleting person: " + e.getMessage(), e);
             throw e;
@@ -201,10 +201,10 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
     }
 
     @Override
-    public Person getPerson(@NotNull String personId) throws Exception {
+    public Person getPerson(@NotNull Long personId) throws Exception {
         try {
 // fetch the entity class...
-            com.sain.phonebook.model.Person persistedPerson = _personService.getPerson(Long.parseLong(personId));
+            com.sain.phonebook.model.Person persistedPerson = _personService.getPerson(personId);
             return _toPerson(persistedPerson);
         } catch (Exception e) {
             _log.error("Error getting person [" + personId + "]: " + e.getMessage(), e);
@@ -241,12 +241,12 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
     }
 
     @Override
-    public Person patchPersonApi(@NotNull String personId, Long roleId,
+    public Person patchPersonApi(@NotNull Long personId, Long roleId,
                                  Long departmentId, Person person)
             throws Exception {
         try {
             com.sain.phonebook.model.Person persistedPerson =
-                    _personService.patchPerson(Long.parseLong(personId),
+                    _personService.patchPerson(personId,
                             person.getFirstName(),
                             person.getLastName(),
                             person.getLocalPhoneNumber(),
@@ -266,11 +266,11 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
     }
 
     @Override
-    public Person putPersonApi(@NotNull String personId, Long roleId,
+    public Person putPersonApi(@NotNull Long personId, Long roleId,
                                Long departmentId, Person person) throws Exception {
         try {
             com.sain.phonebook.model.Person persistedPerson =
-                    _personService.updatePerson(Long.parseLong(personId),
+                    _personService.updatePerson(personId,
                             person.getFirstName(),
                             person.getLastName(),
                             person.getLocalPhoneNumber(),

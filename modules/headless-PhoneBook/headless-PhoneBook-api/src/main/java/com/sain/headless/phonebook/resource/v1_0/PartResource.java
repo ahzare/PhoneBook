@@ -54,16 +54,16 @@ public interface PartResource {
 	public Response postPartBatch(String callbackURL, Object object)
 		throws Exception;
 
-	public void deletePart(String partId) throws Exception;
+	public void deletePart(Long partId) throws Exception;
 
 	public Response deletePartBatch(String callbackURL, Object object)
 		throws Exception;
 
-	public Part getPart(String partId) throws Exception;
+	public Part getPart(Long partId) throws Exception;
 
-	public Part patchPart(String partId, Part part) throws Exception;
+	public Part patchPart(Long partId, Part part) throws Exception;
 
-	public Part putPart(String partId, Part part) throws Exception;
+	public Part putPart(Long partId, Part part) throws Exception;
 
 	public Response putPartBatch(String callbackURL, Object object)
 		throws Exception;

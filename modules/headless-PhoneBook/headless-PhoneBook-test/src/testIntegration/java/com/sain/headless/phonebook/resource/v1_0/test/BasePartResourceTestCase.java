@@ -173,7 +173,6 @@ public abstract class BasePartResourceTestCase {
 
 		Part part = randomPart();
 
-		part.setId(regex);
 		part.setInternalPhone(regex);
 		part.setName(regex);
 
@@ -183,7 +182,6 @@ public abstract class BasePartResourceTestCase {
 
 		part = PartSerDes.toDTO(json);
 
-		Assert.assertEquals(regex, part.getId());
 		Assert.assertEquals(regex, part.getInternalPhone());
 		Assert.assertEquals(regex, part.getName());
 	}
@@ -438,8 +436,7 @@ public abstract class BasePartResourceTestCase {
 		assertHttpResponseStatusCode(
 			404, partResource.getPartHttpResponse(part.getId()));
 
-		assertHttpResponseStatusCode(
-			404, partResource.getPartHttpResponse("-"));
+		assertHttpResponseStatusCode(404, partResource.getPartHttpResponse(0L));
 	}
 
 	protected Part testDeletePart_addPart() throws Exception {
@@ -458,7 +455,7 @@ public abstract class BasePartResourceTestCase {
 						"deletePart",
 						new HashMap<String, Object>() {
 							{
-								put("partId", "\"" + part.getId() + "\"");
+								put("partId", part.getId());
 							}
 						})),
 				"JSONObject/data", "Object/deletePart"));
@@ -469,7 +466,7 @@ public abstract class BasePartResourceTestCase {
 					"part",
 					new HashMap<String, Object>() {
 						{
-							put("partId", "\"" + part.getId() + "\"");
+							put("partId", part.getId());
 						}
 					},
 					new GraphQLField("id"))),
@@ -507,9 +504,7 @@ public abstract class BasePartResourceTestCase {
 								"part",
 								new HashMap<String, Object>() {
 									{
-										put(
-											"partId",
-											"\"" + part.getId() + "\"");
+										put("partId", part.getId());
 									}
 								},
 								getGraphQLFields())),
@@ -518,7 +513,7 @@ public abstract class BasePartResourceTestCase {
 
 	@Test
 	public void testGraphQLGetPartNotFound() throws Exception {
-		String irrelevantPartId = "\"" + RandomTestUtil.randomString() + "\"";
+		Long irrelevantPartId = RandomTestUtil.randomLong();
 
 		Assert.assertEquals(
 			"Not Found",
@@ -912,11 +907,8 @@ public abstract class BasePartResourceTestCase {
 		}
 
 		if (entityFieldName.equals("id")) {
-			sb.append("'");
-			sb.append(String.valueOf(part.getId()));
-			sb.append("'");
-
-			return sb.toString();
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
 		}
 
 		if (entityFieldName.equals("internalPhone")) {
@@ -979,7 +971,7 @@ public abstract class BasePartResourceTestCase {
 	protected Part randomPart() throws Exception {
 		return new Part() {
 			{
-				id = StringUtil.toLowerCase(RandomTestUtil.randomString());
+				id = RandomTestUtil.randomLong();
 				internalPhone = StringUtil.toLowerCase(
 					RandomTestUtil.randomString());
 				name = StringUtil.toLowerCase(RandomTestUtil.randomString());

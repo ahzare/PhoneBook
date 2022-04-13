@@ -48,9 +48,9 @@ public interface RoleResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public void deleteRole(String roleId) throws Exception;
+	public void deleteRole(Long roleId) throws Exception;
 
-	public HttpInvoker.HttpResponse deleteRoleHttpResponse(String roleId)
+	public HttpInvoker.HttpResponse deleteRoleHttpResponse(Long roleId)
 		throws Exception;
 
 	public void deleteRoleBatch(String callbackURL, Object object)
@@ -60,21 +60,20 @@ public interface RoleResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public Role getRole(String roleId) throws Exception;
+	public Role getRole(Long roleId) throws Exception;
 
-	public HttpInvoker.HttpResponse getRoleHttpResponse(String roleId)
+	public HttpInvoker.HttpResponse getRoleHttpResponse(Long roleId)
 		throws Exception;
 
-	public Role patchRole(String roleId, Role role) throws Exception;
+	public Role patchRole(Long roleId, Role role) throws Exception;
 
 	public HttpInvoker.HttpResponse patchRoleHttpResponse(
-			String roleId, Role role)
+			Long roleId, Role role)
 		throws Exception;
 
-	public Role putRole(String roleId, Role role) throws Exception;
+	public Role putRole(Long roleId, Role role) throws Exception;
 
-	public HttpInvoker.HttpResponse putRoleHttpResponse(
-			String roleId, Role role)
+	public HttpInvoker.HttpResponse putRoleHttpResponse(Long roleId, Role role)
 		throws Exception;
 
 	public void putRoleBatch(String callbackURL, Object object)
@@ -405,7 +404,7 @@ public interface RoleResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteRole(String roleId) throws Exception {
+		public void deleteRole(Long roleId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = deleteRoleHttpResponse(
 				roleId);
 
@@ -446,7 +445,7 @@ public interface RoleResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse deleteRoleHttpResponse(String roleId)
+		public HttpInvoker.HttpResponse deleteRoleHttpResponse(Long roleId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -557,7 +556,7 @@ public interface RoleResource {
 			return httpInvoker.invoke();
 		}
 
-		public Role getRole(String roleId) throws Exception {
+		public Role getRole(Long roleId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = getRoleHttpResponse(roleId);
 
 			String content = httpResponse.getContent();
@@ -597,7 +596,7 @@ public interface RoleResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getRoleHttpResponse(String roleId)
+		public HttpInvoker.HttpResponse getRoleHttpResponse(Long roleId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -634,7 +633,7 @@ public interface RoleResource {
 			return httpInvoker.invoke();
 		}
 
-		public Role patchRole(String roleId, Role role) throws Exception {
+		public Role patchRole(Long roleId, Role role) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = patchRoleHttpResponse(
 				roleId, role);
 
@@ -676,7 +675,7 @@ public interface RoleResource {
 		}
 
 		public HttpInvoker.HttpResponse patchRoleHttpResponse(
-				String roleId, Role role)
+				Long roleId, Role role)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -715,7 +714,7 @@ public interface RoleResource {
 			return httpInvoker.invoke();
 		}
 
-		public Role putRole(String roleId, Role role) throws Exception {
+		public Role putRole(Long roleId, Role role) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = putRoleHttpResponse(
 				roleId, role);
 
@@ -757,7 +756,7 @@ public interface RoleResource {
 		}
 
 		public HttpInvoker.HttpResponse putRoleHttpResponse(
-				String roleId, Role role)
+				Long roleId, Role role)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();

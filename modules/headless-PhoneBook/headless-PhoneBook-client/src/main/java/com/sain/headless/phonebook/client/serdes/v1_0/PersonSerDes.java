@@ -98,11 +98,7 @@ public class PersonSerDes {
 
 			sb.append("\"id\": ");
 
-			sb.append("\"");
-
-			sb.append(_escape(person.getId()));
-
-			sb.append("\"");
+			sb.append(person.getId());
 		}
 
 		if (person.getLastName() != null) {
@@ -325,7 +321,7 @@ public class PersonSerDes {
 			}
 			else if (Objects.equals(jsonParserFieldName, "id")) {
 				if (jsonParserFieldValue != null) {
-					person.setId((String)jsonParserFieldValue);
+					person.setId(Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "lastName")) {

@@ -195,7 +195,7 @@ public abstract class BaseRoleResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("roleId")
-			String roleId)
+			Long roleId)
 		throws Exception {
 	}
 
@@ -270,7 +270,7 @@ public abstract class BaseRoleResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("roleId")
-			String roleId)
+			Long roleId)
 		throws Exception {
 
 		return new Role();
@@ -304,7 +304,7 @@ public abstract class BaseRoleResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("roleId")
-			String roleId,
+			Long roleId,
 			Role role)
 		throws Exception {
 
@@ -347,7 +347,7 @@ public abstract class BaseRoleResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("roleId")
-			String roleId,
+			Long roleId,
 			Role role)
 		throws Exception {
 
@@ -479,7 +479,7 @@ public abstract class BaseRoleResourceImpl
 		for (Role role : roles) {
 			putRole(
 				role.getId() != null ? role.getId() :
-					(String)parameters.get("roleId"),
+					Long.parseLong((String)parameters.get("roleId")),
 				role);
 		}
 	}

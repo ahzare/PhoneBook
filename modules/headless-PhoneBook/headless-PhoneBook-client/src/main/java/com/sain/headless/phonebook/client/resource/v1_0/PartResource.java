@@ -48,9 +48,9 @@ public interface PartResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public void deletePart(String partId) throws Exception;
+	public void deletePart(Long partId) throws Exception;
 
-	public HttpInvoker.HttpResponse deletePartHttpResponse(String partId)
+	public HttpInvoker.HttpResponse deletePartHttpResponse(Long partId)
 		throws Exception;
 
 	public void deletePartBatch(String callbackURL, Object object)
@@ -60,21 +60,20 @@ public interface PartResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public Part getPart(String partId) throws Exception;
+	public Part getPart(Long partId) throws Exception;
 
-	public HttpInvoker.HttpResponse getPartHttpResponse(String partId)
+	public HttpInvoker.HttpResponse getPartHttpResponse(Long partId)
 		throws Exception;
 
-	public Part patchPart(String partId, Part part) throws Exception;
+	public Part patchPart(Long partId, Part part) throws Exception;
 
 	public HttpInvoker.HttpResponse patchPartHttpResponse(
-			String partId, Part part)
+			Long partId, Part part)
 		throws Exception;
 
-	public Part putPart(String partId, Part part) throws Exception;
+	public Part putPart(Long partId, Part part) throws Exception;
 
-	public HttpInvoker.HttpResponse putPartHttpResponse(
-			String partId, Part part)
+	public HttpInvoker.HttpResponse putPartHttpResponse(Long partId, Part part)
 		throws Exception;
 
 	public void putPartBatch(String callbackURL, Object object)
@@ -405,7 +404,7 @@ public interface PartResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deletePart(String partId) throws Exception {
+		public void deletePart(Long partId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = deletePartHttpResponse(
 				partId);
 
@@ -446,7 +445,7 @@ public interface PartResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse deletePartHttpResponse(String partId)
+		public HttpInvoker.HttpResponse deletePartHttpResponse(Long partId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -557,7 +556,7 @@ public interface PartResource {
 			return httpInvoker.invoke();
 		}
 
-		public Part getPart(String partId) throws Exception {
+		public Part getPart(Long partId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = getPartHttpResponse(partId);
 
 			String content = httpResponse.getContent();
@@ -597,7 +596,7 @@ public interface PartResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getPartHttpResponse(String partId)
+		public HttpInvoker.HttpResponse getPartHttpResponse(Long partId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -634,7 +633,7 @@ public interface PartResource {
 			return httpInvoker.invoke();
 		}
 
-		public Part patchPart(String partId, Part part) throws Exception {
+		public Part patchPart(Long partId, Part part) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = patchPartHttpResponse(
 				partId, part);
 
@@ -676,7 +675,7 @@ public interface PartResource {
 		}
 
 		public HttpInvoker.HttpResponse patchPartHttpResponse(
-				String partId, Part part)
+				Long partId, Part part)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -715,7 +714,7 @@ public interface PartResource {
 			return httpInvoker.invoke();
 		}
 
-		public Part putPart(String partId, Part part) throws Exception {
+		public Part putPart(Long partId, Part part) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = putPartHttpResponse(
 				partId, part);
 
@@ -757,7 +756,7 @@ public interface PartResource {
 		}
 
 		public HttpInvoker.HttpResponse putPartHttpResponse(
-				String partId, Part part)
+				Long partId, Part part)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();

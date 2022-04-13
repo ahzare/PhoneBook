@@ -57,7 +57,7 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
     protected static Role _toRole(com.sain.phonebook.model.Role role) throws PortalException {
 
         return new Role() {{
-            id = String.valueOf(role.getRoleId());
+            id = role.getRoleId();
             name = role.getName();
         }};
 		/*return new Role() {{
@@ -166,10 +166,10 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
     }
 
     @Override
-    public void deleteRole(@NotNull String roleId) throws Exception {
+    public void deleteRole(@NotNull Long roleId) throws Exception {
         try {
 // super easy case, just pass through to the service layer.
-            _roleService.deleteRole(Long.parseLong(roleId));
+            _roleService.deleteRole(roleId);
         } catch (Exception e) {
             _log.error("Error deleting role: " + e.getMessage(), e);
             throw e;
@@ -177,10 +177,10 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
     }
 
     @Override
-    public Role getRole(@NotNull String roleId) throws Exception {
+    public Role getRole(@NotNull Long roleId) throws Exception {
         try {
 // fetch the entity class...
-            com.sain.phonebook.model.Role persistedRole = _roleService.getRole(Long.parseLong(roleId));
+            com.sain.phonebook.model.Role persistedRole = _roleService.getRole(roleId);
             return _toRole(persistedRole);
         } catch (Exception e) {
             _log.error("Error getting role [" + roleId + "]: " + e.getMessage(), e);
@@ -207,11 +207,11 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
     }
 
     @Override
-    public Role patchRole(@NotNull String roleId, Role role)
+    public Role patchRole(@NotNull Long roleId, Role role)
             throws Exception {
         try {
             com.sain.phonebook.model.Role persistedRole =
-                    _roleService.patchRole(Long.parseLong(roleId), role.getName(),
+                    _roleService.patchRole(roleId, role.getName(),
                             _getServiceContext());
             return _toRole(persistedRole);
         } catch (Exception e) {
@@ -221,10 +221,10 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
     }
 
     @Override
-    public Role putRole(@NotNull String roleId, Role role) throws Exception {
+    public Role putRole(@NotNull Long roleId, Role role) throws Exception {
         try {
             com.sain.phonebook.model.Role persistedRole =
-                    _roleService.updateRole(Long.parseLong(roleId), role.getName(), _getServiceContext());
+                    _roleService.updateRole(roleId, role.getName(), _getServiceContext());
             return _toRole(persistedRole);
         } catch (Exception e) {
             _log.error("Error putting role: " + e.getMessage(), e);

@@ -250,7 +250,7 @@ public abstract class BasePersonResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("personId")
-			String personId)
+			Long personId)
 		throws Exception {
 	}
 
@@ -325,7 +325,7 @@ public abstract class BasePersonResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("personId")
-			String personId)
+			Long personId)
 		throws Exception {
 
 		return new Person();
@@ -367,7 +367,7 @@ public abstract class BasePersonResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("personId")
-			String personId,
+			Long personId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("roleId")
 			Long roleId,
@@ -416,7 +416,7 @@ public abstract class BasePersonResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("personId")
-			String personId,
+			Long personId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("roleId")
 			Long roleId,

@@ -51,9 +51,9 @@ public interface PersonResource {
 			Long roleId, Long departmentId, String callbackURL, Object object)
 		throws Exception;
 
-	public void deletePerson(String personId) throws Exception;
+	public void deletePerson(Long personId) throws Exception;
 
-	public HttpInvoker.HttpResponse deletePersonHttpResponse(String personId)
+	public HttpInvoker.HttpResponse deletePersonHttpResponse(Long personId)
 		throws Exception;
 
 	public void deletePersonBatch(String callbackURL, Object object)
@@ -63,25 +63,25 @@ public interface PersonResource {
 			String callbackURL, Object object)
 		throws Exception;
 
-	public Person getPerson(String personId) throws Exception;
+	public Person getPerson(Long personId) throws Exception;
 
-	public HttpInvoker.HttpResponse getPersonHttpResponse(String personId)
+	public HttpInvoker.HttpResponse getPersonHttpResponse(Long personId)
 		throws Exception;
 
 	public Person patchPersonApi(
-			String personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse patchPersonApiHttpResponse(
-			String personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
 	public Person putPersonApi(
-			String personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse putPersonApiHttpResponse(
-			String personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long roleId, Long departmentId, Person person)
 		throws Exception;
 
 	public static class Builder {
@@ -441,7 +441,7 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deletePerson(String personId) throws Exception {
+		public void deletePerson(Long personId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = deletePersonHttpResponse(
 				personId);
 
@@ -482,8 +482,7 @@ public interface PersonResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse deletePersonHttpResponse(
-				String personId)
+		public HttpInvoker.HttpResponse deletePersonHttpResponse(Long personId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -595,7 +594,7 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public Person getPerson(String personId) throws Exception {
+		public Person getPerson(Long personId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = getPersonHttpResponse(
 				personId);
 
@@ -636,7 +635,7 @@ public interface PersonResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getPersonHttpResponse(String personId)
+		public HttpInvoker.HttpResponse getPersonHttpResponse(Long personId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -674,7 +673,7 @@ public interface PersonResource {
 		}
 
 		public Person patchPersonApi(
-				String personId, Long roleId, Long departmentId, Person person)
+				Long personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = patchPersonApiHttpResponse(
@@ -718,7 +717,7 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse patchPersonApiHttpResponse(
-				String personId, Long roleId, Long departmentId, Person person)
+				Long personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -767,7 +766,7 @@ public interface PersonResource {
 		}
 
 		public Person putPersonApi(
-				String personId, Long roleId, Long departmentId, Person person)
+				Long personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = putPersonApiHttpResponse(
@@ -811,7 +810,7 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse putPersonApiHttpResponse(
-				String personId, Long roleId, Long departmentId, Person person)
+				Long personId, Long roleId, Long departmentId, Person person)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();

@@ -46,11 +46,7 @@ public class AddressSerDes {
 
 			sb.append("\"id\": ");
 
-			sb.append("\"");
-
-			sb.append(_escape(address.getId()));
-
-			sb.append("\"");
+			sb.append(address.getId());
 		}
 
 		if (address.getName() != null) {
@@ -121,7 +117,7 @@ public class AddressSerDes {
 
 			if (Objects.equals(jsonParserFieldName, "id")) {
 				if (jsonParserFieldValue != null) {
-					address.setId((String)jsonParserFieldValue);
+					address.setId(Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {

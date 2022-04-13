@@ -46,11 +46,7 @@ public class RoleSerDes {
 
 			sb.append("\"id\": ");
 
-			sb.append("\"");
-
-			sb.append(_escape(role.getId()));
-
-			sb.append("\"");
+			sb.append(role.getId());
 		}
 
 		if (role.getName() != null) {
@@ -121,7 +117,7 @@ public class RoleSerDes {
 
 			if (Objects.equals(jsonParserFieldName, "id")) {
 				if (jsonParserFieldValue != null) {
-					role.setId((String)jsonParserFieldValue);
+					role.setId(Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {

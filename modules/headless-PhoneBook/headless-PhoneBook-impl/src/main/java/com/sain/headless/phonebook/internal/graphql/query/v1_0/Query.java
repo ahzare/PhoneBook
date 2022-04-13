@@ -115,7 +115,7 @@ public class Query {
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {address(addressId: ___){id, name}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the address via its ID.")
-	public Address address(@GraphQLName("addressId") String addressId)
+	public Address address(@GraphQLName("addressId") Long addressId)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
@@ -157,8 +157,7 @@ public class Query {
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {department(departmentId: ___){id, name}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the department via its ID.")
-	public Department department(
-			@GraphQLName("departmentId") String departmentId)
+	public Department department(@GraphQLName("departmentId") Long departmentId)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
@@ -200,7 +199,7 @@ public class Query {
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {part(partId: ___){id, name, internalPhone, address}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the part via its ID.")
-	public Part part(@GraphQLName("partId") String partId) throws Exception {
+	public Part part(@GraphQLName("partId") Long partId) throws Exception {
 		return _applyComponentServiceObjects(
 			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
@@ -242,7 +241,7 @@ public class Query {
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {person(personId: ___){id, firstName, lastName, localPhoneNumber, phoneNumber, faxNumber, roomNumber, email, website, role, department}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the person via its ID.")
-	public Person person(@GraphQLName("personId") String personId)
+	public Person person(@GraphQLName("personId") Long personId)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
@@ -283,7 +282,7 @@ public class Query {
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {role(roleId: ___){id, name}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the role via its ID.")
-	public Role role(@GraphQLName("roleId") String roleId) throws Exception {
+	public Role role(@GraphQLName("roleId") Long roleId) throws Exception {
 		return _applyComponentServiceObjects(
 			_roleResourceComponentServiceObjects,
 			this::_populateResourceContext,

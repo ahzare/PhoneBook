@@ -46,11 +46,7 @@ public class DepartmentSerDes {
 
 			sb.append("\"id\": ");
 
-			sb.append("\"");
-
-			sb.append(_escape(department.getId()));
-
-			sb.append("\"");
+			sb.append(department.getId());
 		}
 
 		if (department.getName() != null) {
@@ -122,7 +118,8 @@ public class DepartmentSerDes {
 
 			if (Objects.equals(jsonParserFieldName, "id")) {
 				if (jsonParserFieldValue != null) {
-					department.setId((String)jsonParserFieldValue);
+					department.setId(
+						Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "name")) {

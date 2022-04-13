@@ -173,7 +173,6 @@ public abstract class BaseRoleResourceTestCase {
 
 		Role role = randomRole();
 
-		role.setId(regex);
 		role.setName(regex);
 
 		String json = RoleSerDes.toJSON(role);
@@ -182,7 +181,6 @@ public abstract class BaseRoleResourceTestCase {
 
 		role = RoleSerDes.toDTO(json);
 
-		Assert.assertEquals(regex, role.getId());
 		Assert.assertEquals(regex, role.getName());
 	}
 
@@ -477,8 +475,7 @@ public abstract class BaseRoleResourceTestCase {
 		assertHttpResponseStatusCode(
 			404, roleResource.getRoleHttpResponse(role.getId()));
 
-		assertHttpResponseStatusCode(
-			404, roleResource.getRoleHttpResponse("-"));
+		assertHttpResponseStatusCode(404, roleResource.getRoleHttpResponse(0L));
 	}
 
 	protected Role testDeleteRole_addRole() throws Exception {
@@ -497,7 +494,7 @@ public abstract class BaseRoleResourceTestCase {
 						"deleteRole",
 						new HashMap<String, Object>() {
 							{
-								put("roleId", "\"" + role.getId() + "\"");
+								put("roleId", role.getId());
 							}
 						})),
 				"JSONObject/data", "Object/deleteRole"));
@@ -508,7 +505,7 @@ public abstract class BaseRoleResourceTestCase {
 					"role",
 					new HashMap<String, Object>() {
 						{
-							put("roleId", "\"" + role.getId() + "\"");
+							put("roleId", role.getId());
 						}
 					},
 					new GraphQLField("id"))),
@@ -546,9 +543,7 @@ public abstract class BaseRoleResourceTestCase {
 								"role",
 								new HashMap<String, Object>() {
 									{
-										put(
-											"roleId",
-											"\"" + role.getId() + "\"");
+										put("roleId", role.getId());
 									}
 								},
 								getGraphQLFields())),
@@ -557,7 +552,7 @@ public abstract class BaseRoleResourceTestCase {
 
 	@Test
 	public void testGraphQLGetRoleNotFound() throws Exception {
-		String irrelevantRoleId = "\"" + RandomTestUtil.randomString() + "\"";
+		Long irrelevantRoleId = RandomTestUtil.randomLong();
 
 		Assert.assertEquals(
 			"Not Found",
@@ -910,11 +905,8 @@ public abstract class BaseRoleResourceTestCase {
 		sb.append(" ");
 
 		if (entityFieldName.equals("id")) {
-			sb.append("'");
-			sb.append(String.valueOf(role.getId()));
-			sb.append("'");
-
-			return sb.toString();
+			throw new IllegalArgumentException(
+				"Invalid entity field " + entityFieldName);
 		}
 
 		if (entityFieldName.equals("name")) {
@@ -969,7 +961,7 @@ public abstract class BaseRoleResourceTestCase {
 	protected Role randomRole() throws Exception {
 		return new Role() {
 			{
-				id = StringUtil.toLowerCase(RandomTestUtil.randomString());
+				id = RandomTestUtil.randomLong();
 				name = StringUtil.toLowerCase(RandomTestUtil.randomString());
 			}
 		};

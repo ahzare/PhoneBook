@@ -56,11 +56,7 @@ public class PartSerDes {
 
 			sb.append("\"id\": ");
 
-			sb.append("\"");
-
-			sb.append(_escape(part.getId()));
-
-			sb.append("\"");
+			sb.append(part.getId());
 		}
 
 		if (part.getInternalPhone() != null) {
@@ -165,7 +161,7 @@ public class PartSerDes {
 			}
 			else if (Objects.equals(jsonParserFieldName, "id")) {
 				if (jsonParserFieldValue != null) {
-					part.setId((String)jsonParserFieldValue);
+					part.setId(Long.valueOf((String)jsonParserFieldValue));
 				}
 			}
 			else if (Objects.equals(jsonParserFieldName, "internalPhone")) {
