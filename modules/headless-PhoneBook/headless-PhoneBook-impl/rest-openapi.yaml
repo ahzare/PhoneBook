@@ -619,7 +619,7 @@ paths:
 
   "/parts":
     get:
-      operationId: getPartPage
+      operationId: getPartsPage
       tags: [ "Part" ]
       description: Retrieves the list of parts. Results can be paginated, filtered, searched, and sorted.
       parameters:
@@ -661,6 +661,12 @@ paths:
       operationId: postPart
       tags: [ "Part" ]
       description: Create a new part.
+      parameters:
+        - in: query
+          name: addressId
+          schema:
+            format: int64
+            type: integer
       requestBody:
         content:
           application/json:
@@ -702,13 +708,18 @@ paths:
               schema:
                 $ref: "#/components/schemas/Part"
     put:
-      operationId: putPart
+      operationId: putPartApi
       tags: [ "Part" ]
       description: Replaces the part with the information sent in the request body. Any missing fields are deleted, unless they are required.
       parameters:
         - name: partId
           in: path
           required: true
+          schema:
+            format: int64
+            type: integer
+        - in: query
+          name: addressId
           schema:
             format: int64
             type: integer
@@ -731,13 +742,18 @@ paths:
               schema:
                 $ref: "#/components/schemas/Part"
     patch:
-      operationId: patchPart
+      operationId: patchPartApi
       tags: [ "Part" ]
       description: Replaces the part with the information sent in the request body. Any missing fields are deleted, unless they are required.
       parameters:
         - name: partId
           in: path
           required: true
+          schema:
+            format: int64
+            type: integer
+        - in: query
+          name: addressId
           schema:
             format: int64
             type: integer

@@ -30,6 +30,28 @@ public class PartServiceWrapper
 		_partService = partService;
 	}
 
+	@Override
+	public com.sain.phonebook.model.Part addPart(
+			String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _partService.addPart(
+			name, internalPhone, addressId, serviceContext);
+	}
+
+	@Override
+	public void deletePart(long partId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_partService.deletePart(partId);
+	}
+
+	@Override
+	public java.util.List<com.sain.phonebook.model.Part> getAll() {
+		return _partService.getAll();
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -38,6 +60,33 @@ public class PartServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _partService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.sain.phonebook.model.Part getPart(long partId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _partService.getPart(partId);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Part patchPart(
+			long id, String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _partService.patchPart(
+			id, name, internalPhone, addressId, serviceContext);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Part updatePart(
+			long id, String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _partService.updatePart(
+			id, name, internalPhone, addressId, serviceContext);
 	}
 
 	@Override

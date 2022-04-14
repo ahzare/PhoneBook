@@ -14,6 +14,12 @@
 
 package com.sain.phonebook.service;
 
+import com.liferay.portal.kernel.exception.PortalException;
+
+import com.sain.phonebook.model.Address;
+
+import java.util.List;
+
 /**
  * Provides the remote service utility for Address. This utility wraps
  * <code>com.sain.phonebook.service.impl.AddressServiceImpl</code> and is an
@@ -33,14 +39,49 @@ public class AddressServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.sain.phonebook.service.impl.AddressServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Address addAddress(
+			String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addAddress(name, serviceContext);
+	}
+
+	public static void deleteAddress(long addressId) throws PortalException {
+		getService().deleteAddress(addressId);
+	}
+
+	public static Address getAddress(long addressId) throws PortalException {
+		return getService().getAddress(addressId);
+	}
+
+	public static List<Address> getAll() {
+		return getService().getAll();
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static Address patchAddress(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().patchAddress(id, name, serviceContext);
+	}
+
+	public static Address updateAddress(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateAddress(id, name, serviceContext);
 	}
 
 	public static AddressService getService() {

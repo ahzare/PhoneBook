@@ -47,6 +47,15 @@ public class AddressLocalServiceWrapper
 		return _addressLocalService.addAddress(address);
 	}
 
+	@Override
+	public com.sain.phonebook.model.Address addAddress(
+			String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _addressLocalService.addAddress(name, serviceContext);
+	}
+
 	/**
 	 * Creates a new address with the primary key. Does not add the address to the database.
 	 *
@@ -362,6 +371,16 @@ public class AddressLocalServiceWrapper
 		return _addressLocalService.getPersistedModel(primaryKeyObj);
 	}
 
+	@Override
+	public com.sain.phonebook.model.Address patchAddress(
+			long addressId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _addressLocalService.patchAddress(
+			addressId, name, serviceContext);
+	}
+
 	/**
 	 * Updates the address in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -377,6 +396,16 @@ public class AddressLocalServiceWrapper
 		com.sain.phonebook.model.Address address) {
 
 		return _addressLocalService.updateAddress(address);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Address updateAddress(
+			long addressId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _addressLocalService.updateAddress(
+			addressId, name, serviceContext);
 	}
 
 	@Override

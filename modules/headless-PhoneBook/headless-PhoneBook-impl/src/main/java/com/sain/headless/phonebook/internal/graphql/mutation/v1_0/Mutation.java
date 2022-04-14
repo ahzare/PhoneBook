@@ -269,15 +269,20 @@ public class Mutation {
 	}
 
 	@GraphQLField(description = "Create a new part.")
-	public Part createPart(@GraphQLName("part") Part part) throws Exception {
+	public Part createPart(
+			@GraphQLName("addressId") Long addressId,
+			@GraphQLName("part") Part part)
+		throws Exception {
+
 		return _applyComponentServiceObjects(
 			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			partResource -> partResource.postPart(part));
+			partResource -> partResource.postPart(addressId, part));
 	}
 
 	@GraphQLField
 	public Response createPartBatch(
+			@GraphQLName("addressId") Long addressId,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
@@ -285,7 +290,8 @@ public class Mutation {
 		return _applyComponentServiceObjects(
 			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			partResource -> partResource.postPartBatch(callbackURL, object));
+			partResource -> partResource.postPartBatch(
+				addressId, callbackURL, object));
 	}
 
 	@GraphQLField(
@@ -317,39 +323,31 @@ public class Mutation {
 	@GraphQLField(
 		description = "Replaces the part with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
-	public Part patchPart(
-			@GraphQLName("partId") Long partId, @GraphQLName("part") Part part)
+	public Part patchPartApi(
+			@GraphQLName("partId") Long partId,
+			@GraphQLName("addressId") Long addressId,
+			@GraphQLName("part") Part part)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			partResource -> partResource.patchPart(partId, part));
+			partResource -> partResource.patchPartApi(partId, addressId, part));
 	}
 
 	@GraphQLField(
 		description = "Replaces the part with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
-	public Part updatePart(
-			@GraphQLName("partId") Long partId, @GraphQLName("part") Part part)
+	public Part updatePartApi(
+			@GraphQLName("partId") Long partId,
+			@GraphQLName("addressId") Long addressId,
+			@GraphQLName("part") Part part)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			partResource -> partResource.putPart(partId, part));
-	}
-
-	@GraphQLField
-	public Response updatePartBatch(
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("object") Object object)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_partResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			partResource -> partResource.putPartBatch(callbackURL, object));
+			partResource -> partResource.putPartApi(partId, addressId, part));
 	}
 
 	@GraphQLField(description = "Create a new person.")

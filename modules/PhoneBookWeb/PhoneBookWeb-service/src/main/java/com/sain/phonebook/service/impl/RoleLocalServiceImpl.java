@@ -74,7 +74,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
         }
         role = addRole(role);
 
-        /*resourceLocalService.addResources(
+        resourceLocalService.addResources(
                 serviceContext.getCompanyId(),
                 serviceContext.getScopeGroupId(),
                 serviceContext.getUserId(),
@@ -82,7 +82,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
                 role.getRoleId(),
                 false,
                 serviceContext.isAddGroupPermissions(),
-                serviceContext.isAddGuestPermissions());*/
+                serviceContext.isAddGuestPermissions());
         return role;
     }
 

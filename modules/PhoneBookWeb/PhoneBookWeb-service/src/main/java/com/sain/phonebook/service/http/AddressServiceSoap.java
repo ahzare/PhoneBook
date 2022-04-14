@@ -14,9 +14,16 @@
 
 package com.sain.phonebook.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import com.sain.phonebook.service.AddressServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>com.sain.phonebook.service.AddressServiceUtil</code> service
+ * <code>AddressServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -56,4 +63,110 @@ package com.sain.phonebook.service.http;
  */
 @Deprecated
 public class AddressServiceSoap {
+
+	public static com.sain.phonebook.model.AddressSoap getAddress(
+			long addressId)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Address returnValue =
+				AddressServiceUtil.getAddress(addressId);
+
+			return com.sain.phonebook.model.AddressSoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.AddressSoap addAddress(
+			String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Address returnValue =
+				AddressServiceUtil.addAddress(name, serviceContext);
+
+			return com.sain.phonebook.model.AddressSoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.AddressSoap updateAddress(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Address returnValue =
+				AddressServiceUtil.updateAddress(id, name, serviceContext);
+
+			return com.sain.phonebook.model.AddressSoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.AddressSoap patchAddress(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Address returnValue =
+				AddressServiceUtil.patchAddress(id, name, serviceContext);
+
+			return com.sain.phonebook.model.AddressSoap.toSoapModel(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static void deleteAddress(long addressId) throws RemoteException {
+		try {
+			AddressServiceUtil.deleteAddress(addressId);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.AddressSoap[] getAll()
+		throws RemoteException {
+
+		try {
+			java.util.List<com.sain.phonebook.model.Address> returnValue =
+				AddressServiceUtil.getAll();
+
+			return com.sain.phonebook.model.AddressSoap.toSoapModels(
+				returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(AddressServiceSoap.class);
+
 }

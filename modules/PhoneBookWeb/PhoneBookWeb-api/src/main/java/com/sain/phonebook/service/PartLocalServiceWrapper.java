@@ -47,6 +47,16 @@ public class PartLocalServiceWrapper
 		return _partLocalService.addPart(part);
 	}
 
+	@Override
+	public com.sain.phonebook.model.Part addPart(
+			String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _partLocalService.addPart(
+			name, internalPhone, addressId, serviceContext);
+	}
+
 	/**
 	 * Creates a new part with the primary key. Does not add the part to the database.
 	 *
@@ -359,6 +369,26 @@ public class PartLocalServiceWrapper
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _partLocalService.getPersistedModel(primaryKeyObj);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Part patchPart(
+			long partId, String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _partLocalService.patchPart(
+			partId, name, internalPhone, addressId, serviceContext);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Part updatePart(
+			long partId, String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _partLocalService.updatePart(
+			partId, name, internalPhone, addressId, serviceContext);
 	}
 
 	/**

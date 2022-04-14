@@ -19,8 +19,14 @@ import com.liferay.portal.kernel.exception.SystemException;
 import com.liferay.portal.kernel.jsonwebservice.JSONWebService;
 import com.liferay.portal.kernel.security.access.control.AccessControlled;
 import com.liferay.portal.kernel.service.BaseService;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.transaction.Isolation;
+import com.liferay.portal.kernel.transaction.Propagation;
 import com.liferay.portal.kernel.transaction.Transactional;
+
+import com.sain.phonebook.model.Address;
+
+import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
 
@@ -47,6 +53,16 @@ public interface AddressService extends BaseService {
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>com.sain.phonebook.service.impl.AddressServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the address remote service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link AddressServiceUtil} if injection and service tracking are not available.
 	 */
+	public Address addAddress(String name, ServiceContext serviceContext)
+		throws PortalException;
+
+	public void deleteAddress(long addressId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public Address getAddress(long addressId) throws PortalException;
+
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Address> getAll();
 
 	/**
 	 * Returns the OSGi service identifier.
@@ -54,5 +70,13 @@ public interface AddressService extends BaseService {
 	 * @return the OSGi service identifier
 	 */
 	public String getOSGiServiceIdentifier();
+
+	public Address patchAddress(
+			long id, String name, ServiceContext serviceContext)
+		throws PortalException;
+
+	public Address updateAddress(
+			long id, String name, ServiceContext serviceContext)
+		throws PortalException;
 
 }

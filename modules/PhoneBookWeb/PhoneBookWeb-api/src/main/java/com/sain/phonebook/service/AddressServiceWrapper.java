@@ -30,6 +30,34 @@ public class AddressServiceWrapper
 		_addressService = addressService;
 	}
 
+	@Override
+	public com.sain.phonebook.model.Address addAddress(
+			String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _addressService.addAddress(name, serviceContext);
+	}
+
+	@Override
+	public void deleteAddress(long addressId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_addressService.deleteAddress(addressId);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Address getAddress(long addressId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _addressService.getAddress(addressId);
+	}
+
+	@Override
+	public java.util.List<com.sain.phonebook.model.Address> getAll() {
+		return _addressService.getAll();
+	}
+
 	/**
 	 * Returns the OSGi service identifier.
 	 *
@@ -38,6 +66,24 @@ public class AddressServiceWrapper
 	@Override
 	public String getOSGiServiceIdentifier() {
 		return _addressService.getOSGiServiceIdentifier();
+	}
+
+	@Override
+	public com.sain.phonebook.model.Address patchAddress(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _addressService.patchAddress(id, name, serviceContext);
+	}
+
+	@Override
+	public com.sain.phonebook.model.Address updateAddress(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _addressService.updateAddress(id, name, serviceContext);
 	}
 
 	@Override

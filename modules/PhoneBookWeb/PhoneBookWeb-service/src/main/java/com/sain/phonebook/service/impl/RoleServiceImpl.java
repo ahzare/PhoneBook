@@ -43,14 +43,13 @@ import java.util.List;
         service = AopService.class
 )
 public class RoleServiceImpl extends RoleServiceBaseImpl {
-    // todo: for permissions
-	@Reference(
+	/*@Reference(
 			policy = ReferencePolicy.DYNAMIC,
 			policyOption= ReferencePolicyOption.GREEDY,
 			target ="(model.class.name=com.sain.phonebook.model.Role)"
 	)
 	private volatile ModelResourcePermission<Role>
-			_roleModelResourcePermission;
+			_roleModelResourcePermission;*/
 
     public Role getRole(final long roleId) throws PortalException {
         Role role = roleLocalService.getRole(roleId);

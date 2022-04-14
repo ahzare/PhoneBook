@@ -59,6 +59,15 @@ public class PartLocalServiceUtil {
 		return getService().addPart(part);
 	}
 
+	public static Part addPart(
+			String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addPart(
+			name, internalPhone, addressId, serviceContext);
+	}
+
 	/**
 	 * Creates a new part with the primary key. Does not add the part to the database.
 	 *
@@ -327,6 +336,24 @@ public class PartLocalServiceUtil {
 		throws PortalException {
 
 		return getService().getPersistedModel(primaryKeyObj);
+	}
+
+	public static Part patchPart(
+			long partId, String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().patchPart(
+			partId, name, internalPhone, addressId, serviceContext);
+	}
+
+	public static Part updatePart(
+			long partId, String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updatePart(
+			partId, name, internalPhone, addressId, serviceContext);
 	}
 
 	/**

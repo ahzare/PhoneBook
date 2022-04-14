@@ -187,17 +187,18 @@ public abstract class BasePartResourceTestCase {
 	}
 
 	@Test
-	public void testGetPartPage() throws Exception {
-		Page<Part> page = partResource.getPartPage(
+	public void testGetPartsPage() throws Exception {
+		Page<Part> page = partResource.getPartsPage(
 			null, null, Pagination.of(1, 10), null);
 
 		long totalCount = page.getTotalCount();
 
-		Part part1 = testGetPartPage_addPart(randomPart());
+		Part part1 = testGetPartsPage_addPart(randomPart());
 
-		Part part2 = testGetPartPage_addPart(randomPart());
+		Part part2 = testGetPartsPage_addPart(randomPart());
 
-		page = partResource.getPartPage(null, null, Pagination.of(1, 10), null);
+		page = partResource.getPartsPage(
+			null, null, Pagination.of(1, 10), null);
 
 		Assert.assertEquals(totalCount + 2, page.getTotalCount());
 
@@ -211,7 +212,7 @@ public abstract class BasePartResourceTestCase {
 	}
 
 	@Test
-	public void testGetPartPageWithFilterDateTimeEquals() throws Exception {
+	public void testGetPartsPageWithFilterDateTimeEquals() throws Exception {
 		List<EntityField> entityFields = getEntityFields(
 			EntityField.Type.DATE_TIME);
 
@@ -221,10 +222,10 @@ public abstract class BasePartResourceTestCase {
 
 		Part part1 = randomPart();
 
-		part1 = testGetPartPage_addPart(part1);
+		part1 = testGetPartsPage_addPart(part1);
 
 		for (EntityField entityField : entityFields) {
-			Page<Part> page = partResource.getPartPage(
+			Page<Part> page = partResource.getPartsPage(
 				null, getFilterString(entityField, "between", part1),
 				Pagination.of(1, 2), null);
 
@@ -234,7 +235,7 @@ public abstract class BasePartResourceTestCase {
 	}
 
 	@Test
-	public void testGetPartPageWithFilterStringEquals() throws Exception {
+	public void testGetPartsPageWithFilterStringEquals() throws Exception {
 		List<EntityField> entityFields = getEntityFields(
 			EntityField.Type.STRING);
 
@@ -242,13 +243,13 @@ public abstract class BasePartResourceTestCase {
 			return;
 		}
 
-		Part part1 = testGetPartPage_addPart(randomPart());
+		Part part1 = testGetPartsPage_addPart(randomPart());
 
 		@SuppressWarnings("PMD.UnusedLocalVariable")
-		Part part2 = testGetPartPage_addPart(randomPart());
+		Part part2 = testGetPartsPage_addPart(randomPart());
 
 		for (EntityField entityField : entityFields) {
-			Page<Part> page = partResource.getPartPage(
+			Page<Part> page = partResource.getPartsPage(
 				null, getFilterString(entityField, "eq", part1),
 				Pagination.of(1, 2), null);
 
@@ -258,25 +259,26 @@ public abstract class BasePartResourceTestCase {
 	}
 
 	@Test
-	public void testGetPartPageWithPagination() throws Exception {
-		Page<Part> totalPage = partResource.getPartPage(null, null, null, null);
+	public void testGetPartsPageWithPagination() throws Exception {
+		Page<Part> totalPage = partResource.getPartsPage(
+			null, null, null, null);
 
 		int totalCount = GetterUtil.getInteger(totalPage.getTotalCount());
 
-		Part part1 = testGetPartPage_addPart(randomPart());
+		Part part1 = testGetPartsPage_addPart(randomPart());
 
-		Part part2 = testGetPartPage_addPart(randomPart());
+		Part part2 = testGetPartsPage_addPart(randomPart());
 
-		Part part3 = testGetPartPage_addPart(randomPart());
+		Part part3 = testGetPartsPage_addPart(randomPart());
 
-		Page<Part> page1 = partResource.getPartPage(
+		Page<Part> page1 = partResource.getPartsPage(
 			null, null, Pagination.of(1, totalCount + 2), null);
 
 		List<Part> parts1 = (List<Part>)page1.getItems();
 
 		Assert.assertEquals(parts1.toString(), totalCount + 2, parts1.size());
 
-		Page<Part> page2 = partResource.getPartPage(
+		Page<Part> page2 = partResource.getPartsPage(
 			null, null, Pagination.of(2, totalCount + 2), null);
 
 		Assert.assertEquals(totalCount + 3, page2.getTotalCount());
@@ -285,7 +287,7 @@ public abstract class BasePartResourceTestCase {
 
 		Assert.assertEquals(parts2.toString(), 1, parts2.size());
 
-		Page<Part> page3 = partResource.getPartPage(
+		Page<Part> page3 = partResource.getPartsPage(
 			null, null, Pagination.of(1, totalCount + 3), null);
 
 		assertContains(part1, (List<Part>)page3.getItems());
@@ -294,8 +296,8 @@ public abstract class BasePartResourceTestCase {
 	}
 
 	@Test
-	public void testGetPartPageWithSortDateTime() throws Exception {
-		testGetPartPageWithSort(
+	public void testGetPartsPageWithSortDateTime() throws Exception {
+		testGetPartsPageWithSort(
 			EntityField.Type.DATE_TIME,
 			(entityField, part1, part2) -> {
 				BeanUtils.setProperty(
@@ -305,8 +307,8 @@ public abstract class BasePartResourceTestCase {
 	}
 
 	@Test
-	public void testGetPartPageWithSortInteger() throws Exception {
-		testGetPartPageWithSort(
+	public void testGetPartsPageWithSortInteger() throws Exception {
+		testGetPartsPageWithSort(
 			EntityField.Type.INTEGER,
 			(entityField, part1, part2) -> {
 				BeanUtils.setProperty(part1, entityField.getName(), 0);
@@ -315,8 +317,8 @@ public abstract class BasePartResourceTestCase {
 	}
 
 	@Test
-	public void testGetPartPageWithSortString() throws Exception {
-		testGetPartPageWithSort(
+	public void testGetPartsPageWithSortString() throws Exception {
+		testGetPartsPageWithSort(
 			EntityField.Type.STRING,
 			(entityField, part1, part2) -> {
 				Class<?> clazz = part1.getClass();
@@ -365,7 +367,7 @@ public abstract class BasePartResourceTestCase {
 			});
 	}
 
-	protected void testGetPartPageWithSort(
+	protected void testGetPartsPageWithSort(
 			EntityField.Type type,
 			UnsafeTriConsumer<EntityField, Part, Part, Exception>
 				unsafeTriConsumer)
@@ -384,19 +386,19 @@ public abstract class BasePartResourceTestCase {
 			unsafeTriConsumer.accept(entityField, part1, part2);
 		}
 
-		part1 = testGetPartPage_addPart(part1);
+		part1 = testGetPartsPage_addPart(part1);
 
-		part2 = testGetPartPage_addPart(part2);
+		part2 = testGetPartsPage_addPart(part2);
 
 		for (EntityField entityField : entityFields) {
-			Page<Part> ascPage = partResource.getPartPage(
+			Page<Part> ascPage = partResource.getPartsPage(
 				null, null, Pagination.of(1, 2),
 				entityField.getName() + ":asc");
 
 			assertEquals(
 				Arrays.asList(part1, part2), (List<Part>)ascPage.getItems());
 
-			Page<Part> descPage = partResource.getPartPage(
+			Page<Part> descPage = partResource.getPartsPage(
 				null, null, Pagination.of(1, 2),
 				entityField.getName() + ":desc");
 
@@ -405,9 +407,48 @@ public abstract class BasePartResourceTestCase {
 		}
 	}
 
-	protected Part testGetPartPage_addPart(Part part) throws Exception {
+	protected Part testGetPartsPage_addPart(Part part) throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetPartsPage() throws Exception {
+		GraphQLField graphQLField = new GraphQLField(
+			"parts",
+			new HashMap<String, Object>() {
+				{
+					put("page", 1);
+					put("pageSize", 10);
+				}
+			},
+			new GraphQLField("items", getGraphQLFields()),
+			new GraphQLField("page"), new GraphQLField("totalCount"));
+
+		JSONObject partsJSONObject = JSONUtil.getValueAsJSONObject(
+			invokeGraphQLQuery(graphQLField), "JSONObject/data",
+			"JSONObject/parts");
+
+		long totalCount = partsJSONObject.getLong("totalCount");
+
+		Part part1 = testGraphQLPart_addPart();
+		Part part2 = testGraphQLPart_addPart();
+
+		partsJSONObject = JSONUtil.getValueAsJSONObject(
+			invokeGraphQLQuery(graphQLField), "JSONObject/data",
+			"JSONObject/parts");
+
+		Assert.assertEquals(
+			totalCount + 2, partsJSONObject.getLong("totalCount"));
+
+		assertContains(
+			part1,
+			Arrays.asList(
+				PartSerDes.toDTOs(partsJSONObject.getString("items"))));
+		assertContains(
+			part2,
+			Arrays.asList(
+				PartSerDes.toDTOs(partsJSONObject.getString("items"))));
 	}
 
 	@Test
@@ -532,48 +573,29 @@ public abstract class BasePartResourceTestCase {
 	}
 
 	@Test
-	public void testPatchPart() throws Exception {
-		Part postPart = testPatchPart_addPart();
-
-		Part randomPatchPart = randomPatchPart();
-
-		@SuppressWarnings("PMD.UnusedLocalVariable")
-		Part patchPart = partResource.patchPart(
-			postPart.getId(), randomPatchPart);
-
-		Part expectedPatchPart = postPart.clone();
-
-		_beanUtilsBean.copyProperties(expectedPatchPart, randomPatchPart);
-
-		Part getPart = partResource.getPart(patchPart.getId());
-
-		assertEquals(expectedPatchPart, getPart);
-		assertValid(getPart);
-	}
-
-	protected Part testPatchPart_addPart() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+	public void testPatchPartApi() throws Exception {
+		Assert.assertTrue(false);
 	}
 
 	@Test
-	public void testPutPart() throws Exception {
-		Part postPart = testPutPart_addPart();
+	public void testPutPartApi() throws Exception {
+		Part postPart = testPutPartApi_addPart();
 
 		Part randomPart = randomPart();
 
-		Part putPart = partResource.putPart(postPart.getId(), randomPart);
+		Part putPart = partResource.putPartApi(
+			postPart.getId(), null, randomPart);
 
 		assertEquals(randomPart, putPart);
 		assertValid(putPart);
 
-		Part getPart = partResource.getPart(putPart.getId());
+		Part getPart = partResource.getPartApi(putPart.getId());
 
 		assertEquals(randomPart, getPart);
 		assertValid(getPart);
 	}
 
-	protected Part testPutPart_addPart() throws Exception {
+	protected Part testPutPartApi_addPart() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}

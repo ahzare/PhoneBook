@@ -14,9 +14,16 @@
 
 package com.sain.phonebook.service.http;
 
+import com.liferay.portal.kernel.log.Log;
+import com.liferay.portal.kernel.log.LogFactoryUtil;
+
+import com.sain.phonebook.service.PartServiceUtil;
+
+import java.rmi.RemoteException;
+
 /**
  * Provides the SOAP utility for the
- * <code>com.sain.phonebook.service.PartServiceUtil</code> service
+ * <code>PartServiceUtil</code> service
  * utility. The static methods of this class call the same methods of the
  * service utility. However, the signatures are different because it is
  * difficult for SOAP to support certain types.
@@ -56,4 +63,106 @@ package com.sain.phonebook.service.http;
  */
 @Deprecated
 public class PartServiceSoap {
+
+	public static com.sain.phonebook.model.PartSoap getPart(long partId)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Part returnValue = PartServiceUtil.getPart(
+				partId);
+
+			return com.sain.phonebook.model.PartSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.PartSoap addPart(
+			String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Part returnValue = PartServiceUtil.addPart(
+				name, internalPhone, addressId, serviceContext);
+
+			return com.sain.phonebook.model.PartSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.PartSoap updatePart(
+			long id, String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Part returnValue =
+				PartServiceUtil.updatePart(
+					id, name, internalPhone, addressId, serviceContext);
+
+			return com.sain.phonebook.model.PartSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.PartSoap patchPart(
+			long id, String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Part returnValue =
+				PartServiceUtil.patchPart(
+					id, name, internalPhone, addressId, serviceContext);
+
+			return com.sain.phonebook.model.PartSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static void deletePart(long partId) throws RemoteException {
+		try {
+			PartServiceUtil.deletePart(partId);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.PartSoap[] getAll()
+		throws RemoteException {
+
+		try {
+			java.util.List<com.sain.phonebook.model.Part> returnValue =
+				PartServiceUtil.getAll();
+
+			return com.sain.phonebook.model.PartSoap.toSoapModels(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	private static Log _log = LogFactoryUtil.getLog(PartServiceSoap.class);
+
 }

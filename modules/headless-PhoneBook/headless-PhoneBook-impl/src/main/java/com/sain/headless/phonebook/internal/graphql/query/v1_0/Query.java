@@ -170,12 +170,12 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {part(filter: ___, page: ___, pageSize: ___, search: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {parts(filter: ___, page: ___, pageSize: ___, search: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
 		description = "Retrieves the list of parts. Results can be paginated, filtered, searched, and sorted."
 	)
-	public PartPage part(
+	public PartPage parts(
 			@GraphQLName("search") String search,
 			@GraphQLName("filter") String filterString,
 			@GraphQLName("pageSize") int pageSize,
@@ -187,7 +187,7 @@ public class Query {
 			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			partResource -> new PartPage(
-				partResource.getPartPage(
+				partResource.getPartsPage(
 					search, _filterBiFunction.apply(partResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(partResource, sortsString))));

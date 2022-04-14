@@ -14,6 +14,12 @@
 
 package com.sain.phonebook.service;
 
+import com.liferay.portal.kernel.exception.PortalException;
+
+import com.sain.phonebook.model.Part;
+
+import java.util.List;
+
 /**
  * Provides the remote service utility for Part. This utility wraps
  * <code>com.sain.phonebook.service.impl.PartServiceImpl</code> and is an
@@ -33,14 +39,52 @@ public class PartServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>com.sain.phonebook.service.impl.PartServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Part addPart(
+			String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addPart(
+			name, internalPhone, addressId, serviceContext);
+	}
+
+	public static void deletePart(long partId) throws PortalException {
+		getService().deletePart(partId);
+	}
+
+	public static List<Part> getAll() {
+		return getService().getAll();
+	}
 
 	/**
 	 * Returns the OSGi service identifier.
 	 *
 	 * @return the OSGi service identifier
 	 */
-	public static java.lang.String getOSGiServiceIdentifier() {
+	public static String getOSGiServiceIdentifier() {
 		return getService().getOSGiServiceIdentifier();
+	}
+
+	public static Part getPart(long partId) throws PortalException {
+		return getService().getPart(partId);
+	}
+
+	public static Part patchPart(
+			long id, String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().patchPart(
+			id, name, internalPhone, addressId, serviceContext);
+	}
+
+	public static Part updatePart(
+			long id, String name, String internalPhone, long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updatePart(
+			id, name, internalPhone, addressId, serviceContext);
 	}
 
 	public static PartService getService() {

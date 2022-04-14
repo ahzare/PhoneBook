@@ -59,6 +59,14 @@ public class AddressLocalServiceUtil {
 		return getService().addAddress(address);
 	}
 
+	public static Address addAddress(
+			String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().addAddress(name, serviceContext);
+	}
+
 	/**
 	 * Creates a new address with the primary key. Does not add the address to the database.
 	 *
@@ -331,6 +339,14 @@ public class AddressLocalServiceUtil {
 		return getService().getPersistedModel(primaryKeyObj);
 	}
 
+	public static Address patchAddress(
+			long addressId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().patchAddress(addressId, name, serviceContext);
+	}
+
 	/**
 	 * Updates the address in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
@@ -343,6 +359,14 @@ public class AddressLocalServiceUtil {
 	 */
 	public static Address updateAddress(Address address) {
 		return getService().updateAddress(address);
+	}
+
+	public static Address updateAddress(
+			long addressId, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		return getService().updateAddress(addressId, name, serviceContext);
 	}
 
 	public static AddressLocalService getService() {

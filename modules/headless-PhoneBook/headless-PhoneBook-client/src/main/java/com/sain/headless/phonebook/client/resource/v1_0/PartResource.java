@@ -26,26 +26,27 @@ public interface PartResource {
 		return new Builder();
 	}
 
-	public Page<Part> getPartPage(
+	public Page<Part> getPartsPage(
 			String search, String filterString, Pagination pagination,
 			String sortString)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse getPartPageHttpResponse(
+	public HttpInvoker.HttpResponse getPartsPageHttpResponse(
 			String search, String filterString, Pagination pagination,
 			String sortString)
 		throws Exception;
 
-	public Part postPart(Part part) throws Exception;
+	public Part postPart(Long addressId, Part part) throws Exception;
 
-	public HttpInvoker.HttpResponse postPartHttpResponse(Part part)
+	public HttpInvoker.HttpResponse postPartHttpResponse(
+			Long addressId, Part part)
 		throws Exception;
 
-	public void postPartBatch(String callbackURL, Object object)
+	public void postPartBatch(Long addressId, String callbackURL, Object object)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse postPartBatchHttpResponse(
-			String callbackURL, Object object)
+			Long addressId, String callbackURL, Object object)
 		throws Exception;
 
 	public void deletePart(Long partId) throws Exception;
@@ -65,22 +66,18 @@ public interface PartResource {
 	public HttpInvoker.HttpResponse getPartHttpResponse(Long partId)
 		throws Exception;
 
-	public Part patchPart(Long partId, Part part) throws Exception;
-
-	public HttpInvoker.HttpResponse patchPartHttpResponse(
-			Long partId, Part part)
+	public Part patchPartApi(Long partId, Long addressId, Part part)
 		throws Exception;
 
-	public Part putPart(Long partId, Part part) throws Exception;
-
-	public HttpInvoker.HttpResponse putPartHttpResponse(Long partId, Part part)
+	public HttpInvoker.HttpResponse patchPartApiHttpResponse(
+			Long partId, Long addressId, Part part)
 		throws Exception;
 
-	public void putPartBatch(String callbackURL, Object object)
+	public Part putPartApi(Long partId, Long addressId, Part part)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse putPartBatchHttpResponse(
-			String callbackURL, Object object)
+	public HttpInvoker.HttpResponse putPartApiHttpResponse(
+			Long partId, Long addressId, Part part)
 		throws Exception;
 
 	public static class Builder {
@@ -154,12 +151,12 @@ public interface PartResource {
 
 	public static class PartResourceImpl implements PartResource {
 
-		public Page<Part> getPartPage(
+		public Page<Part> getPartsPage(
 				String search, String filterString, Pagination pagination,
 				String sortString)
 			throws Exception {
 
-			HttpInvoker.HttpResponse httpResponse = getPartPageHttpResponse(
+			HttpInvoker.HttpResponse httpResponse = getPartsPageHttpResponse(
 				search, filterString, pagination, sortString);
 
 			String content = httpResponse.getContent();
@@ -199,7 +196,7 @@ public interface PartResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getPartPageHttpResponse(
+		public HttpInvoker.HttpResponse getPartsPageHttpResponse(
 				String search, String filterString, Pagination pagination,
 				String sortString)
 			throws Exception {
@@ -254,8 +251,9 @@ public interface PartResource {
 			return httpInvoker.invoke();
 		}
 
-		public Part postPart(Part part) throws Exception {
-			HttpInvoker.HttpResponse httpResponse = postPartHttpResponse(part);
+		public Part postPart(Long addressId, Part part) throws Exception {
+			HttpInvoker.HttpResponse httpResponse = postPartHttpResponse(
+				addressId, part);
 
 			String content = httpResponse.getContent();
 
@@ -294,7 +292,8 @@ public interface PartResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse postPartHttpResponse(Part part)
+		public HttpInvoker.HttpResponse postPartHttpResponse(
+				Long addressId, Part part)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -320,6 +319,10 @@ public interface PartResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
 
+			if (addressId != null) {
+				httpInvoker.parameter("addressId", String.valueOf(addressId));
+			}
+
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port + "/o/headless-PhoneBook/v1.0/parts");
@@ -330,11 +333,12 @@ public interface PartResource {
 			return httpInvoker.invoke();
 		}
 
-		public void postPartBatch(String callbackURL, Object object)
+		public void postPartBatch(
+				Long addressId, String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = postPartBatchHttpResponse(
-				callbackURL, object);
+				addressId, callbackURL, object);
 
 			String content = httpResponse.getContent();
 
@@ -363,7 +367,7 @@ public interface PartResource {
 		}
 
 		public HttpInvoker.HttpResponse postPartBatchHttpResponse(
-				String callbackURL, Object object)
+				Long addressId, String callbackURL, Object object)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -388,6 +392,10 @@ public interface PartResource {
 			}
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
+
+			if (addressId != null) {
+				httpInvoker.parameter("addressId", String.valueOf(addressId));
+			}
 
 			if (callbackURL != null) {
 				httpInvoker.parameter(
@@ -633,9 +641,11 @@ public interface PartResource {
 			return httpInvoker.invoke();
 		}
 
-		public Part patchPart(Long partId, Part part) throws Exception {
-			HttpInvoker.HttpResponse httpResponse = patchPartHttpResponse(
-				partId, part);
+		public Part patchPartApi(Long partId, Long addressId, Part part)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse = patchPartApiHttpResponse(
+				partId, addressId, part);
 
 			String content = httpResponse.getContent();
 
@@ -674,8 +684,8 @@ public interface PartResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse patchPartHttpResponse(
-				Long partId, Part part)
+		public HttpInvoker.HttpResponse patchPartApiHttpResponse(
+				Long partId, Long addressId, Part part)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -701,6 +711,10 @@ public interface PartResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PATCH);
 
+			if (addressId != null) {
+				httpInvoker.parameter("addressId", String.valueOf(addressId));
+			}
+
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
@@ -714,9 +728,11 @@ public interface PartResource {
 			return httpInvoker.invoke();
 		}
 
-		public Part putPart(Long partId, Part part) throws Exception {
-			HttpInvoker.HttpResponse httpResponse = putPartHttpResponse(
-				partId, part);
+		public Part putPartApi(Long partId, Long addressId, Part part)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse = putPartApiHttpResponse(
+				partId, addressId, part);
 
 			String content = httpResponse.getContent();
 
@@ -755,8 +771,8 @@ public interface PartResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse putPartHttpResponse(
-				Long partId, Part part)
+		public HttpInvoker.HttpResponse putPartApiHttpResponse(
+				Long partId, Long addressId, Part part)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -782,86 +798,16 @@ public interface PartResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
 
+			if (addressId != null) {
+				httpInvoker.parameter("addressId", String.valueOf(addressId));
+			}
+
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
 					_builder._port +
 						"/o/headless-PhoneBook/v1.0/parts/{partId}");
 
 			httpInvoker.path("partId", partId);
-
-			httpInvoker.userNameAndPassword(
-				_builder._login + ":" + _builder._password);
-
-			return httpInvoker.invoke();
-		}
-
-		public void putPartBatch(String callbackURL, Object object)
-			throws Exception {
-
-			HttpInvoker.HttpResponse httpResponse = putPartBatchHttpResponse(
-				callbackURL, object);
-
-			String content = httpResponse.getContent();
-
-			if ((httpResponse.getStatusCode() / 100) != 2) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response content: " + content);
-				_logger.log(
-					Level.WARNING,
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.log(
-					Level.WARNING,
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-
-				throw new Problem.ProblemException(Problem.toDTO(content));
-			}
-			else {
-				_logger.fine("HTTP response content: " + content);
-				_logger.fine(
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.fine(
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-			}
-		}
-
-		public HttpInvoker.HttpResponse putPartBatchHttpResponse(
-				String callbackURL, Object object)
-			throws Exception {
-
-			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			httpInvoker.body(object.toString(), "application/json");
-
-			if (_builder._locale != null) {
-				httpInvoker.header(
-					"Accept-Language", _builder._locale.toLanguageTag());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._headers.entrySet()) {
-
-				httpInvoker.header(entry.getKey(), entry.getValue());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._parameters.entrySet()) {
-
-				httpInvoker.parameter(entry.getKey(), entry.getValue());
-			}
-
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
-
-			if (callbackURL != null) {
-				httpInvoker.parameter(
-					"callbackURL", String.valueOf(callbackURL));
-			}
-
-			httpInvoker.path(
-				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/headless-PhoneBook/v1.0/parts/batch");
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

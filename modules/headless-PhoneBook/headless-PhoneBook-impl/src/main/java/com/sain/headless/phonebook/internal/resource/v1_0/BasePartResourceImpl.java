@@ -94,7 +94,7 @@ public abstract class BasePartResourceImpl
 	@javax.ws.rs.Path("/parts")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Page<Part> getPartPage(
+	public Page<Part> getPartsPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("search")
 			String search,
@@ -112,6 +112,14 @@ public abstract class BasePartResourceImpl
 	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts' -d $'{"address": ___, "id": ___, "internalPhone": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@io.swagger.v3.oas.annotations.Operation(description = "Create a new part.")
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "addressId"
+			)
+		}
+	)
 	@io.swagger.v3.oas.annotations.tags.Tags(
 		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Part")}
 	)
@@ -120,7 +128,13 @@ public abstract class BasePartResourceImpl
 	@javax.ws.rs.POST
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Part postPart(Part part) throws Exception {
+	public Part postPart(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("addressId")
+			Long addressId,
+			Part part)
+		throws Exception {
+
 		return new Part();
 	}
 
@@ -131,6 +145,10 @@ public abstract class BasePartResourceImpl
 	 */
 	@io.swagger.v3.oas.annotations.Parameters(
 		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "addressId"
+			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "callbackURL"
@@ -146,6 +164,9 @@ public abstract class BasePartResourceImpl
 	@javax.ws.rs.Produces("application/json")
 	@Override
 	public Response postPartBatch(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("addressId")
+			Long addressId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
@@ -289,6 +310,10 @@ public abstract class BasePartResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
 				name = "partId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "addressId"
 			)
 		}
 	)
@@ -300,27 +325,18 @@ public abstract class BasePartResourceImpl
 	@javax.ws.rs.Path("/parts/{partId}")
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@Override
-	public Part patchPart(
+	public Part patchPartApi(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("partId")
 			Long partId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("addressId")
+			Long addressId,
 			Part part)
 		throws Exception {
 
-		Part existingPart = getPart(partId);
-
-		if (part.getInternalPhone() != null) {
-			existingPart.setInternalPhone(part.getInternalPhone());
-		}
-
-		if (part.getName() != null) {
-			existingPart.setName(part.getName());
-		}
-
-		preparePatch(part, existingPart);
-
-		return putPart(partId, existingPart);
+		return new Part();
 	}
 
 	/**
@@ -336,6 +352,10 @@ public abstract class BasePartResourceImpl
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
 				name = "partId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "addressId"
 			)
 		}
 	)
@@ -347,59 +367,18 @@ public abstract class BasePartResourceImpl
 	@javax.ws.rs.Produces({"application/json", "application/xml"})
 	@javax.ws.rs.PUT
 	@Override
-	public Part putPart(
+	public Part putPartApi(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.validation.constraints.NotNull
 			@javax.ws.rs.PathParam("partId")
 			Long partId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("addressId")
+			Long addressId,
 			Part part)
 		throws Exception {
 
 		return new Part();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'PUT' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts/batch'  -u 'test@liferay.com:test'
-	 */
-	@io.swagger.v3.oas.annotations.Parameters(
-		value = {
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "callbackURL"
-			)
-		}
-	)
-	@io.swagger.v3.oas.annotations.tags.Tags(
-		value = {@io.swagger.v3.oas.annotations.tags.Tag(name = "Part")}
-	)
-	@javax.ws.rs.Consumes("application/json")
-	@javax.ws.rs.Path("/parts/batch")
-	@javax.ws.rs.Produces("application/json")
-	@javax.ws.rs.PUT
-	@Override
-	public Response putPartBatch(
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("callbackURL")
-			String callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.putImportTask(
-				Part.class.getName(), callbackURL, object)
-		).build();
 	}
 
 	@Override
@@ -410,7 +389,7 @@ public abstract class BasePartResourceImpl
 		throws Exception {
 
 		UnsafeConsumer<Part, Exception> partUnsafeConsumer = part -> postPart(
-			part);
+			Long.parseLong((String)parameters.get("addressId")), part);
 
 		for (Part part : parts) {
 			partUnsafeConsumer.accept(part);
@@ -449,7 +428,7 @@ public abstract class BasePartResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return null;
+		return getPartsPage(search, filter, pagination, sorts);
 	}
 
 	@Override
@@ -479,13 +458,6 @@ public abstract class BasePartResourceImpl
 			java.util.Collection<Part> parts,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Part part : parts) {
-			putPart(
-				part.getId() != null ? part.getId() :
-					Long.parseLong((String)parameters.get("partId")),
-				part);
-		}
 	}
 
 	public void setContextAcceptLanguage(AcceptLanguage contextAcceptLanguage) {
@@ -609,9 +581,6 @@ public abstract class BasePartResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
-	}
-
-	protected void preparePatch(Part part, Part existingPart) {
 	}
 
 	protected <T, R> List<R> transform(
