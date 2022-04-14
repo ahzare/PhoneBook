@@ -8,28 +8,25 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class DepartmentEntityModel implements EntityModel {
-    public DepartmentEntityModel() {
+public class PersonEntityModel implements EntityModel {
+    public PersonEntityModel() {
         _entityFieldsMap = Stream.of(
-                // chemicalNames is a string array of the chemical names of the vitamins/minerals
+                /*// chemicalNames is a string array of the chemical names of the vitamins/minerals
                 new CollectionEntityField(
                         new StringEntityField(
                                 "chemicalNames", locale -> Field.getSortableFieldName("chemicalNames"))),
 
-                // we'll support filtering based upon user creator id.
-                new IntegerEntityField("creatorId", locale -> Field.USER_ID),
+                 // we'll support filtering based upon user creator id.
+                new IntegerEntityField("creatorId", locale -> Field.USER_ID),*/
 
                 // sorting/filtering on name is okay too
                 new StringEntityField(
-                        "name", locale -> Field.getSortableFieldName(Field.NAME)),
+                        "firstName", locale -> Field.getSortableFieldName("firstName")),
 
                 // as is sorting/filtering on the vitamin group
                 new StringEntityField(
-                        "group", locale -> Field.getSortableFieldName("vitaminGroup")),
+                        "lastName", locale -> Field.getSortableFieldName("lastName"))
 
-                // and the type (vitamin, mineral, other).
-                new StringEntityField(
-                        "departmentId", locale -> Field.getSortableFieldName("vType"))
         ).collect(
                 Collectors.toMap(EntityField::getName, Function.identity())
         );

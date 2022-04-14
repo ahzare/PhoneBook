@@ -1,15 +1,21 @@
 package com.sain.headless.phonebook.internal.resource.v1_0;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.Accessor;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
+import com.liferay.portal.vulcan.util.SearchUtil;
 import com.sain.headless.phonebook.dto.v1_0.Person;
+import com.sain.headless.phonebook.internal.odata.entity.v1_0.PersonEntityModel;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 
 import com.sain.phonebook.service.DepartmentService;
@@ -22,8 +28,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.validation.constraints.NotNull;
+import javax.ws.rs.core.MultivaluedMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Amir
@@ -94,14 +102,13 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		}};*/
     }
 
+    private PersonEntityModel _personEntityModel = new PersonEntityModel();
 
-	/*private PersonEntityModel _personEntityModel = new PersonEntityModel();
-
-	@Override
-	public EntityModel getEntityModel(MultivaluedMap multivaluedMap)
-			throws Exception {
-		return _personEntityModel;
-	}*/
+    @Override
+    public EntityModel getEntityModel(MultivaluedMap multivaluedMap)
+            throws Exception {
+        return _personEntityModel;
+    }
 
     @Override
     public Page<Person> getPersonsPage(String search, Long departmentId,
@@ -111,7 +118,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
         System.out.println("getPersonsPage");
 
 
-       /* return SearchUtil.search(
+        /*return SearchUtil.search(
                 null,
                 booleanQuery -> {
                 },
@@ -123,11 +130,10 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                     searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
                 },
                 sorts,
-                document -> _toPerson(_persistedPersonService.getPersistedPerson(document.get(Field.ENTRY_CLASS_PK))));
+                document -> _toPerson(_personService.getPerson(Long.parseLong(document.get(Field.ENTRY_CLASS_PK)))));
 */
 
-
-       /* return SearchUtil.search(
+        /*return SearchUtil.search(
               null,
                 booleanQuery -> {
                 },
@@ -141,36 +147,16 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                 },
                 sorts,
                 document -> _toPerson(
-                        _persistedPersonService.getPersistedPerson(
-                                GetterUtil.getString(document.get(Field.ENTRY_CLASS_PK)))));*/
+                        _personService.getPerson(
+                                Long.parseLong(GetterUtil.getString(document.get(Field.ENTRY_CLASS_PK))))));
+*/
 
-
-       /* List<Person> list = _persistedPersonService.getAll()
-                .stream().map(persistedPerson -> {
-                    try {
-                        // adding for search
-                        Person person = _toPerson(persistedPerson);
-                        if (search != null) {
-                            if (person.getName().contains(search)) {
-                                return person;
-                            }
-                        } else {
-                            return person;
-                        }
-
-                        //                        return _toPerson(persistedPerson);
-                    } catch (PortalException e) {
-                        e.printStackTrace();
-                    }
-                    return new Person();
-                }).collect(Collectors.toList());*/
-
-        if (departmentId != null && departmentId != 0) {
+       /* if (departmentId != null && departmentId != 0) {
             // get people of specific department
         }
         if (roleId != null && roleId != 0) {
             // get people of specific role
-        }
+        }*/
 
         List<com.sain.phonebook.model.Person> persistedPersons = _personService.getAll();
         List<Person> list = new ArrayList<>();
@@ -183,6 +169,16 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                 }
             } else {
                 list.add(person);
+            }
+            if (departmentId != null && departmentId != 0) {
+                if (person.getDepartment() == null || !person.getDepartment().getId().equals(departmentId)) {
+                    list.remove(person);
+                }
+            }
+            if (roleId != null && roleId != 0) {
+                if (person.getRole() == null || !person.getRole().getId().equals(roleId)) {
+                    list.remove(person);
+                }
             }
         }
 
@@ -230,8 +226,8 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                             person.getRoomNumber(),
                             person.getEmail(),
                             person.getWebsite(),
-                            departmentId,
-                            roleId,
+                            (departmentId != null ? departmentId : 0),
+                            (roleId != null ? roleId : 0),
                             _getServiceContext());
             return _toPerson(persistedPerson);
         } catch (Exception e) {

@@ -17,11 +17,16 @@ package com.sain.phonebook.service.impl;
 import com.liferay.portal.aop.AopService;
 
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.RoleServiceBaseImpl;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,13 +44,13 @@ import java.util.List;
 )
 public class RoleServiceImpl extends RoleServiceBaseImpl {
     // todo: for permissions
-/*	@Reference(
+	@Reference(
 			policy = ReferencePolicy.DYNAMIC,
 			policyOption= ReferencePolicyOption.GREEDY,
 			target ="(model.class.name=com.sain.phonebook.model.Role)"
 	)
 	private volatile ModelResourcePermission<Role>
-			_roleModelResourcePermission;*/
+			_roleModelResourcePermission;
 
     public Role getRole(final long roleId) throws PortalException {
         Role role = roleLocalService.getRole(roleId);

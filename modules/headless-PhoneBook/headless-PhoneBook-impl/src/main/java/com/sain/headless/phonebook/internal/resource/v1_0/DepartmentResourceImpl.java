@@ -7,7 +7,7 @@ import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.sain.headless.phonebook.dto.v1_0.Department;
-import com.sain.headless.phonebook.internal.odata.entity.v1_0.DepartmentEntityModel;
+import com.sain.headless.phonebook.internal.odata.entity.v1_0.PersonEntityModel;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.pagination.Page;
@@ -79,7 +79,7 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
     }
 
 
-    private DepartmentEntityModel _departmentEntityModel = new DepartmentEntityModel();
+    private PersonEntityModel _departmentEntityModel = new PersonEntityModel();
 
     @Override
     public EntityModel getEntityModel(MultivaluedMap multivaluedMap)

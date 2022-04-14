@@ -150,11 +150,9 @@ public abstract class BasePersonResourceImpl
 	@Override
 	public Person postPerson(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
 			@javax.ws.rs.QueryParam("roleId")
 			Long roleId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
 			@javax.ws.rs.QueryParam("departmentId")
 			Long departmentId,
 			Person person)
@@ -194,11 +192,9 @@ public abstract class BasePersonResourceImpl
 	@Override
 	public Response postPersonBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
 			@javax.ws.rs.QueryParam("roleId")
 			Long roleId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.validation.constraints.NotNull
 			@javax.ws.rs.QueryParam("departmentId")
 			Long departmentId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)

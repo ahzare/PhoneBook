@@ -178,7 +178,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
     @SystemEvent(type = SystemEventConstants.TYPE_DELETE)
     @Override
     public Role deleteRole(Role role) {
-        /*try{
+        try{
             resourceLocalService.deleteResource(
                     role.getCompanyId(),
                     Role.class.getName(),
@@ -187,7 +187,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
         }catch(PortalException e){
             _log.warn("Error deleting persisted role permissions: "+
                     e.getMessage(), e);
-        }*/
+        }
 
 //        todo: delete role roles and departments
 

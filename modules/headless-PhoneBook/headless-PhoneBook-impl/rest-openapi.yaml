@@ -154,13 +154,11 @@ paths:
       description: Create a new person.
       parameters:
         - in: query
-          required: true
           name: roleId
           schema:
             format: int64
             type: integer
         - in: query
-          required: true
           name: departmentId
           schema:
             format: int64
