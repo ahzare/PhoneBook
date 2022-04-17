@@ -9,6 +9,7 @@ import com.sain.headless.phonebook.resource.v1_0.DepartmentResource;
 import com.sain.headless.phonebook.resource.v1_0.PartResource;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 import com.sain.headless.phonebook.resource.v1_0.RoleResource;
+import com.sain.headless.phonebook.resource.v1_0.TestResource;
 
 import javax.annotation.Generated;
 
@@ -50,6 +51,8 @@ public class ServletDataImpl implements ServletData {
 			_personResourceComponentServiceObjects);
 		Query.setRoleResourceComponentServiceObjects(
 			_roleResourceComponentServiceObjects);
+		Query.setTestResourceComponentServiceObjects(
+			_testResourceComponentServiceObjects);
 	}
 
 	@Override
@@ -86,5 +89,9 @@ public class ServletDataImpl implements ServletData {
 	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
 	private ComponentServiceObjects<RoleResource>
 		_roleResourceComponentServiceObjects;
+
+	@Reference(scope = ReferenceScope.PROTOTYPE_REQUIRED)
+	private ComponentServiceObjects<TestResource>
+		_testResourceComponentServiceObjects;
 
 }
