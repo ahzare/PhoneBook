@@ -6,24 +6,24 @@ import com.liferay.portal.search.batch.DynamicQueryBatchIndexingActionableFactor
 import com.liferay.portal.search.spi.model.index.contributor.ModelIndexerWriterContributor;
 import com.liferay.portal.search.spi.model.index.contributor.helper.IndexerWriterMode;
 import com.liferay.portal.search.spi.model.index.contributor.helper.ModelIndexerWriterDocumentHelper;
-import com.sain.phonebook.model.Person;
-import com.sain.phonebook.service.PersonLocalService;
+import com.sain.phonebook.model.Part;
+import com.sain.phonebook.service.PartLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
 @Component(
         immediate = true,
         property
-                = "indexer.class.name=com.sain.phonebook.model.Person",
+                = "indexer.class.name=com.sain.phonebook.model.Part",
         service = ModelIndexerWriterContributor.class
 )
-public class PersonModelIndexerWriterContributor
-        implements ModelIndexerWriterContributor<Person> {
+public class PartModelIndexerWriterContributor
+        implements ModelIndexerWriterContributor<Part> {
     @Override
     public void customize(BatchIndexingActionable batchIndexingActionable,
                           ModelIndexerWriterDocumentHelper modelIndexerWriterDocumentHelper) {
-        batchIndexingActionable.setPerformActionMethod((Person person) -> {
-            Document document = modelIndexerWriterDocumentHelper.getDocument(person);
+        batchIndexingActionable.setPerformActionMethod((Part part) -> {
+            Document document = modelIndexerWriterDocumentHelper.getDocument(part);
             batchIndexingActionable.addDocuments(document);
         });
     }
@@ -31,22 +31,22 @@ public class PersonModelIndexerWriterContributor
     @Override
     public BatchIndexingActionable getBatchIndexingActionable() {
         return dynamicQueryBatchIndexingActionableFactory
-                .getBatchIndexingActionable(personLocalService
+                .getBatchIndexingActionable(PartLocalService
                         .getIndexableActionableDynamicQuery());
     }
 
     @Override
-    public long getCompanyId(Person baseModel) {
+    public long getCompanyId(Part baseModel) {
         return baseModel.getCompanyId();
     }
 
     @Override
-    public IndexerWriterMode getIndexerWriterMode(Person baseModel) {
+    public IndexerWriterMode getIndexerWriterMode(Part baseModel) {
         return IndexerWriterMode.UPDATE;
     }
 
     @Reference
-    private PersonLocalService personLocalService;
+    private PartLocalService PartLocalService;
     @Reference
     private DynamicQueryBatchIndexingActionableFactory dynamicQueryBatchIndexingActionableFactory;
 }

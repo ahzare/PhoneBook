@@ -101,6 +101,59 @@ Resource Action Mapping 7.2.0//EN"
         </permissions>
     </model-resource>
 
+    <model-resource>
+        <model-name>com.sain.phonebook.model.Address</model-name>
+        <portlet-ref>
+            <portlet-name>com_sain_phonebook_web_portlet_PhonebookAdminPortlet</portlet-name>
+        </portlet-ref>
+        <weight>4</weight>
+        <permissions>
+            <supports>
+                <action-key>DELETE</action-key>
+                <action-key>PERMISSIONS</action-key>
+                <action-key>UPDATE</action-key>
+                <action-key>VIEW</action-key>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+                <action-key>VIEW</action-key>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>DELETE</action-key>
+                <action-key>PERMISSIONS</action-key>
+                <action-key>UPDATE</action-key>
+            </guest-unsupported>
+        </permissions>
+    </model-resource>
+    <model-resource>
+        <model-name>com.sain.phonebook.model.Part</model-name>
+        <portlet-ref>
+            <portlet-name>com_sain_phonebook_web_portlet_PhonebookAdminPortlet</portlet-name>
+        </portlet-ref>
+        <weight>4</weight>
+        <permissions>
+            <supports>
+                <action-key>DELETE</action-key>
+                <action-key>PERMISSIONS</action-key>
+                <action-key>UPDATE</action-key>
+                <action-key>VIEW</action-key>
+            </supports>
+            <site-member-defaults>
+                <action-key>VIEW</action-key>
+            </site-member-defaults>
+            <guest-defaults>
+                <action-key>VIEW</action-key>
+            </guest-defaults>
+            <guest-unsupported>
+                <action-key>DELETE</action-key>
+                <action-key>PERMISSIONS</action-key>
+                <action-key>UPDATE</action-key>
+            </guest-unsupported>
+        </permissions>
+    </model-resource>
+
     <!--<model-resource>
         <model-name>com.denbinger.vitamins.model.VitaminDetail</model-name>
         <portlet-ref>
