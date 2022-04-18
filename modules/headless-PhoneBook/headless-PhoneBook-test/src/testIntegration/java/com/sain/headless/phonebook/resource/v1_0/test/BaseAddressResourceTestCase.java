@@ -34,7 +34,6 @@ import com.liferay.portal.test.rule.LiferayIntegrationTestRule;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
 
 import com.sain.headless.phonebook.client.dto.v1_0.Address;
-import com.sain.headless.phonebook.client.dto.v1_0.Test;
 import com.sain.headless.phonebook.client.http.HttpInvoker;
 import com.sain.headless.phonebook.client.pagination.Page;
 import com.sain.headless.phonebook.client.pagination.Pagination;

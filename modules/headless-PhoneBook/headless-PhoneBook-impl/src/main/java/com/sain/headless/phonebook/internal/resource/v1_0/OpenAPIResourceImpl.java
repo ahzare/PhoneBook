@@ -76,8 +76,6 @@ public class OpenAPIResourceImpl {
 
 			add(RoleResourceImpl.class);
 
-			add(TestResourceImpl.class);
-
 			add(OpenAPIResourceImpl.class);
 		}
 	};
