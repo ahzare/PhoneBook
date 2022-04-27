@@ -1,18 +1,18 @@
 dependencies {
 	compile project(":modules:PhoneBookWeb:PhoneBookWeb-api")
-	compileOnly group: "com.liferay.portal", name: "release.portal.api" , version: "7.3.7-ga8"
+
+	compileOnly group: "com.liferay", name: "com.liferay.petra.function"
 	compileOnly group: "com.liferay", name: "com.liferay.petra.lang"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.string", version: "4.0.3"
+	compileOnly group: "com.liferay", name: "com.liferay.petra.string"
 	compileOnly group: "com.liferay", name: "com.liferay.portal.aop.api"
-	compileOnly group: "com.liferay.portal", name: "com.liferay.portal.kernel"
-	compileOnly group: "com.liferay", name: "com.liferay.petra.function", version: "4.0.3"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.search.spi", version: "4.3.4"
-	compileOnly group: "com.liferay", name: "com.liferay.portal.search.api", version: "4.19.0"
-	compileOnly group: "org.slf4j", name: "slf4j-api"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.search.api"
+	compileOnly group: "com.liferay", name: "com.liferay.portal.search.spi"
+	compileOnly group: "com.liferay.portal", name: "release.portal.api" , version: "7.3.7-ga8"
 	compileOnly group: "commons-lang", name: "commons-lang"
 	compileOnly group: "org.osgi", name: "org.osgi.annotation.versioning"
 	compileOnly group: "org.osgi", name: "org.osgi.core"
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
+	compileOnly group: "org.slf4j", name: "slf4j-api"
 }
 
 buildService {

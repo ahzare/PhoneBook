@@ -21,7 +21,7 @@ import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.search.spi.model.index.contributor.ModelIndexerWriterContributor;
 import com.liferay.portal.search.spi.model.registrar.ModelSearchRegistrarHelper;
 import com.liferay.portal.search.spi.model.result.contributor.ModelSummaryContributor;
-import com.sain.phonebook.model.Part;
+import com.sain.phonebook.model.Person;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.component.annotations.Activate;
@@ -31,26 +31,26 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(immediate = true, service = PartRegistrar.class)
-public class PartRegistrar {
+@Component(immediate = true, service = PersonSearchRegistrar.class)
+public class PersonSearchRegistrar {
 
 	@Activate
 	public void activate(BundleContext bundleContext) {
 		_serviceRegistration = modelSearchRegistrarHelper.register(
-			Part.class, bundleContext,
+			Person.class, bundleContext,
 			modelSearchDefinition -> {
 				modelSearchDefinition.setDefaultSelectedFieldNames(
 					Field.COMPANY_ID, Field.ENTRY_CLASS_NAME,
 					Field.ENTRY_CLASS_PK, Field.GROUP_ID, Field.SCOPE_GROUP_ID,
-					Field.UID, Field.NAME);
+					Field.UID, "firstName", "lastName");
 
 				modelSearchDefinition.setModelIndexWriteContributor(
-					PartModelIndexerWriterContributor);
+					personModelIndexerWriterContributor);
 
 				modelSearchDefinition.setModelSummaryContributor(
 					modelSummaryContributor);
 			});
-		_logger.error("Part registrar for search");
+		_logger.error("person registrar for search");
 	}
 
 	@Deactivate
@@ -61,14 +61,14 @@ public class PartRegistrar {
 	@Reference
 	protected ModelSearchRegistrarHelper modelSearchRegistrarHelper;
 
-	@Reference(target = "(indexer.class.name=com.sain.phonebook.model.Part)")
+	@Reference(target = "(indexer.class.name=com.sain.phonebook.model.Person)")
 	protected ModelSummaryContributor modelSummaryContributor;
 
-	@Reference(target = "(indexer.class.name=com.sain.phonebook.model.Part)")
-	protected ModelIndexerWriterContributor<Part>
-		PartModelIndexerWriterContributor;
+	@Reference(target = "(indexer.class.name=com.sain.phonebook.model.Person)")
+	protected ModelIndexerWriterContributor<Person>
+		personModelIndexerWriterContributor;
 
-	private final Logger _logger = LoggerFactory.getLogger(PartRegistrar.class);
+	private final Logger _logger = LoggerFactory.getLogger(PersonSearchRegistrar.class);
 
 	private ServiceRegistration<?> _serviceRegistration;
 

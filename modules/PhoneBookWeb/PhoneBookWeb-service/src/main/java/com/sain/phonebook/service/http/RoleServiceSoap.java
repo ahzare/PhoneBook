@@ -64,22 +64,6 @@ import java.rmi.RemoteException;
 @Deprecated
 public class RoleServiceSoap {
 
-	public static com.sain.phonebook.model.RoleSoap getRole(long roleId)
-		throws RemoteException {
-
-		try {
-			com.sain.phonebook.model.Role returnValue = RoleServiceUtil.getRole(
-				roleId);
-
-			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
 	public static com.sain.phonebook.model.RoleSoap addRole(
 			String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
@@ -88,42 +72,6 @@ public class RoleServiceSoap {
 		try {
 			com.sain.phonebook.model.Role returnValue = RoleServiceUtil.addRole(
 				name, serviceContext);
-
-			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
-	public static com.sain.phonebook.model.RoleSoap updateRole(
-			long id, String name,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws RemoteException {
-
-		try {
-			com.sain.phonebook.model.Role returnValue =
-				RoleServiceUtil.updateRole(id, name, serviceContext);
-
-			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
-		}
-		catch (Exception exception) {
-			_log.error(exception, exception);
-
-			throw new RemoteException(exception.getMessage());
-		}
-	}
-
-	public static com.sain.phonebook.model.RoleSoap patchRole(
-			long id, String name,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws RemoteException {
-
-		try {
-			com.sain.phonebook.model.Role returnValue =
-				RoleServiceUtil.patchRole(id, name, serviceContext);
 
 			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
 		}
@@ -153,6 +101,58 @@ public class RoleServiceSoap {
 				RoleServiceUtil.getAll();
 
 			return com.sain.phonebook.model.RoleSoap.toSoapModels(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.RoleSoap getRole(long roleId)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Role returnValue = RoleServiceUtil.getRole(
+				roleId);
+
+			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.RoleSoap patchRole(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Role returnValue =
+				RoleServiceUtil.patchRole(id, name, serviceContext);
+
+			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
+	public static com.sain.phonebook.model.RoleSoap updateRole(
+			long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws RemoteException {
+
+		try {
+			com.sain.phonebook.model.Role returnValue =
+				RoleServiceUtil.updateRole(id, name, serviceContext);
+
+			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);

@@ -52,46 +52,6 @@ import com.sain.phonebook.service.DepartmentServiceUtil;
  */
 public class DepartmentServiceHttp {
 
-	public static com.sain.phonebook.model.Department getDepartment(
-			HttpPrincipal httpPrincipal, long departmentId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				DepartmentServiceUtil.class, "getDepartment",
-				_getDepartmentParameterTypes0);
-
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, departmentId);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception exception) {
-				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						exception;
-				}
-
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					exception);
-			}
-
-			return (com.sain.phonebook.model.Department)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException
-					systemException) {
-
-			_log.error(systemException, systemException);
-
-			throw systemException;
-		}
-	}
-
 	public static com.sain.phonebook.model.Department addDepartment(
 			HttpPrincipal httpPrincipal, String name,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
@@ -100,7 +60,7 @@ public class DepartmentServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				DepartmentServiceUtil.class, "addDepartment",
-				_addDepartmentParameterTypes1);
+				_addDepartmentParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, name, serviceContext);
@@ -133,18 +93,84 @@ public class DepartmentServiceHttp {
 		}
 	}
 
-	public static com.sain.phonebook.model.Department updateDepartment(
-			HttpPrincipal httpPrincipal, long id, String name,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+	public static void deleteDepartment(
+			HttpPrincipal httpPrincipal, long departmentId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				DepartmentServiceUtil.class, "updateDepartment",
-				_updateDepartmentParameterTypes2);
+				DepartmentServiceUtil.class, "deleteDepartment",
+				_deleteDepartmentParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, id, name, serviceContext);
+				methodKey, departmentId);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.List<com.sain.phonebook.model.Department> getAll(
+		HttpPrincipal httpPrincipal) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				DepartmentServiceUtil.class, "getAll", _getAllParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.sain.phonebook.model.Department>)
+				returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.sain.phonebook.model.Department getDepartment(
+			HttpPrincipal httpPrincipal, long departmentId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				DepartmentServiceUtil.class, "getDepartment",
+				_getDepartmentParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, departmentId);
 
 			Object returnObj = null;
 
@@ -182,7 +208,7 @@ public class DepartmentServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				DepartmentServiceUtil.class, "patchDepartment",
-				_patchDepartmentParameterTypes3);
+				_patchDepartmentParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, id, name, serviceContext);
@@ -215,20 +241,23 @@ public class DepartmentServiceHttp {
 		}
 	}
 
-	public static void deleteDepartment(
-			HttpPrincipal httpPrincipal, long departmentId)
+	public static com.sain.phonebook.model.Department updateDepartment(
+			HttpPrincipal httpPrincipal, long id, String name,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				DepartmentServiceUtil.class, "deleteDepartment",
-				_deleteDepartmentParameterTypes4);
+				DepartmentServiceUtil.class, "updateDepartment",
+				_updateDepartmentParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, departmentId);
+				methodKey, id, name, serviceContext);
+
+			Object returnObj = null;
 
 			try {
-				TunnelUtil.invoke(httpPrincipal, methodHandler);
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
 				if (exception instanceof
@@ -241,37 +270,8 @@ public class DepartmentServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException
-					systemException) {
 
-			_log.error(systemException, systemException);
-
-			throw systemException;
-		}
-	}
-
-	public static java.util.List<com.sain.phonebook.model.Department> getAll(
-		HttpPrincipal httpPrincipal) {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				DepartmentServiceUtil.class, "getAll", _getAllParameterTypes5);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception exception) {
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					exception);
-			}
-
-			return (java.util.List<com.sain.phonebook.model.Department>)
-				returnObj;
+			return (com.sain.phonebook.model.Department)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {
@@ -285,24 +285,24 @@ public class DepartmentServiceHttp {
 	private static Log _log = LogFactoryUtil.getLog(
 		DepartmentServiceHttp.class);
 
-	private static final Class<?>[] _getDepartmentParameterTypes0 =
-		new Class[] {long.class};
-	private static final Class<?>[] _addDepartmentParameterTypes1 =
+	private static final Class<?>[] _addDepartmentParameterTypes0 =
 		new Class[] {
 			String.class, com.liferay.portal.kernel.service.ServiceContext.class
 		};
-	private static final Class<?>[] _updateDepartmentParameterTypes2 =
-		new Class[] {
-			long.class, String.class,
-			com.liferay.portal.kernel.service.ServiceContext.class
-		};
-	private static final Class<?>[] _patchDepartmentParameterTypes3 =
-		new Class[] {
-			long.class, String.class,
-			com.liferay.portal.kernel.service.ServiceContext.class
-		};
-	private static final Class<?>[] _deleteDepartmentParameterTypes4 =
+	private static final Class<?>[] _deleteDepartmentParameterTypes1 =
 		new Class[] {long.class};
-	private static final Class<?>[] _getAllParameterTypes5 = new Class[] {};
+	private static final Class<?>[] _getAllParameterTypes2 = new Class[] {};
+	private static final Class<?>[] _getDepartmentParameterTypes3 =
+		new Class[] {long.class};
+	private static final Class<?>[] _patchDepartmentParameterTypes4 =
+		new Class[] {
+			long.class, String.class,
+			com.liferay.portal.kernel.service.ServiceContext.class
+		};
+	private static final Class<?>[] _updateDepartmentParameterTypes5 =
+		new Class[] {
+			long.class, String.class,
+			com.liferay.portal.kernel.service.ServiceContext.class
+		};
 
 }

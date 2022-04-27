@@ -15,17 +15,15 @@
 package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
-
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.service.ServiceContext;
+
 import com.sain.phonebook.model.Address;
 import com.sain.phonebook.service.base.AddressServiceBaseImpl;
 
-import org.osgi.service.component.annotations.Component;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
+
+import org.osgi.service.component.annotations.Component;
 
 /**
  * @author Brian Wing Shun Chan
@@ -46,40 +44,64 @@ public class AddressServiceImpl extends AddressServiceBaseImpl {
 	private volatile ModelResourcePermission<Address>
 			_addressModelResourcePermission;*/
 
+	public Address addAddress(
+			final String name, final ServiceContext serviceContext)
+		throws PortalException {
+
+		//        ModelResourcePermissionHelper.check(
+		//        _addressModelResourcePermission, getPermissionChecker(),
+		//        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
+
+		return addressLocalService.addAddress(name, serviceContext);
+	}
+
+	public void deleteAddress(final long addressId) throws PortalException {
+
+		//        _addressModelResourcePermission.check(
+		//        getPermissionChecker(),
+		//        addressLocalService.getAddress(addressId),
+		//        ActionKeys.DELETE);
+
+		addressLocalService.deleteAddress(addressId);
+	}
+
 	public Address getAddress(final long addressId) throws PortalException {
 		Address address = addressLocalService.getAddress(addressId);
-//        _addressModelResourcePermission.check(getPermissionChecker(), address, ActionKeys.VIEW);
+
+		//        _addressModelResourcePermission.check(
+		//        getPermissionChecker(), address, ActionKeys.VIEW);
+
 		return address;
-	}
-
-	public Address addAddress( final String name, final ServiceContext serviceContext) throws PortalException {
-//        ModelResourcePermissionHelper.check(_addressModelResourcePermission, getPermissionChecker(),
-//        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
-		return addressLocalService.addAddress( name, serviceContext);
-	}
-
-	public Address updateAddress(final long id, final String name, final ServiceContext serviceContext) throws PortalException {
-//        _addressModelResourcePermission.check(getPermissionChecker(), addressLocalService.getAddress(oldId), ActionKeys.UPDATE);
-		return addressLocalService.updateAddress(id, name, serviceContext);
-	}
-
-	public Address patchAddress(final long id, final String name, final ServiceContext serviceContext)
-			throws PortalException {
-//        _addressModelResourcePermission.check(getPermissionChecker(), addressLocalService.getAddress(oldId), ActionKeys.UPDATE);
-		return addressLocalService.patchAddress(id, name,  serviceContext);
-	}
-
-	public void deleteAddress(final long addressId)
-			throws PortalException {
-//        _addressModelResourcePermission.check(getPermissionChecker(), addressLocalService.getAddress(addressId), ActionKeys.DELETE);
-		addressLocalService.deleteAddress(addressId);
 	}
 
 	public List<Address> getAll() {
 		return addressPersistence.findAll();
 	}
 
-	private static final Logger _log =
-			LoggerFactory.getLogger(AddressServiceImpl.class);
+	public Address patchAddress(
+			final long id, final String name,
+			final ServiceContext serviceContext)
+		throws PortalException {
+
+		//        _addressModelResourcePermission.check(
+		//        getPermissionChecker(),
+		//        addressLocalService.getAddress(oldId),
+		//        ActionKeys.UPDATE);
+
+		return addressLocalService.patchAddress(id, name, serviceContext);
+	}
+
+	public Address updateAddress(
+			final long id, final String name,
+			final ServiceContext serviceContext)
+		throws PortalException {
+
+		//        _addressModelResourcePermission.check(
+		//        getPermissionChecker(),
+		//        addressLocalService.getAddress(oldId),
+		//        ActionKeys.UPDATE);
+
+		return addressLocalService.updateAddress(id, name, serviceContext);
+	}
 
 }

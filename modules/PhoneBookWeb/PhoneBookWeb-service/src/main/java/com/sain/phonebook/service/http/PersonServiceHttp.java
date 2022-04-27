@@ -52,46 +52,6 @@ import com.sain.phonebook.service.PersonServiceUtil;
  */
 public class PersonServiceHttp {
 
-	public static com.sain.phonebook.model.Person getPerson(
-			HttpPrincipal httpPrincipal, long personId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				PersonServiceUtil.class, "getPerson",
-				_getPersonParameterTypes0);
-
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, personId);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception exception) {
-				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						exception;
-				}
-
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					exception);
-			}
-
-			return (com.sain.phonebook.model.Person)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException
-					systemException) {
-
-			_log.error(systemException, systemException);
-
-			throw systemException;
-		}
-	}
-
 	public static com.sain.phonebook.model.Person addPerson(
 			HttpPrincipal httpPrincipal, String firstName, String lastName,
 			String localPhoneNumber, String phoneNumber, String faxNumber,
@@ -103,7 +63,7 @@ public class PersonServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				PersonServiceUtil.class, "addPerson",
-				_addPersonParameterTypes1);
+				_addPersonParameterTypes0);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, firstName, lastName, localPhoneNumber, phoneNumber,
@@ -138,23 +98,82 @@ public class PersonServiceHttp {
 		}
 	}
 
-	public static com.sain.phonebook.model.Person updatePerson(
-			HttpPrincipal httpPrincipal, long id, String firstName,
-			String lastName, String localPhoneNumber, String phoneNumber,
-			String faxNumber, String roomNumber, String email, String website,
-			long departmentId, long roleId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+	public static void deletePerson(HttpPrincipal httpPrincipal, long personId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				PersonServiceUtil.class, "updatePerson",
-				_updatePersonParameterTypes2);
+				PersonServiceUtil.class, "deletePerson",
+				_deletePersonParameterTypes1);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, id, firstName, lastName, localPhoneNumber,
-				phoneNumber, faxNumber, roomNumber, email, website,
-				departmentId, roleId, serviceContext);
+				methodKey, personId);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.List<com.sain.phonebook.model.Person> getAll(
+		HttpPrincipal httpPrincipal) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PersonServiceUtil.class, "getAll", _getAllParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.sain.phonebook.model.Person>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static com.sain.phonebook.model.Person getPerson(
+			HttpPrincipal httpPrincipal, long personId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PersonServiceUtil.class, "getPerson",
+				_getPersonParameterTypes3);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, personId);
 
 			Object returnObj = null;
 
@@ -195,7 +214,7 @@ public class PersonServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				PersonServiceUtil.class, "patchPerson",
-				_patchPersonParameterTypes3);
+				_patchPersonParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, id, firstName, lastName, localPhoneNumber,
@@ -230,19 +249,28 @@ public class PersonServiceHttp {
 		}
 	}
 
-	public static void deletePerson(HttpPrincipal httpPrincipal, long personId)
+	public static com.sain.phonebook.model.Person updatePerson(
+			HttpPrincipal httpPrincipal, long id, String firstName,
+			String lastName, String localPhoneNumber, String phoneNumber,
+			String faxNumber, String roomNumber, String email, String website,
+			long departmentId, long roleId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				PersonServiceUtil.class, "deletePerson",
-				_deletePersonParameterTypes4);
+				PersonServiceUtil.class, "updatePerson",
+				_updatePersonParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, personId);
+				methodKey, id, firstName, lastName, localPhoneNumber,
+				phoneNumber, faxNumber, roomNumber, email, website,
+				departmentId, roleId, serviceContext);
+
+			Object returnObj = null;
 
 			try {
-				TunnelUtil.invoke(httpPrincipal, methodHandler);
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
 				if (exception instanceof
@@ -255,36 +283,8 @@ public class PersonServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException
-					systemException) {
 
-			_log.error(systemException, systemException);
-
-			throw systemException;
-		}
-	}
-
-	public static java.util.List<com.sain.phonebook.model.Person> getAll(
-		HttpPrincipal httpPrincipal) {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				PersonServiceUtil.class, "getAll", _getAllParameterTypes5);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception exception) {
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					exception);
-			}
-
-			return (java.util.List<com.sain.phonebook.model.Person>)returnObj;
+			return (com.sain.phonebook.model.Person)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {
@@ -297,27 +297,27 @@ public class PersonServiceHttp {
 
 	private static Log _log = LogFactoryUtil.getLog(PersonServiceHttp.class);
 
-	private static final Class<?>[] _getPersonParameterTypes0 = new Class[] {
-		long.class
-	};
-	private static final Class<?>[] _addPersonParameterTypes1 = new Class[] {
+	private static final Class<?>[] _addPersonParameterTypes0 = new Class[] {
 		String.class, String.class, String.class, String.class, String.class,
 		String.class, String.class, String.class, long.class, long.class,
 		com.liferay.portal.kernel.service.ServiceContext.class
 	};
-	private static final Class<?>[] _updatePersonParameterTypes2 = new Class[] {
-		long.class, String.class, String.class, String.class, String.class,
-		String.class, String.class, String.class, String.class, long.class,
-		long.class, com.liferay.portal.kernel.service.ServiceContext.class
-	};
-	private static final Class<?>[] _patchPersonParameterTypes3 = new Class[] {
-		long.class, String.class, String.class, String.class, String.class,
-		String.class, String.class, String.class, String.class, long.class,
-		long.class, com.liferay.portal.kernel.service.ServiceContext.class
-	};
-	private static final Class<?>[] _deletePersonParameterTypes4 = new Class[] {
+	private static final Class<?>[] _deletePersonParameterTypes1 = new Class[] {
 		long.class
 	};
-	private static final Class<?>[] _getAllParameterTypes5 = new Class[] {};
+	private static final Class<?>[] _getAllParameterTypes2 = new Class[] {};
+	private static final Class<?>[] _getPersonParameterTypes3 = new Class[] {
+		long.class
+	};
+	private static final Class<?>[] _patchPersonParameterTypes4 = new Class[] {
+		long.class, String.class, String.class, String.class, String.class,
+		String.class, String.class, String.class, String.class, long.class,
+		long.class, com.liferay.portal.kernel.service.ServiceContext.class
+	};
+	private static final Class<?>[] _updatePersonParameterTypes5 = new Class[] {
+		long.class, String.class, String.class, String.class, String.class,
+		String.class, String.class, String.class, String.class, long.class,
+		long.class, com.liferay.portal.kernel.service.ServiceContext.class
+	};
 
 }

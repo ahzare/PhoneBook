@@ -52,13 +52,118 @@ import com.sain.phonebook.service.PartServiceUtil;
  */
 public class PartServiceHttp {
 
+	public static com.sain.phonebook.model.Part addPart(
+			HttpPrincipal httpPrincipal, String name, String internalPhone,
+			long addressId,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PartServiceUtil.class, "addPart", _addPartParameterTypes0);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, name, internalPhone, addressId, serviceContext);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (com.sain.phonebook.model.Part)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static void deletePart(HttpPrincipal httpPrincipal, long partId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PartServiceUtil.class, "deletePart",
+				_deletePartParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey, partId);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
+	public static java.util.List<com.sain.phonebook.model.Part> getAll(
+		HttpPrincipal httpPrincipal) {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PartServiceUtil.class, "getAll", _getAllParameterTypes2);
+
+			MethodHandler methodHandler = new MethodHandler(methodKey);
+
+			Object returnObj = null;
+
+			try {
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+
+			return (java.util.List<com.sain.phonebook.model.Part>)returnObj;
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static com.sain.phonebook.model.Part getPart(
 			HttpPrincipal httpPrincipal, long partId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				PartServiceUtil.class, "getPart", _getPartParameterTypes0);
+				PartServiceUtil.class, "getPart", _getPartParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, partId);
 
@@ -90,18 +195,18 @@ public class PartServiceHttp {
 		}
 	}
 
-	public static com.sain.phonebook.model.Part addPart(
-			HttpPrincipal httpPrincipal, String name, String internalPhone,
-			long addressId,
+	public static com.sain.phonebook.model.Part patchPart(
+			HttpPrincipal httpPrincipal, long id, String name,
+			String internalPhone, long addressId,
 			com.liferay.portal.kernel.service.ServiceContext serviceContext)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				PartServiceUtil.class, "addPart", _addPartParameterTypes1);
+				PartServiceUtil.class, "patchPart", _patchPartParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
-				methodKey, name, internalPhone, addressId, serviceContext);
+				methodKey, id, name, internalPhone, addressId, serviceContext);
 
 			Object returnObj = null;
 
@@ -140,7 +245,7 @@ public class PartServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				PartServiceUtil.class, "updatePart",
-				_updatePartParameterTypes2);
+				_updatePartParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, id, name, internalPhone, addressId, serviceContext);
@@ -163,111 +268,6 @@ public class PartServiceHttp {
 			}
 
 			return (com.sain.phonebook.model.Part)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException
-					systemException) {
-
-			_log.error(systemException, systemException);
-
-			throw systemException;
-		}
-	}
-
-	public static com.sain.phonebook.model.Part patchPart(
-			HttpPrincipal httpPrincipal, long id, String name,
-			String internalPhone, long addressId,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				PartServiceUtil.class, "patchPart", _patchPartParameterTypes3);
-
-			MethodHandler methodHandler = new MethodHandler(
-				methodKey, id, name, internalPhone, addressId, serviceContext);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception exception) {
-				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						exception;
-				}
-
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					exception);
-			}
-
-			return (com.sain.phonebook.model.Part)returnObj;
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException
-					systemException) {
-
-			_log.error(systemException, systemException);
-
-			throw systemException;
-		}
-	}
-
-	public static void deletePart(HttpPrincipal httpPrincipal, long partId)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				PartServiceUtil.class, "deletePart",
-				_deletePartParameterTypes4);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey, partId);
-
-			try {
-				TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception exception) {
-				if (exception instanceof
-						com.liferay.portal.kernel.exception.PortalException) {
-
-					throw (com.liferay.portal.kernel.exception.PortalException)
-						exception;
-				}
-
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					exception);
-			}
-		}
-		catch (com.liferay.portal.kernel.exception.SystemException
-					systemException) {
-
-			_log.error(systemException, systemException);
-
-			throw systemException;
-		}
-	}
-
-	public static java.util.List<com.sain.phonebook.model.Part> getAll(
-		HttpPrincipal httpPrincipal) {
-
-		try {
-			MethodKey methodKey = new MethodKey(
-				PartServiceUtil.class, "getAll", _getAllParameterTypes5);
-
-			MethodHandler methodHandler = new MethodHandler(methodKey);
-
-			Object returnObj = null;
-
-			try {
-				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
-			}
-			catch (Exception exception) {
-				throw new com.liferay.portal.kernel.exception.SystemException(
-					exception);
-			}
-
-			return (java.util.List<com.sain.phonebook.model.Part>)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {
@@ -280,24 +280,24 @@ public class PartServiceHttp {
 
 	private static Log _log = LogFactoryUtil.getLog(PartServiceHttp.class);
 
-	private static final Class<?>[] _getPartParameterTypes0 = new Class[] {
-		long.class
-	};
-	private static final Class<?>[] _addPartParameterTypes1 = new Class[] {
+	private static final Class<?>[] _addPartParameterTypes0 = new Class[] {
 		String.class, String.class, long.class,
 		com.liferay.portal.kernel.service.ServiceContext.class
 	};
-	private static final Class<?>[] _updatePartParameterTypes2 = new Class[] {
-		long.class, String.class, String.class, long.class,
-		com.liferay.portal.kernel.service.ServiceContext.class
-	};
-	private static final Class<?>[] _patchPartParameterTypes3 = new Class[] {
-		long.class, String.class, String.class, long.class,
-		com.liferay.portal.kernel.service.ServiceContext.class
-	};
-	private static final Class<?>[] _deletePartParameterTypes4 = new Class[] {
+	private static final Class<?>[] _deletePartParameterTypes1 = new Class[] {
 		long.class
 	};
-	private static final Class<?>[] _getAllParameterTypes5 = new Class[] {};
+	private static final Class<?>[] _getAllParameterTypes2 = new Class[] {};
+	private static final Class<?>[] _getPartParameterTypes3 = new Class[] {
+		long.class
+	};
+	private static final Class<?>[] _patchPartParameterTypes4 = new Class[] {
+		long.class, String.class, String.class, long.class,
+		com.liferay.portal.kernel.service.ServiceContext.class
+	};
+	private static final Class<?>[] _updatePartParameterTypes5 = new Class[] {
+		long.class, String.class, String.class, long.class,
+		com.liferay.portal.kernel.service.ServiceContext.class
+	};
 
 }
