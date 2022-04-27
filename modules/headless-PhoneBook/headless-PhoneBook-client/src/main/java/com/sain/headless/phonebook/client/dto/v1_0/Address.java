@@ -32,8 +32,8 @@ public class Address implements Cloneable, Serializable {
 		try {
 			id = idUnsafeSupplier.get();
 		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
+		catch (Exception exception) {
+			throw new RuntimeException(exception);
 		}
 	}
 
@@ -51,8 +51,8 @@ public class Address implements Cloneable, Serializable {
 		try {
 			name = nameUnsafeSupplier.get();
 		}
-		catch (Exception e) {
-			throw new RuntimeException(e);
+		catch (Exception exception) {
+			throw new RuntimeException(exception);
 		}
 	}
 

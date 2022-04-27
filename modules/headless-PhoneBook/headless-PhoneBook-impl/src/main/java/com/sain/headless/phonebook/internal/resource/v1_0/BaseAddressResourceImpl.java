@@ -480,7 +480,7 @@ public abstract class BaseAddressResourceImpl
 
 		for (Address address : addresses) {
 			putAddress(
-				address.getId() != null ? address.getId() :
+				(address.getId() != null) ? address.getId() :
 					Long.parseLong((String)parameters.get("addressId")),
 				address);
 		}

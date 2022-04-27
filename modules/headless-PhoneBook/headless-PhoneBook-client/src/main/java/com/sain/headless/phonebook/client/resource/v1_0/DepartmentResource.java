@@ -196,10 +196,10 @@ public interface DepartmentResource {
 			try {
 				return Page.of(content, DepartmentSerDes::toDTO);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -294,10 +294,10 @@ public interface DepartmentResource {
 			try {
 				return DepartmentSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -447,10 +447,10 @@ public interface DepartmentResource {
 			try {
 				return;
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -601,10 +601,10 @@ public interface DepartmentResource {
 			try {
 				return DepartmentSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -683,10 +683,10 @@ public interface DepartmentResource {
 			try {
 				return DepartmentSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -767,10 +767,10 @@ public interface DepartmentResource {
 			try {
 				return DepartmentSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}

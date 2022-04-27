@@ -196,9 +196,9 @@ public class PartLocalServiceImpl extends PartLocalServiceBaseImpl {
 					Part.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL,
 					part.getPartId());
-		}catch(PortalException e){
+		}catch(PortalException exception){
 			_log.warn("Error deleting persisted part permissions: "+
-					e.getMessage(), e);
+					exception.getMessage(), exception);
 		}*/
 
 //        todo: delete part parts and departments

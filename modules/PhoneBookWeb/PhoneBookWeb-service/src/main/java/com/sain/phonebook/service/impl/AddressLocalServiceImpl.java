@@ -183,9 +183,9 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 					Address.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL,
 					address.getAddressId());
-		}catch(PortalException e){
+		}catch(PortalException exception){
 			_log.warn("Error deleting persisted address permissions: "+
-					e.getMessage(), e);
+					exception.getMessage(), exception);
 		}*/
 
 //        todo: delete address addresss and departments

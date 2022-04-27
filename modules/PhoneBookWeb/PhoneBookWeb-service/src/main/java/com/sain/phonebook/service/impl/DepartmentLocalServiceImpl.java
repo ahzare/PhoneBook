@@ -180,9 +180,9 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 					Department.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL,
 					department.getDepartmentId());
-		}catch(PortalException e){
+		}catch(PortalException exception){
 			_log.warn("Error deleting persisted department permissions: "+
-					e.getMessage(), e);
+					exception.getMessage(), exception);
 		}*/
 
 //        todo: delete department departments and departments

@@ -203,7 +203,7 @@ public class HttpInvoker {
 
 			methodsField.set(null, methodsFieldValue.toArray(new String[0]));
 		}
-		catch (IllegalAccessException | NoSuchFieldException e) {
+		catch (IllegalAccessException | NoSuchFieldException exception) {
 			_logger.warning("Unable to update HttpURLConnection class");
 		}
 	}

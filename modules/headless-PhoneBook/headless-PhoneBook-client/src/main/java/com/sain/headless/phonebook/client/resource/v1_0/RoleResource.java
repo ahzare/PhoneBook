@@ -190,10 +190,10 @@ public interface RoleResource {
 			try {
 				return Page.of(content, RoleSerDes::toDTO);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -285,10 +285,10 @@ public interface RoleResource {
 			try {
 				return RoleSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -436,10 +436,10 @@ public interface RoleResource {
 			try {
 				return;
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -587,10 +587,10 @@ public interface RoleResource {
 			try {
 				return RoleSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -665,10 +665,10 @@ public interface RoleResource {
 			try {
 				return RoleSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -746,10 +746,10 @@ public interface RoleResource {
 			try {
 				return RoleSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}

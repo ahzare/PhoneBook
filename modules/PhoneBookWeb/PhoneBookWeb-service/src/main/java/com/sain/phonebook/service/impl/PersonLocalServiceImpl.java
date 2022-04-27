@@ -263,9 +263,9 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
                     Person.class.getName(),
                     ResourceConstants.SCOPE_INDIVIDUAL,
                     person.getPersonId());
-        }catch(PortalException e){
+        }catch(PortalException exception){
             _log.warn("Error deleting persisted person permissions: "+
-                    e.getMessage(), e);
+                    exception.getMessage(), exception);
         }*/
 
 //        todo: delete person roles and departments

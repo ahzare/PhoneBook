@@ -192,10 +192,10 @@ public interface PersonResource {
 			try {
 				return Page.of(content, PersonSerDes::toDTO);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -299,10 +299,10 @@ public interface PersonResource {
 			try {
 				return PersonSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -473,10 +473,10 @@ public interface PersonResource {
 			try {
 				return;
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -626,10 +626,10 @@ public interface PersonResource {
 			try {
 				return PersonSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -707,10 +707,10 @@ public interface PersonResource {
 			try {
 				return PersonSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -800,10 +800,10 @@ public interface PersonResource {
 			try {
 				return PersonSerDes.toDTO(content);
 			}
-			catch (Exception e) {
+			catch (Exception exception) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
+					"Unable to process HTTP response: " + content, exception);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}

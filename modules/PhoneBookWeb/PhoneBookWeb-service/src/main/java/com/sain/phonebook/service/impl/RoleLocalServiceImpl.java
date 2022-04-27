@@ -184,9 +184,9 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
                     Role.class.getName(),
                     ResourceConstants.SCOPE_INDIVIDUAL,
                     role.getRoleId());
-        }catch(PortalException e){
+        }catch(PortalException exception){
             _log.warn("Error deleting persisted role permissions: "+
-                    e.getMessage(), e);
+                    exception.getMessage(), exception);
         }
 
 //        todo: delete role roles and departments

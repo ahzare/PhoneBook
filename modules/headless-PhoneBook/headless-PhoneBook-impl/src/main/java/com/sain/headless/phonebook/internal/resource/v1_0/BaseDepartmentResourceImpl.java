@@ -480,7 +480,7 @@ public abstract class BaseDepartmentResourceImpl
 
 		for (Department department : departments) {
 			putDepartment(
-				department.getId() != null ? department.getId() :
+				(department.getId() != null) ? department.getId() :
 					Long.parseLong((String)parameters.get("departmentId")),
 				department);
 		}

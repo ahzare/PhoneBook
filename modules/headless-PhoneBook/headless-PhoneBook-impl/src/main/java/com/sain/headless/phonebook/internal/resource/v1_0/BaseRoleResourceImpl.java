@@ -478,7 +478,7 @@ public abstract class BaseRoleResourceImpl
 
 		for (Role role : roles) {
 			putRole(
-				role.getId() != null ? role.getId() :
+				(role.getId() != null) ? role.getId() :
 					Long.parseLong((String)parameters.get("roleId")),
 				role);
 		}
