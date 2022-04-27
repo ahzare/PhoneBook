@@ -21,12 +21,10 @@ import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
 import com.sain.headless.phonebook.dto.v1_0.Department;
-import com.sain.headless.phonebook.internal.odata.entity.v1_0.PersonEntityModel;
 import com.sain.headless.phonebook.resource.v1_0.DepartmentResource;
 import com.sain.phonebook.service.DepartmentService;
 
@@ -34,8 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
-
-import javax.ws.rs.core.MultivaluedMap;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -176,12 +172,12 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
 		return Page.of(list);
 	}
 
-	@Override
+	/*@Override
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap)
 		throws Exception {
 
 		return _departmentEntityModel;
-	}
+	}*/
 
 	@Override
 	public Department patchDepartment(
@@ -296,7 +292,8 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
 	private static final Logger _log = LoggerFactory.getLogger(
 		DepartmentResourceImpl.class);
 
-	private PersonEntityModel _departmentEntityModel = new PersonEntityModel();
+	//	private PersonEntityModel _departmentEntityModel =
+	//			new PersonEntityModel();
 
 	@Reference
 	private DepartmentService _departmentService;

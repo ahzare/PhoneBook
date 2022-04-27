@@ -21,14 +21,12 @@ import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
 import com.sain.headless.phonebook.dto.v1_0.Department;
 import com.sain.headless.phonebook.dto.v1_0.Person;
 import com.sain.headless.phonebook.dto.v1_0.Role;
-import com.sain.headless.phonebook.internal.odata.entity.v1_0.PersonEntityModel;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 import com.sain.phonebook.service.DepartmentService;
 import com.sain.phonebook.service.PersonService;
@@ -38,8 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
-
-import javax.ws.rs.core.MultivaluedMap;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -73,12 +69,12 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		}
 	}
 
-	@Override
+	/*@Override
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap)
 		throws Exception {
 
 		return _personEntityModel;
-	}
+	}*/
 
 	@Override
 	public Person getPerson(@NotNull Long personId) throws Exception {
@@ -103,7 +99,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
 	@Override
 	public Page<Person> getPersonsPage(
-			String search, Long departmentId, Long roleId, Filter filter,
+			Long departmentId, Long roleId, String search, Filter filter,
 			Pagination pagination, Sort[] sorts)
 		throws Exception {
 
@@ -352,7 +348,8 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	@Reference
 	private DepartmentService _departmentService;
 
-	private PersonEntityModel _personEntityModel = new PersonEntityModel();
+	//	private PersonEntityModel _personEntityModel =
+	//			new PersonEntityModel();
 
 	@Reference
 	private PersonService _personService;
