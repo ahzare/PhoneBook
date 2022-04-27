@@ -27,28 +27,28 @@ public interface PersonResource {
 	}
 
 	public Page<Person> getPersonsPage(
-			String search, Long departmentId, Long roleId, String filterString,
+			Long departmentId, Long roleId, String search, String filterString,
 			Pagination pagination, String sortString)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse getPersonsPageHttpResponse(
-			String search, Long departmentId, Long roleId, String filterString,
+			Long departmentId, Long roleId, String search, String filterString,
 			Pagination pagination, String sortString)
 		throws Exception;
 
-	public Person postPerson(Long roleId, Long departmentId, Person person)
+	public Person postPerson(Long departmentId, Long roleId, Person person)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse postPersonHttpResponse(
-			Long roleId, Long departmentId, Person person)
+			Long departmentId, Long roleId, Person person)
 		throws Exception;
 
 	public void postPersonBatch(
-			Long roleId, Long departmentId, String callbackURL, Object object)
+			Long departmentId, Long roleId, String callbackURL, Object object)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse postPersonBatchHttpResponse(
-			Long roleId, Long departmentId, String callbackURL, Object object)
+			Long departmentId, Long roleId, String callbackURL, Object object)
 		throws Exception;
 
 	public void deletePerson(Long personId) throws Exception;
@@ -69,19 +69,19 @@ public interface PersonResource {
 		throws Exception;
 
 	public Person patchPersonApi(
-			Long personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse patchPersonApiHttpResponse(
-			Long personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
 	public Person putPersonApi(
-			Long personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse putPersonApiHttpResponse(
-			Long personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
 	public static class Builder {
@@ -156,12 +156,12 @@ public interface PersonResource {
 	public static class PersonResourceImpl implements PersonResource {
 
 		public Page<Person> getPersonsPage(
-				String search, Long departmentId, Long roleId,
+				Long departmentId, Long roleId, String search,
 				String filterString, Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = getPersonsPageHttpResponse(
-				search, departmentId, roleId, filterString, pagination,
+				departmentId, roleId, search, filterString, pagination,
 				sortString);
 
 			String content = httpResponse.getContent();
@@ -192,17 +192,17 @@ public interface PersonResource {
 			try {
 				return Page.of(content, PersonSerDes::toDTO);
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
 		}
 
 		public HttpInvoker.HttpResponse getPersonsPageHttpResponse(
-				String search, Long departmentId, Long roleId,
+				Long departmentId, Long roleId, String search,
 				String filterString, Pagination pagination, String sortString)
 			throws Exception {
 
@@ -227,10 +227,6 @@ public interface PersonResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
 
-			if (search != null) {
-				httpInvoker.parameter("search", String.valueOf(search));
-			}
-
 			if (departmentId != null) {
 				httpInvoker.parameter(
 					"departmentId", String.valueOf(departmentId));
@@ -238,6 +234,10 @@ public interface PersonResource {
 
 			if (roleId != null) {
 				httpInvoker.parameter("roleId", String.valueOf(roleId));
+			}
+
+			if (search != null) {
+				httpInvoker.parameter("search", String.valueOf(search));
 			}
 
 			if (filterString != null) {
@@ -265,11 +265,11 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public Person postPerson(Long roleId, Long departmentId, Person person)
+		public Person postPerson(Long departmentId, Long roleId, Person person)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = postPersonHttpResponse(
-				roleId, departmentId, person);
+				departmentId, roleId, person);
 
 			String content = httpResponse.getContent();
 
@@ -299,17 +299,17 @@ public interface PersonResource {
 			try {
 				return PersonSerDes.toDTO(content);
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
 		}
 
 		public HttpInvoker.HttpResponse postPersonHttpResponse(
-				Long roleId, Long departmentId, Person person)
+				Long departmentId, Long roleId, Person person)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -335,13 +335,13 @@ public interface PersonResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
 
-			if (roleId != null) {
-				httpInvoker.parameter("roleId", String.valueOf(roleId));
-			}
-
 			if (departmentId != null) {
 				httpInvoker.parameter(
 					"departmentId", String.valueOf(departmentId));
+			}
+
+			if (roleId != null) {
+				httpInvoker.parameter("roleId", String.valueOf(roleId));
 			}
 
 			httpInvoker.path(
@@ -355,12 +355,12 @@ public interface PersonResource {
 		}
 
 		public void postPersonBatch(
-				Long roleId, Long departmentId, String callbackURL,
+				Long departmentId, Long roleId, String callbackURL,
 				Object object)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = postPersonBatchHttpResponse(
-				roleId, departmentId, callbackURL, object);
+				departmentId, roleId, callbackURL, object);
 
 			String content = httpResponse.getContent();
 
@@ -389,7 +389,7 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse postPersonBatchHttpResponse(
-				Long roleId, Long departmentId, String callbackURL,
+				Long departmentId, Long roleId, String callbackURL,
 				Object object)
 			throws Exception {
 
@@ -416,13 +416,13 @@ public interface PersonResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.POST);
 
-			if (roleId != null) {
-				httpInvoker.parameter("roleId", String.valueOf(roleId));
-			}
-
 			if (departmentId != null) {
 				httpInvoker.parameter(
 					"departmentId", String.valueOf(departmentId));
+			}
+
+			if (roleId != null) {
+				httpInvoker.parameter("roleId", String.valueOf(roleId));
 			}
 
 			if (callbackURL != null) {
@@ -473,10 +473,10 @@ public interface PersonResource {
 			try {
 				return;
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -626,10 +626,10 @@ public interface PersonResource {
 			try {
 				return PersonSerDes.toDTO(content);
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -673,11 +673,11 @@ public interface PersonResource {
 		}
 
 		public Person patchPersonApi(
-				Long personId, Long roleId, Long departmentId, Person person)
+				Long personId, Long departmentId, Long roleId, Person person)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = patchPersonApiHttpResponse(
-				personId, roleId, departmentId, person);
+				personId, departmentId, roleId, person);
 
 			String content = httpResponse.getContent();
 
@@ -707,17 +707,17 @@ public interface PersonResource {
 			try {
 				return PersonSerDes.toDTO(content);
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
 		}
 
 		public HttpInvoker.HttpResponse patchPersonApiHttpResponse(
-				Long personId, Long roleId, Long departmentId, Person person)
+				Long personId, Long departmentId, Long roleId, Person person)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -743,13 +743,13 @@ public interface PersonResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PATCH);
 
-			if (roleId != null) {
-				httpInvoker.parameter("roleId", String.valueOf(roleId));
-			}
-
 			if (departmentId != null) {
 				httpInvoker.parameter(
 					"departmentId", String.valueOf(departmentId));
+			}
+
+			if (roleId != null) {
+				httpInvoker.parameter("roleId", String.valueOf(roleId));
 			}
 
 			httpInvoker.path(
@@ -766,11 +766,11 @@ public interface PersonResource {
 		}
 
 		public Person putPersonApi(
-				Long personId, Long roleId, Long departmentId, Person person)
+				Long personId, Long departmentId, Long roleId, Person person)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = putPersonApiHttpResponse(
-				personId, roleId, departmentId, person);
+				personId, departmentId, roleId, person);
 
 			String content = httpResponse.getContent();
 
@@ -800,17 +800,17 @@ public interface PersonResource {
 			try {
 				return PersonSerDes.toDTO(content);
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
 		}
 
 		public HttpInvoker.HttpResponse putPersonApiHttpResponse(
-				Long personId, Long roleId, Long departmentId, Person person)
+				Long personId, Long departmentId, Long roleId, Person person)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -836,13 +836,13 @@ public interface PersonResource {
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.PUT);
 
-			if (roleId != null) {
-				httpInvoker.parameter("roleId", String.valueOf(roleId));
-			}
-
 			if (departmentId != null) {
 				httpInvoker.parameter(
 					"departmentId", String.valueOf(departmentId));
+			}
+
+			if (roleId != null) {
+				httpInvoker.parameter("roleId", String.valueOf(roleId));
 			}
 
 			httpInvoker.path(

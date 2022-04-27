@@ -127,25 +127,25 @@ paths:
             operationId: getAddressesPage
             parameters:
                 - in: query
-                      name: filter
-                      schema:
-                          type: string
+                  name: filter
+                  schema:
+                      type: string
                 - in: query
-                      name: page
-                      schema:
-                          type: integer
+                  name: page
+                  schema:
+                      type: integer
                 - in: query
-                      name: pageSize
-                      schema:
-                          type: integer
+                  name: pageSize
+                  schema:
+                      type: integer
                 - in: query
-                      name: search
-                      schema:
-                          type: string
+                  name: search
+                  schema:
+                      type: string
                 - in: query
-                      name: sort
-                      schema:
-                          type: string
+                  name: sort
+                  schema:
+                      type: string
             responses:
                 200:
                     content:
@@ -188,12 +188,12 @@ paths:
                 Deletes the address and returns a 204 if the operation succeeds.
             operationId: deleteAddress
             parameters:
-                - name: addressId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: addressId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             responses:
                 204:
                     content:
@@ -205,12 +205,12 @@ paths:
                 Retrieves the address via its ID.
             operationId: getAddress
             parameters:
-                - name: addressId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: addressId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             responses:
                 200:
                     content:
@@ -227,12 +227,12 @@ paths:
                 unless they are required.
             operationId: patchAddress
             parameters:
-                - name: addressId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: addressId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -257,12 +257,12 @@ paths:
                 unless they are required.
             operationId: putAddress
             parameters:
-                - name: addressId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: addressId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -290,25 +290,25 @@ paths:
             operationId: getDepartmentsPage
             parameters:
                 - in: query
-                      name: filter
-                      schema:
-                          type: string
+                  name: filter
+                  schema:
+                      type: string
                 - in: query
-                      name: page
-                      schema:
-                          type: integer
+                  name: page
+                  schema:
+                      type: integer
                 - in: query
-                      name: pageSize
-                      schema:
-                          type: integer
+                  name: pageSize
+                  schema:
+                      type: integer
                 - in: query
-                      name: search
-                      schema:
-                          type: string
+                  name: search
+                  schema:
+                      type: string
                 - in: query
-                      name: sort
-                      schema:
-                          type: string
+                  name: sort
+                  schema:
+                      type: string
             responses:
                 200:
                     content:
@@ -351,12 +351,12 @@ paths:
                 Deletes the department and returns a 204 if the operation succeeds.
             operationId: deleteDepartment
             parameters:
-                - name: departmentId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: departmentId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             responses:
                 204:
                     content:
@@ -368,12 +368,12 @@ paths:
                 Retrieves the department via its ID.
             operationId: getDepartment
             parameters:
-                - name: departmentId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: departmentId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             responses:
                 200:
                     content:
@@ -390,12 +390,12 @@ paths:
                 unless they are required.
             operationId: patchDepartment
             parameters:
-                - name: departmentId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: departmentId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -420,12 +420,12 @@ paths:
                 unless they are required.
             operationId: putDepartment
             parameters:
-                - name: departmentId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: departmentId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -453,25 +453,25 @@ paths:
             operationId: getPartsPage
             parameters:
                 - in: query
-                      name: filter
-                      schema:
-                          type: string
+                  name: filter
+                  schema:
+                      type: string
                 - in: query
-                      name: page
-                      schema:
-                          type: integer
+                  name: page
+                  schema:
+                      type: integer
                 - in: query
-                      name: pageSize
-                      schema:
-                          type: integer
+                  name: pageSize
+                  schema:
+                      type: integer
                 - in: query
-                      name: search
-                      schema:
-                          type: string
+                  name: search
+                  schema:
+                      type: string
                 - in: query
-                      name: sort
-                      schema:
-                          type: string
+                  name: sort
+                  schema:
+                      type: string
             responses:
                 200:
                     content:
@@ -492,10 +492,10 @@ paths:
             operationId: postPart
             parameters:
                 - in: query
-                      name: addressId
-                      schema:
-                          format: int64
-                          type: integer
+                  name: addressId
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -520,12 +520,12 @@ paths:
                 Deletes the part and returns a 204 if the operation succeeds.
             operationId: deletePart
             parameters:
-                - name: partId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: partId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             responses:
                 204:
                     content:
@@ -537,12 +537,12 @@ paths:
                 Retrieves the part via its ID.
             operationId: getPart
             parameters:
-                - name: partId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: partId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             responses:
                 200:
                     content:
@@ -559,17 +559,17 @@ paths:
                 they are required.
             operationId: patchPartApi
             parameters:
+                - in: path
+                  name: partId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
                 - in: query
-                      name: addressId
-                      schema:
-                          format: int64
-                          type: integer
-                - name: partId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                  name: addressId
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -594,17 +594,17 @@ paths:
                 they are required.
             operationId: putPartApi
             parameters:
+                - in: path
+                  name: partId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
                 - in: query
-                      name: addressId
-                      schema:
-                          format: int64
-                          type: integer
-                - name: partId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                  name: addressId
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -632,35 +632,35 @@ paths:
             operationId: getPersonsPage
             parameters:
                 - in: query
-                      name: departmentId
-                      schema:
-                          format: int64
-                          type: integer
+                  name: departmentId
+                  schema:
+                      format: int64
+                      type: integer
                 - in: query
-                      name: roleId
-                      schema:
-                          format: int64
-                          type: integer
+                  name: roleId
+                  schema:
+                      format: int64
+                      type: integer
                 - in: query
-                      name: filter
-                      schema:
-                          type: string
+                  name: filter
+                  schema:
+                      type: string
                 - in: query
-                      name: page
-                      schema:
-                          type: integer
+                  name: page
+                  schema:
+                      type: integer
                 - in: query
-                      name: pageSize
-                      schema:
-                          type: integer
+                  name: pageSize
+                  schema:
+                      type: integer
                 - in: query
-                      name: search
-                      schema:
-                          type: string
+                  name: search
+                  schema:
+                      type: string
                 - in: query
-                      name: sort
-                      schema:
-                          type: string
+                  name: sort
+                  schema:
+                      type: string
             responses:
                 200:
                     content:
@@ -681,15 +681,15 @@ paths:
             operationId: postPerson
             parameters:
                 - in: query
-                      name: departmentId
-                      schema:
-                          format: int64
-                          type: integer
+                  name: departmentId
+                  schema:
+                      format: int64
+                      type: integer
                 - in: query
-                      name: roleId
-                      schema:
-                          format: int64
-                          type: integer
+                  name: roleId
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -714,12 +714,12 @@ paths:
                 Deletes the person and returns a 204 if the operation succeeds.
             operationId: deletePerson
             parameters:
-                - name: personId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: personId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             responses:
                 204:
                     content:
@@ -731,12 +731,12 @@ paths:
                 Retrieves the person via its ID.
             operationId: getPerson
             parameters:
-                - name: personId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: personId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             responses:
                 200:
                     content:
@@ -753,22 +753,22 @@ paths:
                 unless they are required.
             operationId: patchPersonApi
             parameters:
+                - in: path
+                  name: personId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
                 - in: query
-                      name: departmentId
-                      schema:
-                          format: int64
-                          type: integer
+                  name: departmentId
+                  schema:
+                      format: int64
+                      type: integer
                 - in: query
-                      name: roleId
-                      schema:
-                          format: int64
-                          type: integer
-                - name: personId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                  name: roleId
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -793,22 +793,22 @@ paths:
                 unless they are required.
             operationId: putPersonApi
             parameters:
+                - in: path
+                  name: personId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
                 - in: query
-                      name: departmentId
-                      schema:
-                          format: int64
-                          type: integer
+                  name: departmentId
+                  schema:
+                      format: int64
+                      type: integer
                 - in: query
-                      name: roleId
-                      schema:
-                          format: int64
-                          type: integer
-                - name: personId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                  name: roleId
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -836,25 +836,25 @@ paths:
             operationId: getRolesPage
             parameters:
                 - in: query
-                      name: filter
-                      schema:
-                          type: string
+                  name: filter
+                  schema:
+                      type: string
                 - in: query
-                      name: page
-                      schema:
-                          type: integer
+                  name: page
+                  schema:
+                      type: integer
                 - in: query
-                      name: pageSize
-                      schema:
-                          type: integer
+                  name: pageSize
+                  schema:
+                      type: integer
                 - in: query
-                      name: search
-                      schema:
-                          type: string
+                  name: search
+                  schema:
+                      type: string
                 - in: query
-                      name: sort
-                      schema:
-                          type: string
+                  name: sort
+                  schema:
+                      type: string
             responses:
                 200:
                     content:
@@ -897,12 +897,12 @@ paths:
                 Deletes the role and returns a 204 if the operation succeeds.
             operationId: deleteRole
             parameters:
-                - name: roleId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: roleId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             responses:
                 204:
                     content:
@@ -914,12 +914,12 @@ paths:
                 Retrieves the role via its ID.
             operationId: getRole
             parameters:
-                - name: roleId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: roleId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             responses:
                 200:
                     content:
@@ -936,12 +936,12 @@ paths:
                 they are required.
             operationId: patchRole
             parameters:
-                - name: roleId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: roleId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:
@@ -966,12 +966,12 @@ paths:
                 they are required.
             operationId: putRole
             parameters:
-                - name: roleId
-                      in: path
-                      required: true
-                      schema:
-                          format: int64
-                          type: integer
+                - in: path
+                  name: roleId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     application/json:

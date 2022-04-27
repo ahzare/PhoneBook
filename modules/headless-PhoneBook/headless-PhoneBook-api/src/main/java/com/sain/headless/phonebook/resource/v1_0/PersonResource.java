@@ -46,15 +46,15 @@ public interface PersonResource {
 	}
 
 	public Page<Person> getPersonsPage(
-			String search, Long departmentId, Long roleId, Filter filter,
+			Long departmentId, Long roleId, String search, Filter filter,
 			Pagination pagination, Sort[] sorts)
 		throws Exception;
 
-	public Person postPerson(Long roleId, Long departmentId, Person person)
+	public Person postPerson(Long departmentId, Long roleId, Person person)
 		throws Exception;
 
 	public Response postPersonBatch(
-			Long roleId, Long departmentId, String callbackURL, Object object)
+			Long departmentId, Long roleId, String callbackURL, Object object)
 		throws Exception;
 
 	public void deletePerson(Long personId) throws Exception;
@@ -65,11 +65,11 @@ public interface PersonResource {
 	public Person getPerson(Long personId) throws Exception;
 
 	public Person patchPersonApi(
-			Long personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
 	public Person putPersonApi(
-			Long personId, Long roleId, Long departmentId, Person person)
+			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

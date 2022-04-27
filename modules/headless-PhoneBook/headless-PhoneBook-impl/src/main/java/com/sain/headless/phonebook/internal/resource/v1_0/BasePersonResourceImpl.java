@@ -67,15 +67,15 @@ public abstract class BasePersonResourceImpl
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "search"
-			),
-			@io.swagger.v3.oas.annotations.Parameter(
-				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "departmentId"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
 				name = "roleId"
+			),
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
+				name = "search"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
@@ -104,14 +104,14 @@ public abstract class BasePersonResourceImpl
 	@Override
 	public Page<Person> getPersonsPage(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("search")
-			String search,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("departmentId")
 			Long departmentId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("roleId")
 			Long roleId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("search")
+			String search,
 			@javax.ws.rs.core.Context Filter filter,
 			@javax.ws.rs.core.Context Pagination pagination,
 			@javax.ws.rs.core.Context Sort[] sorts)
@@ -132,11 +132,11 @@ public abstract class BasePersonResourceImpl
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "roleId"
+				name = "departmentId"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "departmentId"
+				name = "roleId"
 			)
 		}
 	)
@@ -150,11 +150,11 @@ public abstract class BasePersonResourceImpl
 	@Override
 	public Person postPerson(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("roleId")
-			Long roleId,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("departmentId")
 			Long departmentId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("roleId")
+			Long roleId,
 			Person person)
 		throws Exception {
 
@@ -170,11 +170,11 @@ public abstract class BasePersonResourceImpl
 		value = {
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "roleId"
+				name = "departmentId"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "departmentId"
+				name = "roleId"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
@@ -192,11 +192,11 @@ public abstract class BasePersonResourceImpl
 	@Override
 	public Response postPersonBatch(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("roleId")
-			Long roleId,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("departmentId")
 			Long departmentId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("roleId")
+			Long roleId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("callbackURL")
 			String callbackURL,
@@ -343,11 +343,11 @@ public abstract class BasePersonResourceImpl
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "roleId"
+				name = "departmentId"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "departmentId"
+				name = "roleId"
 			)
 		}
 	)
@@ -365,11 +365,11 @@ public abstract class BasePersonResourceImpl
 			@javax.ws.rs.PathParam("personId")
 			Long personId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("roleId")
-			Long roleId,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("departmentId")
 			Long departmentId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("roleId")
+			Long roleId,
 			Person person)
 		throws Exception {
 
@@ -392,11 +392,11 @@ public abstract class BasePersonResourceImpl
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "roleId"
+				name = "departmentId"
 			),
 			@io.swagger.v3.oas.annotations.Parameter(
 				in = io.swagger.v3.oas.annotations.enums.ParameterIn.QUERY,
-				name = "departmentId"
+				name = "roleId"
 			)
 		}
 	)
@@ -414,11 +414,11 @@ public abstract class BasePersonResourceImpl
 			@javax.ws.rs.PathParam("personId")
 			Long personId,
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
-			@javax.ws.rs.QueryParam("roleId")
-			Long roleId,
-			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
 			@javax.ws.rs.QueryParam("departmentId")
 			Long departmentId,
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@javax.ws.rs.QueryParam("roleId")
+			Long roleId,
 			Person person)
 		throws Exception {
 
@@ -434,8 +434,8 @@ public abstract class BasePersonResourceImpl
 
 		UnsafeConsumer<Person, Exception> personUnsafeConsumer =
 			person -> postPerson(
-				Long.parseLong((String)parameters.get("roleId")),
-				Long.parseLong((String)parameters.get("departmentId")), person);
+				Long.parseLong((String)parameters.get("departmentId")),
+				Long.parseLong((String)parameters.get("roleId")), person);
 
 		for (Person person : persons) {
 			personUnsafeConsumer.accept(person);
@@ -475,8 +475,8 @@ public abstract class BasePersonResourceImpl
 		throws Exception {
 
 		return getPersonsPage(
-			search, Long.parseLong((String)parameters.get("departmentId")),
-			Long.parseLong((String)parameters.get("roleId")), filter,
+			Long.parseLong((String)parameters.get("departmentId")),
+			Long.parseLong((String)parameters.get("roleId")), search, filter,
 			pagination, sorts);
 	}
 

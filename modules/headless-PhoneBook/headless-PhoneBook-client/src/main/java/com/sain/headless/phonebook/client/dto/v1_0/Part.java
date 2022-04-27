@@ -34,8 +34,8 @@ public class Part implements Cloneable, Serializable {
 		try {
 			address = addressUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -53,8 +53,8 @@ public class Part implements Cloneable, Serializable {
 		try {
 			id = idUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -74,8 +74,8 @@ public class Part implements Cloneable, Serializable {
 		try {
 			internalPhone = internalPhoneUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -93,8 +93,8 @@ public class Part implements Cloneable, Serializable {
 		try {
 			name = nameUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 

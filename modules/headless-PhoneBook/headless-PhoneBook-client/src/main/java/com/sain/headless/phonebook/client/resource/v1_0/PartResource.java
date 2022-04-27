@@ -187,10 +187,10 @@ public interface PartResource {
 			try {
 				return Page.of(content, PartSerDes::toDTO);
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -283,10 +283,10 @@ public interface PartResource {
 			try {
 				return PartSerDes.toDTO(content);
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -444,10 +444,10 @@ public interface PartResource {
 			try {
 				return;
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -595,10 +595,10 @@ public interface PartResource {
 			try {
 				return PartSerDes.toDTO(content);
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -675,10 +675,10 @@ public interface PartResource {
 			try {
 				return PartSerDes.toDTO(content);
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}
@@ -762,10 +762,10 @@ public interface PartResource {
 			try {
 				return PartSerDes.toDTO(content);
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				_logger.log(
 					Level.WARNING,
-					"Unable to process HTTP response: " + content, exception);
+					"Unable to process HTTP response: " + content, e);
 
 				throw new Problem.ProblemException(Problem.toDTO(content));
 			}

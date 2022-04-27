@@ -387,7 +387,7 @@ public abstract class BaseJSONParser<T> {
 
 				return baseJSONParser.parseToMap(_readValueAsStringJSON());
 			}
-			catch (Exception exception) {
+			catch (Exception e) {
 				throw new IllegalArgumentException(
 					"Expected JSON object or map");
 			}
@@ -456,7 +456,7 @@ public abstract class BaseJSONParser<T> {
 
 		_readNextChar();
 
-		_assertLastChar('exception');
+		_assertLastChar('e');
 
 		_readNextChar();
 
@@ -474,7 +474,7 @@ public abstract class BaseJSONParser<T> {
 
 		_readNextChar();
 
-		_assertLastChar('exception');
+		_assertLastChar('e');
 
 		_readNextChar();
 

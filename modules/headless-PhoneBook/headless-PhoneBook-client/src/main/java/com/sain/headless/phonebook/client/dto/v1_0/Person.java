@@ -34,8 +34,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			department = departmentUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -55,8 +55,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			email = emailUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -76,8 +76,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			faxNumber = faxNumberUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -97,8 +97,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			firstName = firstNameUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -116,8 +116,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			id = idUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -137,8 +137,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			lastName = lastNameUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -158,8 +158,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			localPhoneNumber = localPhoneNumberUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -179,8 +179,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			phoneNumber = phoneNumberUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -198,8 +198,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			role = roleUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -219,8 +219,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			roomNumber = roomNumberUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -240,8 +240,8 @@ public class Person implements Cloneable, Serializable {
 		try {
 			website = websiteUnsafeSupplier.get();
 		}
-		catch (Exception exception) {
-			throw new RuntimeException(exception);
+		catch (Exception e) {
+			throw new RuntimeException(e);
 		}
 	}
 

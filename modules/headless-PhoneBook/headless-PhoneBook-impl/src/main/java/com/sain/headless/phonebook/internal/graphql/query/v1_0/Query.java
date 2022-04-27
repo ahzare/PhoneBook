@@ -9,6 +9,7 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLTypeExtension;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
@@ -196,7 +197,7 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {part(partId: ___){id, name, internalPhone, address}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {part(partId: ___){address, id, internalPhone, name}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the part via its ID.")
 	public Part part(@GraphQLName("partId") Long partId) throws Exception {
@@ -215,9 +216,9 @@ public class Query {
 		description = "Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted."
 	)
 	public PersonPage persons(
-			@GraphQLName("search") String search,
 			@GraphQLName("departmentId") Long departmentId,
 			@GraphQLName("roleId") Long roleId,
+			@GraphQLName("search") String search,
 			@GraphQLName("filter") String filterString,
 			@GraphQLName("pageSize") int pageSize,
 			@GraphQLName("page") int page,
@@ -229,7 +230,7 @@ public class Query {
 			this::_populateResourceContext,
 			personResource -> new PersonPage(
 				personResource.getPersonsPage(
-					search, departmentId, roleId,
+					departmentId, roleId, search,
 					_filterBiFunction.apply(personResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(personResource, sortsString))));
@@ -238,7 +239,7 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {person(personId: ___){id, firstName, lastName, localPhoneNumber, phoneNumber, faxNumber, roomNumber, email, website, role, department}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {person(personId: ___){department, email, faxNumber, firstName, id, lastName, localPhoneNumber, phoneNumber, role, roomNumber, website}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the person via its ID.")
 	public Person person(@GraphQLName("personId") Long personId)
@@ -287,6 +288,40 @@ public class Query {
 			_roleResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			roleResource -> roleResource.getRole(roleId));
+	}
+
+	@GraphQLTypeExtension(Department.class)
+	public class GetPersonsPageTypeExtension {
+
+		public GetPersonsPageTypeExtension(Department department) {
+			_department = department;
+		}
+
+		@GraphQLField(
+			description = "Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted."
+		)
+		public PersonPage persons(
+				@GraphQLName("roleId") Long roleId,
+				@GraphQLName("search") String search,
+				@GraphQLName("filter") String filterString,
+				@GraphQLName("pageSize") int pageSize,
+				@GraphQLName("page") int page,
+				@GraphQLName("sort") String sortsString)
+			throws Exception {
+
+			return _applyComponentServiceObjects(
+				_personResourceComponentServiceObjects,
+				Query.this::_populateResourceContext,
+				personResource -> new PersonPage(
+					personResource.getPersonsPage(
+						_department.getId(), roleId, search,
+						_filterBiFunction.apply(personResource, filterString),
+						Pagination.of(page, pageSize),
+						_sortsBiFunction.apply(personResource, sortsString))));
+		}
+
+		private Department _department;
+
 	}
 
 	@GraphQLName("AddressPage")
