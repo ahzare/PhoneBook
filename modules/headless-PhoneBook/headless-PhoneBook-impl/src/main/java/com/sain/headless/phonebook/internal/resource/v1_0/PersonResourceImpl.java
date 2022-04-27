@@ -34,6 +34,7 @@ import com.sain.phonebook.service.RoleService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.constraints.NotNull;
 
@@ -117,9 +118,9 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		            searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
 		        },
 		        sorts,
-		        document -> _toPerson(_personService.getPerson(Long.parseLong(document.get(Field.ENTRY_CLASS_PK)))));
+		        document -> toPerson(_personService.getPerson(
+						Long.parseLong(document.get(Field.ENTRY_CLASS_PK)))));
 */
-
 		/*return SearchUtil.search(
 		      null,
 		        booleanQuery -> {
@@ -133,7 +134,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		            searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
 		        },
 		        sorts,
-		        document -> _toPerson(
+		        document -> toPerson(
 		                _personService.getPerson(
 		                        Long.parseLong(GetterUtil.getString(document.get(Field.ENTRY_CLASS_PK))))));
 */
@@ -160,7 +161,9 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
 				String name = fName.concat(lName);
 
-				if (name.contains(search)) {
+				name = name.toLowerCase(Locale.ROOT);
+
+				if (name.contains(search.toLowerCase(Locale.ROOT))) {
 					list.add(person);
 				}
 			}
