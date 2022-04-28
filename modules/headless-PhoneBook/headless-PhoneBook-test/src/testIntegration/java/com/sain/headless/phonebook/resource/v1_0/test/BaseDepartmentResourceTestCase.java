@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
@@ -23,7 +24,6 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.odata.entity.EntityField;
@@ -40,7 +40,9 @@ import com.sain.headless.phonebook.client.pagination.Pagination;
 import com.sain.headless.phonebook.client.resource.v1_0.DepartmentResource;
 import com.sain.headless.phonebook.client.serdes.v1_0.DepartmentSerDes;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import java.text.DateFormat;
 
@@ -187,9 +189,9 @@ public abstract class BaseDepartmentResourceTestCase {
 	@Test
 	public void testGetDepartmentsPage() throws Exception {
 		Page<Department> page = departmentResource.getDepartmentsPage(
-			null, null, Pagination.of(1, 10), null);
+			RandomTestUtil.randomString(), null, Pagination.of(1, 2), null);
 
-		long totalCount = page.getTotalCount();
+		Assert.assertEquals(0, page.getTotalCount());
 
 		Department department1 = testGetDepartmentsPage_addDepartment(
 			randomDepartment());
@@ -198,12 +200,13 @@ public abstract class BaseDepartmentResourceTestCase {
 			randomDepartment());
 
 		page = departmentResource.getDepartmentsPage(
-			null, null, Pagination.of(1, 10), null);
+			null, null, Pagination.of(1, 2), null);
 
-		Assert.assertEquals(totalCount + 2, page.getTotalCount());
+		Assert.assertEquals(2, page.getTotalCount());
 
-		assertContains(department1, (List<Department>)page.getItems());
-		assertContains(department2, (List<Department>)page.getItems());
+		assertEqualsIgnoringOrder(
+			Arrays.asList(department1, department2),
+			(List<Department>)page.getItems());
 		assertValid(page);
 
 		departmentResource.deleteDepartment(department1.getId());
@@ -268,11 +271,6 @@ public abstract class BaseDepartmentResourceTestCase {
 
 	@Test
 	public void testGetDepartmentsPageWithPagination() throws Exception {
-		Page<Department> totalPage = departmentResource.getDepartmentsPage(
-			null, null, null, null);
-
-		int totalCount = GetterUtil.getInteger(totalPage.getTotalCount());
-
 		Department department1 = testGetDepartmentsPage_addDepartment(
 			randomDepartment());
 
@@ -283,28 +281,27 @@ public abstract class BaseDepartmentResourceTestCase {
 			randomDepartment());
 
 		Page<Department> page1 = departmentResource.getDepartmentsPage(
-			null, null, Pagination.of(1, totalCount + 2), null);
+			null, null, Pagination.of(1, 2), null);
 
 		List<Department> departments1 = (List<Department>)page1.getItems();
 
-		Assert.assertEquals(
-			departments1.toString(), totalCount + 2, departments1.size());
+		Assert.assertEquals(departments1.toString(), 2, departments1.size());
 
 		Page<Department> page2 = departmentResource.getDepartmentsPage(
-			null, null, Pagination.of(2, totalCount + 2), null);
+			null, null, Pagination.of(2, 2), null);
 
-		Assert.assertEquals(totalCount + 3, page2.getTotalCount());
+		Assert.assertEquals(3, page2.getTotalCount());
 
 		List<Department> departments2 = (List<Department>)page2.getItems();
 
 		Assert.assertEquals(departments2.toString(), 1, departments2.size());
 
 		Page<Department> page3 = departmentResource.getDepartmentsPage(
-			null, null, Pagination.of(1, totalCount + 3), null);
+			null, null, Pagination.of(1, 3), null);
 
-		assertContains(department1, (List<Department>)page3.getItems());
-		assertContains(department2, (List<Department>)page3.getItems());
-		assertContains(department3, (List<Department>)page3.getItems());
+		assertEqualsIgnoringOrder(
+			Arrays.asList(department1, department2, department3),
+			(List<Department>)page3.getItems());
 	}
 
 	@Test
@@ -337,7 +334,7 @@ public abstract class BaseDepartmentResourceTestCase {
 
 				String entityFieldName = entityField.getName();
 
-				java.lang.reflect.Method method = clazz.getMethod(
+				Method method = clazz.getMethod(
 					"get" + StringUtil.upperCaseFirstLetter(entityFieldName));
 
 				Class<?> returnType = method.getReturnType();
@@ -436,7 +433,7 @@ public abstract class BaseDepartmentResourceTestCase {
 			new HashMap<String, Object>() {
 				{
 					put("page", 1);
-					put("pageSize", 10);
+					put("pageSize", 2);
 				}
 			},
 			new GraphQLField("items", getGraphQLFields()),
@@ -446,7 +443,7 @@ public abstract class BaseDepartmentResourceTestCase {
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
 			"JSONObject/departments");
 
-		long totalCount = departmentsJSONObject.getLong("totalCount");
+		Assert.assertEquals(0, departmentsJSONObject.get("totalCount"));
 
 		Department department1 = testGraphQLDepartment_addDepartment();
 		Department department2 = testGraphQLDepartment_addDepartment();
@@ -455,16 +452,10 @@ public abstract class BaseDepartmentResourceTestCase {
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
 			"JSONObject/departments");
 
-		Assert.assertEquals(
-			totalCount + 2, departmentsJSONObject.getLong("totalCount"));
+		Assert.assertEquals(2, departmentsJSONObject.get("totalCount"));
 
-		assertContains(
-			department1,
-			Arrays.asList(
-				DepartmentSerDes.toDTOs(
-					departmentsJSONObject.getString("items"))));
-		assertContains(
-			department2,
+		assertEqualsIgnoringOrder(
+			Arrays.asList(department1, department2),
 			Arrays.asList(
 				DepartmentSerDes.toDTOs(
 					departmentsJSONObject.getString("items"))));
@@ -660,23 +651,6 @@ public abstract class BaseDepartmentResourceTestCase {
 			"This method needs to be implemented");
 	}
 
-	protected void assertContains(
-		Department department, List<Department> departments) {
-
-		boolean contains = false;
-
-		for (Department item : departments) {
-			if (equals(department, item)) {
-				contains = true;
-
-				break;
-			}
-		}
-
-		Assert.assertTrue(
-			departments + " does not contain " + department, contains);
-	}
-
 	protected void assertHttpResponseStatusCode(
 		int expectedHttpResponseStatusCode,
 		HttpInvoker.HttpResponse actualHttpResponse) {
@@ -777,7 +751,7 @@ public abstract class BaseDepartmentResourceTestCase {
 	protected List<GraphQLField> getGraphQLFields() throws Exception {
 		List<GraphQLField> graphQLFields = new ArrayList<>();
 
-		for (java.lang.reflect.Field field :
+		for (Field field :
 				getDeclaredFields(
 					com.sain.headless.phonebook.dto.v1_0.Department.class)) {
 
@@ -793,13 +767,12 @@ public abstract class BaseDepartmentResourceTestCase {
 		return graphQLFields;
 	}
 
-	protected List<GraphQLField> getGraphQLFields(
-			java.lang.reflect.Field... fields)
+	protected List<GraphQLField> getGraphQLFields(Field... fields)
 		throws Exception {
 
 		List<GraphQLField> graphQLFields = new ArrayList<>();
 
-		for (java.lang.reflect.Field field : fields) {
+		for (Field field : fields) {
 			com.liferay.portal.vulcan.graphql.annotation.GraphQLField
 				vulcanGraphQLField = field.getAnnotation(
 					com.liferay.portal.vulcan.graphql.annotation.GraphQLField.
@@ -889,16 +862,14 @@ public abstract class BaseDepartmentResourceTestCase {
 		return false;
 	}
 
-	protected java.lang.reflect.Field[] getDeclaredFields(Class clazz)
-		throws Exception {
-
-		Stream<java.lang.reflect.Field> stream = Stream.of(
+	protected Field[] getDeclaredFields(Class clazz) throws Exception {
+		Stream<Field> stream = Stream.of(
 			ReflectionUtil.getDeclaredFields(clazz));
 
 		return stream.filter(
 			field -> !field.isSynthetic()
 		).toArray(
-			java.lang.reflect.Field[]::new
+			Field[]::new
 		);
 	}
 
@@ -1101,8 +1072,8 @@ public abstract class BaseDepartmentResourceTestCase {
 
 	}
 
-	private static final com.liferay.portal.kernel.log.Log _log =
-		LogFactoryUtil.getLog(BaseDepartmentResourceTestCase.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		BaseDepartmentResourceTestCase.class);
 
 	private static BeanUtilsBean _beanUtilsBean = new BeanUtilsBean() {
 

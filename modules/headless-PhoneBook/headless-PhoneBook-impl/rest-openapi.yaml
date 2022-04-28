@@ -93,7 +93,6 @@ components:
                     description:
                         The person website.
                     type: string
-            type: object
         Role:
             description:
                 Contains all of the data for a single role.
@@ -159,6 +158,8 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/Address"
                                 type: array
+                    description:
+                        desc
             tags: ["Address"]
         post:
             description:
@@ -181,6 +182,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Address"
+                    description:
+                        desc
             tags: ["Address"]
     "/addresses/{addressId}":
         delete:
@@ -199,6 +202,8 @@ paths:
                     content:
                         application/json: {}
                         application/xml: {}
+                    description:
+                        desc
             tags: ["Address"]
         get:
             description:
@@ -220,6 +225,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Address"
+                    description:
+                        desc
             tags: ["Address"]
         patch:
             description:
@@ -250,6 +257,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Address"
+                    description:
+                        desc
             tags: ["Address"]
         put:
             description:
@@ -322,6 +331,8 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/Department"
                                 type: array
+                    description:
+                        desc
             tags: ["Department"]
         post:
             description:
@@ -344,6 +355,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Department"
+                    description:
+                        desc
             tags: ["Department"]
     "/departments/{departmentId}":
         delete:
@@ -362,6 +375,8 @@ paths:
                     content:
                         application/json: {}
                         application/xml: {}
+                    description:
+                        desc
             tags: ["Department"]
         get:
             description:
@@ -383,6 +398,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Department"
+                    description:
+                        desc
             tags: ["Department"]
         patch:
             description:
@@ -413,6 +430,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Department"
+                    description:
+                        desc
             tags: ["Department"]
         put:
             description:
@@ -485,6 +504,8 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/Part"
                                 type: array
+                    description:
+                        desc
             tags: ["Part"]
         post:
             description:
@@ -513,6 +534,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Part"
+                    description:
+                        desc
             tags: ["Part"]
     "/parts/{partId}":
         delete:
@@ -531,6 +554,8 @@ paths:
                     content:
                         application/json: {}
                         application/xml: {}
+                    description:
+                        desc
             tags: ["Part"]
         get:
             description:
@@ -552,6 +577,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Part"
+                    description:
+                        desc
             tags: ["Part"]
         patch:
             description:
@@ -587,6 +614,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Part"
+                    description:
+                        desc
             tags: ["Part"]
         put:
             description:
@@ -674,6 +703,8 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/Person"
                                 type: array
+                    description:
+                        desc
             tags: ["Person"]
         post:
             description:
@@ -707,6 +738,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Person"
+                    description:
+                        desc
             tags: ["Person"]
     "/persons/{personId}":
         delete:
@@ -725,6 +758,8 @@ paths:
                     content:
                         application/json: {}
                         application/xml: {}
+                    description:
+                        desc
             tags: ["Person"]
         get:
             description:
@@ -746,6 +781,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Person"
+                    description:
+                        desc
             tags: ["Person"]
         patch:
             description:
@@ -786,6 +823,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Person"
+                    description:
+                        desc
             tags: ["Person"]
         put:
             description:
@@ -868,6 +907,8 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/Role"
                                 type: array
+                    description:
+                        desc
             tags: ["Role"]
         post:
             description:
@@ -890,6 +931,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Role"
+                    description:
+                        desc
             tags: ["Role"]
     "/roles/{roleId}":
         delete:
@@ -908,6 +951,8 @@ paths:
                     content:
                         application/json: {}
                         application/xml: {}
+                    description:
+                        desc
             tags: ["Role"]
         get:
             description:
@@ -929,6 +974,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Role"
+                    description:
+                        desc
             tags: ["Role"]
         patch:
             description:
@@ -959,6 +1006,8 @@ paths:
                         application/xml:
                             schema:
                                 $ref: "#/components/schemas/Role"
+                    description:
+                        desc
             tags: ["Role"]
         put:
             description:

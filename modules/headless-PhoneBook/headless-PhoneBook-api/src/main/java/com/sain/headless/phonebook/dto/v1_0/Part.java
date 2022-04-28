@@ -41,10 +41,6 @@ public class Part implements Serializable {
 		return ObjectMapperUtil.readValue(Part.class, json);
 	}
 
-	public static Part unsafeToDTO(String json) {
-		return ObjectMapperUtil.unsafeReadValue(Part.class, json);
-	}
-
 	@Schema
 	@Valid
 	public Address getAddress() {

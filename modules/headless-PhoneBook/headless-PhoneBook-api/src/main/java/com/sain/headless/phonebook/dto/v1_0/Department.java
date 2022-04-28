@@ -40,10 +40,6 @@ public class Department implements Serializable {
 		return ObjectMapperUtil.readValue(Department.class, json);
 	}
 
-	public static Department unsafeToDTO(String json) {
-		return ObjectMapperUtil.unsafeReadValue(Department.class, json);
-	}
-
 	@Schema(description = "The department internal ID.")
 	public Long getId() {
 		return id;

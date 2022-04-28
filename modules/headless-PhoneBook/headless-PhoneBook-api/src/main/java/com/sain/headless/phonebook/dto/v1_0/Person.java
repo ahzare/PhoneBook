@@ -42,10 +42,6 @@ public class Person implements Serializable {
 		return ObjectMapperUtil.readValue(Person.class, json);
 	}
 
-	public static Person unsafeToDTO(String json) {
-		return ObjectMapperUtil.unsafeReadValue(Person.class, json);
-	}
-
 	@Schema
 	@Valid
 	public Department getDepartment() {

@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
@@ -23,7 +24,6 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.odata.entity.EntityField;
@@ -40,7 +40,9 @@ import com.sain.headless.phonebook.client.pagination.Pagination;
 import com.sain.headless.phonebook.client.resource.v1_0.AddressResource;
 import com.sain.headless.phonebook.client.serdes.v1_0.AddressSerDes;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import java.text.DateFormat;
 
@@ -187,21 +189,21 @@ public abstract class BaseAddressResourceTestCase {
 	@Test
 	public void testGetAddressesPage() throws Exception {
 		Page<Address> page = addressResource.getAddressesPage(
-			null, null, Pagination.of(1, 10), null);
+			RandomTestUtil.randomString(), null, Pagination.of(1, 2), null);
 
-		long totalCount = page.getTotalCount();
+		Assert.assertEquals(0, page.getTotalCount());
 
 		Address address1 = testGetAddressesPage_addAddress(randomAddress());
 
 		Address address2 = testGetAddressesPage_addAddress(randomAddress());
 
 		page = addressResource.getAddressesPage(
-			null, null, Pagination.of(1, 10), null);
+			null, null, Pagination.of(1, 2), null);
 
-		Assert.assertEquals(totalCount + 2, page.getTotalCount());
+		Assert.assertEquals(2, page.getTotalCount());
 
-		assertContains(address1, (List<Address>)page.getItems());
-		assertContains(address2, (List<Address>)page.getItems());
+		assertEqualsIgnoringOrder(
+			Arrays.asList(address1, address2), (List<Address>)page.getItems());
 		assertValid(page);
 
 		addressResource.deleteAddress(address1.getId());
@@ -262,11 +264,6 @@ public abstract class BaseAddressResourceTestCase {
 
 	@Test
 	public void testGetAddressesPageWithPagination() throws Exception {
-		Page<Address> totalPage = addressResource.getAddressesPage(
-			null, null, null, null);
-
-		int totalCount = GetterUtil.getInteger(totalPage.getTotalCount());
-
 		Address address1 = testGetAddressesPage_addAddress(randomAddress());
 
 		Address address2 = testGetAddressesPage_addAddress(randomAddress());
@@ -274,28 +271,27 @@ public abstract class BaseAddressResourceTestCase {
 		Address address3 = testGetAddressesPage_addAddress(randomAddress());
 
 		Page<Address> page1 = addressResource.getAddressesPage(
-			null, null, Pagination.of(1, totalCount + 2), null);
+			null, null, Pagination.of(1, 2), null);
 
 		List<Address> addresses1 = (List<Address>)page1.getItems();
 
-		Assert.assertEquals(
-			addresses1.toString(), totalCount + 2, addresses1.size());
+		Assert.assertEquals(addresses1.toString(), 2, addresses1.size());
 
 		Page<Address> page2 = addressResource.getAddressesPage(
-			null, null, Pagination.of(2, totalCount + 2), null);
+			null, null, Pagination.of(2, 2), null);
 
-		Assert.assertEquals(totalCount + 3, page2.getTotalCount());
+		Assert.assertEquals(3, page2.getTotalCount());
 
 		List<Address> addresses2 = (List<Address>)page2.getItems();
 
 		Assert.assertEquals(addresses2.toString(), 1, addresses2.size());
 
 		Page<Address> page3 = addressResource.getAddressesPage(
-			null, null, Pagination.of(1, totalCount + 3), null);
+			null, null, Pagination.of(1, 3), null);
 
-		assertContains(address1, (List<Address>)page3.getItems());
-		assertContains(address2, (List<Address>)page3.getItems());
-		assertContains(address3, (List<Address>)page3.getItems());
+		assertEqualsIgnoringOrder(
+			Arrays.asList(address1, address2, address3),
+			(List<Address>)page3.getItems());
 	}
 
 	@Test
@@ -328,7 +324,7 @@ public abstract class BaseAddressResourceTestCase {
 
 				String entityFieldName = entityField.getName();
 
-				java.lang.reflect.Method method = clazz.getMethod(
+				Method method = clazz.getMethod(
 					"get" + StringUtil.upperCaseFirstLetter(entityFieldName));
 
 				Class<?> returnType = method.getReturnType();
@@ -426,7 +422,7 @@ public abstract class BaseAddressResourceTestCase {
 			new HashMap<String, Object>() {
 				{
 					put("page", 1);
-					put("pageSize", 10);
+					put("pageSize", 2);
 				}
 			},
 			new GraphQLField("items", getGraphQLFields()),
@@ -436,7 +432,7 @@ public abstract class BaseAddressResourceTestCase {
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
 			"JSONObject/addresses");
 
-		long totalCount = addressesJSONObject.getLong("totalCount");
+		Assert.assertEquals(0, addressesJSONObject.get("totalCount"));
 
 		Address address1 = testGraphQLAddress_addAddress();
 		Address address2 = testGraphQLAddress_addAddress();
@@ -445,15 +441,10 @@ public abstract class BaseAddressResourceTestCase {
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
 			"JSONObject/addresses");
 
-		Assert.assertEquals(
-			totalCount + 2, addressesJSONObject.getLong("totalCount"));
+		Assert.assertEquals(2, addressesJSONObject.get("totalCount"));
 
-		assertContains(
-			address1,
-			Arrays.asList(
-				AddressSerDes.toDTOs(addressesJSONObject.getString("items"))));
-		assertContains(
-			address2,
+		assertEqualsIgnoringOrder(
+			Arrays.asList(address1, address2),
 			Arrays.asList(
 				AddressSerDes.toDTOs(addressesJSONObject.getString("items"))));
 	}
@@ -638,20 +629,6 @@ public abstract class BaseAddressResourceTestCase {
 			"This method needs to be implemented");
 	}
 
-	protected void assertContains(Address address, List<Address> addresses) {
-		boolean contains = false;
-
-		for (Address item : addresses) {
-			if (equals(address, item)) {
-				contains = true;
-
-				break;
-			}
-		}
-
-		Assert.assertTrue(addresses + " does not contain " + address, contains);
-	}
-
 	protected void assertHttpResponseStatusCode(
 		int expectedHttpResponseStatusCode,
 		HttpInvoker.HttpResponse actualHttpResponse) {
@@ -750,7 +727,7 @@ public abstract class BaseAddressResourceTestCase {
 	protected List<GraphQLField> getGraphQLFields() throws Exception {
 		List<GraphQLField> graphQLFields = new ArrayList<>();
 
-		for (java.lang.reflect.Field field :
+		for (Field field :
 				getDeclaredFields(
 					com.sain.headless.phonebook.dto.v1_0.Address.class)) {
 
@@ -766,13 +743,12 @@ public abstract class BaseAddressResourceTestCase {
 		return graphQLFields;
 	}
 
-	protected List<GraphQLField> getGraphQLFields(
-			java.lang.reflect.Field... fields)
+	protected List<GraphQLField> getGraphQLFields(Field... fields)
 		throws Exception {
 
 		List<GraphQLField> graphQLFields = new ArrayList<>();
 
-		for (java.lang.reflect.Field field : fields) {
+		for (Field field : fields) {
 			com.liferay.portal.vulcan.graphql.annotation.GraphQLField
 				vulcanGraphQLField = field.getAnnotation(
 					com.liferay.portal.vulcan.graphql.annotation.GraphQLField.
@@ -860,16 +836,14 @@ public abstract class BaseAddressResourceTestCase {
 		return false;
 	}
 
-	protected java.lang.reflect.Field[] getDeclaredFields(Class clazz)
-		throws Exception {
-
-		Stream<java.lang.reflect.Field> stream = Stream.of(
+	protected Field[] getDeclaredFields(Class clazz) throws Exception {
+		Stream<Field> stream = Stream.of(
 			ReflectionUtil.getDeclaredFields(clazz));
 
 		return stream.filter(
 			field -> !field.isSynthetic()
 		).toArray(
-			java.lang.reflect.Field[]::new
+			Field[]::new
 		);
 	}
 
@@ -1072,8 +1046,8 @@ public abstract class BaseAddressResourceTestCase {
 
 	}
 
-	private static final com.liferay.portal.kernel.log.Log _log =
-		LogFactoryUtil.getLog(BaseAddressResourceTestCase.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		BaseAddressResourceTestCase.class);
 
 	private static BeanUtilsBean _beanUtilsBean = new BeanUtilsBean() {
 

@@ -21,12 +21,14 @@ import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
 import com.sain.headless.phonebook.dto.v1_0.Department;
 import com.sain.headless.phonebook.dto.v1_0.Person;
 import com.sain.headless.phonebook.dto.v1_0.Role;
+import com.sain.headless.phonebook.internal.v1_0.PersonEntityModel;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 import com.sain.phonebook.service.DepartmentService;
 import com.sain.phonebook.service.PersonService;
@@ -35,6 +37,7 @@ import com.sain.phonebook.service.RoleService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.validation.constraints.NotNull;
 
@@ -78,6 +81,13 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	}*/
 
 	@Override
+	public EntityModel getEntityModel(Map<String, List<String>> multivaluedMap)
+		throws Exception {
+
+		return _personEntityModel;
+	}
+
+	@Override
 	public Person getPerson(@NotNull Long personId) throws Exception {
 		try {
 
@@ -107,37 +117,60 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		System.out.println("getPersonsPage");
 
 		/*return SearchUtil.search(
-		        null,
-		        booleanQuery -> {
-		        },
-		        filter, Person.class, search, pagination,
+			null, booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+			Person.class, search, pagination,
+			queryConfig -> queryConfig.setSelectedFieldNames(
+				Field.ENTRY_CLASS_PK),
+			searchContext -> {
+				searchContext.setCompanyId(contextCompany.getCompanyId());
+				searchContext.setGroupIds(
+					new long[] {contextCompany.getGroupId()});
+			},
+			sorts,
+			document -> toPerson(
+				_personService.getPerson(
+					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))));*/
+
+		/*System.out.println("filter = " + filter);
+		System.out.println("search = " + search);
+		System.out.println("pagination = " + pagination);
+		System.out.println("sorts = " + Arrays.toString(sorts));
+		Page<Person> personPage = SearchUtil.search(
+		        booleanQuery -> booleanQuery.getPreBooleanFilter(), filter, Person.class, search,
+		        pagination,
 		        queryConfig -> queryConfig.setSelectedFieldNames(
 		                Field.ENTRY_CLASS_PK),
-		        searchContext -> {
-		            searchContext.setCompanyId(contextCompany.getCompanyId());
-		            searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
+		        new UnsafeConsumer() {
+		            public void accept(Object object) throws Exception {
+		                SearchContext searchContext = (SearchContext)object;
+		                searchContext.setCompanyId(contextCompany.getCompanyId());
+		            }
+
 		        },
-		        sorts,
-		        document -> toPerson(_personService.getPerson(
-						Long.parseLong(document.get(Field.ENTRY_CLASS_PK)))));
-*/
-		/*return SearchUtil.search(
-		      null,
-		        booleanQuery -> {
-		        },
-		        filter, Person.class, search, pagination,
-		        queryConfig -> queryConfig.setSelectedFieldNames(
-		                Field.ENTRY_CLASS_PK),
-		        searchContext -> {
-		            searchContext.setAttribute(Field.NAME, search);
-		            searchContext.setCompanyId(contextCompany.getCompanyId());
-		            searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
-		        },
-		        sorts,
 		        document -> toPerson(
 		                _personService.getPerson(
-		                        Long.parseLong(GetterUtil.getString(document.get(Field.ENTRY_CLASS_PK))))));
-*/
+		                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+		        sorts);
+		System.out.println("person page = " + personPage);
+
+		return personPage;*/
+
+		/* return SearchUtil.search(
+		         booleanQuery -> booleanQuery.getPreBooleanFilter(), filter, Person.class, search,
+		         pagination,
+		         queryConfig -> queryConfig.setSelectedFieldNames(
+		                 Field.ENTRY_CLASS_PK),
+		         new UnsafeConsumer() {
+		             public void accept(Object object) throws Exception {
+		                 SearchContext searchContext = (SearchContext)object;
+		                 searchContext.setCompanyId(contextCompany.getCompanyId());
+		             }
+
+		         },
+		         document -> toPerson(
+		                 _personService.getPerson(
+		                         GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+		         sorts);*/
 
 		/* if (departmentId != null && departmentId != 0) {
 		     // get people of specific department
@@ -348,11 +381,11 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	private static final Logger _log = LoggerFactory.getLogger(
 		PersonResourceImpl.class);
 
+	private static final EntityModel _personEntityModel =
+		new PersonEntityModel();
+
 	@Reference
 	private DepartmentService _departmentService;
-
-	//	private PersonEntityModel _personEntityModel =
-	//			new PersonEntityModel();
 
 	@Reference
 	private PersonService _personService;

@@ -40,10 +40,6 @@ public class Address implements Serializable {
 		return ObjectMapperUtil.readValue(Address.class, json);
 	}
 
-	public static Address unsafeToDTO(String json) {
-		return ObjectMapperUtil.unsafeReadValue(Address.class, json);
-	}
-
 	@Schema(description = "The address internal ID.")
 	public Long getId() {
 		return id;

@@ -1,25 +1,45 @@
 buildscript {
 	dependencies {
 		classpath group: "biz.aQute.bnd", name: "biz.aQute.bnd", version: "5.2.0"
-		classpath(group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "3.4.17") {
+		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.baseline", version: "6.0.6"
+		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.change.log.builder", version: "1.1.5"
+		classpath(group: "com.liferay", name: "com.liferay.gradle.plugins.workspace", version: "3.4.14") {
 			exclude group: "biz.aQute.bnd", module: "biz.aQute.bnd"
 		}
 		classpath group: "net.saliman", name: "gradle-properties-plugin", version: "1.4.6"
-
-		classpath group: "com.liferay", name: "com.liferay.gradle.plugins.rest.builder", version: "1.0.21"
 	}
 
 	repositories {
-		maven {
-			url "https://repository-cdn.liferay.com/nexus/content/groups/public"
-		}
+		mavenLocal()
 
 		maven {
-			url "https://repository.liferay.com/nexus/content/groups/public"
+			credentials {
+				username "sain-read"
+				password "QMPM9cT5scOXty"
+			}
+			url "https://repo.sain.ir/repository/maven-group"
 		}
 	}
 }
 
+gradle.allprojects {
+	repositories {
+		mavenLocal()
+
+		maven {
+			credentials {
+				username "sain-read"
+				password "QMPM9cT5scOXty"
+			}
+			url "https://repo.sain.ir/repository/maven-group"
+		}
+	}
+}
+
+
 apply plugin: "net.saliman.properties"
 
 apply plugin: "com.liferay.workspace"
+
+
+

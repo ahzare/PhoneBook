@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
@@ -23,7 +24,6 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.odata.entity.EntityField;
@@ -40,7 +40,9 @@ import com.sain.headless.phonebook.client.pagination.Pagination;
 import com.sain.headless.phonebook.client.resource.v1_0.PartResource;
 import com.sain.headless.phonebook.client.serdes.v1_0.PartSerDes;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import java.text.DateFormat;
 
@@ -189,21 +191,20 @@ public abstract class BasePartResourceTestCase {
 	@Test
 	public void testGetPartsPage() throws Exception {
 		Page<Part> page = partResource.getPartsPage(
-			null, null, Pagination.of(1, 10), null);
+			RandomTestUtil.randomString(), null, Pagination.of(1, 2), null);
 
-		long totalCount = page.getTotalCount();
+		Assert.assertEquals(0, page.getTotalCount());
 
 		Part part1 = testGetPartsPage_addPart(randomPart());
 
 		Part part2 = testGetPartsPage_addPart(randomPart());
 
-		page = partResource.getPartsPage(
-			null, null, Pagination.of(1, 10), null);
+		page = partResource.getPartsPage(null, null, Pagination.of(1, 2), null);
 
-		Assert.assertEquals(totalCount + 2, page.getTotalCount());
+		Assert.assertEquals(2, page.getTotalCount());
 
-		assertContains(part1, (List<Part>)page.getItems());
-		assertContains(part2, (List<Part>)page.getItems());
+		assertEqualsIgnoringOrder(
+			Arrays.asList(part1, part2), (List<Part>)page.getItems());
 		assertValid(page);
 
 		partResource.deletePart(part1.getId());
@@ -260,11 +261,6 @@ public abstract class BasePartResourceTestCase {
 
 	@Test
 	public void testGetPartsPageWithPagination() throws Exception {
-		Page<Part> totalPage = partResource.getPartsPage(
-			null, null, null, null);
-
-		int totalCount = GetterUtil.getInteger(totalPage.getTotalCount());
-
 		Part part1 = testGetPartsPage_addPart(randomPart());
 
 		Part part2 = testGetPartsPage_addPart(randomPart());
@@ -272,27 +268,26 @@ public abstract class BasePartResourceTestCase {
 		Part part3 = testGetPartsPage_addPart(randomPart());
 
 		Page<Part> page1 = partResource.getPartsPage(
-			null, null, Pagination.of(1, totalCount + 2), null);
+			null, null, Pagination.of(1, 2), null);
 
 		List<Part> parts1 = (List<Part>)page1.getItems();
 
-		Assert.assertEquals(parts1.toString(), totalCount + 2, parts1.size());
+		Assert.assertEquals(parts1.toString(), 2, parts1.size());
 
 		Page<Part> page2 = partResource.getPartsPage(
-			null, null, Pagination.of(2, totalCount + 2), null);
+			null, null, Pagination.of(2, 2), null);
 
-		Assert.assertEquals(totalCount + 3, page2.getTotalCount());
+		Assert.assertEquals(3, page2.getTotalCount());
 
 		List<Part> parts2 = (List<Part>)page2.getItems();
 
 		Assert.assertEquals(parts2.toString(), 1, parts2.size());
 
 		Page<Part> page3 = partResource.getPartsPage(
-			null, null, Pagination.of(1, totalCount + 3), null);
+			null, null, Pagination.of(1, 3), null);
 
-		assertContains(part1, (List<Part>)page3.getItems());
-		assertContains(part2, (List<Part>)page3.getItems());
-		assertContains(part3, (List<Part>)page3.getItems());
+		assertEqualsIgnoringOrder(
+			Arrays.asList(part1, part2, part3), (List<Part>)page3.getItems());
 	}
 
 	@Test
@@ -325,7 +320,7 @@ public abstract class BasePartResourceTestCase {
 
 				String entityFieldName = entityField.getName();
 
-				java.lang.reflect.Method method = clazz.getMethod(
+				Method method = clazz.getMethod(
 					"get" + StringUtil.upperCaseFirstLetter(entityFieldName));
 
 				Class<?> returnType = method.getReturnType();
@@ -419,7 +414,7 @@ public abstract class BasePartResourceTestCase {
 			new HashMap<String, Object>() {
 				{
 					put("page", 1);
-					put("pageSize", 10);
+					put("pageSize", 2);
 				}
 			},
 			new GraphQLField("items", getGraphQLFields()),
@@ -429,7 +424,7 @@ public abstract class BasePartResourceTestCase {
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
 			"JSONObject/parts");
 
-		long totalCount = partsJSONObject.getLong("totalCount");
+		Assert.assertEquals(0, partsJSONObject.get("totalCount"));
 
 		Part part1 = testGraphQLPart_addPart();
 		Part part2 = testGraphQLPart_addPart();
@@ -438,15 +433,10 @@ public abstract class BasePartResourceTestCase {
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
 			"JSONObject/parts");
 
-		Assert.assertEquals(
-			totalCount + 2, partsJSONObject.getLong("totalCount"));
+		Assert.assertEquals(2, partsJSONObject.get("totalCount"));
 
-		assertContains(
-			part1,
-			Arrays.asList(
-				PartSerDes.toDTOs(partsJSONObject.getString("items"))));
-		assertContains(
-			part2,
+		assertEqualsIgnoringOrder(
+			Arrays.asList(part1, part2),
 			Arrays.asList(
 				PartSerDes.toDTOs(partsJSONObject.getString("items"))));
 	}
@@ -608,20 +598,6 @@ public abstract class BasePartResourceTestCase {
 			"This method needs to be implemented");
 	}
 
-	protected void assertContains(Part part, List<Part> parts) {
-		boolean contains = false;
-
-		for (Part item : parts) {
-			if (equals(part, item)) {
-				contains = true;
-
-				break;
-			}
-		}
-
-		Assert.assertTrue(parts + " does not contain " + part, contains);
-	}
-
 	protected void assertHttpResponseStatusCode(
 		int expectedHttpResponseStatusCode,
 		HttpInvoker.HttpResponse actualHttpResponse) {
@@ -732,7 +708,7 @@ public abstract class BasePartResourceTestCase {
 	protected List<GraphQLField> getGraphQLFields() throws Exception {
 		List<GraphQLField> graphQLFields = new ArrayList<>();
 
-		for (java.lang.reflect.Field field :
+		for (Field field :
 				getDeclaredFields(
 					com.sain.headless.phonebook.dto.v1_0.Part.class)) {
 
@@ -748,13 +724,12 @@ public abstract class BasePartResourceTestCase {
 		return graphQLFields;
 	}
 
-	protected List<GraphQLField> getGraphQLFields(
-			java.lang.reflect.Field... fields)
+	protected List<GraphQLField> getGraphQLFields(Field... fields)
 		throws Exception {
 
 		List<GraphQLField> graphQLFields = new ArrayList<>();
 
-		for (java.lang.reflect.Field field : fields) {
+		for (Field field : fields) {
 			com.liferay.portal.vulcan.graphql.annotation.GraphQLField
 				vulcanGraphQLField = field.getAnnotation(
 					com.liferay.portal.vulcan.graphql.annotation.GraphQLField.
@@ -860,16 +835,14 @@ public abstract class BasePartResourceTestCase {
 		return false;
 	}
 
-	protected java.lang.reflect.Field[] getDeclaredFields(Class clazz)
-		throws Exception {
-
-		Stream<java.lang.reflect.Field> stream = Stream.of(
+	protected Field[] getDeclaredFields(Class clazz) throws Exception {
+		Stream<Field> stream = Stream.of(
 			ReflectionUtil.getDeclaredFields(clazz));
 
 		return stream.filter(
 			field -> !field.isSynthetic()
 		).toArray(
-			java.lang.reflect.Field[]::new
+			Field[]::new
 		);
 	}
 
@@ -1087,8 +1060,8 @@ public abstract class BasePartResourceTestCase {
 
 	}
 
-	private static final com.liferay.portal.kernel.log.Log _log =
-		LogFactoryUtil.getLog(BasePartResourceTestCase.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		BasePartResourceTestCase.class);
 
 	private static BeanUtilsBean _beanUtilsBean = new BeanUtilsBean() {
 

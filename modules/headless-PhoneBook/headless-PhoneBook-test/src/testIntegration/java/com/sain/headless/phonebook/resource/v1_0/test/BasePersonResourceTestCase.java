@@ -15,6 +15,7 @@ import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
+import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.model.Company;
 import com.liferay.portal.kernel.model.Group;
@@ -23,7 +24,6 @@ import com.liferay.portal.kernel.test.util.GroupTestUtil;
 import com.liferay.portal.kernel.test.util.RandomTestUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.DateFormatFactoryUtil;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.StringUtil;
 import com.liferay.portal.odata.entity.EntityField;
@@ -40,7 +40,9 @@ import com.sain.headless.phonebook.client.pagination.Pagination;
 import com.sain.headless.phonebook.client.resource.v1_0.PersonResource;
 import com.sain.headless.phonebook.client.serdes.v1_0.PersonSerDes;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import java.text.DateFormat;
 
@@ -201,21 +203,22 @@ public abstract class BasePersonResourceTestCase {
 	@Test
 	public void testGetPersonsPage() throws Exception {
 		Page<Person> page = personResource.getPersonsPage(
-			null, null, null, null, Pagination.of(1, 10), null);
+			null, null, RandomTestUtil.randomString(), null,
+			Pagination.of(1, 2), null);
 
-		long totalCount = page.getTotalCount();
+		Assert.assertEquals(0, page.getTotalCount());
 
 		Person person1 = testGetPersonsPage_addPerson(randomPerson());
 
 		Person person2 = testGetPersonsPage_addPerson(randomPerson());
 
 		page = personResource.getPersonsPage(
-			null, null, null, null, Pagination.of(1, 10), null);
+			null, null, null, null, Pagination.of(1, 2), null);
 
-		Assert.assertEquals(totalCount + 2, page.getTotalCount());
+		Assert.assertEquals(2, page.getTotalCount());
 
-		assertContains(person1, (List<Person>)page.getItems());
-		assertContains(person2, (List<Person>)page.getItems());
+		assertEqualsIgnoringOrder(
+			Arrays.asList(person1, person2), (List<Person>)page.getItems());
 		assertValid(page);
 
 		personResource.deletePerson(person1.getId());
@@ -275,11 +278,6 @@ public abstract class BasePersonResourceTestCase {
 
 	@Test
 	public void testGetPersonsPageWithPagination() throws Exception {
-		Page<Person> totalPage = personResource.getPersonsPage(
-			null, null, null, null, null, null);
-
-		int totalCount = GetterUtil.getInteger(totalPage.getTotalCount());
-
 		Person person1 = testGetPersonsPage_addPerson(randomPerson());
 
 		Person person2 = testGetPersonsPage_addPerson(randomPerson());
@@ -287,28 +285,27 @@ public abstract class BasePersonResourceTestCase {
 		Person person3 = testGetPersonsPage_addPerson(randomPerson());
 
 		Page<Person> page1 = personResource.getPersonsPage(
-			null, null, null, null, Pagination.of(1, totalCount + 2), null);
+			null, null, null, null, Pagination.of(1, 2), null);
 
 		List<Person> persons1 = (List<Person>)page1.getItems();
 
-		Assert.assertEquals(
-			persons1.toString(), totalCount + 2, persons1.size());
+		Assert.assertEquals(persons1.toString(), 2, persons1.size());
 
 		Page<Person> page2 = personResource.getPersonsPage(
-			null, null, null, null, Pagination.of(2, totalCount + 2), null);
+			null, null, null, null, Pagination.of(2, 2), null);
 
-		Assert.assertEquals(totalCount + 3, page2.getTotalCount());
+		Assert.assertEquals(3, page2.getTotalCount());
 
 		List<Person> persons2 = (List<Person>)page2.getItems();
 
 		Assert.assertEquals(persons2.toString(), 1, persons2.size());
 
 		Page<Person> page3 = personResource.getPersonsPage(
-			null, null, null, null, Pagination.of(1, totalCount + 3), null);
+			null, null, null, null, Pagination.of(1, 3), null);
 
-		assertContains(person1, (List<Person>)page3.getItems());
-		assertContains(person2, (List<Person>)page3.getItems());
-		assertContains(person3, (List<Person>)page3.getItems());
+		assertEqualsIgnoringOrder(
+			Arrays.asList(person1, person2, person3),
+			(List<Person>)page3.getItems());
 	}
 
 	@Test
@@ -341,7 +338,7 @@ public abstract class BasePersonResourceTestCase {
 
 				String entityFieldName = entityField.getName();
 
-				java.lang.reflect.Method method = clazz.getMethod(
+				Method method = clazz.getMethod(
 					"get" + StringUtil.upperCaseFirstLetter(entityFieldName));
 
 				Class<?> returnType = method.getReturnType();
@@ -439,7 +436,7 @@ public abstract class BasePersonResourceTestCase {
 			new HashMap<String, Object>() {
 				{
 					put("page", 1);
-					put("pageSize", 10);
+					put("pageSize", 2);
 				}
 			},
 			new GraphQLField("items", getGraphQLFields()),
@@ -449,7 +446,7 @@ public abstract class BasePersonResourceTestCase {
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
 			"JSONObject/persons");
 
-		long totalCount = personsJSONObject.getLong("totalCount");
+		Assert.assertEquals(0, personsJSONObject.get("totalCount"));
 
 		Person person1 = testGraphQLPerson_addPerson();
 		Person person2 = testGraphQLPerson_addPerson();
@@ -458,15 +455,10 @@ public abstract class BasePersonResourceTestCase {
 			invokeGraphQLQuery(graphQLField), "JSONObject/data",
 			"JSONObject/persons");
 
-		Assert.assertEquals(
-			totalCount + 2, personsJSONObject.getLong("totalCount"));
+		Assert.assertEquals(2, personsJSONObject.get("totalCount"));
 
-		assertContains(
-			person1,
-			Arrays.asList(
-				PersonSerDes.toDTOs(personsJSONObject.getString("items"))));
-		assertContains(
-			person2,
+		assertEqualsIgnoringOrder(
+			Arrays.asList(person1, person2),
 			Arrays.asList(
 				PersonSerDes.toDTOs(personsJSONObject.getString("items"))));
 	}
@@ -627,20 +619,6 @@ public abstract class BasePersonResourceTestCase {
 	protected Person testGraphQLPerson_addPerson() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
-	}
-
-	protected void assertContains(Person person, List<Person> persons) {
-		boolean contains = false;
-
-		for (Person item : persons) {
-			if (equals(person, item)) {
-				contains = true;
-
-				break;
-			}
-		}
-
-		Assert.assertTrue(persons + " does not contain " + person, contains);
 	}
 
 	protected void assertHttpResponseStatusCode(
@@ -810,7 +788,7 @@ public abstract class BasePersonResourceTestCase {
 	protected List<GraphQLField> getGraphQLFields() throws Exception {
 		List<GraphQLField> graphQLFields = new ArrayList<>();
 
-		for (java.lang.reflect.Field field :
+		for (Field field :
 				getDeclaredFields(
 					com.sain.headless.phonebook.dto.v1_0.Person.class)) {
 
@@ -826,13 +804,12 @@ public abstract class BasePersonResourceTestCase {
 		return graphQLFields;
 	}
 
-	protected List<GraphQLField> getGraphQLFields(
-			java.lang.reflect.Field... fields)
+	protected List<GraphQLField> getGraphQLFields(Field... fields)
 		throws Exception {
 
 		List<GraphQLField> graphQLFields = new ArrayList<>();
 
-		for (java.lang.reflect.Field field : fields) {
+		for (Field field : fields) {
 			com.liferay.portal.vulcan.graphql.annotation.GraphQLField
 				vulcanGraphQLField = field.getAnnotation(
 					com.liferay.portal.vulcan.graphql.annotation.GraphQLField.
@@ -1009,16 +986,14 @@ public abstract class BasePersonResourceTestCase {
 		return false;
 	}
 
-	protected java.lang.reflect.Field[] getDeclaredFields(Class clazz)
-		throws Exception {
-
-		Stream<java.lang.reflect.Field> stream = Stream.of(
+	protected Field[] getDeclaredFields(Class clazz) throws Exception {
+		Stream<Field> stream = Stream.of(
 			ReflectionUtil.getDeclaredFields(clazz));
 
 		return stream.filter(
 			field -> !field.isSynthetic()
 		).toArray(
-			java.lang.reflect.Field[]::new
+			Field[]::new
 		);
 	}
 
@@ -1302,8 +1277,8 @@ public abstract class BasePersonResourceTestCase {
 
 	}
 
-	private static final com.liferay.portal.kernel.log.Log _log =
-		LogFactoryUtil.getLog(BasePersonResourceTestCase.class);
+	private static final Log _log = LogFactoryUtil.getLog(
+		BasePersonResourceTestCase.class);
 
 	private static BeanUtilsBean _beanUtilsBean = new BeanUtilsBean() {
 
