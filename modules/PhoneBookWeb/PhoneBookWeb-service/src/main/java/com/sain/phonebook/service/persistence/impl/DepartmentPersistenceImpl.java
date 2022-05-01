@@ -32,11 +32,8 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -48,12 +45,10 @@ import com.sain.phonebook.model.Department;
 import com.sain.phonebook.model.impl.DepartmentImpl;
 import com.sain.phonebook.model.impl.DepartmentModelImpl;
 import com.sain.phonebook.service.persistence.DepartmentPersistence;
-import com.sain.phonebook.service.persistence.DepartmentUtil;
 import com.sain.phonebook.service.persistence.impl.constants.PhoneBookPersistenceConstants;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -1707,8 +1702,6 @@ public class DepartmentPersistenceImpl
 			new Object[] {department.getDepartmentId()}, department);
 	}
 
-	private int _valueObjectFinderCacheListThreshold;
-
 	/**
 	 * Caches the departments in the entity cache if it is enabled.
 	 *
@@ -1716,13 +1709,6 @@ public class DepartmentPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Department> departments) {
-		if ((_valueObjectFinderCacheListThreshold == 0) ||
-			((_valueObjectFinderCacheListThreshold > 0) &&
-			 (departments.size() > _valueObjectFinderCacheListThreshold))) {
-
-			return;
-		}
-
 		for (Department department : departments) {
 			if (entityCache.getResult(
 					DepartmentImpl.class, department.getPrimaryKey()) == null) {
@@ -2257,9 +2243,6 @@ public class DepartmentPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", Department.class.getName()));
 
-		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
-			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
-
 		_finderPathWithPaginationFindAll = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
@@ -2328,14 +2311,10 @@ public class DepartmentPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDepartmentId",
 			new String[] {Long.class.getName()}, new String[] {"departmentId"},
 			false);
-
-		_setDepartmentUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setDepartmentUtilPersistence(null);
-
 		entityCache.removeCache(DepartmentImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
@@ -2344,21 +2323,6 @@ public class DepartmentPersistenceImpl
 				_serviceRegistrations) {
 
 			serviceRegistration.unregister();
-		}
-	}
-
-	private void _setDepartmentUtilPersistence(
-		DepartmentPersistence departmentPersistence) {
-
-		try {
-			Field field = DepartmentUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, departmentPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -2456,7 +2420,7 @@ public class DepartmentPersistenceImpl
 
 			if ((columnNames == null) || (columnNames.length == 0)) {
 				if (baseModel.isNew()) {
-					return new Object[0];
+					return FINDER_ARGS_EMPTY;
 				}
 
 				return null;
@@ -2483,9 +2447,8 @@ public class DepartmentPersistenceImpl
 				}
 
 				if (finderPath.isBaseModelResult() &&
-					(DepartmentPersistenceImpl.
-						FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION ==
-							finderPath.getCacheName())) {
+					(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION ==
+						finderPath.getCacheName())) {
 
 					finderPathColumnBitmask |= _ORDER_BY_COLUMNS_BITMASK;
 				}

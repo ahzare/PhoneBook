@@ -14,30 +14,30 @@
 
 package com.sain.headless.phonebook.internal.resource.v1_0;
 
+import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
-import com.sain.headless.phonebook.dto.v1_0.Department;
+import com.liferay.portal.vulcan.util.SearchUtil;
 import com.sain.headless.phonebook.dto.v1_0.Person;
-import com.sain.headless.phonebook.dto.v1_0.Role;
-import com.sain.headless.phonebook.internal.v1_0.PersonEntityModel;
+//import com.sain.headless.phonebook.internal.v1_0.PersonEntityModel;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 import com.sain.phonebook.service.DepartmentService;
 import com.sain.phonebook.service.PersonService;
 import com.sain.phonebook.service.RoleService;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -73,19 +73,13 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		}
 	}
 
+
 	/*@Override
-	public EntityModel getEntityModel(MultivaluedMap multivaluedMap)
-		throws Exception {
-
-		return _personEntityModel;
-	}*/
-
-	@Override
 	public EntityModel getEntityModel(Map<String, List<String>> multivaluedMap)
 		throws Exception {
 
 		return _personEntityModel;
-	}
+	}*/
 
 	@Override
 	public Person getPerson(@NotNull Long personId) throws Exception {
@@ -131,12 +125,13 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 				_personService.getPerson(
 					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))));*/
 
-		/*System.out.println("filter = " + filter);
+		System.out.println("filter = " + filter);
 		System.out.println("search = " + search);
 		System.out.println("pagination = " + pagination);
 		System.out.println("sorts = " + Arrays.toString(sorts));
 		Page<Person> personPage = SearchUtil.search(
-		        booleanQuery -> booleanQuery.getPreBooleanFilter(), filter, Person.class, search,
+		        booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+				com.sain.phonebook.model.Person.class, search,
 		        pagination,
 		        queryConfig -> queryConfig.setSelectedFieldNames(
 		                Field.ENTRY_CLASS_PK),
@@ -153,7 +148,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		        sorts);
 		System.out.println("person page = " + personPage);
 
-		return personPage;*/
+		return personPage;
 
 		/* return SearchUtil.search(
 		         booleanQuery -> booleanQuery.getPreBooleanFilter(), filter, Person.class, search,
@@ -179,7 +174,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		     // get people of specific role
 		 }*/
 
-		List<com.sain.phonebook.model.Person> persistedPersons =
+		/*List<com.sain.phonebook.model.Person> persistedPersons =
 			_personService.getAll();
 		List<Person> list = new ArrayList<>();
 
@@ -233,7 +228,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 			}
 		}
 
-		return Page.of(list);
+		return Page.of(list);*/
 	}
 
 	@Override
@@ -381,9 +376,9 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	private static final Logger _log = LoggerFactory.getLogger(
 		PersonResourceImpl.class);
 
-	private static final EntityModel _personEntityModel =
+	/*private static final EntityModel _personEntityModel =
 		new PersonEntityModel();
-
+*/
 	@Reference
 	private DepartmentService _departmentService;
 

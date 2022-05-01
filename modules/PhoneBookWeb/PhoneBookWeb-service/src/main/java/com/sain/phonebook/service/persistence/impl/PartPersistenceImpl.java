@@ -32,11 +32,8 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -48,12 +45,10 @@ import com.sain.phonebook.model.Part;
 import com.sain.phonebook.model.impl.PartImpl;
 import com.sain.phonebook.model.impl.PartModelImpl;
 import com.sain.phonebook.service.persistence.PartPersistence;
-import com.sain.phonebook.service.persistence.PartUtil;
 import com.sain.phonebook.service.persistence.impl.constants.PhoneBookPersistenceConstants;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -1691,8 +1686,6 @@ public class PartPersistenceImpl
 			_finderPathFetchByPartId, new Object[] {part.getPartId()}, part);
 	}
 
-	private int _valueObjectFinderCacheListThreshold;
-
 	/**
 	 * Caches the parts in the entity cache if it is enabled.
 	 *
@@ -1700,13 +1693,6 @@ public class PartPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Part> parts) {
-		if ((_valueObjectFinderCacheListThreshold == 0) ||
-			((_valueObjectFinderCacheListThreshold > 0) &&
-			 (parts.size() > _valueObjectFinderCacheListThreshold))) {
-
-			return;
-		}
-
 		for (Part part : parts) {
 			if (entityCache.getResult(PartImpl.class, part.getPrimaryKey()) ==
 					null) {
@@ -2229,9 +2215,6 @@ public class PartPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", Part.class.getName()));
 
-		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
-			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
-
 		_finderPathWithPaginationFindAll = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
@@ -2299,14 +2282,10 @@ public class PartPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPartId",
 			new String[] {Long.class.getName()}, new String[] {"partId"},
 			false);
-
-		_setPartUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setPartUtilPersistence(null);
-
 		entityCache.removeCache(PartImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
@@ -2315,19 +2294,6 @@ public class PartPersistenceImpl
 				_serviceRegistrations) {
 
 			serviceRegistration.unregister();
-		}
-	}
-
-	private void _setPartUtilPersistence(PartPersistence partPersistence) {
-		try {
-			Field field = PartUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, partPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -2424,7 +2390,7 @@ public class PartPersistenceImpl
 
 			if ((columnNames == null) || (columnNames.length == 0)) {
 				if (baseModel.isNew()) {
-					return new Object[0];
+					return FINDER_ARGS_EMPTY;
 				}
 
 				return null;
@@ -2450,9 +2416,8 @@ public class PartPersistenceImpl
 				}
 
 				if (finderPath.isBaseModelResult() &&
-					(PartPersistenceImpl.
-						FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION ==
-							finderPath.getCacheName())) {
+					(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION ==
+						finderPath.getCacheName())) {
 
 					finderPathColumnBitmask |= _ORDER_BY_COLUMNS_BITMASK;
 				}

@@ -32,11 +32,8 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -48,12 +45,10 @@ import com.sain.phonebook.model.Person;
 import com.sain.phonebook.model.impl.PersonImpl;
 import com.sain.phonebook.model.impl.PersonModelImpl;
 import com.sain.phonebook.service.persistence.PersonPersistence;
-import com.sain.phonebook.service.persistence.PersonUtil;
 import com.sain.phonebook.service.persistence.impl.constants.PhoneBookPersistenceConstants;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -1694,8 +1689,6 @@ public class PersonPersistenceImpl
 			person);
 	}
 
-	private int _valueObjectFinderCacheListThreshold;
-
 	/**
 	 * Caches the persons in the entity cache if it is enabled.
 	 *
@@ -1703,13 +1696,6 @@ public class PersonPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Person> persons) {
-		if ((_valueObjectFinderCacheListThreshold == 0) ||
-			((_valueObjectFinderCacheListThreshold > 0) &&
-			 (persons.size() > _valueObjectFinderCacheListThreshold))) {
-
-			return;
-		}
-
 		for (Person person : persons) {
 			if (entityCache.getResult(
 					PersonImpl.class, person.getPrimaryKey()) == null) {
@@ -2232,9 +2218,6 @@ public class PersonPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", Person.class.getName()));
 
-		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
-			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
-
 		_finderPathWithPaginationFindAll = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
@@ -2303,14 +2286,10 @@ public class PersonPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByPersonId",
 			new String[] {Long.class.getName()}, new String[] {"personId"},
 			false);
-
-		_setPersonUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setPersonUtilPersistence(null);
-
 		entityCache.removeCache(PersonImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
@@ -2319,21 +2298,6 @@ public class PersonPersistenceImpl
 				_serviceRegistrations) {
 
 			serviceRegistration.unregister();
-		}
-	}
-
-	private void _setPersonUtilPersistence(
-		PersonPersistence personPersistence) {
-
-		try {
-			Field field = PersonUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, personPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -2431,7 +2395,7 @@ public class PersonPersistenceImpl
 
 			if ((columnNames == null) || (columnNames.length == 0)) {
 				if (baseModel.isNew()) {
-					return new Object[0];
+					return FINDER_ARGS_EMPTY;
 				}
 
 				return null;
@@ -2457,9 +2421,8 @@ public class PersonPersistenceImpl
 				}
 
 				if (finderPath.isBaseModelResult() &&
-					(PersonPersistenceImpl.
-						FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION ==
-							finderPath.getCacheName())) {
+					(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION ==
+						finderPath.getCacheName())) {
 
 					finderPathColumnBitmask |= _ORDER_BY_COLUMNS_BITMASK;
 				}

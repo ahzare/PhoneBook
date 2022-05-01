@@ -32,11 +32,8 @@ import com.liferay.portal.kernel.security.auth.CompanyThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.ServiceContextThreadLocal;
 import com.liferay.portal.kernel.service.persistence.impl.BasePersistenceImpl;
-import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 import com.liferay.portal.kernel.util.OrderByComparator;
-import com.liferay.portal.kernel.util.PropsKeys;
-import com.liferay.portal.kernel.util.PropsUtil;
 import com.liferay.portal.kernel.util.ProxyUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 import com.liferay.portal.kernel.util.StringUtil;
@@ -48,12 +45,10 @@ import com.sain.phonebook.model.Address;
 import com.sain.phonebook.model.impl.AddressImpl;
 import com.sain.phonebook.model.impl.AddressModelImpl;
 import com.sain.phonebook.service.persistence.AddressPersistence;
-import com.sain.phonebook.service.persistence.AddressUtil;
 import com.sain.phonebook.service.persistence.impl.constants.PhoneBookPersistenceConstants;
 
 import java.io.Serializable;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 
 import java.util.Collections;
@@ -1701,8 +1696,6 @@ public class AddressPersistenceImpl
 			address);
 	}
 
-	private int _valueObjectFinderCacheListThreshold;
-
 	/**
 	 * Caches the addresses in the entity cache if it is enabled.
 	 *
@@ -1710,13 +1703,6 @@ public class AddressPersistenceImpl
 	 */
 	@Override
 	public void cacheResult(List<Address> addresses) {
-		if ((_valueObjectFinderCacheListThreshold == 0) ||
-			((_valueObjectFinderCacheListThreshold > 0) &&
-			 (addresses.size() > _valueObjectFinderCacheListThreshold))) {
-
-			return;
-		}
-
 		for (Address address : addresses) {
 			if (entityCache.getResult(
 					AddressImpl.class, address.getPrimaryKey()) == null) {
@@ -2244,9 +2230,6 @@ public class AddressPersistenceImpl
 			MapUtil.singletonDictionary(
 				"model.class.name", Address.class.getName()));
 
-		_valueObjectFinderCacheListThreshold = GetterUtil.getInteger(
-			PropsUtil.get(PropsKeys.VALUE_OBJECT_FINDER_CACHE_LIST_THRESHOLD));
-
 		_finderPathWithPaginationFindAll = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findAll", new String[0],
 			new String[0], true);
@@ -2315,14 +2298,10 @@ public class AddressPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByAddressId",
 			new String[] {Long.class.getName()}, new String[] {"addressId"},
 			false);
-
-		_setAddressUtilPersistence(this);
 	}
 
 	@Deactivate
 	public void deactivate() {
-		_setAddressUtilPersistence(null);
-
 		entityCache.removeCache(AddressImpl.class.getName());
 
 		_argumentsResolverServiceRegistration.unregister();
@@ -2331,21 +2310,6 @@ public class AddressPersistenceImpl
 				_serviceRegistrations) {
 
 			serviceRegistration.unregister();
-		}
-	}
-
-	private void _setAddressUtilPersistence(
-		AddressPersistence addressPersistence) {
-
-		try {
-			Field field = AddressUtil.class.getDeclaredField("_persistence");
-
-			field.setAccessible(true);
-
-			field.set(null, addressPersistence);
-		}
-		catch (ReflectiveOperationException reflectiveOperationException) {
-			throw new RuntimeException(reflectiveOperationException);
 		}
 	}
 
@@ -2443,7 +2407,7 @@ public class AddressPersistenceImpl
 
 			if ((columnNames == null) || (columnNames.length == 0)) {
 				if (baseModel.isNew()) {
-					return new Object[0];
+					return FINDER_ARGS_EMPTY;
 				}
 
 				return null;
@@ -2469,9 +2433,8 @@ public class AddressPersistenceImpl
 				}
 
 				if (finderPath.isBaseModelResult() &&
-					(AddressPersistenceImpl.
-						FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION ==
-							finderPath.getCacheName())) {
+					(FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION ==
+						finderPath.getCacheName())) {
 
 					finderPathColumnBitmask |= _ORDER_BY_COLUMNS_BITMASK;
 				}
