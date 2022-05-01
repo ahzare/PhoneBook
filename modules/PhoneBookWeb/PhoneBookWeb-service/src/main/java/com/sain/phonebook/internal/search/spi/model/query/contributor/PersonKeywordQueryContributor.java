@@ -41,9 +41,9 @@ public class PersonKeywordQueryContributor implements KeywordQueryContributor {
 			keywordQueryContributorHelper.getSearchContext();
 
 		queryHelper.addSearchTerm(
-			booleanQuery, searchContext, "firstName", true);
+			booleanQuery, searchContext, "firstName", false);
 		queryHelper.addSearchTerm(
-			booleanQuery, searchContext, "lastName", true);
+			booleanQuery, searchContext, "lastName", false);
 	}
 
 	@Reference

@@ -44,7 +44,7 @@ public class PersonModelDocumentContributor
 		document.addText("lastName", baseModel.getLastName());
 
 
-		try {
+		/*try {
 			document.addDate(Field.MODIFIED_DATE, baseModel.getModifiedDate());
 
 			Locale defaultLocale = PortalUtil.getSiteDefaultLocale(
@@ -62,7 +62,7 @@ public class PersonModelDocumentContributor
 				_log.warn(
 						"Unable to index baseModel " + baseModel.getPersonId(), portalException);
 			}
-		}
+		}*/
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(

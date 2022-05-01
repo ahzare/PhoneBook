@@ -14,23 +14,25 @@
 
 package com.sain.headless.phonebook.internal.resource.v1_0;
 
+import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
+import com.liferay.portal.vulcan.util.SearchUtil;
 
 import com.sain.headless.phonebook.dto.v1_0.Part;
 import com.sain.headless.phonebook.resource.v1_0.PartResource;
 import com.sain.phonebook.service.AddressService;
 import com.sain.phonebook.service.PartService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -94,38 +96,28 @@ public class PartResourceImpl extends BasePartResourceImpl {
 
 		System.out.println("getPartsPage");
 
-		/*return SearchUtil.search(
-		        null,
-		        booleanQuery -> {
-		        },
-		        filter, Part.class, search, pagination,
-		        queryConfig -> queryConfig.setSelectedFieldNames(
-		                Field.ENTRY_CLASS_PK),
-		        searchContext -> {
-		            searchContext.setCompanyId(contextCompany.getCompanyId());
-		            searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
-		        },
-		        sorts,
-		        document -> _toPart(_partService.getPart(Long.parseLong(document.get(Field.ENTRY_CLASS_PK)))));
-*/
-		/* return SearchUtil.search(
-		       null,
-		         booleanQuery -> {
-		         },
-		         filter, Part.class, search, pagination,
-		         queryConfig -> queryConfig.setSelectedFieldNames(
-		                 Field.ENTRY_CLASS_PK),
-		         searchContext -> {
-		             searchContext.setAttribute(Field.NAME, search);
-		             searchContext.setCompanyId(contextCompany.getCompanyId());
-		             searchContext.setGroupIds(
-		             new long[] {contextCompany.getGroupId()});
-		         },
-		         sorts,
-		         document -> _toPart(
-		                 _persistedPartService.getPersistedPart(
-		                         GetterUtil.getString(
-		                         document.get(Field.ENTRY_CLASS_PK)))));*/
+		Page<Part> partPage = SearchUtil.search(
+			booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+			com.sain.phonebook.model.Part.class, search, pagination,
+			queryConfig -> queryConfig.setSelectedFieldNames(
+				Field.ENTRY_CLASS_PK),
+			new UnsafeConsumer() {
+
+				public void accept(Object object) throws Exception {
+					SearchContext searchContext = (SearchContext)object;
+
+					searchContext.setCompanyId(contextCompany.getCompanyId());
+				}
+
+			},
+			document -> toPart(
+				_partService.getPart(
+					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+			sorts);
+
+		System.out.println("part page = " + partPage);
+
+		return partPage;
 
 		/* List<Part> list = _persistedPartService.getAll()
 		         .stream().map(persistedPart -> {
@@ -145,27 +137,27 @@ public class PartResourceImpl extends BasePartResourceImpl {
 		             }
 		             return new Part();
 		         }).collect(Collectors.toList());*/
+		/*
+				List<com.sain.phonebook.model.Part> persistedParts =
+					_partService.getAll();
+				List<Part> list = new ArrayList<>();
 
-		List<com.sain.phonebook.model.Part> persistedParts =
-			_partService.getAll();
-		List<Part> list = new ArrayList<>();
+				for (com.sain.phonebook.model.Part persistedPart : persistedParts) {
+					Part part = toPart(persistedPart);
 
-		for (com.sain.phonebook.model.Part persistedPart : persistedParts) {
-			Part part = toPart(persistedPart);
+					if (search != null) {
+						String name = part.getName();
 
-			if (search != null) {
-				String name = part.getName();
-
-				if (name.contains(search)) {
-					list.add(part);
+						if (name.contains(search)) {
+							list.add(part);
+						}
+					}
+					else {
+						list.add(part);
+					}
 				}
-			}
-			else {
-				list.add(part);
-			}
-		}
 
-		return Page.of(list);
+				return Page.of(list);*/
 	}
 
 	@Override

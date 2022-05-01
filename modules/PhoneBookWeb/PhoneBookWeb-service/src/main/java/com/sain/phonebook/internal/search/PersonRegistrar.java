@@ -31,8 +31,8 @@ import org.osgi.service.component.annotations.Reference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Component(immediate = true, service = PersonSearchRegistrar.class)
-public class PersonSearchRegistrar {
+@Component(immediate = true, service = PersonRegistrar.class)
+public class PersonRegistrar {
 
 	@Activate
 	public void activate(BundleContext bundleContext) {
@@ -68,7 +68,7 @@ public class PersonSearchRegistrar {
 	protected ModelIndexerWriterContributor<Person>
 		personModelIndexerWriterContributor;
 
-	private final Logger _logger = LoggerFactory.getLogger(PersonSearchRegistrar.class);
+	private final Logger _logger = LoggerFactory.getLogger(PersonRegistrar.class);
 
 	private ServiceRegistration<?> _serviceRegistration;
 
