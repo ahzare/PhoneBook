@@ -19,7 +19,6 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.search.BaseIndexer;
-import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.BooleanQuery;
 import com.liferay.portal.kernel.search.Document;
 import com.liferay.portal.kernel.search.Field;
@@ -30,13 +29,14 @@ import com.liferay.portal.kernel.search.Summary;
 import com.liferay.portal.kernel.search.filter.BooleanFilter;
 import com.liferay.portal.kernel.util.GetterUtil;
 
+import com.sain.phonebook.model.Person;
+import com.sain.phonebook.service.PersonLocalService;
+
 import java.util.Locale;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
 
-import com.sain.phonebook.model.Person;
-import com.sain.phonebook.service.PersonLocalService;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 
@@ -46,143 +46,141 @@ import org.osgi.service.component.annotations.Reference;
 @Component(immediate = true, service = Indexer.class)
 public class PersonIndexer extends BaseIndexer<Person> {
 
-    public static final String CLASS_NAME = Person.class.getName();
+	public static final String CLASS_NAME = Person.class.getName();
 
-//    public static final String FIELD_ACTIVE = "active";
+	//    public static final String FIELD_ACTIVE = "active";
 
-    @Override
-    public String getClassName() {
-        return CLASS_NAME;
-    }
+	@Override
+	public String getClassName() {
+		return CLASS_NAME;
+	}
 
-    @Override
-    public void postProcessContextBooleanFilter(
-            BooleanFilter contextBooleanFilter, SearchContext searchContext)
-            throws Exception {
+	@Override
+	public void postProcessContextBooleanFilter(
+			BooleanFilter contextBooleanFilter, SearchContext searchContext)
+		throws Exception {
 
-     /*   Boolean active = (Boolean)searchContext.getAttribute(FIELD_ACTIVE);
+		/*   Boolean active = (Boolean)searchContext.getAttribute(FIELD_ACTIVE);
+		   if (active != null) {
+		       contextBooleanFilter.addTerm(
+		               FIELD_ACTIVE, String.valueOf(active), BooleanClauseOccur.MUST);
+		   }
+		   int type = GetterUtil.getInteger(
+		           searchContext.getAttribute(Field.TYPE), -1);
+		   if (type > -1) {
+		       contextBooleanFilter.addRequiredTerm(Field.TYPE, type);
+		   }*/
+	}
 
-        if (active != null) {
-            contextBooleanFilter.addTerm(
-                    FIELD_ACTIVE, String.valueOf(active), BooleanClauseOccur.MUST);
-        }
+	@Override
+	public void postProcessSearchQuery(
+			BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter,
+			SearchContext searchContext)
+		throws Exception {
 
-        int type = GetterUtil.getInteger(
-                searchContext.getAttribute(Field.TYPE), -1);
+		addSearchTerm(searchQuery, searchContext, Field.ENTRY_CLASS_PK, false);
+		addSearchTerm(searchQuery, searchContext, "firstName", true);
+		addSearchTerm(searchQuery, searchContext, "lastName", true);
 
-        if (type > -1) {
-            contextBooleanFilter.addRequiredTerm(Field.TYPE, type);
-        }*/
-    }
+		//        addSearchTerm(searchQuery, searchContext, Field.NAME, true);
 
-    @Override
-    public void postProcessSearchQuery(
-            BooleanQuery searchQuery, BooleanFilter fullQueryBooleanFilter,
-            SearchContext searchContext)
-            throws Exception {
+	}
 
-        addSearchTerm(searchQuery, searchContext, Field.ENTRY_CLASS_PK, false);
-        addSearchTerm(searchQuery, searchContext, "firstName", true);
-        addSearchTerm(searchQuery, searchContext, "lastName", true);
-//        addSearchTerm(searchQuery, searchContext, Field.NAME, true);
-    }
+	@Override
+	protected void doDelete(Person person) throws Exception {
+		deleteDocument(person.getCompanyId(), person.getPersonId());
+	}
 
-    @Override
-    protected void doDelete(Person person) throws Exception {
-        deleteDocument(
-                person.getCompanyId(), person.getPersonId());
-    }
+	@Override
+	protected Document doGetDocument(Person person) throws Exception {
+		if (_log.isDebugEnabled()) {
+			_log.debug("Indexing person " + person);
+		}
 
-    @Override
-    protected Document doGetDocument(Person person)
-            throws Exception {
+		Document document = getBaseModelDocument(CLASS_NAME, person);
 
-        if (_log.isDebugEnabled()) {
-            _log.debug("Indexing person " + person);
-        }
+		//        document.addText(Field.NAME, person.getFirstName());
 
-        Document document = getBaseModelDocument(CLASS_NAME, person);
+		document.addText("firstName", person.getFirstName());
+		document.addText("lastName", person.getLastName());
+		document.addDate(Field.MODIFIED_DATE, person.getModifiedDate());
 
-//        document.addText(Field.NAME, person.getFirstName());
-        document.addText("firstName", person.getFirstName());
-        document.addText("lastName", person.getLastName());
-        document.addDate(Field.MODIFIED_DATE, person.getModifiedDate());
-//        document.addKeyword(
-//                ClubCampaignFieldConstant.C_CAMPAIGN_FIELD_ACTIVE,
-//                person.getActive());
+		//        document.addKeyword(
+		//                ClubCampaignFieldConstant.C_CAMPAIGN_FIELD_ACTIVE,
+		//                person.getActive());
 
-        if (_log.isDebugEnabled()) {
-            _log.debug("Document " + person + " indexed successfully");
-        }
+		if (_log.isDebugEnabled()) {
+			_log.debug("Document " + person + " indexed successfully");
+		}
 
-        return document;
-    }
+		return document;
+	}
 
-    @Override
-    protected Summary doGetSummary(
-            Document document, Locale locale, String snippet,
-            PortletRequest portletRequest, PortletResponse portletResponse) {
+	@Override
+	protected Summary doGetSummary(
+		Document document, Locale locale, String snippet,
+		PortletRequest portletRequest, PortletResponse portletResponse) {
 
-//        Summary summary = createSummary(document, Field.ENTRY_CLASS_PK, Field.NAME);
-        Summary summary = createSummary(document,
-                Field.ENTRY_CLASS_PK,"firstName");
+		// Summary summary = createSummary(document,
+		// Field.ENTRY_CLASS_PK, Field.NAME);
 
-        summary.setMaxContentLength(200);
+		Summary summary = createSummary(
+			document, Field.ENTRY_CLASS_PK, "firstName");
 
-        return summary;
-    }
+		summary.setMaxContentLength(200);
 
-    @Override
-    protected void doReindex(Person person) throws Exception {
-        _indexWriterHelper.updateDocument(
-                getSearchEngineId(), person.getCompanyId(),
-                getDocument(person), isCommitImmediately());
-    }
+		return summary;
+	}
 
-    @Override
-    protected void doReindex(String className, long classPK) throws Exception {
-        doReindex(_personLocalService.getPerson(classPK));
-    }
+	@Override
+	protected void doReindex(Person person) throws Exception {
+		_indexWriterHelper.updateDocument(
+			getSearchEngineId(), person.getCompanyId(), getDocument(person),
+			isCommitImmediately());
+	}
 
-    @Override
-    protected void doReindex(String[] ids) throws Exception {
-        long companyId = GetterUtil.getLong(ids[0]);
+	@Override
+	protected void doReindex(String className, long classPK) throws Exception {
+		doReindex(_personLocalService.getPerson(classPK));
+	}
 
-        reindexPersons(companyId);
-    }
+	@Override
+	protected void doReindex(String[] ids) throws Exception {
+		long companyId = GetterUtil.getLong(ids[0]);
 
-    protected void reindexPersons(long companyId) throws PortalException {
-        final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
-                _personLocalService.getIndexableActionableDynamicQuery();
+		reindexPersons(companyId);
+	}
 
-        indexableActionableDynamicQuery.setCompanyId(companyId);
-        indexableActionableDynamicQuery.setPerformActionMethod(
-                (Person person) -> {
-                    try {
-                        indexableActionableDynamicQuery.addDocuments(
-                                getDocument(person));
-                    }
-                    catch (PortalException portalException) {
-                        if (_log.isWarnEnabled()) {
-                            _log.warn(
-                                    "Unable to index person " +
-                                            person.getPersonId(),
-                                    portalException);
-                        }
-                    }
-                });
-        indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
+	protected void reindexPersons(long companyId) throws PortalException {
+		final IndexableActionableDynamicQuery indexableActionableDynamicQuery =
+			_personLocalService.getIndexableActionableDynamicQuery();
 
-        indexableActionableDynamicQuery.performActions();
-    }
+		indexableActionableDynamicQuery.setCompanyId(companyId);
+		indexableActionableDynamicQuery.setPerformActionMethod(
+			(Person person) -> {
+				try {
+					indexableActionableDynamicQuery.addDocuments(
+						getDocument(person));
+				}
+				catch (PortalException portalException) {
+					if (_log.isWarnEnabled()) {
+						_log.warn(
+							"Unable to index person " + person.getPersonId(),
+							portalException);
+					}
+				}
+			});
+		indexableActionableDynamicQuery.setSearchEngineId(getSearchEngineId());
 
-    private static final Log _log = LogFactoryUtil.getLog(
-            PersonIndexer.class);
+		indexableActionableDynamicQuery.performActions();
+	}
 
-    @Reference
-    private PersonLocalService _personLocalService;
+	private static final Log _log = LogFactoryUtil.getLog(PersonIndexer.class);
 
-    @Reference
-    private IndexWriterHelper _indexWriterHelper;
+	@Reference
+	private IndexWriterHelper _indexWriterHelper;
+
+	@Reference
+	private PersonLocalService _personLocalService;
 
 }

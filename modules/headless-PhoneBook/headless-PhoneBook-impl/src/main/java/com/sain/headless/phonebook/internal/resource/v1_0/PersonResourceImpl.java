@@ -25,19 +25,16 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
-import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
-
 import com.liferay.portal.vulcan.util.SearchUtil;
+
 import com.sain.headless.phonebook.dto.v1_0.Person;
 //import com.sain.headless.phonebook.internal.v1_0.PersonEntityModel;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 import com.sain.phonebook.service.DepartmentService;
 import com.sain.phonebook.service.PersonService;
 import com.sain.phonebook.service.RoleService;
-
-import java.util.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -47,6 +44,8 @@ import org.osgi.service.component.annotations.ServiceScope;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.Arrays;
 
 /**
  * @author Amir
@@ -72,7 +71,6 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 			throw exception;
 		}
 	}
-
 
 	/*@Override
 	public EntityModel getEntityModel(Map<String, List<String>> multivaluedMap)
@@ -129,23 +127,26 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		System.out.println("search = " + search);
 		System.out.println("pagination = " + pagination);
 		System.out.println("sorts = " + Arrays.toString(sorts));
-		Page<Person> personPage = SearchUtil.search(
-		        booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
-				com.sain.phonebook.model.Person.class, search,
-		        pagination,
-		        queryConfig -> queryConfig.setSelectedFieldNames(
-		                Field.ENTRY_CLASS_PK),
-		        new UnsafeConsumer() {
-		            public void accept(Object object) throws Exception {
-		                SearchContext searchContext = (SearchContext)object;
-		                searchContext.setCompanyId(contextCompany.getCompanyId());
-		            }
 
-		        },
-		        document -> toPerson(
-		                _personService.getPerson(
-		                        GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
-		        sorts);
+		Page<Person> personPage = SearchUtil.search(
+			booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+			com.sain.phonebook.model.Person.class, search, pagination,
+			queryConfig -> queryConfig.setSelectedFieldNames(
+				Field.ENTRY_CLASS_PK),
+			new UnsafeConsumer() {
+
+				public void accept(Object object) throws Exception {
+					SearchContext searchContext = (SearchContext)object;
+
+					searchContext.setCompanyId(contextCompany.getCompanyId());
+				}
+
+			},
+			document -> toPerson(
+				_personService.getPerson(
+					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+			sorts);
+
 		System.out.println("person page = " + personPage);
 
 		return personPage;
