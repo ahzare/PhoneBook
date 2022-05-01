@@ -30,7 +30,6 @@ import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.SearchUtil;
 
 import com.sain.headless.phonebook.dto.v1_0.Person;
-//import com.sain.headless.phonebook.internal.v1_0.PersonEntityModel;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 import com.sain.phonebook.service.DepartmentService;
 import com.sain.phonebook.service.PersonService;
@@ -44,8 +43,6 @@ import org.osgi.service.component.annotations.ServiceScope;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Arrays;
 
 /**
  * @author Amir
@@ -108,26 +105,6 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
 		System.out.println("getPersonsPage");
 
-		/*return SearchUtil.search(
-			null, booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
-			Person.class, search, pagination,
-			queryConfig -> queryConfig.setSelectedFieldNames(
-				Field.ENTRY_CLASS_PK),
-			searchContext -> {
-				searchContext.setCompanyId(contextCompany.getCompanyId());
-				searchContext.setGroupIds(
-					new long[] {contextCompany.getGroupId()});
-			},
-			sorts,
-			document -> toPerson(
-				_personService.getPerson(
-					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))));*/
-
-		System.out.println("filter = " + filter);
-		System.out.println("search = " + search);
-		System.out.println("pagination = " + pagination);
-		System.out.println("sorts = " + Arrays.toString(sorts));
-
 		Page<Person> personPage = SearchUtil.search(
 			booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
 			com.sain.phonebook.model.Person.class, search, pagination,
@@ -150,23 +127,6 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		System.out.println("person page = " + personPage);
 
 		return personPage;
-
-		/* return SearchUtil.search(
-		         booleanQuery -> booleanQuery.getPreBooleanFilter(), filter, Person.class, search,
-		         pagination,
-		         queryConfig -> queryConfig.setSelectedFieldNames(
-		                 Field.ENTRY_CLASS_PK),
-		         new UnsafeConsumer() {
-		             public void accept(Object object) throws Exception {
-		                 SearchContext searchContext = (SearchContext)object;
-		                 searchContext.setCompanyId(contextCompany.getCompanyId());
-		             }
-
-		         },
-		         document -> toPerson(
-		                 _personService.getPerson(
-		                         GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
-		         sorts);*/
 
 		/* if (departmentId != null && departmentId != 0) {
 		     // get people of specific department
@@ -357,29 +317,13 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 				}
 			}
 		};
-		/*return new Person() {{
-			creator = CreatorUtil.toCreator(_portal,
-					_userLocalService.getUser(pv.getUserId()));
-			articleId = pv.getArticleId();
-			group = pv.getGroupName();
-			description = pv.getDescription();
-			id = pv.getSurrogateId();
-			name = pv.getName();
-			type = _toPersonType(pv.getType());
-			attributes = ListUtil.toArray(pv.getAttributes(), VALUE_ACCESSOR);
-			chemicalNames = ListUtil.toArray(pv.getChemicalNames(), VALUE_ACCESSOR);
-			properties = ListUtil.toArray(pv.getProperties(), VALUE_ACCESSOR);
-			risks = ListUtil.toArray(pv.getRisks(), VALUE_ACCESSOR);
-			symptoms = ListUtil.toArray(pv.getSymptoms(), VALUE_ACCESSOR);
-		}};*/
 	}
 
 	private static final Logger _log = LoggerFactory.getLogger(
 		PersonResourceImpl.class);
 
 	/*private static final EntityModel _personEntityModel =
-		new PersonEntityModel();
-*/
+		new PersonEntityModel();*/
 	@Reference
 	private DepartmentService _departmentService;
 
