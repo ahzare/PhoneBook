@@ -45,7 +45,7 @@ public class PartRegistrar {
 					Field.UID, Field.NAME);
 
 				modelSearchDefinition.setModelIndexWriteContributor(
-					PartModelIndexerWriterContributor);
+						partModelIndexerWriterContributor);
 
 				modelSearchDefinition.setModelSummaryContributor(
 					modelSummaryContributor);
@@ -66,7 +66,7 @@ public class PartRegistrar {
 
 	@Reference(target = "(indexer.class.name=com.sain.phonebook.model.Part)")
 	protected ModelIndexerWriterContributor<Part>
-		PartModelIndexerWriterContributor;
+			partModelIndexerWriterContributor;
 
 	private final Logger _logger = LoggerFactory.getLogger(PartRegistrar.class);
 

@@ -54,7 +54,7 @@ public class PartModelIndexerWriterContributor
 	public BatchIndexingActionable getBatchIndexingActionable() {
 		return _dynamicQueryBatchIndexingActionableFactory.
 			getBatchIndexingActionable(
-				_PartLocalService.getIndexableActionableDynamicQuery());
+				_partLocalService.getIndexableActionableDynamicQuery());
 	}
 
 	@Override
@@ -72,6 +72,6 @@ public class PartModelIndexerWriterContributor
 			_dynamicQueryBatchIndexingActionableFactory;
 
 	@Reference
-	private PartLocalService _PartLocalService;
+	private PartLocalService _partLocalService;
 
 }
