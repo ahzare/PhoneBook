@@ -8,6 +8,7 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
+import com.liferay.portal.vulcan.multipart.MultipartBody;
 
 import com.sain.headless.phonebook.dto.v1_0.Address;
 import com.sain.headless.phonebook.dto.v1_0.Department;
@@ -438,6 +439,21 @@ public class Mutation {
 			this::_populateResourceContext,
 			personResource -> personResource.putPersonApi(
 				personId, departmentId, roleId, person));
+	}
+
+	@GraphQLField(description = "Create Person from excel")
+	@GraphQLName(
+		description = "Create Person from excel",
+		value = "postPersonExcelMultipartBody"
+	)
+	public Person createPersonExcel(
+			@GraphQLName("multipartBody") MultipartBody multipartBody)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_personResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			personResource -> personResource.postPersonExcel(multipartBody));
 	}
 
 	@GraphQLField(description = "Create a new role.")

@@ -5,6 +5,7 @@ import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
@@ -64,6 +65,11 @@ public interface PersonResource {
 	public Person putPersonApi(
 			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
+
+	public Response getPersonsExcel(String search, Filter filter, Sort[] sorts)
+		throws Exception;
+
+	public Person postPersonExcel(MultipartBody multipartBody) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

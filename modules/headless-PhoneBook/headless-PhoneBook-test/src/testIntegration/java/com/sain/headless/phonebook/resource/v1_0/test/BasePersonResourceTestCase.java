@@ -40,6 +40,8 @@ import com.sain.headless.phonebook.client.pagination.Pagination;
 import com.sain.headless.phonebook.client.resource.v1_0.PersonResource;
 import com.sain.headless.phonebook.client.serdes.v1_0.PersonSerDes;
 
+import java.io.File;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -613,6 +615,34 @@ public abstract class BasePersonResourceTestCase {
 			"This method needs to be implemented");
 	}
 
+	@Test
+	public void testGetPersonsExcel() throws Exception {
+		Assert.assertTrue(false);
+	}
+
+	@Test
+	public void testPostPersonExcel() throws Exception {
+		Person randomPerson = randomPerson();
+
+		Map<String, File> multipartFiles = getMultipartFiles();
+
+		Person postPerson = testPostPersonExcel_addPerson(
+			randomPerson, multipartFiles);
+
+		assertEquals(randomPerson, postPerson);
+		assertValid(postPerson);
+
+		assertValid(postPerson, multipartFiles);
+	}
+
+	protected Person testPostPersonExcel_addPerson(
+			Person person, Map<String, File> multipartFiles)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
 	@Rule
 	public SearchTestRule searchTestRule = new SearchTestRule();
 
@@ -762,6 +792,13 @@ public abstract class BasePersonResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
+	}
+
+	protected void assertValid(Person person, Map<String, File> multipartFiles)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	protected void assertValid(Page<Person> page) {
@@ -1128,6 +1165,11 @@ public abstract class BasePersonResourceTestCase {
 
 		throw new IllegalArgumentException(
 			"Invalid entity field " + entityFieldName);
+	}
+
+	protected Map<String, File> getMultipartFiles() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	protected String invoke(String query) throws Exception {

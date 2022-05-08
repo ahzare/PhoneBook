@@ -1041,3 +1041,57 @@ paths:
                     description:
                         Default Response
             tags: ["Role"]
+    "/excel":
+        get:
+            description:
+                Retrieves all Persons to excel
+            operationId: getPersonsExcel
+            parameters:
+                - in: query
+                  name: filter
+                  required: false
+                  schema:
+                      type: string
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/octet-stream:
+                            schema:
+                                format: binary
+                                type: string
+                    description:
+                        ""
+            tags: [ "Person" ]
+        post:
+            description:
+                Create Person from excel
+            operationId: postPersonExcel
+            requestBody:
+                content:
+                    multipart/form-data:
+                        schema:
+                            properties:
+                                file:
+                                    format: binary
+                                    type: string
+                            type: object
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Person"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Person"
+                    description:
+                        "Person successfully created"
+            tags: [ "Person" ]

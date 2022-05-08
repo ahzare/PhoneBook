@@ -14,6 +14,7 @@ import com.liferay.portal.odata.entity.EntityModel;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.batch.engine.VulcanBatchEngineTaskItemDelegate;
 import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.resource.EntityModelResource;
@@ -314,6 +315,52 @@ public abstract class BasePersonResourceImpl
 				departmentId,
 			@Parameter(hidden = true) @QueryParam("roleId") Long roleId,
 			Person person)
+		throws Exception {
+
+		return new Person();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/excel'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(description = "Retrieves all Persons to excel")
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.QUERY, name = "search"),
+			@Parameter(in = ParameterIn.QUERY, name = "filter"),
+			@Parameter(in = ParameterIn.QUERY, name = "sort")
+		}
+	)
+	@Path("/excel")
+	@Produces("application/octet-stream")
+	@Tags(value = {@Tag(name = "Person")})
+	public Response getPersonsExcel(
+			@Parameter(hidden = true) @QueryParam("search") String search,
+			@Context Filter filter, @Context Sort[] sorts)
+		throws Exception {
+
+		Response.ResponseBuilder responseBuilder = Response.ok();
+
+		return responseBuilder.build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/excel'  -u 'test@liferay.com:test'
+	 */
+	@Consumes("multipart/form-data")
+	@Operation(description = "Create Person from excel")
+	@Override
+	@Path("/excel")
+	@POST
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Person")})
+	public Person postPersonExcel(MultipartBody multipartBody)
 		throws Exception {
 
 		return new Person();
