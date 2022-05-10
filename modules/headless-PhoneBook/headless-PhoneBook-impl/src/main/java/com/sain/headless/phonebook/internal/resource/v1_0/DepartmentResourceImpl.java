@@ -50,7 +50,9 @@ import org.slf4j.LoggerFactory;
 public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
 
 	@Override
-	public void deleteDepartment(@NotNull Long departmentId) throws Exception {
+	public void deleteDepartmentApi(Long siteId, Long departmentId)
+		throws Exception {
+
 		try {
 
 			// super easy case, just pass through to the service layer.
@@ -67,7 +69,7 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
 	}
 
 	@Override
-	public Department getDepartment(@NotNull Long departmentId)
+	public Department getDepartmentApi(Long siteId, Long departmentId)
 		throws Exception {
 
 		try {
@@ -91,7 +93,8 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
 
 	@Override
 	public Page<Department> getDepartmentsPage(
-			String search, Filter filter, Pagination pagination, Sort[] sorts)
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
 		throws Exception {
 
 		System.out.println("getDepartmentsPage");
@@ -201,7 +204,9 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
 	}
 
 	@Override
-	public Department postDepartment(Department department) throws Exception {
+	public Department postDepartment(Long siteId, Department department)
+		throws Exception {
+
 		System.out.println("postDepartment");
 
 		if (_log.isDebugEnabled()) {

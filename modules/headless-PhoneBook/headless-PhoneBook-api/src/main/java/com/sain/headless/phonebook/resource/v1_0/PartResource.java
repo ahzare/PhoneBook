@@ -17,7 +17,6 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -52,11 +51,7 @@ public interface PartResource {
 	public Part postPart(Long siteId, Long addressId, Part part)
 		throws Exception;
 
-	public void deletePart(Long siteId, Long partId) throws Exception;
-
-	public Response deletePartBatch(
-			Long siteId, String callbackURL, Object object)
-		throws Exception;
+	public void deletePartApi(Long siteId, Long partId) throws Exception;
 
 	public Part getPart(Long siteId, Long partId) throws Exception;
 

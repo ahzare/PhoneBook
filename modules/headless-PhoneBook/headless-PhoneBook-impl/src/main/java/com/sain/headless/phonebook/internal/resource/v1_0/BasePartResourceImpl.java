@@ -57,7 +57,6 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
 /**
@@ -207,50 +206,10 @@ public abstract class BasePartResourceImpl
 	@Path("/sites/{siteId}/parts/{partId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Part")})
-	public void deletePart(
+	public void deletePartApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("partId") Long partId)
 		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/parts/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@DELETE
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.QUERY, name = "callbackURL")
-		}
-	)
-	@Path("/sites/{siteId}/parts/batch")
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Part")})
-	public Response deletePartBatch(
-			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.deleteImportTask(
-				Part.class.getName(), callbackURL, object)
-		).build();
 	}
 
 	/**
@@ -291,10 +250,6 @@ public abstract class BasePartResourceImpl
 			java.util.Collection<Part> parts,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Part part : parts) {
-			deletePart(part.getId());
-		}
 	}
 
 	@Override

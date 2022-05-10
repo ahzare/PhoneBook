@@ -273,51 +273,11 @@ public abstract class BasePersonResourceImpl
 	@Path("/sites/{siteId}/persons/{personId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Person")})
-	public void deletePerson(
+	public void deletePersonApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("personId") Long
 				personId)
 		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/persons/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@DELETE
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.QUERY, name = "callbackURL")
-		}
-	)
-	@Path("/sites/{siteId}/persons/batch")
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Person")})
-	public Response deletePersonBatch(
-			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.deleteImportTask(
-				Person.class.getName(), callbackURL, object)
-		).build();
 	}
 
 	/**
@@ -359,10 +319,6 @@ public abstract class BasePersonResourceImpl
 			java.util.Collection<Person> persons,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Person person : persons) {
-			deletePerson(person.getId());
-		}
 	}
 
 	@Override

@@ -63,11 +63,7 @@ public interface PersonResource {
 			Long siteId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
-	public void deletePerson(Long siteId, Long personId) throws Exception;
-
-	public Response deletePersonBatch(
-			Long siteId, String callbackURL, Object object)
-		throws Exception;
+	public void deletePersonApi(Long siteId, Long personId) throws Exception;
 
 	public Person getPerson(Long siteId, Long personId) throws Exception;
 

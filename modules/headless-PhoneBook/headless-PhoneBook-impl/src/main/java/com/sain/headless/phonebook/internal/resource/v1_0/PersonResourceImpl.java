@@ -55,7 +55,7 @@ import org.slf4j.LoggerFactory;
 public class PersonResourceImpl extends BasePersonResourceImpl {
 
 	@Override
-	public void deletePerson(@NotNull Long personId) throws Exception {
+	public void deletePersonApi(Long siteId, Long personId) throws Exception {
 		try {
 
 			// super easy case, just pass through to the service layer.
@@ -71,14 +71,13 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	}
 
 	/*@Override
-	public EntityModel getEntityModel(Map<String, List<String>> multivaluedMap)
-		throws Exception {
-
-		return _personEntityModel;
-	}*/
+		public EntityModel getEntityModel(Map<String, List<String>> multivaluedMap)
+			throws Exception {
+			return _personEntityModel;
+		}*/
 
 	@Override
-	public Person getPerson(@NotNull Long personId) throws Exception {
+	public Person getPerson(Long siteId, Long personId) throws Exception {
 		try {
 
 			// fetch the entity class...
@@ -100,8 +99,8 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
 	@Override
 	public Page<Person> getPersonsPage(
-			Long departmentId, Long roleId, String search, Filter filter,
-			Pagination pagination, Sort[] sorts)
+			Long siteId, Long departmentId, Long roleId, String search,
+			Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception {
 
 		System.out.println("getPersonsPage");
@@ -220,7 +219,8 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	}
 
 	@Override
-	public Person postPerson(Long roleId, Long departmentId, Person person)
+	public Person postPerson(
+			Long siteId, Long departmentId, Long roleId, Person person)
 		throws Exception {
 
 		System.out.println("postPerson");

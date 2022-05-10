@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 public class RoleResourceImpl extends BaseRoleResourceImpl {
 
 	@Override
-	public void deleteRole(@NotNull Long roleId) throws Exception {
+	public void deleteRoleApi(Long siteId, Long roleId) throws Exception {
 		try {
 
 			// super easy case, just pass through to the service layer.
@@ -66,7 +66,7 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 	}
 
 	@Override
-	public Role getRole(@NotNull Long roleId) throws Exception {
+	public Role getRoleApi(Long siteId, Long roleId) throws Exception {
 		try {
 
 			// fetch the entity class...
@@ -88,7 +88,8 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 
 	@Override
 	public Page<Role> getRolesPage(
-			String search, Filter filter, Pagination pagination, Sort[] sorts)
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
 		throws Exception {
 
 		System.out.println("getRolesPage");
@@ -184,7 +185,7 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 	}
 
 	@Override
-	public Role postRole(Role role) throws Exception {
+	public Role postRole(Long siteId, Role role) throws Exception {
 		System.out.println("postRole");
 
 		if (_log.isDebugEnabled()) {

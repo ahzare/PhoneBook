@@ -91,15 +91,7 @@ public abstract class BaseAddressResourceImpl
 			Address address)
 		throws Exception {
 
-		Address existingAddress = getAddress(addressId);
-
-		if (address.getName() != null) {
-			existingAddress.setName(address.getName());
-		}
-
-		preparePatch(address, existingAddress);
-
-		return putAddress(addressId, existingAddress);
+		return new Address();
 	}
 
 	/**
@@ -235,51 +227,11 @@ public abstract class BaseAddressResourceImpl
 	@Path("/sites/{siteId}/addresses/{addressId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Address")})
-	public void deleteAddress(
+	public void deleteAddressApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("addressId") Long
 				addressId)
 		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/addresses/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@DELETE
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.QUERY, name = "callbackURL")
-		}
-	)
-	@Path("/sites/{siteId}/addresses/batch")
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Address")})
-	public Response deleteAddressBatch(
-			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.deleteImportTask(
-				Address.class.getName(), callbackURL, object)
-		).build();
 	}
 
 	/**
@@ -299,7 +251,7 @@ public abstract class BaseAddressResourceImpl
 	@Path("/sites/{siteId}/addresses/{addressId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Address")})
-	public Address getAddress(
+	public Address getAddressApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("addressId") Long
 				addressId)
@@ -321,10 +273,6 @@ public abstract class BaseAddressResourceImpl
 			java.util.Collection<Address> addresses,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Address address : addresses) {
-			deleteAddress(address.getId());
-		}
 	}
 
 	@Override
@@ -459,9 +407,6 @@ public abstract class BaseAddressResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
-	}
-
-	protected void preparePatch(Address address, Address existingAddress) {
 	}
 
 	protected <T, R> List<R> transform(

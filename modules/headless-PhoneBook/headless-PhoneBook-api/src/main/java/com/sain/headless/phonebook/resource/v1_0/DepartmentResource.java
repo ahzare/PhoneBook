@@ -55,14 +55,10 @@ public interface DepartmentResource {
 	public Department postDepartment(Long siteId, Department department)
 		throws Exception;
 
-	public void deleteDepartment(Long siteId, Long departmentId)
+	public void deleteDepartmentApi(Long siteId, Long departmentId)
 		throws Exception;
 
-	public Response deleteDepartmentBatch(
-			Long siteId, String callbackURL, Object object)
-		throws Exception;
-
-	public Department getDepartment(Long siteId, Long departmentId)
+	public Department getDepartmentApi(Long siteId, Long departmentId)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

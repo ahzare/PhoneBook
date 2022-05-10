@@ -559,7 +559,7 @@ paths:
         delete:
             description:
                 Deletes the address and returns a 204 if the operation succeeds.
-            operationId: deleteAddress
+            operationId: deleteAddressApi
             parameters:
                 - in: path
                   name: siteId
@@ -585,7 +585,7 @@ paths:
         get:
             description:
                 Retrieves the address via its ID.
-            operationId: getAddress
+            operationId: getAddressApi
             parameters:
                 - in: path
                   name: siteId
@@ -695,7 +695,7 @@ paths:
         delete:
             description:
                 Deletes the department and returns a 204 if the operation succeeds.
-            operationId: deleteDepartment
+            operationId: deleteDepartmentApi
             parameters:
                 - in: path
                   name: siteId
@@ -720,7 +720,7 @@ paths:
         get:
             description:
                 Retrieves the department via its ID.
-            operationId: getDepartment
+            operationId: getDepartmentApi
             parameters:
                 - in: path
                   name: siteId
@@ -897,7 +897,7 @@ paths:
         delete:
             description:
                 Deletes the part and returns a 204 if the operation succeeds.
-            operationId: deletePart
+            operationId: deletePartApi
             parameters:
                 - in: path
                   name: siteId
@@ -1051,7 +1051,7 @@ paths:
         delete:
             description:
                 Deletes the person and returns a 204 if the operation succeeds.
-            operationId: deletePerson
+            operationId: deletePersonApi
             parameters:
                 - in: path
                   name: siteId
@@ -1185,7 +1185,7 @@ paths:
         delete:
             description:
                 Deletes the role and returns a 204 if the operation succeeds.
-            operationId: deleteRole
+            operationId: deleteRoleApi
             parameters:
                 - in: path
                   name: siteId
@@ -1210,7 +1210,7 @@ paths:
         get:
             description:
                 Retrieves the role via its ID.
-            operationId: getRole
+            operationId: getRoleApi
             parameters:
                 - in: path
                   name: siteId

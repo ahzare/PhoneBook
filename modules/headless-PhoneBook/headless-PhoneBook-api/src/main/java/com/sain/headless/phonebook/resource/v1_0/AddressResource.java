@@ -53,13 +53,9 @@ public interface AddressResource {
 
 	public Address postAddress(Long siteId, Address address) throws Exception;
 
-	public void deleteAddress(Long siteId, Long addressId) throws Exception;
+	public void deleteAddressApi(Long siteId, Long addressId) throws Exception;
 
-	public Response deleteAddressBatch(
-			Long siteId, String callbackURL, Object object)
-		throws Exception;
-
-	public Address getAddress(Long siteId, Long addressId) throws Exception;
+	public Address getAddressApi(Long siteId, Long addressId) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

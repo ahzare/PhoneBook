@@ -90,15 +90,7 @@ public abstract class BaseRoleResourceImpl
 			Role role)
 		throws Exception {
 
-		Role existingRole = getRole(roleId);
-
-		if (role.getName() != null) {
-			existingRole.setName(role.getName());
-		}
-
-		preparePatch(role, existingRole);
-
-		return putRole(roleId, existingRole);
+		return new Role();
 	}
 
 	/**
@@ -233,50 +225,10 @@ public abstract class BaseRoleResourceImpl
 	@Path("/sites/{siteId}/roles/{roleId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Role")})
-	public void deleteRole(
+	public void deleteRoleApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("roleId") Long roleId)
 		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/roles/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@DELETE
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.QUERY, name = "callbackURL")
-		}
-	)
-	@Path("/sites/{siteId}/roles/batch")
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Role")})
-	public Response deleteRoleBatch(
-			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.deleteImportTask(
-				Role.class.getName(), callbackURL, object)
-		).build();
 	}
 
 	/**
@@ -296,7 +248,7 @@ public abstract class BaseRoleResourceImpl
 	@Path("/sites/{siteId}/roles/{roleId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Role")})
-	public Role getRole(
+	public Role getRoleApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("roleId") Long roleId)
 		throws Exception {
@@ -317,10 +269,6 @@ public abstract class BaseRoleResourceImpl
 			java.util.Collection<Role> roles,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Role role : roles) {
-			deleteRole(role.getId());
-		}
 	}
 
 	@Override
@@ -455,9 +403,6 @@ public abstract class BaseRoleResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
-	}
-
-	protected void preparePatch(Role role, Role existingRole) {
 	}
 
 	protected <T, R> List<R> transform(

@@ -62,23 +62,15 @@ public interface AddressResource {
 			Long siteId, Address address)
 		throws Exception;
 
-	public void deleteAddress(Long siteId, Long addressId) throws Exception;
+	public void deleteAddressApi(Long siteId, Long addressId) throws Exception;
 
-	public HttpInvoker.HttpResponse deleteAddressHttpResponse(
+	public HttpInvoker.HttpResponse deleteAddressApiHttpResponse(
 			Long siteId, Long addressId)
 		throws Exception;
 
-	public void deleteAddressBatch(
-			Long siteId, String callbackURL, Object object)
-		throws Exception;
+	public Address getAddressApi(Long siteId, Long addressId) throws Exception;
 
-	public HttpInvoker.HttpResponse deleteAddressBatchHttpResponse(
-			Long siteId, String callbackURL, Object object)
-		throws Exception;
-
-	public Address getAddress(Long siteId, Long addressId) throws Exception;
-
-	public HttpInvoker.HttpResponse getAddressHttpResponse(
+	public HttpInvoker.HttpResponse getAddressApiHttpResponse(
 			Long siteId, Long addressId)
 		throws Exception;
 
@@ -581,11 +573,11 @@ public interface AddressResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteAddress(Long siteId, Long addressId)
+		public void deleteAddressApi(Long siteId, Long addressId)
 			throws Exception {
 
-			HttpInvoker.HttpResponse httpResponse = deleteAddressHttpResponse(
-				siteId, addressId);
+			HttpInvoker.HttpResponse httpResponse =
+				deleteAddressApiHttpResponse(siteId, addressId);
 
 			String content = httpResponse.getContent();
 
@@ -624,7 +616,7 @@ public interface AddressResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse deleteAddressHttpResponse(
+		public HttpInvoker.HttpResponse deleteAddressApiHttpResponse(
 				Long siteId, Long addressId)
 			throws Exception {
 
@@ -663,88 +655,10 @@ public interface AddressResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteAddressBatch(
-				Long siteId, String callbackURL, Object object)
+		public Address getAddressApi(Long siteId, Long addressId)
 			throws Exception {
 
-			HttpInvoker.HttpResponse httpResponse =
-				deleteAddressBatchHttpResponse(siteId, callbackURL, object);
-
-			String content = httpResponse.getContent();
-
-			if ((httpResponse.getStatusCode() / 100) != 2) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response content: " + content);
-				_logger.log(
-					Level.WARNING,
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.log(
-					Level.WARNING,
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-
-				throw new Problem.ProblemException(Problem.toDTO(content));
-			}
-			else {
-				_logger.fine("HTTP response content: " + content);
-				_logger.fine(
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.fine(
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-			}
-		}
-
-		public HttpInvoker.HttpResponse deleteAddressBatchHttpResponse(
-				Long siteId, String callbackURL, Object object)
-			throws Exception {
-
-			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			httpInvoker.body(object.toString(), "application/json");
-
-			if (_builder._locale != null) {
-				httpInvoker.header(
-					"Accept-Language", _builder._locale.toLanguageTag());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._headers.entrySet()) {
-
-				httpInvoker.header(entry.getKey(), entry.getValue());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._parameters.entrySet()) {
-
-				httpInvoker.parameter(entry.getKey(), entry.getValue());
-			}
-
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
-
-			if (callbackURL != null) {
-				httpInvoker.parameter(
-					"callbackURL", String.valueOf(callbackURL));
-			}
-
-			httpInvoker.path(
-				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
-						"/o/headless-PhoneBook/v1.0/sites/{siteId}/addresses/batch");
-
-			httpInvoker.path("siteId", siteId);
-
-			httpInvoker.userNameAndPassword(
-				_builder._login + ":" + _builder._password);
-
-			return httpInvoker.invoke();
-		}
-
-		public Address getAddress(Long siteId, Long addressId)
-			throws Exception {
-
-			HttpInvoker.HttpResponse httpResponse = getAddressHttpResponse(
+			HttpInvoker.HttpResponse httpResponse = getAddressApiHttpResponse(
 				siteId, addressId);
 
 			String content = httpResponse.getContent();
@@ -784,7 +698,7 @@ public interface AddressResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getAddressHttpResponse(
+		public HttpInvoker.HttpResponse getAddressApiHttpResponse(
 				Long siteId, Long addressId)
 			throws Exception {
 

@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
 public class AddressResourceImpl extends BaseAddressResourceImpl {
 
 	@Override
-	public void deleteAddress(@NotNull Long addressId) throws Exception {
+	public void deleteAddressApi(Long siteId, Long addressId) throws Exception {
 		try {
 
 			// super easy case, just pass through to the service layer.
@@ -66,7 +66,7 @@ public class AddressResourceImpl extends BaseAddressResourceImpl {
 	}
 
 	@Override
-	public Address getAddress(@NotNull Long addressId) throws Exception {
+	public Address getAddressApi(Long siteId, Long addressId) throws Exception {
 		try {
 
 			// fetch the entity class...
@@ -88,7 +88,8 @@ public class AddressResourceImpl extends BaseAddressResourceImpl {
 
 	@Override
 	public Page<Address> getAddressesPage(
-			String search, Filter filter, Pagination pagination, Sort[] sorts)
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
 		throws Exception {
 
 		System.out.println("getAddressesPage");
@@ -189,7 +190,7 @@ public class AddressResourceImpl extends BaseAddressResourceImpl {
 	}
 
 	@Override
-	public Address postAddress(Address address) throws Exception {
+	public Address postAddress(Long siteId, Address address) throws Exception {
 		System.out.println("postAddress");
 
 		if (_log.isDebugEnabled()) {

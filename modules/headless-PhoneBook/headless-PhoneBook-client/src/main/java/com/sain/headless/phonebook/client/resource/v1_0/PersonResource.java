@@ -78,18 +78,10 @@ public interface PersonResource {
 			Long siteId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
-	public void deletePerson(Long siteId, Long personId) throws Exception;
+	public void deletePersonApi(Long siteId, Long personId) throws Exception;
 
-	public HttpInvoker.HttpResponse deletePersonHttpResponse(
+	public HttpInvoker.HttpResponse deletePersonApiHttpResponse(
 			Long siteId, Long personId)
-		throws Exception;
-
-	public void deletePersonBatch(
-			Long siteId, String callbackURL, Object object)
-		throws Exception;
-
-	public HttpInvoker.HttpResponse deletePersonBatchHttpResponse(
-			Long siteId, String callbackURL, Object object)
 		throws Exception;
 
 	public Person getPerson(Long siteId, Long personId) throws Exception;
@@ -736,8 +728,10 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deletePerson(Long siteId, Long personId) throws Exception {
-			HttpInvoker.HttpResponse httpResponse = deletePersonHttpResponse(
+		public void deletePersonApi(Long siteId, Long personId)
+			throws Exception {
+
+			HttpInvoker.HttpResponse httpResponse = deletePersonApiHttpResponse(
 				siteId, personId);
 
 			String content = httpResponse.getContent();
@@ -777,7 +771,7 @@ public interface PersonResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse deletePersonHttpResponse(
+		public HttpInvoker.HttpResponse deletePersonApiHttpResponse(
 				Long siteId, Long personId)
 			throws Exception {
 
@@ -809,84 +803,6 @@ public interface PersonResource {
 
 			httpInvoker.path("siteId", siteId);
 			httpInvoker.path("personId", personId);
-
-			httpInvoker.userNameAndPassword(
-				_builder._login + ":" + _builder._password);
-
-			return httpInvoker.invoke();
-		}
-
-		public void deletePersonBatch(
-				Long siteId, String callbackURL, Object object)
-			throws Exception {
-
-			HttpInvoker.HttpResponse httpResponse =
-				deletePersonBatchHttpResponse(siteId, callbackURL, object);
-
-			String content = httpResponse.getContent();
-
-			if ((httpResponse.getStatusCode() / 100) != 2) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response content: " + content);
-				_logger.log(
-					Level.WARNING,
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.log(
-					Level.WARNING,
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-
-				throw new Problem.ProblemException(Problem.toDTO(content));
-			}
-			else {
-				_logger.fine("HTTP response content: " + content);
-				_logger.fine(
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.fine(
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-			}
-		}
-
-		public HttpInvoker.HttpResponse deletePersonBatchHttpResponse(
-				Long siteId, String callbackURL, Object object)
-			throws Exception {
-
-			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			httpInvoker.body(object.toString(), "application/json");
-
-			if (_builder._locale != null) {
-				httpInvoker.header(
-					"Accept-Language", _builder._locale.toLanguageTag());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._headers.entrySet()) {
-
-				httpInvoker.header(entry.getKey(), entry.getValue());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._parameters.entrySet()) {
-
-				httpInvoker.parameter(entry.getKey(), entry.getValue());
-			}
-
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
-
-			if (callbackURL != null) {
-				httpInvoker.parameter(
-					"callbackURL", String.valueOf(callbackURL));
-			}
-
-			httpInvoker.path(
-				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
-						"/o/headless-PhoneBook/v1.0/sites/{siteId}/persons/batch");
-
-			httpInvoker.path("siteId", siteId);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

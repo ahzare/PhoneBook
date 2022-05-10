@@ -52,13 +52,9 @@ public interface RoleResource {
 
 	public Role postRole(Long siteId, Role role) throws Exception;
 
-	public void deleteRole(Long siteId, Long roleId) throws Exception;
+	public void deleteRoleApi(Long siteId, Long roleId) throws Exception;
 
-	public Response deleteRoleBatch(
-			Long siteId, String callbackURL, Object object)
-		throws Exception;
-
-	public Role getRole(Long siteId, Long roleId) throws Exception;
+	public Role getRoleApi(Long siteId, Long roleId) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

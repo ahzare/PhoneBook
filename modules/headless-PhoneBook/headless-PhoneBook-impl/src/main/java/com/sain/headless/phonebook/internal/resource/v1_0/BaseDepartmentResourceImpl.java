@@ -93,15 +93,7 @@ public abstract class BaseDepartmentResourceImpl
 			Department department)
 		throws Exception {
 
-		Department existingDepartment = getDepartment(departmentId);
-
-		if (department.getName() != null) {
-			existingDepartment.setName(department.getName());
-		}
-
-		preparePatch(department, existingDepartment);
-
-		return putDepartment(departmentId, existingDepartment);
+		return new Department();
 	}
 
 	/**
@@ -239,51 +231,11 @@ public abstract class BaseDepartmentResourceImpl
 	@Path("/sites/{siteId}/departments/{departmentId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Department")})
-	public void deleteDepartment(
+	public void deleteDepartmentApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("departmentId") Long
 				departmentId)
 		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/departments/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@DELETE
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.QUERY, name = "callbackURL")
-		}
-	)
-	@Path("/sites/{siteId}/departments/batch")
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Department")})
-	public Response deleteDepartmentBatch(
-			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.deleteImportTask(
-				Department.class.getName(), callbackURL, object)
-		).build();
 	}
 
 	/**
@@ -303,7 +255,7 @@ public abstract class BaseDepartmentResourceImpl
 	@Path("/sites/{siteId}/departments/{departmentId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Department")})
-	public Department getDepartment(
+	public Department getDepartmentApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("departmentId") Long
 				departmentId)
@@ -325,10 +277,6 @@ public abstract class BaseDepartmentResourceImpl
 			java.util.Collection<Department> departments,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Department department : departments) {
-			deleteDepartment(department.getId());
-		}
 	}
 
 	@Override
@@ -463,10 +411,6 @@ public abstract class BaseDepartmentResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
-	}
-
-	protected void preparePatch(
-		Department department, Department existingDepartment) {
 	}
 
 	protected <T, R> List<R> transform(

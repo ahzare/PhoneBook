@@ -53,7 +53,7 @@ import org.slf4j.LoggerFactory;
 public class PartResourceImpl extends BasePartResourceImpl {
 
 	@Override
-	public void deletePart(@NotNull Long partId) throws Exception {
+	public void deletePartApi(Long siteId, Long partId) throws Exception {
 		try {
 
 			// super easy case, just pass through to the service layer.
@@ -69,7 +69,7 @@ public class PartResourceImpl extends BasePartResourceImpl {
 	}
 
 	@Override
-	public Part getPart(@NotNull Long partId) throws Exception {
+	public Part getPart(Long siteId, Long partId) throws Exception {
 		try {
 
 			// fetch the entity class...
@@ -91,7 +91,8 @@ public class PartResourceImpl extends BasePartResourceImpl {
 
 	@Override
 	public Page<Part> getPartsPage(
-			String search, Filter filter, Pagination pagination, Sort[] sorts)
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
 		throws Exception {
 
 		System.out.println("getPartsPage");
@@ -181,7 +182,9 @@ public class PartResourceImpl extends BasePartResourceImpl {
 	}
 
 	@Override
-	public Part postPart(Long addressId, Part part) throws Exception {
+	public Part postPart(Long siteId, Long addressId, Part part)
+		throws Exception {
+
 		System.out.println("postPart");
 
 		if (_log.isDebugEnabled()) {
@@ -206,7 +209,7 @@ public class PartResourceImpl extends BasePartResourceImpl {
 	}
 
 	@Override
-	public Part putPartApi(@NotNull Long partId, Long addressId, Part part)
+	public Part putPartApi(Long partId, Long addressId, Part part)
 		throws Exception {
 
 		try {

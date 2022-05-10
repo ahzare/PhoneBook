@@ -59,22 +59,15 @@ public interface RoleResource {
 	public HttpInvoker.HttpResponse postRoleHttpResponse(Long siteId, Role role)
 		throws Exception;
 
-	public void deleteRole(Long siteId, Long roleId) throws Exception;
+	public void deleteRoleApi(Long siteId, Long roleId) throws Exception;
 
-	public HttpInvoker.HttpResponse deleteRoleHttpResponse(
+	public HttpInvoker.HttpResponse deleteRoleApiHttpResponse(
 			Long siteId, Long roleId)
 		throws Exception;
 
-	public void deleteRoleBatch(Long siteId, String callbackURL, Object object)
-		throws Exception;
+	public Role getRoleApi(Long siteId, Long roleId) throws Exception;
 
-	public HttpInvoker.HttpResponse deleteRoleBatchHttpResponse(
-			Long siteId, String callbackURL, Object object)
-		throws Exception;
-
-	public Role getRole(Long siteId, Long roleId) throws Exception;
-
-	public HttpInvoker.HttpResponse getRoleHttpResponse(
+	public HttpInvoker.HttpResponse getRoleApiHttpResponse(
 			Long siteId, Long roleId)
 		throws Exception;
 
@@ -569,8 +562,8 @@ public interface RoleResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteRole(Long siteId, Long roleId) throws Exception {
-			HttpInvoker.HttpResponse httpResponse = deleteRoleHttpResponse(
+		public void deleteRoleApi(Long siteId, Long roleId) throws Exception {
+			HttpInvoker.HttpResponse httpResponse = deleteRoleApiHttpResponse(
 				siteId, roleId);
 
 			String content = httpResponse.getContent();
@@ -610,7 +603,7 @@ public interface RoleResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse deleteRoleHttpResponse(
+		public HttpInvoker.HttpResponse deleteRoleApiHttpResponse(
 				Long siteId, Long roleId)
 			throws Exception {
 
@@ -649,86 +642,8 @@ public interface RoleResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteRoleBatch(
-				Long siteId, String callbackURL, Object object)
-			throws Exception {
-
-			HttpInvoker.HttpResponse httpResponse = deleteRoleBatchHttpResponse(
-				siteId, callbackURL, object);
-
-			String content = httpResponse.getContent();
-
-			if ((httpResponse.getStatusCode() / 100) != 2) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response content: " + content);
-				_logger.log(
-					Level.WARNING,
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.log(
-					Level.WARNING,
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-
-				throw new Problem.ProblemException(Problem.toDTO(content));
-			}
-			else {
-				_logger.fine("HTTP response content: " + content);
-				_logger.fine(
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.fine(
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-			}
-		}
-
-		public HttpInvoker.HttpResponse deleteRoleBatchHttpResponse(
-				Long siteId, String callbackURL, Object object)
-			throws Exception {
-
-			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			httpInvoker.body(object.toString(), "application/json");
-
-			if (_builder._locale != null) {
-				httpInvoker.header(
-					"Accept-Language", _builder._locale.toLanguageTag());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._headers.entrySet()) {
-
-				httpInvoker.header(entry.getKey(), entry.getValue());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._parameters.entrySet()) {
-
-				httpInvoker.parameter(entry.getKey(), entry.getValue());
-			}
-
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
-
-			if (callbackURL != null) {
-				httpInvoker.parameter(
-					"callbackURL", String.valueOf(callbackURL));
-			}
-
-			httpInvoker.path(
-				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
-						"/o/headless-PhoneBook/v1.0/sites/{siteId}/roles/batch");
-
-			httpInvoker.path("siteId", siteId);
-
-			httpInvoker.userNameAndPassword(
-				_builder._login + ":" + _builder._password);
-
-			return httpInvoker.invoke();
-		}
-
-		public Role getRole(Long siteId, Long roleId) throws Exception {
-			HttpInvoker.HttpResponse httpResponse = getRoleHttpResponse(
+		public Role getRoleApi(Long siteId, Long roleId) throws Exception {
+			HttpInvoker.HttpResponse httpResponse = getRoleApiHttpResponse(
 				siteId, roleId);
 
 			String content = httpResponse.getContent();
@@ -768,7 +683,7 @@ public interface RoleResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getRoleHttpResponse(
+		public HttpInvoker.HttpResponse getRoleApiHttpResponse(
 				Long siteId, Long roleId)
 			throws Exception {
 
