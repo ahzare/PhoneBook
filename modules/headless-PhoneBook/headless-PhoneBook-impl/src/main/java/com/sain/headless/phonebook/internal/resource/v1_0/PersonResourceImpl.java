@@ -252,6 +252,11 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	}
 
 	@Override
+	public void postPersonExcel(Long siteId, MultipartBody multipartBody)
+		throws Exception {
+	}
+
+	@Override
 	public Person putPersonApi(
 			@NotNull Long personId, Long roleId, Long departmentId,
 			Person person)
@@ -275,11 +280,6 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
 			throw exception;
 		}
-	}
-
-	@Override
-	public void postPersonExcel(Long siteId, MultipartBody multipartBody) throws Exception {
-
 	}
 
 	protected ServiceContext getServiceContext() throws PortalException {

@@ -9,7 +9,6 @@ import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
-import com.liferay.portal.vulcan.graphql.annotation.GraphQLTypeExtension;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
@@ -89,12 +88,13 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {addresses(filter: ___, page: ___, pageSize: ___, search: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {addresses(filter: ___, page: ___, pageSize: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
 		description = "Retrieves the list of addresses. Results can be paginated, filtered, searched, and sorted."
 	)
 	public AddressPage addresses(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("search") String search,
 			@GraphQLName("filter") String filterString,
 			@GraphQLName("pageSize") int pageSize,
@@ -107,7 +107,7 @@ public class Query {
 			this::_populateResourceContext,
 			addressResource -> new AddressPage(
 				addressResource.getAddressesPage(
-					search,
+					Long.valueOf(siteKey), search,
 					_filterBiFunction.apply(addressResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(addressResource, sortsString))));
@@ -116,27 +116,31 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {address(addressId: ___){id, name}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {address(addressId: ___, siteKey: ___){id, name}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the address via its ID.")
-	public Address address(@GraphQLName("addressId") Long addressId)
+	public Address address(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("addressId") Long addressId)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_addressResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			addressResource -> addressResource.getAddress(addressId));
+			addressResource -> addressResource.getAddress(
+				Long.valueOf(siteKey), addressId));
 	}
 
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {departments(filter: ___, page: ___, pageSize: ___, search: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {departments(filter: ___, page: ___, pageSize: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
 		description = "Retrieves the list of departments. Results can be paginated, filtered, searched, and sorted."
 	)
 	public DepartmentPage departments(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("search") String search,
 			@GraphQLName("filter") String filterString,
 			@GraphQLName("pageSize") int pageSize,
@@ -149,7 +153,7 @@ public class Query {
 			this::_populateResourceContext,
 			departmentResource -> new DepartmentPage(
 				departmentResource.getDepartmentsPage(
-					search,
+					Long.valueOf(siteKey), search,
 					_filterBiFunction.apply(departmentResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(departmentResource, sortsString))));
@@ -158,28 +162,31 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {department(departmentId: ___){id, name}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {department(departmentId: ___, siteKey: ___){id, name}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the department via its ID.")
-	public Department department(@GraphQLName("departmentId") Long departmentId)
+	public Department department(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("departmentId") Long departmentId)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_departmentResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			departmentResource -> departmentResource.getDepartment(
-				departmentId));
+				Long.valueOf(siteKey), departmentId));
 	}
 
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {parts(filter: ___, page: ___, pageSize: ___, search: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {parts(filter: ___, page: ___, pageSize: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
 		description = "Retrieves the list of parts. Results can be paginated, filtered, searched, and sorted."
 	)
 	public PartPage parts(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("search") String search,
 			@GraphQLName("filter") String filterString,
 			@GraphQLName("pageSize") int pageSize,
@@ -192,7 +199,8 @@ public class Query {
 			this::_populateResourceContext,
 			partResource -> new PartPage(
 				partResource.getPartsPage(
-					search, _filterBiFunction.apply(partResource, filterString),
+					Long.valueOf(siteKey), search,
+					_filterBiFunction.apply(partResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(partResource, sortsString))));
 	}
@@ -200,58 +208,19 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {part(partId: ___){address, id, internalPhone, name}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {part(partId: ___, siteKey: ___){address, id, internalPhone, name}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the part via its ID.")
-	public Part part(@GraphQLName("partId") Long partId) throws Exception {
+	public Part part(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("partId") Long partId)
+		throws Exception {
+
 		return _applyComponentServiceObjects(
 			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			partResource -> partResource.getPart(partId));
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {persons(departmentId: ___, filter: ___, page: ___, pageSize: ___, roleId: ___, search: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
-	 */
-	@GraphQLField(
-		description = "Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted."
-	)
-	public PersonPage persons(
-			@GraphQLName("departmentId") Long departmentId,
-			@GraphQLName("roleId") Long roleId,
-			@GraphQLName("search") String search,
-			@GraphQLName("filter") String filterString,
-			@GraphQLName("pageSize") int pageSize,
-			@GraphQLName("page") int page,
-			@GraphQLName("sort") String sortsString)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_personResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			personResource -> new PersonPage(
-				personResource.getPersonsPage(
-					departmentId, roleId, search,
-					_filterBiFunction.apply(personResource, filterString),
-					Pagination.of(page, pageSize),
-					_sortsBiFunction.apply(personResource, sortsString))));
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {person(personId: ___){department, email, faxNumber, firstName, id, lastName, localPhoneNumber, phoneNumber, role, roomNumber, website}}"}' -u 'test@liferay.com:test'
-	 */
-	@GraphQLField(description = "Retrieves the person via its ID.")
-	public Person person(@GraphQLName("personId") Long personId)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_personResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			personResource -> personResource.getPerson(personId));
+			partResource -> partResource.getPart(
+				Long.valueOf(siteKey), partId));
 	}
 
 	/**
@@ -279,12 +248,61 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {roles(filter: ___, page: ___, pageSize: ___, search: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {persons(departmentId: ___, filter: ___, page: ___, pageSize: ___, roleId: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(
+		description = "Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted."
+	)
+	public PersonPage persons(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("departmentId") Long departmentId,
+			@GraphQLName("roleId") Long roleId,
+			@GraphQLName("search") String search,
+			@GraphQLName("filter") String filterString,
+			@GraphQLName("pageSize") int pageSize,
+			@GraphQLName("page") int page,
+			@GraphQLName("sort") String sortsString)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_personResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			personResource -> new PersonPage(
+				personResource.getPersonsPage(
+					Long.valueOf(siteKey), departmentId, roleId, search,
+					_filterBiFunction.apply(personResource, filterString),
+					Pagination.of(page, pageSize),
+					_sortsBiFunction.apply(personResource, sortsString))));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {person(personId: ___, siteKey: ___){department, email, faxNumber, firstName, id, lastName, localPhoneNumber, phoneNumber, role, roomNumber, website}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(description = "Retrieves the person via its ID.")
+	public Person person(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("personId") Long personId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_personResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			personResource -> personResource.getPerson(
+				Long.valueOf(siteKey), personId));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {roles(filter: ___, page: ___, pageSize: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
 		description = "Retrieves the list of roles. Results can be paginated, filtered, searched, and sorted."
 	)
 	public RolePage roles(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("search") String search,
 			@GraphQLName("filter") String filterString,
 			@GraphQLName("pageSize") int pageSize,
@@ -297,7 +315,8 @@ public class Query {
 			this::_populateResourceContext,
 			roleResource -> new RolePage(
 				roleResource.getRolesPage(
-					search, _filterBiFunction.apply(roleResource, filterString),
+					Long.valueOf(siteKey), search,
+					_filterBiFunction.apply(roleResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(roleResource, sortsString))));
 	}
@@ -305,48 +324,19 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {role(roleId: ___){id, name}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {role(roleId: ___, siteKey: ___){id, name}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the role via its ID.")
-	public Role role(@GraphQLName("roleId") Long roleId) throws Exception {
+	public Role role(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("roleId") Long roleId)
+		throws Exception {
+
 		return _applyComponentServiceObjects(
 			_roleResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			roleResource -> roleResource.getRole(roleId));
-	}
-
-	@GraphQLTypeExtension(Department.class)
-	public class GetPersonsPageTypeExtension {
-
-		public GetPersonsPageTypeExtension(Department department) {
-			_department = department;
-		}
-
-		@GraphQLField(
-			description = "Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted."
-		)
-		public PersonPage persons(
-				@GraphQLName("roleId") Long roleId,
-				@GraphQLName("search") String search,
-				@GraphQLName("filter") String filterString,
-				@GraphQLName("pageSize") int pageSize,
-				@GraphQLName("page") int page,
-				@GraphQLName("sort") String sortsString)
-			throws Exception {
-
-			return _applyComponentServiceObjects(
-				_personResourceComponentServiceObjects,
-				Query.this::_populateResourceContext,
-				personResource -> new PersonPage(
-					personResource.getPersonsPage(
-						_department.getId(), roleId, search,
-						_filterBiFunction.apply(personResource, filterString),
-						Pagination.of(page, pageSize),
-						_sortsBiFunction.apply(personResource, sortsString))));
-		}
-
-		private Department _department;
-
+			roleResource -> roleResource.getRole(
+				Long.valueOf(siteKey), roleId));
 	}
 
 	@GraphQLName("AddressPage")

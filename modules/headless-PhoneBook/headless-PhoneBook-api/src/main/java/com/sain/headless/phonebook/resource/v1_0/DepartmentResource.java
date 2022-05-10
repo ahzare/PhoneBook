@@ -38,22 +38,6 @@ public interface DepartmentResource {
 		return FactoryHolder.factory.create();
 	}
 
-	public Page<Department> getDepartmentsPage(
-			String search, Filter filter, Pagination pagination, Sort[] sorts)
-		throws Exception;
-
-	public Department postDepartment(Department department) throws Exception;
-
-	public Response postDepartmentBatch(String callbackURL, Object object)
-		throws Exception;
-
-	public void deleteDepartment(Long departmentId) throws Exception;
-
-	public Response deleteDepartmentBatch(String callbackURL, Object object)
-		throws Exception;
-
-	public Department getDepartment(Long departmentId) throws Exception;
-
 	public Department patchDepartment(Long departmentId, Department department)
 		throws Exception;
 
@@ -61,6 +45,24 @@ public interface DepartmentResource {
 		throws Exception;
 
 	public Response putDepartmentBatch(String callbackURL, Object object)
+		throws Exception;
+
+	public Page<Department> getDepartmentsPage(
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
+		throws Exception;
+
+	public Department postDepartment(Long siteId, Department department)
+		throws Exception;
+
+	public void deleteDepartment(Long siteId, Long departmentId)
+		throws Exception;
+
+	public Response deleteDepartmentBatch(
+			Long siteId, String callbackURL, Object object)
+		throws Exception;
+
+	public Department getDepartment(Long siteId, Long departmentId)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

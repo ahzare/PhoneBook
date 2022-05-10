@@ -38,28 +38,27 @@ public interface PartResource {
 		return FactoryHolder.factory.create();
 	}
 
-	public Page<Part> getPartsPage(
-			String search, Filter filter, Pagination pagination, Sort[] sorts)
-		throws Exception;
-
-	public Part postPart(Long addressId, Part part) throws Exception;
-
-	public Response postPartBatch(
-			Long addressId, String callbackURL, Object object)
-		throws Exception;
-
-	public void deletePart(Long partId) throws Exception;
-
-	public Response deletePartBatch(String callbackURL, Object object)
-		throws Exception;
-
-	public Part getPart(Long partId) throws Exception;
-
 	public Part patchPartApi(Long partId, Long addressId, Part part)
 		throws Exception;
 
 	public Part putPartApi(Long partId, Long addressId, Part part)
 		throws Exception;
+
+	public Page<Part> getPartsPage(
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
+		throws Exception;
+
+	public Part postPart(Long siteId, Long addressId, Part part)
+		throws Exception;
+
+	public void deletePart(Long siteId, Long partId) throws Exception;
+
+	public Response deletePartBatch(
+			Long siteId, String callbackURL, Object object)
+		throws Exception;
+
+	public Part getPart(Long siteId, Long partId) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

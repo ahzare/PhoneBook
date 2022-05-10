@@ -39,25 +39,6 @@ public interface PersonResource {
 		return FactoryHolder.factory.create();
 	}
 
-	public Page<Person> getPersonsPage(
-			Long departmentId, Long roleId, String search, Filter filter,
-			Pagination pagination, Sort[] sorts)
-		throws Exception;
-
-	public Person postPerson(Long departmentId, Long roleId, Person person)
-		throws Exception;
-
-	public Response postPersonBatch(
-			Long departmentId, Long roleId, String callbackURL, Object object)
-		throws Exception;
-
-	public void deletePerson(Long personId) throws Exception;
-
-	public Response deletePersonBatch(String callbackURL, Object object)
-		throws Exception;
-
-	public Person getPerson(Long personId) throws Exception;
-
 	public Person patchPersonApi(
 			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
@@ -72,6 +53,23 @@ public interface PersonResource {
 
 	public void postPersonExcel(Long siteId, MultipartBody multipartBody)
 		throws Exception;
+
+	public Page<Person> getPersonsPage(
+			Long siteId, Long departmentId, Long roleId, String search,
+			Filter filter, Pagination pagination, Sort[] sorts)
+		throws Exception;
+
+	public Person postPerson(
+			Long siteId, Long departmentId, Long roleId, Person person)
+		throws Exception;
+
+	public void deletePerson(Long siteId, Long personId) throws Exception;
+
+	public Response deletePersonBatch(
+			Long siteId, String callbackURL, Object object)
+		throws Exception;
+
+	public Person getPerson(Long siteId, Long personId) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

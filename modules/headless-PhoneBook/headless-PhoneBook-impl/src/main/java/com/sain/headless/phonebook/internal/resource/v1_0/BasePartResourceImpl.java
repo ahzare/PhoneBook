@@ -73,174 +73,6 @@ public abstract class BasePartResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(
-		description = "Retrieves the list of parts. Results can be paginated, filtered, searched, and sorted."
-	)
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.QUERY, name = "search"),
-			@Parameter(in = ParameterIn.QUERY, name = "filter"),
-			@Parameter(in = ParameterIn.QUERY, name = "page"),
-			@Parameter(in = ParameterIn.QUERY, name = "pageSize"),
-			@Parameter(in = ParameterIn.QUERY, name = "sort")
-		}
-	)
-	@Path("/parts")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Part")})
-	public Page<Part> getPartsPage(
-			@Parameter(hidden = true) @QueryParam("search") String search,
-			@Context Filter filter, @Context Pagination pagination,
-			@Context Sort[] sorts)
-		throws Exception {
-
-		return Page.of(Collections.emptyList());
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts' -d $'{"address": ___, "id": ___, "internalPhone": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
-	 */
-	@Consumes({"application/json", "application/xml"})
-	@Operation(description = "Create a new part.")
-	@Override
-	@Parameters(
-		value = {@Parameter(in = ParameterIn.QUERY, name = "addressId")}
-	)
-	@Path("/parts")
-	@POST
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Part")})
-	public Part postPart(
-			@Parameter(hidden = true) @QueryParam("addressId") Long addressId,
-			Part part)
-		throws Exception {
-
-		return new Part();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.QUERY, name = "addressId"),
-			@Parameter(in = ParameterIn.QUERY, name = "callbackURL")
-		}
-	)
-	@Path("/parts/batch")
-	@POST
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Part")})
-	public Response postPartBatch(
-			@Parameter(hidden = true) @QueryParam("addressId") Long addressId,
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.postImportTask(
-				Part.class.getName(), callbackURL, null, object)
-		).build();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts/{partId}'  -u 'test@liferay.com:test'
-	 */
-	@DELETE
-	@Operation(
-		description = "Deletes the part and returns a 204 if the operation succeeds."
-	)
-	@Override
-	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "partId")})
-	@Path("/parts/{partId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Part")})
-	public void deletePart(
-			@NotNull @Parameter(hidden = true) @PathParam("partId") Long partId)
-		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@DELETE
-	@Override
-	@Parameters(
-		value = {@Parameter(in = ParameterIn.QUERY, name = "callbackURL")}
-	)
-	@Path("/parts/batch")
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Part")})
-	public Response deletePartBatch(
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.deleteImportTask(
-				Part.class.getName(), callbackURL, object)
-		).build();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts/{partId}'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(description = "Retrieves the part via its ID.")
-	@Override
-	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "partId")})
-	@Path("/parts/{partId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Part")})
-	public Part getPart(
-			@NotNull @Parameter(hidden = true) @PathParam("partId") Long partId)
-		throws Exception {
-
-		return new Part();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts/{partId}' -d $'{"address": ___, "id": ___, "internalPhone": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Consumes({"application/json", "application/xml"})
@@ -296,16 +128,162 @@ public abstract class BasePartResourceImpl
 		return new Part();
 	}
 
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/parts'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(
+		description = "Retrieves the list of parts. Results can be paginated, filtered, searched, and sorted."
+	)
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.QUERY, name = "search"),
+			@Parameter(in = ParameterIn.QUERY, name = "filter"),
+			@Parameter(in = ParameterIn.QUERY, name = "page"),
+			@Parameter(in = ParameterIn.QUERY, name = "pageSize"),
+			@Parameter(in = ParameterIn.QUERY, name = "sort")
+		}
+	)
+	@Path("/sites/{siteId}/parts")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Part")})
+	public Page<Part> getPartsPage(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@Parameter(hidden = true) @QueryParam("search") String search,
+			@Context Filter filter, @Context Pagination pagination,
+			@Context Sort[] sorts)
+		throws Exception {
+
+		return Page.of(Collections.emptyList());
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/parts' -d $'{"address": ___, "id": ___, "internalPhone": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@Consumes({"application/json", "application/xml"})
+	@Operation(description = "Create a new part.")
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.QUERY, name = "addressId")
+		}
+	)
+	@Path("/sites/{siteId}/parts")
+	@POST
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Part")})
+	public Part postPart(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@Parameter(hidden = true) @QueryParam("addressId") Long addressId,
+			Part part)
+		throws Exception {
+
+		return new Part();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/parts/{partId}'  -u 'test@liferay.com:test'
+	 */
+	@DELETE
+	@Operation(
+		description = "Deletes the part and returns a 204 if the operation succeeds."
+	)
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.PATH, name = "partId")
+		}
+	)
+	@Path("/sites/{siteId}/parts/{partId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Part")})
+	public void deletePart(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@NotNull @Parameter(hidden = true) @PathParam("partId") Long partId)
+		throws Exception {
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/parts/batch'  -u 'test@liferay.com:test'
+	 */
+	@Consumes("application/json")
+	@DELETE
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.QUERY, name = "callbackURL")
+		}
+	)
+	@Path("/sites/{siteId}/parts/batch")
+	@Produces("application/json")
+	@Tags(value = {@Tag(name = "Part")})
+	public Response deletePartBatch(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@Parameter(hidden = true) @QueryParam("callbackURL") String
+				callbackURL,
+			Object object)
+		throws Exception {
+
+		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
+			contextAcceptLanguage);
+		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
+		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
+			contextHttpServletRequest);
+		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
+		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.entity(
+			vulcanBatchEngineImportTaskResource.deleteImportTask(
+				Part.class.getName(), callbackURL, object)
+		).build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/parts/{partId}'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(description = "Retrieves the part via its ID.")
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.PATH, name = "partId")
+		}
+	)
+	@Path("/sites/{siteId}/parts/{partId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Part")})
+	public Part getPart(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@NotNull @Parameter(hidden = true) @PathParam("partId") Long partId)
+		throws Exception {
+
+		return new Part();
+	}
+
 	@Override
 	@SuppressWarnings("PMD.UnusedLocalVariable")
 	public void create(
 			java.util.Collection<Part> parts,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Part part : parts) {
-			postPart(null, part);
-		}
 	}
 
 	@Override
@@ -340,7 +318,7 @@ public abstract class BasePartResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return getPartsPage(search, filter, pagination, sorts);
+		return null;
 	}
 
 	@Override

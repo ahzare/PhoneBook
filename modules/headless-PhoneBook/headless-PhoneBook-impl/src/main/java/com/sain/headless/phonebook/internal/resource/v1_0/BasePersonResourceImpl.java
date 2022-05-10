@@ -74,189 +74,6 @@ public abstract class BasePersonResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/persons'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(
-		description = "Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted."
-	)
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.QUERY, name = "departmentId"),
-			@Parameter(in = ParameterIn.QUERY, name = "roleId"),
-			@Parameter(in = ParameterIn.QUERY, name = "search"),
-			@Parameter(in = ParameterIn.QUERY, name = "filter"),
-			@Parameter(in = ParameterIn.QUERY, name = "page"),
-			@Parameter(in = ParameterIn.QUERY, name = "pageSize"),
-			@Parameter(in = ParameterIn.QUERY, name = "sort")
-		}
-	)
-	@Path("/persons")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Person")})
-	public Page<Person> getPersonsPage(
-			@Parameter(hidden = true) @QueryParam("departmentId") Long
-				departmentId,
-			@Parameter(hidden = true) @QueryParam("roleId") Long roleId,
-			@Parameter(hidden = true) @QueryParam("search") String search,
-			@Context Filter filter, @Context Pagination pagination,
-			@Context Sort[] sorts)
-		throws Exception {
-
-		return Page.of(Collections.emptyList());
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/persons' -d $'{"department": ___, "email": ___, "faxNumber": ___, "firstName": ___, "id": ___, "lastName": ___, "localPhoneNumber": ___, "phoneNumber": ___, "role": ___, "roomNumber": ___, "website": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
-	 */
-	@Consumes({"application/json", "application/xml"})
-	@Operation(description = "Create a new person.")
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.QUERY, name = "departmentId"),
-			@Parameter(in = ParameterIn.QUERY, name = "roleId")
-		}
-	)
-	@Path("/persons")
-	@POST
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Person")})
-	public Person postPerson(
-			@Parameter(hidden = true) @QueryParam("departmentId") Long
-				departmentId,
-			@Parameter(hidden = true) @QueryParam("roleId") Long roleId,
-			Person person)
-		throws Exception {
-
-		return new Person();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/persons/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.QUERY, name = "departmentId"),
-			@Parameter(in = ParameterIn.QUERY, name = "roleId"),
-			@Parameter(in = ParameterIn.QUERY, name = "callbackURL")
-		}
-	)
-	@Path("/persons/batch")
-	@POST
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Person")})
-	public Response postPersonBatch(
-			@Parameter(hidden = true) @QueryParam("departmentId") Long
-				departmentId,
-			@Parameter(hidden = true) @QueryParam("roleId") Long roleId,
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.postImportTask(
-				Person.class.getName(), callbackURL, null, object)
-		).build();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/persons/{personId}'  -u 'test@liferay.com:test'
-	 */
-	@DELETE
-	@Operation(
-		description = "Deletes the person and returns a 204 if the operation succeeds."
-	)
-	@Override
-	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "personId")})
-	@Path("/persons/{personId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Person")})
-	public void deletePerson(
-			@NotNull @Parameter(hidden = true) @PathParam("personId") Long
-				personId)
-		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/persons/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@DELETE
-	@Override
-	@Parameters(
-		value = {@Parameter(in = ParameterIn.QUERY, name = "callbackURL")}
-	)
-	@Path("/persons/batch")
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Person")})
-	public Response deletePersonBatch(
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.deleteImportTask(
-				Person.class.getName(), callbackURL, object)
-		).build();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/persons/{personId}'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(description = "Retrieves the person via its ID.")
-	@Override
-	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "personId")})
-	@Path("/persons/{personId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Person")})
-	public Person getPerson(
-			@NotNull @Parameter(hidden = true) @PathParam("personId") Long
-				personId)
-		throws Exception {
-
-		return new Person();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-PhoneBook/v1.0/persons/{personId}' -d $'{"department": ___, "email": ___, "faxNumber": ___, "firstName": ___, "id": ___, "lastName": ___, "localPhoneNumber": ___, "phoneNumber": ___, "role": ___, "roomNumber": ___, "website": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Consumes({"application/json", "application/xml"})
@@ -369,16 +186,172 @@ public abstract class BasePersonResourceImpl
 		throws Exception {
 	}
 
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/persons'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(
+		description = "Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted."
+	)
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.QUERY, name = "departmentId"),
+			@Parameter(in = ParameterIn.QUERY, name = "roleId"),
+			@Parameter(in = ParameterIn.QUERY, name = "search"),
+			@Parameter(in = ParameterIn.QUERY, name = "filter"),
+			@Parameter(in = ParameterIn.QUERY, name = "page"),
+			@Parameter(in = ParameterIn.QUERY, name = "pageSize"),
+			@Parameter(in = ParameterIn.QUERY, name = "sort")
+		}
+	)
+	@Path("/sites/{siteId}/persons")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Person")})
+	public Page<Person> getPersonsPage(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@Parameter(hidden = true) @QueryParam("departmentId") Long
+				departmentId,
+			@Parameter(hidden = true) @QueryParam("roleId") Long roleId,
+			@Parameter(hidden = true) @QueryParam("search") String search,
+			@Context Filter filter, @Context Pagination pagination,
+			@Context Sort[] sorts)
+		throws Exception {
+
+		return Page.of(Collections.emptyList());
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/persons' -d $'{"department": ___, "email": ___, "faxNumber": ___, "firstName": ___, "id": ___, "lastName": ___, "localPhoneNumber": ___, "phoneNumber": ___, "role": ___, "roomNumber": ___, "website": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@Consumes({"application/json", "application/xml"})
+	@Operation(description = "Create a new person.")
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.QUERY, name = "departmentId"),
+			@Parameter(in = ParameterIn.QUERY, name = "roleId")
+		}
+	)
+	@Path("/sites/{siteId}/persons")
+	@POST
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Person")})
+	public Person postPerson(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@Parameter(hidden = true) @QueryParam("departmentId") Long
+				departmentId,
+			@Parameter(hidden = true) @QueryParam("roleId") Long roleId,
+			Person person)
+		throws Exception {
+
+		return new Person();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/persons/{personId}'  -u 'test@liferay.com:test'
+	 */
+	@DELETE
+	@Operation(
+		description = "Deletes the person and returns a 204 if the operation succeeds."
+	)
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.PATH, name = "personId")
+		}
+	)
+	@Path("/sites/{siteId}/persons/{personId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Person")})
+	public void deletePerson(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@NotNull @Parameter(hidden = true) @PathParam("personId") Long
+				personId)
+		throws Exception {
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/persons/batch'  -u 'test@liferay.com:test'
+	 */
+	@Consumes("application/json")
+	@DELETE
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.QUERY, name = "callbackURL")
+		}
+	)
+	@Path("/sites/{siteId}/persons/batch")
+	@Produces("application/json")
+	@Tags(value = {@Tag(name = "Person")})
+	public Response deletePersonBatch(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@Parameter(hidden = true) @QueryParam("callbackURL") String
+				callbackURL,
+			Object object)
+		throws Exception {
+
+		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
+			contextAcceptLanguage);
+		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
+		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
+			contextHttpServletRequest);
+		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
+		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.entity(
+			vulcanBatchEngineImportTaskResource.deleteImportTask(
+				Person.class.getName(), callbackURL, object)
+		).build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/persons/{personId}'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(description = "Retrieves the person via its ID.")
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.PATH, name = "personId")
+		}
+	)
+	@Path("/sites/{siteId}/persons/{personId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Person")})
+	public Person getPerson(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@NotNull @Parameter(hidden = true) @PathParam("personId") Long
+				personId)
+		throws Exception {
+
+		return new Person();
+	}
+
 	@Override
 	@SuppressWarnings("PMD.UnusedLocalVariable")
 	public void create(
 			java.util.Collection<Person> persons,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Person person : persons) {
-			postPerson(null, null, person);
-		}
 	}
 
 	@Override
@@ -413,10 +386,7 @@ public abstract class BasePersonResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return getPersonsPage(
-			Long.parseLong((String)parameters.get("departmentId")),
-			Long.parseLong((String)parameters.get("roleId")), search, filter,
-			pagination, sorts);
+		return null;
 	}
 
 	@Override

@@ -38,22 +38,6 @@ public interface AddressResource {
 		return FactoryHolder.factory.create();
 	}
 
-	public Page<Address> getAddressesPage(
-			String search, Filter filter, Pagination pagination, Sort[] sorts)
-		throws Exception;
-
-	public Address postAddress(Address address) throws Exception;
-
-	public Response postAddressBatch(String callbackURL, Object object)
-		throws Exception;
-
-	public void deleteAddress(Long addressId) throws Exception;
-
-	public Response deleteAddressBatch(String callbackURL, Object object)
-		throws Exception;
-
-	public Address getAddress(Long addressId) throws Exception;
-
 	public Address patchAddress(Long addressId, Address address)
 		throws Exception;
 
@@ -61,6 +45,21 @@ public interface AddressResource {
 
 	public Response putAddressBatch(String callbackURL, Object object)
 		throws Exception;
+
+	public Page<Address> getAddressesPage(
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
+		throws Exception;
+
+	public Address postAddress(Long siteId, Address address) throws Exception;
+
+	public void deleteAddress(Long siteId, Long addressId) throws Exception;
+
+	public Response deleteAddressBatch(
+			Long siteId, String callbackURL, Object object)
+		throws Exception;
+
+	public Address getAddress(Long siteId, Long addressId) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

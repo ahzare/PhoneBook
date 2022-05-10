@@ -73,169 +73,6 @@ public abstract class BaseDepartmentResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/departments'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(
-		description = "Retrieves the list of departments. Results can be paginated, filtered, searched, and sorted."
-	)
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.QUERY, name = "search"),
-			@Parameter(in = ParameterIn.QUERY, name = "filter"),
-			@Parameter(in = ParameterIn.QUERY, name = "page"),
-			@Parameter(in = ParameterIn.QUERY, name = "pageSize"),
-			@Parameter(in = ParameterIn.QUERY, name = "sort")
-		}
-	)
-	@Path("/departments")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Department")})
-	public Page<Department> getDepartmentsPage(
-			@Parameter(hidden = true) @QueryParam("search") String search,
-			@Context Filter filter, @Context Pagination pagination,
-			@Context Sort[] sorts)
-		throws Exception {
-
-		return Page.of(Collections.emptyList());
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/departments' -d $'{"id": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
-	 */
-	@Consumes({"application/json", "application/xml"})
-	@Operation(description = "Create a new department.")
-	@Override
-	@Path("/departments")
-	@POST
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Department")})
-	public Department postDepartment(Department department) throws Exception {
-		return new Department();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/departments/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@Override
-	@Parameters(
-		value = {@Parameter(in = ParameterIn.QUERY, name = "callbackURL")}
-	)
-	@Path("/departments/batch")
-	@POST
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Department")})
-	public Response postDepartmentBatch(
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.postImportTask(
-				Department.class.getName(), callbackURL, null, object)
-		).build();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/departments/{departmentId}'  -u 'test@liferay.com:test'
-	 */
-	@DELETE
-	@Operation(
-		description = "Deletes the department and returns a 204 if the operation succeeds."
-	)
-	@Override
-	@Parameters(
-		value = {@Parameter(in = ParameterIn.PATH, name = "departmentId")}
-	)
-	@Path("/departments/{departmentId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Department")})
-	public void deleteDepartment(
-			@NotNull @Parameter(hidden = true) @PathParam("departmentId") Long
-				departmentId)
-		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/departments/batch'  -u 'test@liferay.com:test'
-	 */
-	@Consumes("application/json")
-	@DELETE
-	@Override
-	@Parameters(
-		value = {@Parameter(in = ParameterIn.QUERY, name = "callbackURL")}
-	)
-	@Path("/departments/batch")
-	@Produces("application/json")
-	@Tags(value = {@Tag(name = "Department")})
-	public Response deleteDepartmentBatch(
-			@Parameter(hidden = true) @QueryParam("callbackURL") String
-				callbackURL,
-			Object object)
-		throws Exception {
-
-		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
-			contextAcceptLanguage);
-		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
-		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
-			contextHttpServletRequest);
-		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
-		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
-
-		Response.ResponseBuilder responseBuilder = Response.accepted();
-
-		return responseBuilder.entity(
-			vulcanBatchEngineImportTaskResource.deleteImportTask(
-				Department.class.getName(), callbackURL, object)
-		).build();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/departments/{departmentId}'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(description = "Retrieves the department via its ID.")
-	@Override
-	@Parameters(
-		value = {@Parameter(in = ParameterIn.PATH, name = "departmentId")}
-	)
-	@Path("/departments/{departmentId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Department")})
-	public Department getDepartment(
-			@NotNull @Parameter(hidden = true) @PathParam("departmentId") Long
-				departmentId)
-		throws Exception {
-
-		return new Department();
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-PhoneBook/v1.0/departments/{departmentId}' -d $'{"id": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Consumes({"application/json", "application/xml"})
@@ -329,16 +166,158 @@ public abstract class BaseDepartmentResourceImpl
 		).build();
 	}
 
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/departments'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(
+		description = "Retrieves the list of departments. Results can be paginated, filtered, searched, and sorted."
+	)
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.QUERY, name = "search"),
+			@Parameter(in = ParameterIn.QUERY, name = "filter"),
+			@Parameter(in = ParameterIn.QUERY, name = "page"),
+			@Parameter(in = ParameterIn.QUERY, name = "pageSize"),
+			@Parameter(in = ParameterIn.QUERY, name = "sort")
+		}
+	)
+	@Path("/sites/{siteId}/departments")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Department")})
+	public Page<Department> getDepartmentsPage(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@Parameter(hidden = true) @QueryParam("search") String search,
+			@Context Filter filter, @Context Pagination pagination,
+			@Context Sort[] sorts)
+		throws Exception {
+
+		return Page.of(Collections.emptyList());
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/departments' -d $'{"id": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@Consumes({"application/json", "application/xml"})
+	@Operation(description = "Create a new department.")
+	@Override
+	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
+	@Path("/sites/{siteId}/departments")
+	@POST
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Department")})
+	public Department postDepartment(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			Department department)
+		throws Exception {
+
+		return new Department();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/departments/{departmentId}'  -u 'test@liferay.com:test'
+	 */
+	@DELETE
+	@Operation(
+		description = "Deletes the department and returns a 204 if the operation succeeds."
+	)
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.PATH, name = "departmentId")
+		}
+	)
+	@Path("/sites/{siteId}/departments/{departmentId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Department")})
+	public void deleteDepartment(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@NotNull @Parameter(hidden = true) @PathParam("departmentId") Long
+				departmentId)
+		throws Exception {
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/departments/batch'  -u 'test@liferay.com:test'
+	 */
+	@Consumes("application/json")
+	@DELETE
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.QUERY, name = "callbackURL")
+		}
+	)
+	@Path("/sites/{siteId}/departments/batch")
+	@Produces("application/json")
+	@Tags(value = {@Tag(name = "Department")})
+	public Response deleteDepartmentBatch(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@Parameter(hidden = true) @QueryParam("callbackURL") String
+				callbackURL,
+			Object object)
+		throws Exception {
+
+		vulcanBatchEngineImportTaskResource.setContextAcceptLanguage(
+			contextAcceptLanguage);
+		vulcanBatchEngineImportTaskResource.setContextCompany(contextCompany);
+		vulcanBatchEngineImportTaskResource.setContextHttpServletRequest(
+			contextHttpServletRequest);
+		vulcanBatchEngineImportTaskResource.setContextUriInfo(contextUriInfo);
+		vulcanBatchEngineImportTaskResource.setContextUser(contextUser);
+
+		Response.ResponseBuilder responseBuilder = Response.accepted();
+
+		return responseBuilder.entity(
+			vulcanBatchEngineImportTaskResource.deleteImportTask(
+				Department.class.getName(), callbackURL, object)
+		).build();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/departments/{departmentId}'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(description = "Retrieves the department via its ID.")
+	@Override
+	@Parameters(
+		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
+			@Parameter(in = ParameterIn.PATH, name = "departmentId")
+		}
+	)
+	@Path("/sites/{siteId}/departments/{departmentId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Department")})
+	public Department getDepartment(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			@NotNull @Parameter(hidden = true) @PathParam("departmentId") Long
+				departmentId)
+		throws Exception {
+
+		return new Department();
+	}
+
 	@Override
 	@SuppressWarnings("PMD.UnusedLocalVariable")
 	public void create(
 			java.util.Collection<Department> departments,
 			Map<String, Serializable> parameters)
 		throws Exception {
-
-		for (Department department : departments) {
-			postDepartment(department);
-		}
 	}
 
 	@Override
@@ -373,7 +352,7 @@ public abstract class BaseDepartmentResourceImpl
 			Map<String, Serializable> parameters, String search)
 		throws Exception {
 
-		return getDepartmentsPage(search, filter, pagination, sorts);
+		return null;
 	}
 
 	@Override

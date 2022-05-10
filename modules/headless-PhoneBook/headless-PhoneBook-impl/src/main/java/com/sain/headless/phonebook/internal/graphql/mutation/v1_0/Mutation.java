@@ -82,56 +82,6 @@ public class Mutation {
 			roleResourceComponentServiceObjects;
 	}
 
-	@GraphQLField(description = "Create a new address.")
-	public Address createAddress(@GraphQLName("address") Address address)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_addressResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			addressResource -> addressResource.postAddress(address));
-	}
-
-	@GraphQLField
-	public Response createAddressBatch(
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("object") Object object)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_addressResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			addressResource -> addressResource.postAddressBatch(
-				callbackURL, object));
-	}
-
-	@GraphQLField(
-		description = "Deletes the address and returns a 204 if the operation succeeds."
-	)
-	public boolean deleteAddress(@GraphQLName("addressId") Long addressId)
-		throws Exception {
-
-		_applyVoidComponentServiceObjects(
-			_addressResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			addressResource -> addressResource.deleteAddress(addressId));
-
-		return true;
-	}
-
-	@GraphQLField
-	public Response deleteAddressBatch(
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("object") Object object)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_addressResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			addressResource -> addressResource.deleteAddressBatch(
-				callbackURL, object));
-	}
-
 	@GraphQLField(
 		description = "Replaces the address with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
@@ -174,58 +124,48 @@ public class Mutation {
 				callbackURL, object));
 	}
 
-	@GraphQLField(description = "Create a new department.")
-	public Department createDepartment(
-			@GraphQLName("department") Department department)
+	@GraphQLField(description = "Create a new address.")
+	public Address createAddress(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("address") Address address)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
-			_departmentResourceComponentServiceObjects,
+			_addressResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			departmentResource -> departmentResource.postDepartment(
-				department));
-	}
-
-	@GraphQLField
-	public Response createDepartmentBatch(
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("object") Object object)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_departmentResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			departmentResource -> departmentResource.postDepartmentBatch(
-				callbackURL, object));
+			addressResource -> addressResource.postAddress(
+				Long.valueOf(siteKey), address));
 	}
 
 	@GraphQLField(
-		description = "Deletes the department and returns a 204 if the operation succeeds."
+		description = "Deletes the address and returns a 204 if the operation succeeds."
 	)
-	public boolean deleteDepartment(
-			@GraphQLName("departmentId") Long departmentId)
+	public boolean deleteAddress(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("addressId") Long addressId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
-			_departmentResourceComponentServiceObjects,
+			_addressResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			departmentResource -> departmentResource.deleteDepartment(
-				departmentId));
+			addressResource -> addressResource.deleteAddress(
+				Long.valueOf(siteKey), addressId));
 
 		return true;
 	}
 
 	@GraphQLField
-	public Response deleteDepartmentBatch(
+	public Response deleteAddressBatch(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
-			_departmentResourceComponentServiceObjects,
+			_addressResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			departmentResource -> departmentResource.deleteDepartmentBatch(
-				callbackURL, object));
+			addressResource -> addressResource.deleteAddressBatch(
+				Long.valueOf(siteKey), callbackURL, object));
 	}
 
 	@GraphQLField(
@@ -271,56 +211,48 @@ public class Mutation {
 				callbackURL, object));
 	}
 
-	@GraphQLField(description = "Create a new part.")
-	public Part createPart(
-			@GraphQLName("addressId") Long addressId,
-			@GraphQLName("part") Part part)
+	@GraphQLField(description = "Create a new department.")
+	public Department createDepartment(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("department") Department department)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
-			_partResourceComponentServiceObjects,
+			_departmentResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			partResource -> partResource.postPart(addressId, part));
-	}
-
-	@GraphQLField
-	public Response createPartBatch(
-			@GraphQLName("addressId") Long addressId,
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("object") Object object)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_partResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			partResource -> partResource.postPartBatch(
-				addressId, callbackURL, object));
+			departmentResource -> departmentResource.postDepartment(
+				Long.valueOf(siteKey), department));
 	}
 
 	@GraphQLField(
-		description = "Deletes the part and returns a 204 if the operation succeeds."
+		description = "Deletes the department and returns a 204 if the operation succeeds."
 	)
-	public boolean deletePart(@GraphQLName("partId") Long partId)
+	public boolean deleteDepartment(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("departmentId") Long departmentId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
-			_partResourceComponentServiceObjects,
+			_departmentResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			partResource -> partResource.deletePart(partId));
+			departmentResource -> departmentResource.deleteDepartment(
+				Long.valueOf(siteKey), departmentId));
 
 		return true;
 	}
 
 	@GraphQLField
-	public Response deletePartBatch(
+	public Response deleteDepartmentBatch(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
-			_partResourceComponentServiceObjects,
+			_departmentResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			partResource -> partResource.deletePartBatch(callbackURL, object));
+			departmentResource -> departmentResource.deleteDepartmentBatch(
+				Long.valueOf(siteKey), callbackURL, object));
 	}
 
 	@GraphQLField(
@@ -353,60 +285,49 @@ public class Mutation {
 			partResource -> partResource.putPartApi(partId, addressId, part));
 	}
 
-	@GraphQLField(description = "Create a new person.")
-	public Person createPerson(
-			@GraphQLName("departmentId") Long departmentId,
-			@GraphQLName("roleId") Long roleId,
-			@GraphQLName("person") Person person)
+	@GraphQLField(description = "Create a new part.")
+	public Part createPart(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("addressId") Long addressId,
+			@GraphQLName("part") Part part)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
-			_personResourceComponentServiceObjects,
+			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			personResource -> personResource.postPerson(
-				departmentId, roleId, person));
-	}
-
-	@GraphQLField
-	public Response createPersonBatch(
-			@GraphQLName("departmentId") Long departmentId,
-			@GraphQLName("roleId") Long roleId,
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("object") Object object)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_personResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			personResource -> personResource.postPersonBatch(
-				departmentId, roleId, callbackURL, object));
+			partResource -> partResource.postPart(
+				Long.valueOf(siteKey), addressId, part));
 	}
 
 	@GraphQLField(
-		description = "Deletes the person and returns a 204 if the operation succeeds."
+		description = "Deletes the part and returns a 204 if the operation succeeds."
 	)
-	public boolean deletePerson(@GraphQLName("personId") Long personId)
+	public boolean deletePart(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("partId") Long partId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
-			_personResourceComponentServiceObjects,
+			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			personResource -> personResource.deletePerson(personId));
+			partResource -> partResource.deletePart(
+				Long.valueOf(siteKey), partId));
 
 		return true;
 	}
 
 	@GraphQLField
-	public Response deletePersonBatch(
+	public Response deletePartBatch(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
-			_personResourceComponentServiceObjects,
+			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			personResource -> personResource.deletePersonBatch(
-				callbackURL, object));
+			partResource -> partResource.deletePartBatch(
+				Long.valueOf(siteKey), callbackURL, object));
 	}
 
 	@GraphQLField(
@@ -462,50 +383,50 @@ public class Mutation {
 		return true;
 	}
 
-	@GraphQLField(description = "Create a new role.")
-	public Role createRole(@GraphQLName("role") Role role) throws Exception {
-		return _applyComponentServiceObjects(
-			_roleResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			roleResource -> roleResource.postRole(role));
-	}
-
-	@GraphQLField
-	public Response createRoleBatch(
-			@GraphQLName("callbackURL") String callbackURL,
-			@GraphQLName("object") Object object)
+	@GraphQLField(description = "Create a new person.")
+	public Person createPerson(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("departmentId") Long departmentId,
+			@GraphQLName("roleId") Long roleId,
+			@GraphQLName("person") Person person)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
-			_roleResourceComponentServiceObjects,
+			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			roleResource -> roleResource.postRoleBatch(callbackURL, object));
+			personResource -> personResource.postPerson(
+				Long.valueOf(siteKey), departmentId, roleId, person));
 	}
 
 	@GraphQLField(
-		description = "Deletes the role and returns a 204 if the operation succeeds."
+		description = "Deletes the person and returns a 204 if the operation succeeds."
 	)
-	public boolean deleteRole(@GraphQLName("roleId") Long roleId)
+	public boolean deletePerson(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("personId") Long personId)
 		throws Exception {
 
 		_applyVoidComponentServiceObjects(
-			_roleResourceComponentServiceObjects,
+			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			roleResource -> roleResource.deleteRole(roleId));
+			personResource -> personResource.deletePerson(
+				Long.valueOf(siteKey), personId));
 
 		return true;
 	}
 
 	@GraphQLField
-	public Response deleteRoleBatch(
+	public Response deletePersonBatch(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("callbackURL") String callbackURL,
 			@GraphQLName("object") Object object)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
-			_roleResourceComponentServiceObjects,
+			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			roleResource -> roleResource.deleteRoleBatch(callbackURL, object));
+			personResource -> personResource.deletePersonBatch(
+				Long.valueOf(siteKey), callbackURL, object));
 	}
 
 	@GraphQLField(
@@ -544,6 +465,49 @@ public class Mutation {
 			_roleResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			roleResource -> roleResource.putRoleBatch(callbackURL, object));
+	}
+
+	@GraphQLField(description = "Create a new role.")
+	public Role createRole(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("role") Role role)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_roleResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			roleResource -> roleResource.postRole(Long.valueOf(siteKey), role));
+	}
+
+	@GraphQLField(
+		description = "Deletes the role and returns a 204 if the operation succeeds."
+	)
+	public boolean deleteRole(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("roleId") Long roleId)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_roleResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			roleResource -> roleResource.deleteRole(
+				Long.valueOf(siteKey), roleId));
+
+		return true;
+	}
+
+	@GraphQLField
+	public Response deleteRoleBatch(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_roleResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			roleResource -> roleResource.deleteRoleBatch(
+				Long.valueOf(siteKey), callbackURL, object));
 	}
 
 	private <T, R, E1 extends Throwable, E2 extends Throwable> R

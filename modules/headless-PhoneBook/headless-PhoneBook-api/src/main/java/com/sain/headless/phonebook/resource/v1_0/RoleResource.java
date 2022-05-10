@@ -38,28 +38,27 @@ public interface RoleResource {
 		return FactoryHolder.factory.create();
 	}
 
-	public Page<Role> getRolesPage(
-			String search, Filter filter, Pagination pagination, Sort[] sorts)
-		throws Exception;
-
-	public Role postRole(Role role) throws Exception;
-
-	public Response postRoleBatch(String callbackURL, Object object)
-		throws Exception;
-
-	public void deleteRole(Long roleId) throws Exception;
-
-	public Response deleteRoleBatch(String callbackURL, Object object)
-		throws Exception;
-
-	public Role getRole(Long roleId) throws Exception;
-
 	public Role patchRole(Long roleId, Role role) throws Exception;
 
 	public Role putRole(Long roleId, Role role) throws Exception;
 
 	public Response putRoleBatch(String callbackURL, Object object)
 		throws Exception;
+
+	public Page<Role> getRolesPage(
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
+		throws Exception;
+
+	public Role postRole(Long siteId, Role role) throws Exception;
+
+	public void deleteRole(Long siteId, Long roleId) throws Exception;
+
+	public Response deleteRoleBatch(
+			Long siteId, String callbackURL, Object object)
+		throws Exception;
+
+	public Role getRole(Long siteId, Long roleId) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

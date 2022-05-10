@@ -119,115 +119,7 @@ info:
     version: v1.0
 openapi: 3.0.1
 paths:
-    "/addresses":
-        get:
-            description:
-                Retrieves the list of addresses. Results can be paginated, filtered, searched, and sorted.
-            operationId: getAddressesPage
-            parameters:
-                - in: query
-                  name: filter
-                  schema:
-                      type: string
-                - in: query
-                  name: page
-                  schema:
-                      type: integer
-                - in: query
-                  name: pageSize
-                  schema:
-                      type: integer
-                - in: query
-                  name: search
-                  schema:
-                      type: string
-                - in: query
-                  name: sort
-                  schema:
-                      type: string
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Address"
-                                type: array
-                        application/xml:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Address"
-                                type: array
-                    description:
-                        desc
-            tags: ["Address"]
-        post:
-            description:
-                Create a new address.
-            operationId: postAddress
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/Address"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/Address"
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Address"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Address"
-                    description:
-                        desc
-            tags: ["Address"]
     "/addresses/{addressId}":
-        delete:
-            description:
-                Deletes the address and returns a 204 if the operation succeeds.
-            operationId: deleteAddress
-            parameters:
-                - in: path
-                  name: addressId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                204:
-                    content:
-                        application/json: {}
-                        application/xml: {}
-                    description:
-                        desc
-            tags: ["Address"]
-        get:
-            description:
-                Retrieves the address via its ID.
-            operationId: getAddress
-            parameters:
-                - in: path
-                  name: addressId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Address"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Address"
-                    description:
-                        desc
-            tags: ["Address"]
         patch:
             description:
                 Replaces the address with the information sent in the request body. Any missing fields are deleted,
@@ -259,7 +151,8 @@ paths:
                                 $ref: "#/components/schemas/Address"
                     description:
                         desc
-            tags: ["Address"]
+            tags:
+                - Address
         put:
             description:
                 Replaces the address with the information sent in the request body. Any missing fields are deleted,
@@ -291,116 +184,9 @@ paths:
                                 $ref: "#/components/schemas/Address"
                     description:
                         Default Response
-            tags: ["Address"]
-    "/departments":
-        get:
-            description:
-                Retrieves the list of departments. Results can be paginated, filtered, searched, and sorted.
-            operationId: getDepartmentsPage
-            parameters:
-                - in: query
-                  name: filter
-                  schema:
-                      type: string
-                - in: query
-                  name: page
-                  schema:
-                      type: integer
-                - in: query
-                  name: pageSize
-                  schema:
-                      type: integer
-                - in: query
-                  name: search
-                  schema:
-                      type: string
-                - in: query
-                  name: sort
-                  schema:
-                      type: string
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Department"
-                                type: array
-                        application/xml:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Department"
-                                type: array
-                    description:
-                        desc
-            tags: ["Department"]
-        post:
-            description:
-                Create a new department.
-            operationId: postDepartment
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/Department"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/Department"
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Department"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Department"
-                    description:
-                        desc
-            tags: ["Department"]
+            tags:
+                - Address
     "/departments/{departmentId}":
-        delete:
-            description:
-                Deletes the department and returns a 204 if the operation succeeds.
-            operationId: deleteDepartment
-            parameters:
-                - in: path
-                  name: departmentId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                204:
-                    content:
-                        application/json: {}
-                        application/xml: {}
-                    description:
-                        desc
-            tags: ["Department"]
-        get:
-            description:
-                Retrieves the department via its ID.
-            operationId: getDepartment
-            parameters:
-                - in: path
-                  name: departmentId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Department"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Department"
-                    description:
-                        desc
-            tags: ["Department"]
         patch:
             description:
                 Replaces the department with the information sent in the request body. Any missing fields are deleted,
@@ -465,121 +251,7 @@ paths:
                     description:
                         Default Response
             tags: ["Department"]
-    "/parts":
-        get:
-            description:
-                Retrieves the list of parts. Results can be paginated, filtered, searched, and sorted.
-            operationId: getPartsPage
-            parameters:
-                - in: query
-                  name: filter
-                  schema:
-                      type: string
-                - in: query
-                  name: page
-                  schema:
-                      type: integer
-                - in: query
-                  name: pageSize
-                  schema:
-                      type: integer
-                - in: query
-                  name: search
-                  schema:
-                      type: string
-                - in: query
-                  name: sort
-                  schema:
-                      type: string
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Part"
-                                type: array
-                        application/xml:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Part"
-                                type: array
-                    description:
-                        desc
-            tags: ["Part"]
-        post:
-            description:
-                Create a new part.
-            operationId: postPart
-            parameters:
-                - in: query
-                  name: addressId
-                  schema:
-                      format: int64
-                      type: integer
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/Part"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/Part"
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Part"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Part"
-                    description:
-                        desc
-            tags: ["Part"]
     "/parts/{partId}":
-        delete:
-            description:
-                Deletes the part and returns a 204 if the operation succeeds.
-            operationId: deletePart
-            parameters:
-                - in: path
-                  name: partId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                204:
-                    content:
-                        application/json: {}
-                        application/xml: {}
-                    description:
-                        desc
-            tags: ["Part"]
-        get:
-            description:
-                Retrieves the part via its ID.
-            operationId: getPart
-            parameters:
-                - in: path
-                  name: partId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Part"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Part"
-                    description:
-                        desc
-            tags: ["Part"]
         patch:
             description:
                 Replaces the part with the information sent in the request body. Any missing fields are deleted, unless
@@ -654,136 +326,7 @@ paths:
                     description:
                         Default Response
             tags: ["Part"]
-    "/persons":
-        get:
-            description:
-                Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted.
-            operationId: getPersonsPage
-            parameters:
-                - in: query
-                  name: departmentId
-                  schema:
-                      format: int64
-                      type: integer
-                - in: query
-                  name: roleId
-                  schema:
-                      format: int64
-                      type: integer
-                - in: query
-                  name: filter
-                  schema:
-                      type: string
-                - in: query
-                  name: page
-                  schema:
-                      type: integer
-                - in: query
-                  name: pageSize
-                  schema:
-                      type: integer
-                - in: query
-                  name: search
-                  schema:
-                      type: string
-                - in: query
-                  name: sort
-                  schema:
-                      type: string
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Person"
-                                type: array
-                        application/xml:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Person"
-                                type: array
-                    description:
-                        desc
-            tags: ["Person"]
-        post:
-            description:
-                Create a new person.
-            operationId: postPerson
-            parameters:
-                - in: query
-                  name: departmentId
-                  schema:
-                      format: int64
-                      type: integer
-                - in: query
-                  name: roleId
-                  schema:
-                      format: int64
-                      type: integer
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/Person"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/Person"
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Person"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Person"
-                    description:
-                        desc
-            tags: ["Person"]
     "/persons/{personId}":
-        delete:
-            description:
-                Deletes the person and returns a 204 if the operation succeeds.
-            operationId: deletePerson
-            parameters:
-                - in: path
-                  name: personId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                204:
-                    content:
-                        application/json: {}
-                        application/xml: {}
-                    description:
-                        desc
-            tags: ["Person"]
-        get:
-            description:
-                Retrieves the person via its ID.
-            operationId: getPerson
-            parameters:
-                - in: path
-                  name: personId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Person"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Person"
-                    description:
-                        desc
-            tags: ["Person"]
         patch:
             description:
                 Replaces the person with the information sent in the request body. Any missing fields are deleted,
@@ -868,115 +411,7 @@ paths:
                     description:
                         Default Response
             tags: ["Person"]
-    "/roles":
-        get:
-            description:
-                Retrieves the list of roles. Results can be paginated, filtered, searched, and sorted.
-            operationId: getRolesPage
-            parameters:
-                - in: query
-                  name: filter
-                  schema:
-                      type: string
-                - in: query
-                  name: page
-                  schema:
-                      type: integer
-                - in: query
-                  name: pageSize
-                  schema:
-                      type: integer
-                - in: query
-                  name: search
-                  schema:
-                      type: string
-                - in: query
-                  name: sort
-                  schema:
-                      type: string
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Role"
-                                type: array
-                        application/xml:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Role"
-                                type: array
-                    description:
-                        desc
-            tags: ["Role"]
-        post:
-            description:
-                Create a new role.
-            operationId: postRole
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/Role"
-                    application/xml:
-                        schema:
-                            $ref: "#/components/schemas/Role"
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Role"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Role"
-                    description:
-                        desc
-            tags: ["Role"]
     "/roles/{roleId}":
-        delete:
-            description:
-                Deletes the role and returns a 204 if the operation succeeds.
-            operationId: deleteRole
-            parameters:
-                - in: path
-                  name: roleId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                204:
-                    content:
-                        application/json: {}
-                        application/xml: {}
-                    description:
-                        desc
-            tags: ["Role"]
-        get:
-            description:
-                Retrieves the role via its ID.
-            operationId: getRole
-            parameters:
-                - in: path
-                  name: roleId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Role"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Role"
-                    description:
-                        desc
-            tags: ["Role"]
         patch:
             description:
                 Replaces the role with the information sent in the request body. Any missing fields are deleted, unless
@@ -1041,6 +476,276 @@ paths:
                     description:
                         Default Response
             tags: ["Role"]
+    "/sites/{siteId}/addresses":
+        get:
+            description:
+                Retrieves the list of addresses. Results can be paginated, filtered, searched, and sorted.
+            operationId: getAddressesPage
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: filter
+                  schema:
+                      type: string
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  schema:
+                      type: integer
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Address"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Address"
+                                type: array
+                    description:
+                        desc
+            tags: ["Address"]
+        post:
+            description:
+                Create a new address.
+            operationId: postAddress
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Address"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Address"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Address"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Address"
+                    description:
+                        desc
+            tags: ["Address"]
+    "/sites/{siteId}/addresses/{addressId}":
+        delete:
+            description:
+                Deletes the address and returns a 204 if the operation succeeds.
+            operationId: deleteAddress
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: path
+                  name: addressId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+                    description:
+                        desc
+            tags:
+                - Address
+        get:
+            description:
+                Retrieves the address via its ID.
+            operationId: getAddress
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: path
+                  name: addressId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Address"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Address"
+                    description:
+                        desc
+            tags:
+                - Address
+    "/sites/{siteId}/departments":
+        get:
+            description:
+                Retrieves the list of departments. Results can be paginated, filtered, searched, and sorted.
+            operationId: getDepartmentsPage
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: filter
+                  schema:
+                      type: string
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  schema:
+                      type: integer
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Department"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Department"
+                                type: array
+                    description:
+                        desc
+            tags: ["Department"]
+        post:
+            description:
+                Create a new department.
+            operationId: postDepartment
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Department"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Department"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Department"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Department"
+                    description:
+                        desc
+            tags: ["Department"]
+    "/sites/{siteId}/departments/{departmentId}":
+        delete:
+            description:
+                Deletes the department and returns a 204 if the operation succeeds.
+            operationId: deleteDepartment
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: path
+                  name: departmentId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+                    description:
+                        desc
+            tags: ["Department"]
+        get:
+            description:
+                Retrieves the department via its ID.
+            operationId: getDepartment
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: path
+                  name: departmentId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Department"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Department"
+                    description:
+                        desc
+            tags: ["Department"]
     "/sites/{siteId}/excel":
         get:
             description:
@@ -1075,7 +780,7 @@ paths:
                                 type: string
                     description:
                         ""
-            tags: [ "Person" ]
+            tags: ["Person"]
         post:
             description:
                 Create Person from excel
@@ -1099,8 +804,435 @@ paths:
             responses:
                 200:
                     content:
-                        application/json: { }
-                        application/xml: { }
+                        application/json: {}
+                        application/xml: {}
                     description:
                         "excel file successfully imported"
-            tags: [ "Person" ]
+            tags: ["Person"]
+    "/sites/{siteId}/parts":
+        get:
+            description:
+                Retrieves the list of parts. Results can be paginated, filtered, searched, and sorted.
+            operationId: getPartsPage
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: filter
+                  schema:
+                      type: string
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  schema:
+                      type: integer
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Part"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Part"
+                                type: array
+                    description:
+                        desc
+            tags: ["Part"]
+        post:
+            description:
+                Create a new part.
+            operationId: postPart
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: addressId
+                  schema:
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Part"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Part"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Part"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Part"
+                    description:
+                        desc
+            tags: ["Part"]
+    "/sites/{siteId}/parts/{partId}":
+        delete:
+            description:
+                Deletes the part and returns a 204 if the operation succeeds.
+            operationId: deletePart
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: path
+                  name: partId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+                    description:
+                        desc
+            tags: ["Part"]
+        get:
+            description:
+                Retrieves the part via its ID.
+            operationId: getPart
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: path
+                  name: partId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Part"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Part"
+                    description:
+                        desc
+            tags: ["Part"]
+    "/sites/{siteId}/persons":
+        get:
+            description:
+                Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted.
+            operationId: getPersonsPage
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: departmentId
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: roleId
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: filter
+                  schema:
+                      type: string
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  schema:
+                      type: integer
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Person"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Person"
+                                type: array
+                    description:
+                        desc
+            tags: ["Person"]
+        post:
+            description:
+                Create a new person.
+            operationId: postPerson
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: departmentId
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: roleId
+                  schema:
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Person"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Person"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Person"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Person"
+                    description:
+                        desc
+            tags: ["Person"]
+    "/sites/{siteId}/persons/{personId}":
+        delete:
+            description:
+                Deletes the person and returns a 204 if the operation succeeds.
+            operationId: deletePerson
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: path
+                  name: personId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+                    description:
+                        desc
+            tags: ["Person"]
+        get:
+            description:
+                Retrieves the person via its ID.
+            operationId: getPerson
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: path
+                  name: personId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Person"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Person"
+                    description:
+                        desc
+            tags: ["Person"]
+    "/sites/{siteId}/roles":
+        get:
+            description:
+                Retrieves the list of roles. Results can be paginated, filtered, searched, and sorted.
+            operationId: getRolesPage
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: query
+                  name: filter
+                  schema:
+                      type: string
+                - in: query
+                  name: page
+                  schema:
+                      type: integer
+                - in: query
+                  name: pageSize
+                  schema:
+                      type: integer
+                - in: query
+                  name: search
+                  schema:
+                      type: string
+                - in: query
+                  name: sort
+                  schema:
+                      type: string
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Role"
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Role"
+                                type: array
+                    description:
+                        desc
+            tags: ["Role"]
+        post:
+            description:
+                Create a new role.
+            operationId: postRole
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Role"
+                    application/xml:
+                        schema:
+                            $ref: "#/components/schemas/Role"
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Role"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Role"
+                    description:
+                        desc
+            tags: ["Role"]
+    "/sites/{siteId}/roles/{roleId}":
+        delete:
+            description:
+                Deletes the role and returns a 204 if the operation succeeds.
+            operationId: deleteRole
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: path
+                  name: roleId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+                    description:
+                        desc
+            tags: ["Role"]
+        get:
+            description:
+                Retrieves the role via its ID.
+            operationId: getRole
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+                - in: path
+                  name: roleId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Role"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Role"
+                    description:
+                        desc
+            tags: ["Role"]
