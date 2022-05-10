@@ -32,6 +32,8 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.validation.constraints.NotEmpty;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -255,10 +257,11 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {personsExcel(filter: ___, search: ___, sorts: ___){}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {personsExcel(filter: ___, search: ___, siteKey: ___, sorts: ___){}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves all Persons to excel")
 	public Response personsExcel(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("search") String search,
 			@GraphQLName("filter") String filterString,
 			@GraphQLName("sort") String sortsString)
@@ -268,7 +271,8 @@ public class Query {
 			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			personResource -> personResource.getPersonsExcel(
-				search, _filterBiFunction.apply(personResource, filterString),
+				Long.valueOf(siteKey), search,
+				_filterBiFunction.apply(personResource, filterString),
 				_sortsBiFunction.apply(personResource, sortsString)));
 	}
 

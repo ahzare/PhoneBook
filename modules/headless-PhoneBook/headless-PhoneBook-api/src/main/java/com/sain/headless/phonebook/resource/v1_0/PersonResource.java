@@ -66,10 +66,12 @@ public interface PersonResource {
 			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
-	public Response getPersonsExcel(String search, Filter filter, Sort[] sorts)
+	public Response getPersonsExcel(
+			Long siteId, String search, Filter filter, Sort[] sorts)
 		throws Exception;
 
-	public Person postPersonExcel(MultipartBody multipartBody) throws Exception;
+	public void postPersonExcel(Long siteId, MultipartBody multipartBody)
+		throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

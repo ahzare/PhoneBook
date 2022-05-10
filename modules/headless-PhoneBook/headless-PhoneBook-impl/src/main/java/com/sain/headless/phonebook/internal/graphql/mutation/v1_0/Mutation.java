@@ -28,6 +28,8 @@ import javax.annotation.Generated;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.validation.constraints.NotEmpty;
+
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 
@@ -444,16 +446,20 @@ public class Mutation {
 	@GraphQLField(description = "Create Person from excel")
 	@GraphQLName(
 		description = "Create Person from excel",
-		value = "postPersonExcelMultipartBody"
+		value = "postPersonExcelSiteIdMultipartBody"
 	)
-	public Person createPersonExcel(
+	public boolean createPersonExcel(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("multipartBody") MultipartBody multipartBody)
 		throws Exception {
 
-		return _applyComponentServiceObjects(
+		_applyVoidComponentServiceObjects(
 			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			personResource -> personResource.postPersonExcel(multipartBody));
+			personResource -> personResource.postPersonExcel(
+				Long.valueOf(siteKey), multipartBody));
+
+		return true;
 	}
 
 	@GraphQLField(description = "Create a new role.")

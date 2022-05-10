@@ -1041,12 +1041,18 @@ paths:
                     description:
                         Default Response
             tags: ["Role"]
-    "/excel":
+    "/sites/{siteId}/excel":
         get:
             description:
                 Retrieves all Persons to excel
             operationId: getPersonsExcel
             parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
                 - in: query
                   name: filter
                   required: false
@@ -1074,6 +1080,13 @@ paths:
             description:
                 Create Person from excel
             operationId: postPersonExcel
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
             requestBody:
                 content:
                     multipart/form-data:
@@ -1086,12 +1099,8 @@ paths:
             responses:
                 200:
                     content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Person"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Person"
+                        application/json: { }
+                        application/xml: { }
                     description:
-                        "Person successfully created"
+                        "excel file successfully imported"
             tags: [ "Person" ]

@@ -323,22 +323,24 @@ public abstract class BasePersonResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/excel'  -u 'test@liferay.com:test'
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/excel'  -u 'test@liferay.com:test'
 	 */
 	@GET
 	@Operation(description = "Retrieves all Persons to excel")
 	@Override
 	@Parameters(
 		value = {
+			@Parameter(in = ParameterIn.PATH, name = "siteId"),
 			@Parameter(in = ParameterIn.QUERY, name = "search"),
 			@Parameter(in = ParameterIn.QUERY, name = "filter"),
 			@Parameter(in = ParameterIn.QUERY, name = "sort")
 		}
 	)
-	@Path("/excel")
+	@Path("/sites/{siteId}/excel")
 	@Produces("application/octet-stream")
 	@Tags(value = {@Tag(name = "Person")})
 	public Response getPersonsExcel(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@Parameter(hidden = true) @QueryParam("search") String search,
 			@Context Filter filter, @Context Sort[] sorts)
 		throws Exception {
@@ -351,19 +353,20 @@ public abstract class BasePersonResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/excel'  -u 'test@liferay.com:test'
+	 * curl -X 'POST' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/excel'  -u 'test@liferay.com:test'
 	 */
 	@Consumes("multipart/form-data")
 	@Operation(description = "Create Person from excel")
 	@Override
-	@Path("/excel")
+	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
+	@Path("/sites/{siteId}/excel")
 	@POST
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Person")})
-	public Person postPersonExcel(MultipartBody multipartBody)
+	public void postPersonExcel(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			MultipartBody multipartBody)
 		throws Exception {
-
-		return new Person();
 	}
 
 	@Override

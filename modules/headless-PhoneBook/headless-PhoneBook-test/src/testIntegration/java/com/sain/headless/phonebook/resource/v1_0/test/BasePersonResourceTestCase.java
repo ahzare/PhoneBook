@@ -40,8 +40,6 @@ import com.sain.headless.phonebook.client.pagination.Pagination;
 import com.sain.headless.phonebook.client.resource.v1_0.PersonResource;
 import com.sain.headless.phonebook.client.serdes.v1_0.PersonSerDes;
 
-import java.io.File;
-
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -622,23 +620,21 @@ public abstract class BasePersonResourceTestCase {
 
 	@Test
 	public void testPostPersonExcel() throws Exception {
-		Person randomPerson = randomPerson();
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Person person = testPostPersonExcel_addPerson();
 
-		Map<String, File> multipartFiles = getMultipartFiles();
+		assertHttpResponseStatusCode(
+			204,
+			personResource.postPersonExcelHttpResponse(
+				testGroup.getGroupId(), null));
 
-		Person postPerson = testPostPersonExcel_addPerson(
-			randomPerson, multipartFiles);
-
-		assertEquals(randomPerson, postPerson);
-		assertValid(postPerson);
-
-		assertValid(postPerson, multipartFiles);
+		assertHttpResponseStatusCode(
+			404,
+			personResource.postPersonExcelHttpResponse(
+				testGroup.getGroupId(), null));
 	}
 
-	protected Person testPostPersonExcel_addPerson(
-			Person person, Map<String, File> multipartFiles)
-		throws Exception {
-
+	protected Person testPostPersonExcel_addPerson() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}
@@ -792,13 +788,6 @@ public abstract class BasePersonResourceTestCase {
 		}
 
 		Assert.assertTrue(valid);
-	}
-
-	protected void assertValid(Person person, Map<String, File> multipartFiles)
-		throws Exception {
-
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
 	}
 
 	protected void assertValid(Page<Person> page) {
@@ -1165,11 +1154,6 @@ public abstract class BasePersonResourceTestCase {
 
 		throw new IllegalArgumentException(
 			"Invalid entity field " + entityFieldName);
-	}
-
-	protected Map<String, File> getMultipartFiles() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
 	}
 
 	protected String invoke(String query) throws Exception {

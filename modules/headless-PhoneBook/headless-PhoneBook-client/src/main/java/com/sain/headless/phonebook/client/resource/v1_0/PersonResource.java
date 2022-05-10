@@ -87,19 +87,19 @@ public interface PersonResource {
 		throws Exception;
 
 	public void getPersonsExcel(
-			String search, String filterString, String sortString)
+			Long siteId, String search, String filterString, String sortString)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse getPersonsExcelHttpResponse(
-			String search, String filterString, String sortString)
+			Long siteId, String search, String filterString, String sortString)
 		throws Exception;
 
-	public Person postPersonExcel(
-			Person person, Map<String, File> multipartFiles)
+	public void postPersonExcel(
+			Long siteId, Person person, Map<String, File> multipartFiles)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse postPersonExcelHttpResponse(
-			Person person, Map<String, File> multipartFiles)
+			Long siteId, Person person, Map<String, File> multipartFiles)
 		throws Exception;
 
 	public static class Builder {
@@ -877,11 +877,12 @@ public interface PersonResource {
 		}
 
 		public void getPersonsExcel(
-				String search, String filterString, String sortString)
+				Long siteId, String search, String filterString,
+				String sortString)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = getPersonsExcelHttpResponse(
-				search, filterString, sortString);
+				siteId, search, filterString, sortString);
 
 			String content = httpResponse.getContent();
 
@@ -910,7 +911,8 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse getPersonsExcelHttpResponse(
-				String search, String filterString, String sortString)
+				Long siteId, String search, String filterString,
+				String sortString)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -948,7 +950,10 @@ public interface PersonResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/headless-PhoneBook/v1.0/excel");
+					_builder._port +
+						"/o/headless-PhoneBook/v1.0/sites/{siteId}/excel");
+
+			httpInvoker.path("siteId", siteId);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);
@@ -956,12 +961,12 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public Person postPersonExcel(
-				Person person, Map<String, File> multipartFiles)
+		public void postPersonExcel(
+				Long siteId, Person person, Map<String, File> multipartFiles)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = postPersonExcelHttpResponse(
-				person, multipartFiles);
+				siteId, person, multipartFiles);
 
 			String content = httpResponse.getContent();
 
@@ -989,7 +994,7 @@ public interface PersonResource {
 			}
 
 			try {
-				return PersonSerDes.toDTO(content);
+				return;
 			}
 			catch (Exception e) {
 				_logger.log(
@@ -1001,7 +1006,7 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse postPersonExcelHttpResponse(
-				Person person, Map<String, File> multipartFiles)
+				Long siteId, Person person, Map<String, File> multipartFiles)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -1035,7 +1040,10 @@ public interface PersonResource {
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port + "/o/headless-PhoneBook/v1.0/excel");
+					_builder._port +
+						"/o/headless-PhoneBook/v1.0/sites/{siteId}/excel");
+
+			httpInvoker.path("siteId", siteId);
 
 			httpInvoker.userNameAndPassword(
 				_builder._login + ":" + _builder._password);

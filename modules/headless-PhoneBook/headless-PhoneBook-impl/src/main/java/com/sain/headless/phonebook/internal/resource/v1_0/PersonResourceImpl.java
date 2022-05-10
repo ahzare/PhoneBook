@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
+import com.liferay.portal.vulcan.multipart.MultipartBody;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.SearchUtil;
@@ -274,6 +275,11 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
 			throw exception;
 		}
+	}
+
+	@Override
+	public void postPersonExcel(Long siteId, MultipartBody multipartBody) throws Exception {
+
 	}
 
 	protected ServiceContext getServiceContext() throws PortalException {
