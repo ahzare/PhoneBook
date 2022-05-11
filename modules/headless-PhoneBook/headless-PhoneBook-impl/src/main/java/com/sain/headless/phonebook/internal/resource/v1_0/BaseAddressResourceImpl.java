@@ -82,7 +82,7 @@ public abstract class BaseAddressResourceImpl
 	@Path("/addresses/{addressId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Address")})
-	public Address getAddressApi(
+	public Address getAddress(
 			@NotNull @Parameter(hidden = true) @PathParam("addressId") Long
 				addressId)
 		throws Exception {
@@ -111,7 +111,15 @@ public abstract class BaseAddressResourceImpl
 			Address address)
 		throws Exception {
 
-		return new Address();
+		Address existingAddress = getAddress(addressId);
+
+		if (address.getName() != null) {
+			existingAddress.setName(address.getName());
+		}
+
+		preparePatch(address, existingAddress);
+
+		return putAddress(addressId, existingAddress);
 	}
 
 	/**
@@ -403,6 +411,9 @@ public abstract class BaseAddressResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
+	}
+
+	protected void preparePatch(Address address, Address existingAddress) {
 	}
 
 	protected <T, R> List<R> transform(

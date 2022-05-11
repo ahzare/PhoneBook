@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.util.DateUtil;
 
 import com.sain.phonebook.exception.NoSuchPartException;
 import com.sain.phonebook.model.Part;
-import com.sain.phonebook.model.Person;
 import com.sain.phonebook.service.base.PartLocalServiceBaseImpl;
 
 import java.util.Date;

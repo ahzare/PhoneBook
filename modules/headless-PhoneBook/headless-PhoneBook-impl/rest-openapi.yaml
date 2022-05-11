@@ -120,6 +120,30 @@ info:
 openapi: 3.0.1
 paths:
     "/addresses/{addressId}":
+        get:
+            description:
+                Retrieves the address via its ID.
+            operationId: getAddress
+            parameters:
+                - in: path
+                  name: addressId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Address"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Address"
+                    description:
+                        desc
+            tags:
+                - Address
         patch:
             description:
                 Replaces the address with the information sent in the request body. Any missing fields are deleted,
@@ -186,13 +210,14 @@ paths:
                         Default Response
             tags:
                 - Address
+    "/departments/{departmentId}":
         get:
             description:
-                Retrieves the address via its ID.
-            operationId: getAddressApi
+                Retrieves the department via its ID.
+            operationId: getDepartment
             parameters:
                 - in: path
-                  name: addressId
+                  name: departmentId
                   required: true
                   schema:
                       format: int64
@@ -202,15 +227,13 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/Address"
+                                $ref: "#/components/schemas/Department"
                         application/xml:
                             schema:
-                                $ref: "#/components/schemas/Address"
+                                $ref: "#/components/schemas/Department"
                     description:
                         desc
-            tags:
-                - Address
-    "/departments/{departmentId}":
+            tags: ["Department"]
         patch:
             description:
                 Replaces the department with the information sent in the request body. Any missing fields are deleted,
@@ -275,13 +298,14 @@ paths:
                     description:
                         Default Response
             tags: ["Department"]
+    "/parts/{partId}":
         get:
             description:
-                Retrieves the department via its ID.
-            operationId: getDepartmentApi
+                Retrieves the part via its ID.
+            operationId: getPart
             parameters:
                 - in: path
-                  name: departmentId
+                  name: partId
                   required: true
                   schema:
                       format: int64
@@ -291,19 +315,18 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: "#/components/schemas/Department"
+                                $ref: "#/components/schemas/Part"
                         application/xml:
                             schema:
-                                $ref: "#/components/schemas/Department"
+                                $ref: "#/components/schemas/Part"
                     description:
                         desc
-            tags: ["Department"]
-    "/parts/{partId}":
+            tags: ["Part"]
         patch:
             description:
                 Replaces the part with the information sent in the request body. Any missing fields are deleted, unless
                 they are required.
-            operationId: patchPartApi
+            operationId: patchPart
             parameters:
                 - in: path
                   name: partId
@@ -373,29 +396,6 @@ paths:
                     description:
                         Default Response
             tags: ["Part"]
-        get:
-            description:
-                Retrieves the part via its ID.
-            operationId: getPart
-            parameters:
-                - in: path
-                  name: partId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Part"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Part"
-                    description:
-                        desc
-            tags: ["Part"]
     "/persons/{personId}":
         get:
             description:
@@ -424,7 +424,7 @@ paths:
             description:
                 Replaces the person with the information sent in the request body. Any missing fields are deleted,
                 unless they are required.
-            operationId: patchPersonApi
+            operationId: patchPerson
             parameters:
                 - in: path
                   name: personId
@@ -505,6 +505,29 @@ paths:
                         Default Response
             tags: ["Person"]
     "/roles/{roleId}":
+        get:
+            description:
+                Retrieves the role via its ID.
+            operationId: getRole
+            parameters:
+                - in: path
+                  name: roleId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Role"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Role"
+                    description:
+                        desc
+            tags: ["Role"]
         patch:
             description:
                 Replaces the role with the information sent in the request body. Any missing fields are deleted, unless
@@ -1184,31 +1207,6 @@ paths:
             responses:
                 204:
                     content:
-                        application/json: {}
-                        application/xml: {}
-                    description:
-                        desc
-            tags: ["Role"]
-        get:
-            description:
-                Retrieves the role via its ID.
-            operationId: getRoleApi
-            parameters:
-                - in: path
-                  name: siteId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-                - in: path
-                  name: roleId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Role"
@@ -1216,5 +1214,5 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Role"
                     description:
-                        desc
+                        "Role successfully delete"
             tags: ["Role"]

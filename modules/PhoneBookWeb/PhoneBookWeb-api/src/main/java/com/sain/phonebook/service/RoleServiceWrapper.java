@@ -40,10 +40,10 @@ public class RoleServiceWrapper
 	}
 
 	@Override
-	public void deleteRole(long roleId)
+	public com.sain.phonebook.model.Role deleteRole(long roleId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_roleService.deleteRole(roleId);
+		return _roleService.deleteRole(roleId);
 	}
 
 	@Override

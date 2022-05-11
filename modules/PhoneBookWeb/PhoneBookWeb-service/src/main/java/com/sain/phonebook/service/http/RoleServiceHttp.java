@@ -92,7 +92,8 @@ public class RoleServiceHttp {
 		}
 	}
 
-	public static void deleteRole(HttpPrincipal httpPrincipal, long roleId)
+	public static com.sain.phonebook.model.Role deleteRole(
+			HttpPrincipal httpPrincipal, long roleId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
@@ -102,8 +103,10 @@ public class RoleServiceHttp {
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, roleId);
 
+			Object returnObj = null;
+
 			try {
-				TunnelUtil.invoke(httpPrincipal, methodHandler);
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
 				if (exception instanceof
@@ -116,6 +119,8 @@ public class RoleServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
+
+			return (com.sain.phonebook.model.Role)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {

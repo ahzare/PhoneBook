@@ -56,7 +56,7 @@ public interface RoleService extends BaseService {
 	public Role addRole(String name, ServiceContext serviceContext)
 		throws PortalException;
 
-	public void deleteRole(long roleId) throws PortalException;
+	public Role deleteRole(long roleId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Role> getAll();

@@ -26,10 +26,9 @@ public interface DepartmentResource {
 		return new Builder();
 	}
 
-	public Department getDepartmentApi(Long departmentId) throws Exception;
+	public Department getDepartment(Long departmentId) throws Exception;
 
-	public HttpInvoker.HttpResponse getDepartmentApiHttpResponse(
-			Long departmentId)
+	public HttpInvoker.HttpResponse getDepartmentHttpResponse(Long departmentId)
 		throws Exception;
 
 	public Department patchDepartment(Long departmentId, Department department)
@@ -148,9 +147,9 @@ public interface DepartmentResource {
 
 	public static class DepartmentResourceImpl implements DepartmentResource {
 
-		public Department getDepartmentApi(Long departmentId) throws Exception {
-			HttpInvoker.HttpResponse httpResponse =
-				getDepartmentApiHttpResponse(departmentId);
+		public Department getDepartment(Long departmentId) throws Exception {
+			HttpInvoker.HttpResponse httpResponse = getDepartmentHttpResponse(
+				departmentId);
 
 			String content = httpResponse.getContent();
 
@@ -189,7 +188,7 @@ public interface DepartmentResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getDepartmentApiHttpResponse(
+		public HttpInvoker.HttpResponse getDepartmentHttpResponse(
 				Long departmentId)
 			throws Exception {
 

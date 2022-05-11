@@ -244,8 +244,28 @@ public abstract class BasePartResourceTestCase {
 	}
 
 	@Test
-	public void testPatchPartApi() throws Exception {
-		Assert.assertTrue(false);
+	public void testPatchPart() throws Exception {
+		Part postPart = testPatchPart_addPart();
+
+		Part randomPatchPart = randomPatchPart();
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Part patchPart = partResource.patchPart(
+			postPart.getId(), randomPatchPart);
+
+		Part expectedPatchPart = postPart.clone();
+
+		_beanUtilsBean.copyProperties(expectedPatchPart, randomPatchPart);
+
+		Part getPart = partResource.getPart(patchPart.getId());
+
+		assertEquals(expectedPatchPart, getPart);
+		assertValid(getPart);
+	}
+
+	protected Part testPatchPart_addPart() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Test

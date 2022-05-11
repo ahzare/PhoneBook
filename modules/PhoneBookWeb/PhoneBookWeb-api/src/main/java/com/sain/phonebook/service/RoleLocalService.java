@@ -119,6 +119,7 @@ public interface RoleLocalService
 	 * @throws PortalException if a role with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Role deleteRole(long roleId) throws PortalException;
 
 	/**
@@ -132,7 +133,6 @@ public interface RoleLocalService
 	 * @return the role that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Role deleteRole(Role role);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

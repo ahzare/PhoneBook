@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.util.DateUtil;
 
 import com.sain.phonebook.exception.NoSuchAddressException;
 import com.sain.phonebook.model.Address;
-import com.sain.phonebook.model.Person;
 import com.sain.phonebook.service.base.AddressLocalServiceBaseImpl;
 
 import java.util.Date;

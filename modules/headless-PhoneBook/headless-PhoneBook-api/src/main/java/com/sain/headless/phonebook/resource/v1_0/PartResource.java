@@ -39,7 +39,7 @@ public interface PartResource {
 
 	public Part getPart(Long partId) throws Exception;
 
-	public Part patchPartApi(Long partId, Long addressId, Part part)
+	public Part patchPart(Long partId, Long addressId, Part part)
 		throws Exception;
 
 	public Part putPartApi(Long partId, Long addressId, Part part)

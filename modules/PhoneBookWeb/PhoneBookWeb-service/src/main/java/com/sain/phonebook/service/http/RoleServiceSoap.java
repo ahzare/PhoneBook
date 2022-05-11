@@ -82,9 +82,14 @@ public class RoleServiceSoap {
 		}
 	}
 
-	public static void deleteRole(long roleId) throws RemoteException {
+	public static com.sain.phonebook.model.RoleSoap deleteRole(long roleId)
+		throws RemoteException {
+
 		try {
-			RoleServiceUtil.deleteRole(roleId);
+			com.sain.phonebook.model.Role returnValue =
+				RoleServiceUtil.deleteRole(roleId);
+
+			return com.sain.phonebook.model.RoleSoap.toSoapModel(returnValue);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);

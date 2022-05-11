@@ -38,7 +38,7 @@ public interface AddressResource {
 		return FactoryHolder.factory.create();
 	}
 
-	public Address getAddressApi(Long addressId) throws Exception;
+	public Address getAddress(Long addressId) throws Exception;
 
 	public Address patchAddress(Long addressId, Address address)
 		throws Exception;

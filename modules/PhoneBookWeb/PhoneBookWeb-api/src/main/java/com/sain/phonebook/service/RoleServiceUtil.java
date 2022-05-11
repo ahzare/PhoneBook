@@ -47,8 +47,8 @@ public class RoleServiceUtil {
 		return getService().addRole(name, serviceContext);
 	}
 
-	public static void deleteRole(long roleId) throws PortalException {
-		getService().deleteRole(roleId);
+	public static Role deleteRole(long roleId) throws PortalException {
+		return getService().deleteRole(roleId);
 	}
 
 	public static List<Role> getAll() {

@@ -38,6 +38,8 @@ public interface RoleResource {
 		return FactoryHolder.factory.create();
 	}
 
+	public Role getRole(Long roleId) throws Exception;
+
 	public Role patchRole(Long roleId, Role role) throws Exception;
 
 	public Role putRole(Long roleId, Role role) throws Exception;
@@ -52,9 +54,7 @@ public interface RoleResource {
 
 	public Role postRole(Long siteId, Role role) throws Exception;
 
-	public void deleteRoleApi(Long siteId, Long roleId) throws Exception;
-
-	public Role getRoleApi(Long siteId, Long roleId) throws Exception;
+	public Role deleteRoleApi(Long siteId, Long roleId) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

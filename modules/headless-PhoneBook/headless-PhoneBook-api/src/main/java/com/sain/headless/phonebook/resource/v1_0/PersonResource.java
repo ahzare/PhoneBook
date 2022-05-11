@@ -41,7 +41,7 @@ public interface PersonResource {
 
 	public Person getPerson(Long personId) throws Exception;
 
-	public Person patchPersonApi(
+	public Person patchPerson(
 			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 

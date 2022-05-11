@@ -108,7 +108,7 @@ public abstract class BasePartResourceImpl
 	@Path("/parts/{partId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Part")})
-	public Part patchPartApi(
+	public Part patchPart(
 			@NotNull @Parameter(hidden = true) @PathParam("partId") Long partId,
 			@Parameter(hidden = true) @QueryParam("addressId") Long addressId,
 			Part part)

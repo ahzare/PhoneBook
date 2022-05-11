@@ -16,7 +16,6 @@ package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
@@ -86,40 +85,22 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 
 	@Indexable(type = IndexableType.DELETE)
 	@Override
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Role deleteRole(long roleId) throws PortalException {
-		Role role = fetchRole(roleId);
+		Role role = rolePersistence.findByPrimaryKey(roleId);
 
 		if (role != null) {
+
+			/*resourceLocalService.deleteResource(
+					role.getCompanyId(),
+					Role.class.getName(),
+					ResourceConstants.SCOPE_INDIVIDUAL,
+					role.getRoleId());*/
+
 			return deleteRole(role);
 		}
 
 		return null;
-	}
-
-	@Indexable(type = IndexableType.DELETE)
-	@Override
-	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
-	public Role deleteRole(Role role) {
-		try {
-			resourceLocalService.deleteResource(
-				role.getCompanyId(), Role.class.getName(),
-				ResourceConstants.SCOPE_INDIVIDUAL, role.getRoleId());
-		}
-		catch (PortalException portalException) {
-			_log.warn(
-				"Error deleting persisted role permissions: " +
-					portalException.getMessage(),
-				portalException);
-		}
-
-		//        todo: delete role roles and departments
-
-		// call the super action method to try the delete.
-
-		return super.deleteRole(role);
-
-		//        return roleLocalService.deleteRole(role);
-
 	}
 
 	public Role getRole(final long roleId) {

@@ -226,7 +226,7 @@ public class Mutation {
 	@GraphQLField(
 		description = "Replaces the part with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
-	public Part patchPartApi(
+	public Part patchPart(
 			@GraphQLName("partId") Long partId,
 			@GraphQLName("addressId") Long addressId,
 			@GraphQLName("part") Part part)
@@ -235,7 +235,7 @@ public class Mutation {
 		return _applyComponentServiceObjects(
 			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			partResource -> partResource.patchPartApi(partId, addressId, part));
+			partResource -> partResource.patchPart(partId, addressId, part));
 	}
 
 	@GraphQLField(
@@ -285,7 +285,7 @@ public class Mutation {
 	@GraphQLField(
 		description = "Replaces the person with the information sent in the request body. Any missing fields are deleted, unless they are required."
 	)
-	public Person patchPersonApi(
+	public Person patchPerson(
 			@GraphQLName("personId") Long personId,
 			@GraphQLName("departmentId") Long departmentId,
 			@GraphQLName("roleId") Long roleId,
@@ -295,7 +295,7 @@ public class Mutation {
 		return _applyComponentServiceObjects(
 			_personResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			personResource -> personResource.patchPersonApi(
+			personResource -> personResource.patchPerson(
 				personId, departmentId, roleId, person));
 	}
 
@@ -418,18 +418,16 @@ public class Mutation {
 	@GraphQLField(
 		description = "Deletes the role and returns a 204 if the operation succeeds."
 	)
-	public boolean deleteRoleApi(
+	public Role deleteRoleApi(
 			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("roleId") Long roleId)
 		throws Exception {
 
-		_applyVoidComponentServiceObjects(
+		return _applyComponentServiceObjects(
 			_roleResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			roleResource -> roleResource.deleteRoleApi(
 				Long.valueOf(siteKey), roleId));
-
-		return true;
 	}
 
 	private <T, R, E1 extends Throwable, E2 extends Throwable> R

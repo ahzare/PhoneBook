@@ -31,10 +31,10 @@ public interface PartResource {
 	public HttpInvoker.HttpResponse getPartHttpResponse(Long partId)
 		throws Exception;
 
-	public Part patchPartApi(Long partId, Long addressId, Part part)
+	public Part patchPart(Long partId, Long addressId, Part part)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse patchPartApiHttpResponse(
+	public HttpInvoker.HttpResponse patchPartHttpResponse(
 			Long partId, Long addressId, Part part)
 		throws Exception;
 
@@ -216,10 +216,10 @@ public interface PartResource {
 			return httpInvoker.invoke();
 		}
 
-		public Part patchPartApi(Long partId, Long addressId, Part part)
+		public Part patchPart(Long partId, Long addressId, Part part)
 			throws Exception {
 
-			HttpInvoker.HttpResponse httpResponse = patchPartApiHttpResponse(
+			HttpInvoker.HttpResponse httpResponse = patchPartHttpResponse(
 				partId, addressId, part);
 
 			String content = httpResponse.getContent();
@@ -259,7 +259,7 @@ public interface PartResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse patchPartApiHttpResponse(
+		public HttpInvoker.HttpResponse patchPartHttpResponse(
 				Long partId, Long addressId, Part part)
 			throws Exception {
 

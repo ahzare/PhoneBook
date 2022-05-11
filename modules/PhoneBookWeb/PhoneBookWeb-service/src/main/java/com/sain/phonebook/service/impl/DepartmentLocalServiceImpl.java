@@ -26,7 +26,6 @@ import com.liferay.portal.kernel.util.DateUtil;
 
 import com.sain.phonebook.exception.NoSuchDepartmentException;
 import com.sain.phonebook.model.Department;
-import com.sain.phonebook.model.Person;
 import com.sain.phonebook.service.base.DepartmentLocalServiceBaseImpl;
 
 import java.util.Date;
@@ -90,13 +89,14 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 		return department;
 	}
 
-
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Department deleteDepartment(long departmentId)
 		throws PortalException {
-		Department department = departmentPersistence.findByPrimaryKey(departmentId);
+
+		Department department = departmentPersistence.findByPrimaryKey(
+			departmentId);
 
 		if (department != null) {
 

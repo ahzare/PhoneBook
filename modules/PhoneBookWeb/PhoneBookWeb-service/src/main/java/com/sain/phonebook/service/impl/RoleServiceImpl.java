@@ -54,13 +54,13 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 		return roleLocalService.addRole(name, serviceContext);
 	}
 
-	public void deleteRole(final long roleId) throws PortalException {
+	public Role deleteRole(final long roleId) throws PortalException {
 
 		//        _roleModelResourcePermission.check(
 		//        getPermissionChecker(), roleLocalService.getRole(roleId),
 		//        ActionKeys.DELETE);
 
-		roleLocalService.deleteRole(roleId);
+		return roleLocalService.deleteRole(roleId);
 	}
 
 	public List<Role> getAll() {

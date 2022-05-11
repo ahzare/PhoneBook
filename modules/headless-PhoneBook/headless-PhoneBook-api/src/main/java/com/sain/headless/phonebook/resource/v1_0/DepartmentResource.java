@@ -38,7 +38,7 @@ public interface DepartmentResource {
 		return FactoryHolder.factory.create();
 	}
 
-	public Department getDepartmentApi(Long departmentId) throws Exception;
+	public Department getDepartment(Long departmentId) throws Exception;
 
 	public Department patchDepartment(Long departmentId, Department department)
 		throws Exception;

@@ -84,7 +84,7 @@ public abstract class BaseDepartmentResourceImpl
 	@Path("/departments/{departmentId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Department")})
-	public Department getDepartmentApi(
+	public Department getDepartment(
 			@NotNull @Parameter(hidden = true) @PathParam("departmentId") Long
 				departmentId)
 		throws Exception {
@@ -115,7 +115,15 @@ public abstract class BaseDepartmentResourceImpl
 			Department department)
 		throws Exception {
 
-		return new Department();
+		Department existingDepartment = getDepartment(departmentId);
+
+		if (department.getName() != null) {
+			existingDepartment.setName(department.getName());
+		}
+
+		preparePatch(department, existingDepartment);
+
+		return putDepartment(departmentId, existingDepartment);
 	}
 
 	/**
@@ -409,6 +417,10 @@ public abstract class BaseDepartmentResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
+	}
+
+	protected void preparePatch(
+		Department department, Department existingDepartment) {
 	}
 
 	protected <T, R> List<R> transform(

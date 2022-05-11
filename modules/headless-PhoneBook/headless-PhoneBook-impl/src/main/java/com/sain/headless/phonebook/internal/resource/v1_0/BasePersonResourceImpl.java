@@ -112,7 +112,7 @@ public abstract class BasePersonResourceImpl
 	@Path("/persons/{personId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Person")})
-	public Person patchPersonApi(
+	public Person patchPerson(
 			@NotNull @Parameter(hidden = true) @PathParam("personId") Long
 				personId,
 			@Parameter(hidden = true) @QueryParam("departmentId") Long

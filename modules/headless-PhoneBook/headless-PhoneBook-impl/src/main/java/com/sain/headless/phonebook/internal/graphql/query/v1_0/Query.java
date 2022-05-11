@@ -88,16 +88,16 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {addressApi(addressId: ___){id, name}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {address(addressId: ___){id, name}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the address via its ID.")
-	public Address addressApi(@GraphQLName("addressId") Long addressId)
+	public Address address(@GraphQLName("addressId") Long addressId)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_addressResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			addressResource -> addressResource.getAddressApi(addressId));
+			addressResource -> addressResource.getAddress(addressId));
 	}
 
 	/**
@@ -131,17 +131,16 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {departmentApi(departmentId: ___){id, name}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {department(departmentId: ___){id, name}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves the department via its ID.")
-	public Department departmentApi(
-			@GraphQLName("departmentId") Long departmentId)
+	public Department department(@GraphQLName("departmentId") Long departmentId)
 		throws Exception {
 
 		return _applyComponentServiceObjects(
 			_departmentResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			departmentResource -> departmentResource.getDepartmentApi(
+			departmentResource -> departmentResource.getDepartment(
 				departmentId));
 	}
 
@@ -282,6 +281,19 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {role(roleId: ___){id, name}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(description = "Retrieves the role via its ID.")
+	public Role role(@GraphQLName("roleId") Long roleId) throws Exception {
+		return _applyComponentServiceObjects(
+			_roleResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			roleResource -> roleResource.getRole(roleId));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {roles(filter: ___, page: ___, pageSize: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
@@ -305,24 +317,6 @@ public class Query {
 					_filterBiFunction.apply(roleResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(roleResource, sortsString))));
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {roleApi(roleId: ___, siteKey: ___){id, name}}"}' -u 'test@liferay.com:test'
-	 */
-	@GraphQLField(description = "Retrieves the role via its ID.")
-	public Role roleApi(
-			@GraphQLName("siteKey") @NotEmpty String siteKey,
-			@GraphQLName("roleId") Long roleId)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_roleResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			roleResource -> roleResource.getRoleApi(
-				Long.valueOf(siteKey), roleId));
 	}
 
 	@GraphQLName("AddressPage")

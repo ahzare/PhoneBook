@@ -186,8 +186,84 @@ public abstract class BaseRoleResourceTestCase {
 	}
 
 	@Test
+	public void testGetRole() throws Exception {
+		Role postRole = testGetRole_addRole();
+
+		Role getRole = roleResource.getRole(postRole.getId());
+
+		assertEquals(postRole, getRole);
+		assertValid(getRole);
+	}
+
+	protected Role testGetRole_addRole() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetRole() throws Exception {
+		Role role = testGraphQLRole_addRole();
+
+		Assert.assertTrue(
+			equals(
+				role,
+				RoleSerDes.toDTO(
+					JSONUtil.getValueAsString(
+						invokeGraphQLQuery(
+							new GraphQLField(
+								"role",
+								new HashMap<String, Object>() {
+									{
+										put("roleId", role.getId());
+									}
+								},
+								getGraphQLFields())),
+						"JSONObject/data", "Object/role"))));
+	}
+
+	@Test
+	public void testGraphQLGetRoleNotFound() throws Exception {
+		Long irrelevantRoleId = RandomTestUtil.randomLong();
+
+		Assert.assertEquals(
+			"Not Found",
+			JSONUtil.getValueAsString(
+				invokeGraphQLQuery(
+					new GraphQLField(
+						"role",
+						new HashMap<String, Object>() {
+							{
+								put("roleId", irrelevantRoleId);
+							}
+						},
+						getGraphQLFields())),
+				"JSONArray/errors", "Object/0", "JSONObject/extensions",
+				"Object/code"));
+	}
+
+	@Test
 	public void testPatchRole() throws Exception {
-		Assert.assertTrue(false);
+		Role postRole = testPatchRole_addRole();
+
+		Role randomPatchRole = randomPatchRole();
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Role patchRole = roleResource.patchRole(
+			postRole.getId(), randomPatchRole);
+
+		Role expectedPatchRole = postRole.clone();
+
+		_beanUtilsBean.copyProperties(expectedPatchRole, randomPatchRole);
+
+		Role getRole = roleResource.getRole(patchRole.getId());
+
+		assertEquals(expectedPatchRole, getRole);
+		assertValid(getRole);
+	}
+
+	protected Role testPatchRole_addRole() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Test
@@ -524,79 +600,11 @@ public abstract class BaseRoleResourceTestCase {
 
 		assertHttpResponseStatusCode(
 			204, roleResource.deleteRoleApiHttpResponse(null, role.getId()));
-
-		assertHttpResponseStatusCode(
-			404, roleResource.getRoleApiHttpResponse(null, role.getId()));
-
-		assertHttpResponseStatusCode(
-			404, roleResource.getRoleApiHttpResponse(null, 0L));
 	}
 
 	protected Role testDeleteRoleApi_addRole() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testGetRoleApi() throws Exception {
-		Role postRole = testGetRoleApi_addRole();
-
-		Role getRole = roleResource.getRoleApi(null, postRole.getId());
-
-		assertEquals(postRole, getRole);
-		assertValid(getRole);
-	}
-
-	protected Role testGetRoleApi_addRole() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testGraphQLGetRoleApi() throws Exception {
-		Role role = testGraphQLRole_addRole();
-
-		Assert.assertTrue(
-			equals(
-				role,
-				RoleSerDes.toDTO(
-					JSONUtil.getValueAsString(
-						invokeGraphQLQuery(
-							new GraphQLField(
-								"roleApi",
-								new HashMap<String, Object>() {
-									{
-										put(
-											"siteKey",
-											"\"" + role.getSiteId() + "\"");
-										put("roleId", role.getId());
-									}
-								},
-								getGraphQLFields())),
-						"JSONObject/data", "Object/roleApi"))));
-	}
-
-	@Test
-	public void testGraphQLGetRoleApiNotFound() throws Exception {
-		Long irrelevantRoleId = RandomTestUtil.randomLong();
-
-		Assert.assertEquals(
-			"Not Found",
-			JSONUtil.getValueAsString(
-				invokeGraphQLQuery(
-					new GraphQLField(
-						"roleApi",
-						new HashMap<String, Object>() {
-							{
-								put(
-									"siteKey",
-									"\"" + irrelevantGroup.getGroupId() + "\"");
-								put("roleId", irrelevantRoleId);
-							}
-						},
-						getGraphQLFields())),
-				"JSONArray/errors", "Object/0", "JSONObject/extensions",
-				"Object/code"));
 	}
 
 	@Rule

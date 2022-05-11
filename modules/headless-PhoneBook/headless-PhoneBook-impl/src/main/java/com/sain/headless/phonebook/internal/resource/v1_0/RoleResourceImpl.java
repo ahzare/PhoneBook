@@ -14,22 +14,23 @@
 
 package com.sain.headless.phonebook.internal.resource.v1_0;
 
+import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
-import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
+import com.liferay.portal.vulcan.util.SearchUtil;
 
 import com.sain.headless.phonebook.dto.v1_0.Role;
 import com.sain.headless.phonebook.resource.v1_0.RoleResource;
+import com.sain.headless.phonebook.util.ServiceContextHelper;
 import com.sain.phonebook.service.RoleService;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -50,23 +51,12 @@ import org.slf4j.LoggerFactory;
 public class RoleResourceImpl extends BaseRoleResourceImpl {
 
 	@Override
-	public void deleteRoleApi(Long siteId, Long roleId) throws Exception {
-		try {
-
-			// super easy case, just pass through to the service layer.
-
-			_roleService.deleteRole(roleId);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error deleting role: " + exception.getMessage(), exception);
-
-			throw exception;
-		}
+	public Role deleteRoleApi(Long siteId, Long roleId) throws Exception {
+		return toRole(_roleService.deleteRole(roleId));
 	}
 
 	@Override
-	public Role getRoleApi(Long siteId, Long roleId) throws Exception {
+	public Role getRole(Long roleId) throws Exception {
 		try {
 
 			// fetch the entity class...
@@ -74,7 +64,11 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 			com.sain.phonebook.model.Role persistedRole = _roleService.getRole(
 				roleId);
 
-			return toRole(persistedRole);
+			if (persistedRole != null) {
+				return toRole(persistedRole);
+			}
+
+			return null;
 		}
 		catch (Exception exception) {
 			_log.error(
@@ -94,93 +88,55 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 
 		System.out.println("getRolesPage");
 
-		/* return SearchUtil.search(
-		         null,
-		         booleanQuery -> {
-		         },
-		         filter, Role.class, search, pagination,
-		         queryConfig -> queryConfig.setSelectedFieldNames(
-		                 Field.ENTRY_CLASS_PK),
-		         searchContext -> {
-		             searchContext.setCompanyId(contextCompany.getCompanyId());
-		             searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
-		         },
-		         sorts,
-		         document -> _toRole(_persistedRoleService.getPersistedRole(document.get(Field.ENTRY_CLASS_PK))));
-*/
+		Page<Role> rolePage = SearchUtil.search(
+			booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+			com.sain.phonebook.model.Role.class, search, pagination,
+			queryConfig -> queryConfig.setSelectedFieldNames(
+				Field.ENTRY_CLASS_PK),
+			new UnsafeConsumer() {
 
-		/* return SearchUtil.search(
-		       null,
-		         booleanQuery -> {
-		         },
-		         filter, Role.class, search, pagination,
-		         queryConfig -> queryConfig.setSelectedFieldNames(
-		                 Field.ENTRY_CLASS_PK),
-		         searchContext -> {
-		             searchContext.setAttribute(Field.NAME, search);
-		             searchContext.setCompanyId(contextCompany.getCompanyId());
-		             searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
-		         },
-		         sorts,
-		         document -> _toRole(
-		                 _persistedRoleService.getPersistedRole(
-		                         GetterUtil.getString(document.get(Field.ENTRY_CLASS_PK)))));*/
+				public void accept(Object object) throws Exception {
+					SearchContext searchContext = (SearchContext)object;
 
-		/* List<Role> list = _persistedRoleService.getAll()
-		         .stream().map(persistedRole -> {
-		             try {
-		                 // adding for search
-		                 Role role = _toRole(persistedRole);
-		                 if (search != null) {
-		                     if (role.getName().contains(search)) {
-		                         return role;
-		                     }
-		                 } else {
-		                     return role;
-		                 }
-		                 // return _toRole(persistedRole);
-		             } catch (PortalException exception) {
-		                 exception.printStackTrace();
-		             }
-		             return new Role();
-		         }).collect(Collectors.toList());*/
-
-		List<com.sain.phonebook.model.Role> persistedRoles =
-			_roleService.getAll();
-		List<Role> list = new ArrayList<>();
-
-		for (com.sain.phonebook.model.Role persistedRole : persistedRoles) {
-			Role role = toRole(persistedRole);
-
-			if (search != null) {
-				String roleName = role.getName();
-
-				if (roleName.contains(search)) {
-					list.add(role);
+					searchContext.setCompanyId(contextCompany.getCompanyId());
 				}
-			}
-			else {
-				list.add(role);
-			}
-		}
 
-		return Page.of(list);
+			},
+			document -> toRole(
+				_roleService.getRole(
+					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+			sorts);
+
+		System.out.println("role page = " + rolePage);
+
+		return rolePage;
 	}
 
 	@Override
 	public Role patchRole(@NotNull Long roleId, Role role) throws Exception {
-		try {
-			com.sain.phonebook.model.Role persistedRole =
-				_roleService.patchRole(
-					roleId, role.getName(), getServiceContext());
+		com.sain.phonebook.model.Role persistedRole1 = _roleService.getRole(
+			roleId);
 
-			return toRole(persistedRole);
+		if (persistedRole1 != null) {
+			try {
+				com.sain.phonebook.model.Role persistedRole =
+					_roleService.patchRole(
+						roleId, role.getName(),
+						_serviceContextHelper.getServiceContext(
+							persistedRole1.getGroupId()));
+
+				return toRole(persistedRole);
+			}
+			catch (Exception exception) {
+				_log.error(
+					"Error patching role: " + exception.getMessage(),
+					exception);
+
+				throw exception;
+			}
 		}
-		catch (Exception exception) {
-			_log.error(
-				"Error patching role: " + exception.getMessage(), exception);
-
-			throw exception;
+		else {
+			return null;
 		}
 	}
 
@@ -192,11 +148,10 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 			_log.debug("Need to create a new role: %s\n", role.toString());
 		}
 
-		_log.warn("hi ali");
-
 		try {
 			com.sain.phonebook.model.Role persistedRole = _roleService.addRole(
-				role.getName(), getServiceContext());
+				role.getName(),
+				_serviceContextHelper.getServiceContext(siteId));
 
 			return toRole(persistedRole);
 		}
@@ -210,28 +165,30 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 
 	@Override
 	public Role putRole(@NotNull Long roleId, Role role) throws Exception {
-		try {
-			com.sain.phonebook.model.Role persistedRole =
-				_roleService.updateRole(
-					roleId, role.getName(), getServiceContext());
+		com.sain.phonebook.model.Role persistedRole1 = _roleService.getRole(
+			roleId);
 
-			return toRole(persistedRole);
+		if (persistedRole1 != null) {
+			try {
+				com.sain.phonebook.model.Role persistedRole =
+					_roleService.updateRole(
+						roleId, role.getName(),
+						_serviceContextHelper.getServiceContext(
+							persistedRole1.getGroupId()));
+
+				return toRole(persistedRole);
+			}
+			catch (Exception exception) {
+				_log.error(
+					"Error putting role: " + exception.getMessage(), exception);
+
+				throw exception;
+			}
 		}
-		catch (Exception exception) {
-			_log.error(
-				"Error putting role: " + exception.getMessage(), exception);
-
-			throw exception;
+		else {
+			return null;
 		}
 	}
-
-	/*private RoleEntityModel _roleEntityModel = new RoleEntityModel();
-
-	@Override
-	public EntityModel getEntityModel(MultivaluedMap multivaluedMap)
-			throws Exception {
-		return _roleEntityModel;
-	}*/
 
 	protected static Role toRole(com.sain.phonebook.model.Role role)
 		throws PortalException {
@@ -242,35 +199,6 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 				name = role.getName();
 			}
 		};
-		/*return new Role() {{
-			creator = CreatorUtil.toCreator(_portal,
-					_userLocalService.getUser(pv.getUserId()));
-			articleId = pv.getArticleId();
-			group = pv.getGroupName();
-			description = pv.getDescription();
-			id = pv.getSurrogateId();
-			name = pv.getName();
-			type = _toRoleType(pv.getType());
-			attributes = ListUtil.toArray(pv.getAttributes(), VALUE_ACCESSOR);
-			chemicalNames = ListUtil.toArray(pv.getChemicalNames(), VALUE_ACCESSOR);
-			properties = ListUtil.toArray(pv.getProperties(), VALUE_ACCESSOR);
-			risks = ListUtil.toArray(pv.getRisks(), VALUE_ACCESSOR);
-			symptoms = ListUtil.toArray(pv.getSymptoms(), VALUE_ACCESSOR);
-		}};*/
-	}
-
-	protected ServiceContext getServiceContext() throws PortalException {
-		ServiceContext serviceContext = new ServiceContext();
-
-		serviceContext.setCompanyId(contextCompany.getCompanyId());
-
-		// need the current user in the service context.
-		// will get easier in newer version of the REST Builder plugin...
-		// but for now, this is the only game in town.
-
-		serviceContext.setUserId(PrincipalThreadLocal.getUserId());
-
-		return serviceContext;
 	}
 
 	private static final Logger _log = LoggerFactory.getLogger(
@@ -281,6 +209,9 @@ public class RoleResourceImpl extends BaseRoleResourceImpl {
 
 	@Reference
 	private RoleService _roleService;
+
+	@Reference
+	private ServiceContextHelper _serviceContextHelper;
 
 	@Reference
 	private UserLocalService _userLocalService;

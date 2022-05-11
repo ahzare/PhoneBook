@@ -186,22 +186,22 @@ public abstract class BaseAddressResourceTestCase {
 	}
 
 	@Test
-	public void testGetAddressApi() throws Exception {
-		Address postAddress = testGetAddressApi_addAddress();
+	public void testGetAddress() throws Exception {
+		Address postAddress = testGetAddress_addAddress();
 
-		Address getAddress = addressResource.getAddressApi(postAddress.getId());
+		Address getAddress = addressResource.getAddress(postAddress.getId());
 
 		assertEquals(postAddress, getAddress);
 		assertValid(getAddress);
 	}
 
-	protected Address testGetAddressApi_addAddress() throws Exception {
+	protected Address testGetAddress_addAddress() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}
 
 	@Test
-	public void testGraphQLGetAddressApi() throws Exception {
+	public void testGraphQLGetAddress() throws Exception {
 		Address address = testGraphQLAddress_addAddress();
 
 		Assert.assertTrue(
@@ -211,18 +211,18 @@ public abstract class BaseAddressResourceTestCase {
 					JSONUtil.getValueAsString(
 						invokeGraphQLQuery(
 							new GraphQLField(
-								"addressApi",
+								"address",
 								new HashMap<String, Object>() {
 									{
 										put("addressId", address.getId());
 									}
 								},
 								getGraphQLFields())),
-						"JSONObject/data", "Object/addressApi"))));
+						"JSONObject/data", "Object/address"))));
 	}
 
 	@Test
-	public void testGraphQLGetAddressApiNotFound() throws Exception {
+	public void testGraphQLGetAddressNotFound() throws Exception {
 		Long irrelevantAddressId = RandomTestUtil.randomLong();
 
 		Assert.assertEquals(
@@ -230,7 +230,7 @@ public abstract class BaseAddressResourceTestCase {
 			JSONUtil.getValueAsString(
 				invokeGraphQLQuery(
 					new GraphQLField(
-						"addressApi",
+						"address",
 						new HashMap<String, Object>() {
 							{
 								put("addressId", irrelevantAddressId);
@@ -243,7 +243,27 @@ public abstract class BaseAddressResourceTestCase {
 
 	@Test
 	public void testPatchAddress() throws Exception {
-		Assert.assertTrue(false);
+		Address postAddress = testPatchAddress_addAddress();
+
+		Address randomPatchAddress = randomPatchAddress();
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Address patchAddress = addressResource.patchAddress(
+			postAddress.getId(), randomPatchAddress);
+
+		Address expectedPatchAddress = postAddress.clone();
+
+		_beanUtilsBean.copyProperties(expectedPatchAddress, randomPatchAddress);
+
+		Address getAddress = addressResource.getAddress(patchAddress.getId());
+
+		assertEquals(expectedPatchAddress, getAddress);
+		assertValid(getAddress);
+	}
+
+	protected Address testPatchAddress_addAddress() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Test
@@ -601,12 +621,6 @@ public abstract class BaseAddressResourceTestCase {
 			204,
 			addressResource.deleteAddressApiHttpResponse(
 				null, address.getId()));
-
-		assertHttpResponseStatusCode(
-			404, addressResource.getAddressApiHttpResponse(address.getId()));
-
-		assertHttpResponseStatusCode(
-			404, addressResource.getAddressApiHttpResponse(0L));
 	}
 
 	protected Address testDeleteAddressApi_addAddress() throws Exception {

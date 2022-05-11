@@ -26,9 +26,9 @@ public interface AddressResource {
 		return new Builder();
 	}
 
-	public Address getAddressApi(Long addressId) throws Exception;
+	public Address getAddress(Long addressId) throws Exception;
 
-	public HttpInvoker.HttpResponse getAddressApiHttpResponse(Long addressId)
+	public HttpInvoker.HttpResponse getAddressHttpResponse(Long addressId)
 		throws Exception;
 
 	public Address patchAddress(Long addressId, Address address)
@@ -145,8 +145,8 @@ public interface AddressResource {
 
 	public static class AddressResourceImpl implements AddressResource {
 
-		public Address getAddressApi(Long addressId) throws Exception {
-			HttpInvoker.HttpResponse httpResponse = getAddressApiHttpResponse(
+		public Address getAddress(Long addressId) throws Exception {
+			HttpInvoker.HttpResponse httpResponse = getAddressHttpResponse(
 				addressId);
 
 			String content = httpResponse.getContent();
@@ -186,8 +186,7 @@ public interface AddressResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getAddressApiHttpResponse(
-				Long addressId)
+		public HttpInvoker.HttpResponse getAddressHttpResponse(Long addressId)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();

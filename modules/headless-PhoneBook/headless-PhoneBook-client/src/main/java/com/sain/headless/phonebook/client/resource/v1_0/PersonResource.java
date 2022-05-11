@@ -33,11 +33,11 @@ public interface PersonResource {
 	public HttpInvoker.HttpResponse getPersonHttpResponse(Long personId)
 		throws Exception;
 
-	public Person patchPersonApi(
+	public Person patchPerson(
 			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
-	public HttpInvoker.HttpResponse patchPersonApiHttpResponse(
+	public HttpInvoker.HttpResponse patchPersonHttpResponse(
 			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
@@ -238,11 +238,11 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public Person patchPersonApi(
+		public Person patchPerson(
 				Long personId, Long departmentId, Long roleId, Person person)
 			throws Exception {
 
-			HttpInvoker.HttpResponse httpResponse = patchPersonApiHttpResponse(
+			HttpInvoker.HttpResponse httpResponse = patchPersonHttpResponse(
 				personId, departmentId, roleId, person);
 
 			String content = httpResponse.getContent();
@@ -282,7 +282,7 @@ public interface PersonResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse patchPersonApiHttpResponse(
+		public HttpInvoker.HttpResponse patchPersonHttpResponse(
 				Long personId, Long departmentId, Long roleId, Person person)
 			throws Exception {
 

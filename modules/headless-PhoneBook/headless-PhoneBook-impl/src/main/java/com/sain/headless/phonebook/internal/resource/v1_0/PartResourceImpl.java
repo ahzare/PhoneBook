@@ -30,7 +30,6 @@ import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.SearchUtil;
 
 import com.sain.headless.phonebook.dto.v1_0.Part;
-import com.sain.headless.phonebook.dto.v1_0.Person;
 import com.sain.headless.phonebook.resource.v1_0.PartResource;
 import com.sain.headless.phonebook.util.ServiceContextHelper;
 import com.sain.phonebook.service.AddressService;
@@ -70,9 +69,9 @@ public class PartResourceImpl extends BasePartResourceImpl {
 
 			if (persistedPart != null) {
 				return toPart(persistedPart);
-			} else {
-				return null;
 			}
+
+			return null;
 		}
 		catch (Exception exception) {
 			_log.error(
@@ -93,23 +92,23 @@ public class PartResourceImpl extends BasePartResourceImpl {
 		System.out.println("getPartsPage");
 
 		Page<Part> partPage = SearchUtil.search(
-				booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
-				com.sain.phonebook.model.Part.class, search, pagination,
-				queryConfig -> queryConfig.setSelectedFieldNames(
-						Field.ENTRY_CLASS_PK),
-				new UnsafeConsumer() {
+			booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+			com.sain.phonebook.model.Part.class, search, pagination,
+			queryConfig -> queryConfig.setSelectedFieldNames(
+				Field.ENTRY_CLASS_PK),
+			new UnsafeConsumer() {
 
-					public void accept(Object object) throws Exception {
-						SearchContext searchContext = (SearchContext)object;
+				public void accept(Object object) throws Exception {
+					SearchContext searchContext = (SearchContext)object;
 
-						searchContext.setCompanyId(contextCompany.getCompanyId());
-					}
+					searchContext.setCompanyId(contextCompany.getCompanyId());
+				}
 
-				},
-				document -> toPart(
-						_partService.getPart(
-								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
-				sorts);
+			},
+			document -> toPart(
+				_partService.getPart(
+					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+			sorts);
 
 		System.out.println("part page = " + partPage);
 
@@ -117,30 +116,32 @@ public class PartResourceImpl extends BasePartResourceImpl {
 	}
 
 	@Override
-	public Part patchPartApi(@NotNull Long partId, Long addressId, Part part)
+	public Part patchPart(@NotNull Long partId, Long addressId, Part part)
 		throws Exception {
 
-		com.sain.phonebook.model.Part persistedPart1 =
-			_partService.getPart(partId);
+		com.sain.phonebook.model.Part persistedPart1 = _partService.getPart(
+			partId);
 
-		if (persistedPart1 !=null) {
-		try {
-			com.sain.phonebook.model.Part persistedPart =
-				_partService.patchPart(
-					partId, part.getName(), part.getInternalPhone(),
-					(addressId != null) ? addressId : 0,
+		if (persistedPart1 != null) {
+			try {
+				com.sain.phonebook.model.Part persistedPart =
+					_partService.patchPart(
+						partId, part.getName(), part.getInternalPhone(),
+						(addressId != null) ? addressId : 0,
 						_serviceContextHelper.getServiceContext(
-								persistedPart1.getGroupId()));
+							persistedPart1.getGroupId()));
 
-			return toPart(persistedPart);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error patching part: " + exception.getMessage(), exception);
+				return toPart(persistedPart);
+			}
+			catch (Exception exception) {
+				_log.error(
+					"Error patching part: " + exception.getMessage(),
+					exception);
 
-			throw exception;
+				throw exception;
+			}
 		}
-		} else {
+		else {
 			return null;
 		}
 	}
@@ -159,7 +160,7 @@ public class PartResourceImpl extends BasePartResourceImpl {
 			com.sain.phonebook.model.Part persistedPart = _partService.addPart(
 				part.getName(), part.getInternalPhone(),
 				(addressId != null) ? addressId : 0,
-					_serviceContextHelper.getServiceContext(siteId));
+				_serviceContextHelper.getServiceContext(siteId));
 
 			return toPart(persistedPart);
 		}
@@ -175,27 +176,28 @@ public class PartResourceImpl extends BasePartResourceImpl {
 	public Part putPartApi(Long partId, Long addressId, Part part)
 		throws Exception {
 
-		com.sain.phonebook.model.Part persistedPart1 =
-			_partService.getPart(partId);
+		com.sain.phonebook.model.Part persistedPart1 = _partService.getPart(
+			partId);
 
 		if (persistedPart1 != null) {
-		try {
-			com.sain.phonebook.model.Part persistedPart =
-				_partService.updatePart(
-					partId, part.getName(), part.getInternalPhone(),
-					(addressId != null) ? addressId : 0,
+			try {
+				com.sain.phonebook.model.Part persistedPart =
+					_partService.updatePart(
+						partId, part.getName(), part.getInternalPhone(),
+						(addressId != null) ? addressId : 0,
 						_serviceContextHelper.getServiceContext(
-								persistedPart1.getGroupId()));
+							persistedPart1.getGroupId()));
 
-			return toPart(persistedPart);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error putting part: " + exception.getMessage(), exception);
+				return toPart(persistedPart);
+			}
+			catch (Exception exception) {
+				_log.error(
+					"Error putting part: " + exception.getMessage(), exception);
 
-			throw exception;
+				throw exception;
+			}
 		}
-		} else {
+		else {
 			return null;
 		}
 	}
@@ -244,8 +246,9 @@ public class PartResourceImpl extends BasePartResourceImpl {
 	private Portal _portal;
 
 	@Reference
-	private UserLocalService _userLocalService;
+	private ServiceContextHelper _serviceContextHelper;
 
 	@Reference
-	private ServiceContextHelper _serviceContextHelper;
+	private UserLocalService _userLocalService;
+
 }

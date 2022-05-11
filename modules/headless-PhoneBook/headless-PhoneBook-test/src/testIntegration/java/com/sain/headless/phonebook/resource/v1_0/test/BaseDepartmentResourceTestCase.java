@@ -186,23 +186,23 @@ public abstract class BaseDepartmentResourceTestCase {
 	}
 
 	@Test
-	public void testGetDepartmentApi() throws Exception {
-		Department postDepartment = testGetDepartmentApi_addDepartment();
+	public void testGetDepartment() throws Exception {
+		Department postDepartment = testGetDepartment_addDepartment();
 
-		Department getDepartment = departmentResource.getDepartmentApi(
+		Department getDepartment = departmentResource.getDepartment(
 			postDepartment.getId());
 
 		assertEquals(postDepartment, getDepartment);
 		assertValid(getDepartment);
 	}
 
-	protected Department testGetDepartmentApi_addDepartment() throws Exception {
+	protected Department testGetDepartment_addDepartment() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
 	}
 
 	@Test
-	public void testGraphQLGetDepartmentApi() throws Exception {
+	public void testGraphQLGetDepartment() throws Exception {
 		Department department = testGraphQLDepartment_addDepartment();
 
 		Assert.assertTrue(
@@ -212,18 +212,18 @@ public abstract class BaseDepartmentResourceTestCase {
 					JSONUtil.getValueAsString(
 						invokeGraphQLQuery(
 							new GraphQLField(
-								"departmentApi",
+								"department",
 								new HashMap<String, Object>() {
 									{
 										put("departmentId", department.getId());
 									}
 								},
 								getGraphQLFields())),
-						"JSONObject/data", "Object/departmentApi"))));
+						"JSONObject/data", "Object/department"))));
 	}
 
 	@Test
-	public void testGraphQLGetDepartmentApiNotFound() throws Exception {
+	public void testGraphQLGetDepartmentNotFound() throws Exception {
 		Long irrelevantDepartmentId = RandomTestUtil.randomLong();
 
 		Assert.assertEquals(
@@ -231,7 +231,7 @@ public abstract class BaseDepartmentResourceTestCase {
 			JSONUtil.getValueAsString(
 				invokeGraphQLQuery(
 					new GraphQLField(
-						"departmentApi",
+						"department",
 						new HashMap<String, Object>() {
 							{
 								put("departmentId", irrelevantDepartmentId);
@@ -244,7 +244,29 @@ public abstract class BaseDepartmentResourceTestCase {
 
 	@Test
 	public void testPatchDepartment() throws Exception {
-		Assert.assertTrue(false);
+		Department postDepartment = testPatchDepartment_addDepartment();
+
+		Department randomPatchDepartment = randomPatchDepartment();
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Department patchDepartment = departmentResource.patchDepartment(
+			postDepartment.getId(), randomPatchDepartment);
+
+		Department expectedPatchDepartment = postDepartment.clone();
+
+		_beanUtilsBean.copyProperties(
+			expectedPatchDepartment, randomPatchDepartment);
+
+		Department getDepartment = departmentResource.getDepartment(
+			patchDepartment.getId());
+
+		assertEquals(expectedPatchDepartment, getDepartment);
+		assertValid(getDepartment);
+	}
+
+	protected Department testPatchDepartment_addDepartment() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
 	}
 
 	@Test
@@ -612,14 +634,6 @@ public abstract class BaseDepartmentResourceTestCase {
 			204,
 			departmentResource.deleteDepartmentApiHttpResponse(
 				null, department.getId()));
-
-		assertHttpResponseStatusCode(
-			404,
-			departmentResource.getDepartmentApiHttpResponse(
-				department.getId()));
-
-		assertHttpResponseStatusCode(
-			404, departmentResource.getDepartmentApiHttpResponse(0L));
 	}
 
 	protected Department testDeleteDepartmentApi_addDepartment()

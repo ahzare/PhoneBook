@@ -73,6 +73,25 @@ public abstract class BaseRoleResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/roles/{roleId}'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(description = "Retrieves the role via its ID.")
+	@Override
+	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "roleId")})
+	@Path("/roles/{roleId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Role")})
+	public Role getRole(
+			@NotNull @Parameter(hidden = true) @PathParam("roleId") Long roleId)
+		throws Exception {
+
+		return new Role();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-PhoneBook/v1.0/roles/{roleId}' -d $'{"id": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Consumes({"application/json", "application/xml"})
@@ -90,7 +109,15 @@ public abstract class BaseRoleResourceImpl
 			Role role)
 		throws Exception {
 
-		return new Role();
+		Role existingRole = getRole(roleId);
+
+		if (role.getName() != null) {
+			existingRole.setName(role.getName());
+		}
+
+		preparePatch(role, existingRole);
+
+		return putRole(roleId, existingRole);
 	}
 
 	/**
@@ -225,30 +252,7 @@ public abstract class BaseRoleResourceImpl
 	@Path("/sites/{siteId}/roles/{roleId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Role")})
-	public void deleteRoleApi(
-			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@NotNull @Parameter(hidden = true) @PathParam("roleId") Long roleId)
-		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/roles/{roleId}'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(description = "Retrieves the role via its ID.")
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.PATH, name = "roleId")
-		}
-	)
-	@Path("/sites/{siteId}/roles/{roleId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Role")})
-	public Role getRoleApi(
+	public Role deleteRoleApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("roleId") Long roleId)
 		throws Exception {
@@ -403,6 +407,9 @@ public abstract class BaseRoleResourceImpl
 
 		return addAction(
 			actionName, siteId, methodName, null, permissionName, siteId);
+	}
+
+	protected void preparePatch(Role role, Role existingRole) {
 	}
 
 	protected <T, R> List<R> transform(

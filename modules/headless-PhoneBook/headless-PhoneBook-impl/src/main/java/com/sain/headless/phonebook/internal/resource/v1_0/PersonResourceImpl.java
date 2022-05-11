@@ -75,9 +75,9 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
 			if (persistedPerson != null) {
 				return toPerson(persistedPerson);
-			} else {
-				return null;
 			}
+
+			return null;
 		}
 		catch (Exception exception) {
 			_log.error(
@@ -91,8 +91,8 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
 	@Override
 	public Page<Person> getPersonsPage(
-			Long siteId, String search,
-			Filter filter, Pagination pagination, Sort[] sorts)
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
 		throws Exception {
 
 		System.out.println("getPersonsPage");
@@ -122,7 +122,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	}
 
 	@Override
-	public Person patchPersonApi(
+	public Person patchPerson(
 			@NotNull Long personId, Long roleId, Long departmentId,
 			Person person)
 		throws Exception {
@@ -130,27 +130,30 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		com.sain.phonebook.model.Person persistedPerson1 =
 			_personService.getPerson(personId);
 
-		if (persistedPerson1 !=null) {
+		if (persistedPerson1 != null) {
 			try {
 				com.sain.phonebook.model.Person persistedPerson =
-						_personService.patchPerson(
-								personId, person.getFirstName(), person.getLastName(),
-								person.getLocalPhoneNumber(), person.getPhoneNumber(),
-								person.getFaxNumber(), person.getRoomNumber(),
-								person.getEmail(), person.getWebsite(),
-								(departmentId != null) ? departmentId : 0,
-								(roleId != null) ? roleId : 0,
-								_serviceContextHelper.getServiceContext(
-										persistedPerson1.getGroupId()));
+					_personService.patchPerson(
+						personId, person.getFirstName(), person.getLastName(),
+						person.getLocalPhoneNumber(), person.getPhoneNumber(),
+						person.getFaxNumber(), person.getRoomNumber(),
+						person.getEmail(), person.getWebsite(),
+						(departmentId != null) ? departmentId : 0,
+						(roleId != null) ? roleId : 0,
+						_serviceContextHelper.getServiceContext(
+							persistedPerson1.getGroupId()));
 
 				return toPerson(persistedPerson);
-			} catch (Exception exception) {
+			}
+			catch (Exception exception) {
 				_log.error(
-						"Error patching person: " + exception.getMessage(), exception);
+					"Error patching person: " + exception.getMessage(),
+					exception);
 
 				throw exception;
 			}
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -204,24 +207,27 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		if (persistedPerson1 != null) {
 			try {
 				com.sain.phonebook.model.Person persistedPerson =
-						_personService.updatePerson(
-								personId, person.getFirstName(), person.getLastName(),
-								person.getLocalPhoneNumber(), person.getPhoneNumber(),
-								person.getFaxNumber(), person.getRoomNumber(),
-								person.getEmail(), person.getWebsite(),
-								(departmentId != null) ? departmentId : 0,
-								(roleId != null) ? roleId : 0,
-								_serviceContextHelper.getServiceContext(
-										persistedPerson1.getGroupId()));
+					_personService.updatePerson(
+						personId, person.getFirstName(), person.getLastName(),
+						person.getLocalPhoneNumber(), person.getPhoneNumber(),
+						person.getFaxNumber(), person.getRoomNumber(),
+						person.getEmail(), person.getWebsite(),
+						(departmentId != null) ? departmentId : 0,
+						(roleId != null) ? roleId : 0,
+						_serviceContextHelper.getServiceContext(
+							persistedPerson1.getGroupId()));
 
 				return toPerson(persistedPerson);
-			} catch (Exception exception) {
+			}
+			catch (Exception exception) {
 				_log.error(
-						"Error putting person: " + exception.getMessage(), exception);
+					"Error putting person: " + exception.getMessage(),
+					exception);
 
 				throw exception;
 			}
-		} else {
+		}
+		else {
 			return null;
 		}
 	}
@@ -295,9 +301,9 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	private RoleService _roleService;
 
 	@Reference
-	private UserLocalService _userLocalService;
+	private ServiceContextHelper _serviceContextHelper;
 
 	@Reference
-	private ServiceContextHelper _serviceContextHelper;
+	private UserLocalService _userLocalService;
 
 }
