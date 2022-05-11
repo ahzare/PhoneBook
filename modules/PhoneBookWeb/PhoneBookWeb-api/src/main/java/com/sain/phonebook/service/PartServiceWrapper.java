@@ -41,10 +41,10 @@ public class PartServiceWrapper
 	}
 
 	@Override
-	public void deletePart(long partId)
+	public com.sain.phonebook.model.Part deletePart(long partId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_partService.deletePart(partId);
+		return _partService.deletePart(partId);
 	}
 
 	@Override

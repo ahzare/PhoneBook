@@ -73,6 +73,28 @@ public abstract class BaseDepartmentResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/departments/{departmentId}'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(description = "Retrieves the department via its ID.")
+	@Override
+	@Parameters(
+		value = {@Parameter(in = ParameterIn.PATH, name = "departmentId")}
+	)
+	@Path("/departments/{departmentId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Department")})
+	public Department getDepartmentApi(
+			@NotNull @Parameter(hidden = true) @PathParam("departmentId") Long
+				departmentId)
+		throws Exception {
+
+		return new Department();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-PhoneBook/v1.0/departments/{departmentId}' -d $'{"id": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Consumes({"application/json", "application/xml"})
@@ -231,31 +253,7 @@ public abstract class BaseDepartmentResourceImpl
 	@Path("/sites/{siteId}/departments/{departmentId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Department")})
-	public void deleteDepartmentApi(
-			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@NotNull @Parameter(hidden = true) @PathParam("departmentId") Long
-				departmentId)
-		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/departments/{departmentId}'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(description = "Retrieves the department via its ID.")
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.PATH, name = "departmentId")
-		}
-	)
-	@Path("/sites/{siteId}/departments/{departmentId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Department")})
-	public Department getDepartmentApi(
+	public Department deleteDepartmentApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("departmentId") Long
 				departmentId)

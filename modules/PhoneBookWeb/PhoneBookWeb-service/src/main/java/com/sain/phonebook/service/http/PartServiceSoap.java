@@ -82,9 +82,14 @@ public class PartServiceSoap {
 		}
 	}
 
-	public static void deletePart(long partId) throws RemoteException {
+	public static com.sain.phonebook.model.PartSoap deletePart(long partId)
+		throws RemoteException {
+
 		try {
-			PartServiceUtil.deletePart(partId);
+			com.sain.phonebook.model.Part returnValue =
+				PartServiceUtil.deletePart(partId);
+
+			return com.sain.phonebook.model.PartSoap.toSoapModel(returnValue);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);

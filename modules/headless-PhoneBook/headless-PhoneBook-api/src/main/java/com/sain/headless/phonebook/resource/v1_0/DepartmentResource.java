@@ -38,6 +38,8 @@ public interface DepartmentResource {
 		return FactoryHolder.factory.create();
 	}
 
+	public Department getDepartmentApi(Long departmentId) throws Exception;
+
 	public Department patchDepartment(Long departmentId, Department department)
 		throws Exception;
 
@@ -55,10 +57,7 @@ public interface DepartmentResource {
 	public Department postDepartment(Long siteId, Department department)
 		throws Exception;
 
-	public void deleteDepartmentApi(Long siteId, Long departmentId)
-		throws Exception;
-
-	public Department getDepartmentApi(Long siteId, Long departmentId)
+	public Department deleteDepartmentApi(Long siteId, Long departmentId)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

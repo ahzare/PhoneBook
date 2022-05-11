@@ -188,6 +188,62 @@ public abstract class BasePartResourceTestCase {
 	}
 
 	@Test
+	public void testGetPart() throws Exception {
+		Part postPart = testGetPart_addPart();
+
+		Part getPart = partResource.getPart(postPart.getId());
+
+		assertEquals(postPart, getPart);
+		assertValid(getPart);
+	}
+
+	protected Part testGetPart_addPart() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetPart() throws Exception {
+		Part part = testGraphQLPart_addPart();
+
+		Assert.assertTrue(
+			equals(
+				part,
+				PartSerDes.toDTO(
+					JSONUtil.getValueAsString(
+						invokeGraphQLQuery(
+							new GraphQLField(
+								"part",
+								new HashMap<String, Object>() {
+									{
+										put("partId", part.getId());
+									}
+								},
+								getGraphQLFields())),
+						"JSONObject/data", "Object/part"))));
+	}
+
+	@Test
+	public void testGraphQLGetPartNotFound() throws Exception {
+		Long irrelevantPartId = RandomTestUtil.randomLong();
+
+		Assert.assertEquals(
+			"Not Found",
+			JSONUtil.getValueAsString(
+				invokeGraphQLQuery(
+					new GraphQLField(
+						"part",
+						new HashMap<String, Object>() {
+							{
+								put("partId", irrelevantPartId);
+							}
+						},
+						getGraphQLFields())),
+				"JSONArray/errors", "Object/0", "JSONObject/extensions",
+				"Object/code"));
+	}
+
+	@Test
 	public void testPatchPartApi() throws Exception {
 		Assert.assertTrue(false);
 	}
@@ -532,68 +588,6 @@ public abstract class BasePartResourceTestCase {
 	protected Part testDeletePartApi_addPart() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testGetPart() throws Exception {
-		Part postPart = testGetPart_addPart();
-
-		Part getPart = partResource.getPart(null, postPart.getId());
-
-		assertEquals(postPart, getPart);
-		assertValid(getPart);
-	}
-
-	protected Part testGetPart_addPart() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testGraphQLGetPart() throws Exception {
-		Part part = testGraphQLPart_addPart();
-
-		Assert.assertTrue(
-			equals(
-				part,
-				PartSerDes.toDTO(
-					JSONUtil.getValueAsString(
-						invokeGraphQLQuery(
-							new GraphQLField(
-								"part",
-								new HashMap<String, Object>() {
-									{
-										put(
-											"siteKey",
-											"\"" + part.getSiteId() + "\"");
-										put("partId", part.getId());
-									}
-								},
-								getGraphQLFields())),
-						"JSONObject/data", "Object/part"))));
-	}
-
-	@Test
-	public void testGraphQLGetPartNotFound() throws Exception {
-		Long irrelevantPartId = RandomTestUtil.randomLong();
-
-		Assert.assertEquals(
-			"Not Found",
-			JSONUtil.getValueAsString(
-				invokeGraphQLQuery(
-					new GraphQLField(
-						"part",
-						new HashMap<String, Object>() {
-							{
-								put(
-									"siteKey",
-									"\"" + irrelevantGroup.getGroupId() + "\"");
-								put("partId", irrelevantPartId);
-							}
-						},
-						getGraphQLFields())),
-				"JSONArray/errors", "Object/0", "JSONObject/extensions",
-				"Object/code"));
 	}
 
 	@Rule

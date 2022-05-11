@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
+ * <p>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -51,139 +51,147 @@ import org.slf4j.LoggerFactory;
  * @author Amir
  */
 @Component(
-	properties = "OSGI-INF/liferay/rest/v1_0/address.properties",
-	scope = ServiceScope.PROTOTYPE, service = AddressResource.class
+        properties = "OSGI-INF/liferay/rest/v1_0/address.properties",
+        scope = ServiceScope.PROTOTYPE, service = AddressResource.class
 )
 public class AddressResourceImpl extends BaseAddressResourceImpl {
 
-	@Override
-	public Address deleteAddressApi(Long siteId, Long addressId) throws Exception {
-		return toAddress(_addressService.deleteAddress(addressId));
-	}
+    @Override
+    public Address deleteAddressApi(Long siteId, Long addressId) throws Exception {
+        return toAddress(_addressService.deleteAddress(addressId));
+    }
 
-	@Override
-	public Address getAddressApi(Long addressId) throws Exception {
-		try {
+    @Override
+    public Address getAddressApi(Long addressId) throws Exception {
+        try {
 
-			// fetch the entity class...
+            // fetch the entity class...
 
-			com.sain.phonebook.model.Address persistedAddress =
-				_addressService.getAddress(addressId);
+            com.sain.phonebook.model.Address persistedAddress =
+                    _addressService.getAddress(addressId);
 
-			return toAddress(persistedAddress);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error getting address [" + addressId + "]: " +
-					exception.getMessage(),
-				exception);
+            if (persistedAddress != null) {
+                return toAddress(persistedAddress);
+            } else {
+                return null;
+            }
+        } catch (Exception exception) {
+            _log.error(
+                    "Error getting address [" + addressId + "]: " +
+                            exception.getMessage(),
+                    exception);
 
-			throw exception;
-		}
-	}
+            throw exception;
+        }
+    }
 
-	@Override
-	public Page<Address> getAddressesPage(
-			Long siteId, String search, Filter filter, Pagination pagination,
-			Sort[] sorts)
-		throws Exception {
+    @Override
+    public Page<Address> getAddressesPage(
+            Long siteId, String search, Filter filter, Pagination pagination,
+            Sort[] sorts)
+            throws Exception {
 
-		System.out.println("getAddressesPage");
+        System.out.println("getAddressesPage");
 
-		Page<Address> addressPage = SearchUtil.search(
-				booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
-				com.sain.phonebook.model.Address.class, search, pagination,
-				queryConfig -> queryConfig.setSelectedFieldNames(
-						Field.ENTRY_CLASS_PK),
-				new UnsafeConsumer() {
+        Page<Address> addressPage = SearchUtil.search(
+                booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+                com.sain.phonebook.model.Address.class, search, pagination,
+                queryConfig -> queryConfig.setSelectedFieldNames(
+                        Field.ENTRY_CLASS_PK),
+                new UnsafeConsumer() {
 
-					public void accept(Object object) throws Exception {
-						SearchContext searchContext = (SearchContext)object;
+                    public void accept(Object object) throws Exception {
+                        SearchContext searchContext = (SearchContext) object;
 
-						searchContext.setCompanyId(contextCompany.getCompanyId());
-					}
+                        searchContext.setCompanyId(contextCompany.getCompanyId());
+                    }
 
-				},
-				document -> toAddress(
-						_addressService.getAddress(
-								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
-				sorts);
+                },
+                document -> toAddress(
+                        _addressService.getAddress(
+                                GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+                sorts);
 
-		System.out.println("address page = " + addressPage);
+        System.out.println("address page = " + addressPage);
 
-		return addressPage;
-	}
+        return addressPage;
+    }
 
-	@Override
-	public Address patchAddress(@NotNull Long addressId, Address address)
-		throws Exception {
-		com.sain.phonebook.model.Address persistedAddress1 =
-				_addressService.getAddress(addressId);
-		try {
-			com.sain.phonebook.model.Address persistedAddress =
-				_addressService.patchAddress(
-					addressId, address.getName(),
-						_serviceContextHelper.getServiceContext(
-								persistedAddress1.getGroupId()));
+    @Override
+    public Address patchAddress(@NotNull Long addressId, Address address)
+            throws Exception {
+        com.sain.phonebook.model.Address persistedAddress1 =
+                _addressService.getAddress(addressId);
+        if (persistedAddress1 != null) {
+            try {
+                com.sain.phonebook.model.Address persistedAddress =
+                        _addressService.patchAddress(
+                                addressId, address.getName(),
+                                _serviceContextHelper.getServiceContext(
+                                        persistedAddress1.getGroupId()));
 
-			return toAddress(persistedAddress);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error patching address: " + exception.getMessage(), exception);
+                return toAddress(persistedAddress);
+            } catch (Exception exception) {
+                _log.error(
+                        "Error patching address: " + exception.getMessage(), exception);
 
-			throw exception;
-		}
-	}
+                throw exception;
+            }
+        } else {
+            return null;
+        }
+    }
 
-	@Override
-	public Address postAddress(Long siteId, Address address) throws Exception {
-		System.out.println("postAddress");
+    @Override
+    public Address postAddress(Long siteId, Address address) throws Exception {
+        System.out.println("postAddress");
 
-		if (_log.isDebugEnabled()) {
-			_log.debug(
-				"Need to create a new address: %s\n", address.toString());
-		}
+        if (_log.isDebugEnabled()) {
+            _log.debug(
+                    "Need to create a new address: %s\n", address.toString());
+        }
 
-		try {
-			com.sain.phonebook.model.Address persistedAddress =
-				_addressService.addAddress(
-					address.getName(),
-						_serviceContextHelper.getServiceContext(siteId));
+        try {
+            com.sain.phonebook.model.Address persistedAddress =
+                    _addressService.addAddress(
+                            address.getName(),
+                            _serviceContextHelper.getServiceContext(siteId));
 
-			return toAddress(persistedAddress);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error creating address: " + exception.getMessage(), exception);
+            return toAddress(persistedAddress);
+        } catch (Exception exception) {
+            _log.error(
+                    "Error creating address: " + exception.getMessage(), exception);
 
-			throw exception;
-		}
-	}
+            throw exception;
+        }
+    }
 
-	@Override
-	public Address putAddress(@NotNull Long addressId, Address address)
-		throws Exception {
+    @Override
+    public Address putAddress(@NotNull Long addressId, Address address)
+            throws Exception {
 
-		com.sain.phonebook.model.Address persistedAddress1 =
-				_addressService.getAddress(addressId);
+        com.sain.phonebook.model.Address persistedAddress1 =
+                _addressService.getAddress(addressId);
 
-		try {
-			com.sain.phonebook.model.Address persistedAddress =
-				_addressService.updateAddress(
-					addressId, address.getName(),
-						_serviceContextHelper.getServiceContext(
-								persistedAddress1.getGroupId()));
+        if (persistedAddress1 != null) {
+            try {
+                com.sain.phonebook.model.Address persistedAddress =
+                        _addressService.updateAddress(
+                                addressId, address.getName(),
+                                _serviceContextHelper.getServiceContext(
+                                        persistedAddress1.getGroupId()));
 
-			return toAddress(persistedAddress);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error putting address: " + exception.getMessage(), exception);
+                return toAddress(persistedAddress);
+            } catch (Exception exception) {
+                _log.error(
+                        "Error putting address: " + exception.getMessage(), exception);
 
-			throw exception;
-		}
-	}
+                throw exception;
+            }
+        } else {
+            return null;
+        }
+    }
 
 	/*private AddressEntityModel _addressEntityModel = new AddressEntityModel();
 
@@ -193,15 +201,15 @@ public class AddressResourceImpl extends BaseAddressResourceImpl {
 		return _addressEntityModel;
 	}*/
 
-	protected static Address toAddress(com.sain.phonebook.model.Address address)
-		throws PortalException {
+    protected static Address toAddress(com.sain.phonebook.model.Address address)
+            throws PortalException {
 
-		return new Address() {
-			{
-				id = address.getAddressId();
-				name = address.getName();
-			}
-		};
+        return new Address() {
+            {
+                id = address.getAddressId();
+                name = address.getName();
+            }
+        };
 		/*return new Address() {{
 			creator = CreatorUtil.toCreator(_portal,
 					_userLocalService.getUser(pv.getUserId()));
@@ -217,21 +225,21 @@ public class AddressResourceImpl extends BaseAddressResourceImpl {
 			risks = ListUtil.toArray(pv.getRisks(), VALUE_ACCESSOR);
 			symptoms = ListUtil.toArray(pv.getSymptoms(), VALUE_ACCESSOR);
 		}};*/
-	}
+    }
 
-	private static final Logger _log = LoggerFactory.getLogger(
-		AddressResourceImpl.class);
+    private static final Logger _log = LoggerFactory.getLogger(
+            AddressResourceImpl.class);
 
-	@Reference
-	private AddressService _addressService;
+    @Reference
+    private AddressService _addressService;
 
-	@Reference
-	private Portal _portal;
+    @Reference
+    private Portal _portal;
 
-	@Reference
-	private UserLocalService _userLocalService;
+    @Reference
+    private UserLocalService _userLocalService;
 
-	@Reference
-	private ServiceContextHelper _serviceContextHelper;
+    @Reference
+    private ServiceContextHelper _serviceContextHelper;
 
 }

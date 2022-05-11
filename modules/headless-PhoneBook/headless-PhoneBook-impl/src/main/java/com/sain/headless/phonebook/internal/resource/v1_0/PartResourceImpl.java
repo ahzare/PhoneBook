@@ -30,7 +30,9 @@ import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.SearchUtil;
 
 import com.sain.headless.phonebook.dto.v1_0.Part;
+import com.sain.headless.phonebook.dto.v1_0.Person;
 import com.sain.headless.phonebook.resource.v1_0.PartResource;
+import com.sain.headless.phonebook.util.ServiceContextHelper;
 import com.sain.phonebook.service.AddressService;
 import com.sain.phonebook.service.PartService;
 
@@ -53,23 +55,12 @@ import org.slf4j.LoggerFactory;
 public class PartResourceImpl extends BasePartResourceImpl {
 
 	@Override
-	public void deletePartApi(Long siteId, Long partId) throws Exception {
-		try {
-
-			// super easy case, just pass through to the service layer.
-
-			_partService.deletePart(partId);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error deleting part: " + exception.getMessage(), exception);
-
-			throw exception;
-		}
+	public Part deletePartApi(Long siteId, Long partId) throws Exception {
+		return toPart(_partService.deletePart(partId));
 	}
 
 	@Override
-	public Part getPart(Long siteId, Long partId) throws Exception {
+	public Part getPart(Long partId) throws Exception {
 		try {
 
 			// fetch the entity class...
@@ -77,7 +68,11 @@ public class PartResourceImpl extends BasePartResourceImpl {
 			com.sain.phonebook.model.Part persistedPart = _partService.getPart(
 				partId);
 
-			return toPart(persistedPart);
+			if (persistedPart != null) {
+				return toPart(persistedPart);
+			} else {
+				return null;
+			}
 		}
 		catch (Exception exception) {
 			_log.error(
@@ -98,78 +93,44 @@ public class PartResourceImpl extends BasePartResourceImpl {
 		System.out.println("getPartsPage");
 
 		Page<Part> partPage = SearchUtil.search(
-			booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
-			com.sain.phonebook.model.Part.class, search, pagination,
-			queryConfig -> queryConfig.setSelectedFieldNames(
-				Field.ENTRY_CLASS_PK),
-			new UnsafeConsumer() {
+				booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+				com.sain.phonebook.model.Part.class, search, pagination,
+				queryConfig -> queryConfig.setSelectedFieldNames(
+						Field.ENTRY_CLASS_PK),
+				new UnsafeConsumer() {
 
-				public void accept(Object object) throws Exception {
-					SearchContext searchContext = (SearchContext)object;
+					public void accept(Object object) throws Exception {
+						SearchContext searchContext = (SearchContext)object;
 
-					searchContext.setCompanyId(contextCompany.getCompanyId());
-				}
+						searchContext.setCompanyId(contextCompany.getCompanyId());
+					}
 
-			},
-			document -> toPart(
-				_partService.getPart(
-					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
-			sorts);
+				},
+				document -> toPart(
+						_partService.getPart(
+								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+				sorts);
 
 		System.out.println("part page = " + partPage);
 
 		return partPage;
-
-		/* List<Part> list = _persistedPartService.getAll()
-		         .stream().map(persistedPart -> {
-		             try {
-		                 // adding for search
-		                 Part part = _toPart(persistedPart);
-		                 if (search != null) {
-		                     if (part.getName().contains(search)) {
-		                         return part;
-		                     }
-		                 } else {
-		                     return part;
-		                 }
-		                 //return _toPart(persistedPart);
-		             } catch (PortalException exception) {
-		                 exception.printStackTrace();
-		             }
-		             return new Part();
-		         }).collect(Collectors.toList());*/
-		/*
-				List<com.sain.phonebook.model.Part> persistedParts =
-					_partService.getAll();
-				List<Part> list = new ArrayList<>();
-
-				for (com.sain.phonebook.model.Part persistedPart : persistedParts) {
-					Part part = toPart(persistedPart);
-
-					if (search != null) {
-						String name = part.getName();
-
-						if (name.contains(search)) {
-							list.add(part);
-						}
-					}
-					else {
-						list.add(part);
-					}
-				}
-
-				return Page.of(list);*/
 	}
 
 	@Override
 	public Part patchPartApi(@NotNull Long partId, Long addressId, Part part)
 		throws Exception {
 
+		com.sain.phonebook.model.Part persistedPart1 =
+			_partService.getPart(partId);
+
+		if (persistedPart1 !=null) {
 		try {
 			com.sain.phonebook.model.Part persistedPart =
 				_partService.patchPart(
 					partId, part.getName(), part.getInternalPhone(),
-					(addressId != null) ? addressId : 0, getServiceContext());
+					(addressId != null) ? addressId : 0,
+						_serviceContextHelper.getServiceContext(
+								persistedPart1.getGroupId()));
 
 			return toPart(persistedPart);
 		}
@@ -178,6 +139,9 @@ public class PartResourceImpl extends BasePartResourceImpl {
 				"Error patching part: " + exception.getMessage(), exception);
 
 			throw exception;
+		}
+		} else {
+			return null;
 		}
 	}
 
@@ -191,12 +155,11 @@ public class PartResourceImpl extends BasePartResourceImpl {
 			_log.debug("Need to create a new part: %s\n", part.toString());
 		}
 
-		_log.warn("hi ali");
-
 		try {
 			com.sain.phonebook.model.Part persistedPart = _partService.addPart(
 				part.getName(), part.getInternalPhone(),
-				(addressId != null) ? addressId : 0, getServiceContext());
+				(addressId != null) ? addressId : 0,
+					_serviceContextHelper.getServiceContext(siteId));
 
 			return toPart(persistedPart);
 		}
@@ -212,11 +175,17 @@ public class PartResourceImpl extends BasePartResourceImpl {
 	public Part putPartApi(Long partId, Long addressId, Part part)
 		throws Exception {
 
+		com.sain.phonebook.model.Part persistedPart1 =
+			_partService.getPart(partId);
+
+		if (persistedPart1 != null) {
 		try {
 			com.sain.phonebook.model.Part persistedPart =
 				_partService.updatePart(
 					partId, part.getName(), part.getInternalPhone(),
-					(addressId != null) ? addressId : 0, getServiceContext());
+					(addressId != null) ? addressId : 0,
+						_serviceContextHelper.getServiceContext(
+								persistedPart1.getGroupId()));
 
 			return toPart(persistedPart);
 		}
@@ -225,6 +194,9 @@ public class PartResourceImpl extends BasePartResourceImpl {
 				"Error putting part: " + exception.getMessage(), exception);
 
 			throw exception;
+		}
+		} else {
+			return null;
 		}
 	}
 
@@ -242,14 +214,6 @@ public class PartResourceImpl extends BasePartResourceImpl {
 		return serviceContext;
 	}
 
-	/*private PartEntityModel _partEntityModel = new PartEntityModel();
-
-	@Override
-	public EntityModel getEntityModel(MultivaluedMap multivaluedMap)
-			throws Exception {
-		return _partEntityModel;
-	}*/
-
 	protected Part toPart(com.sain.phonebook.model.Part part)
 		throws PortalException {
 
@@ -265,21 +229,6 @@ public class PartResourceImpl extends BasePartResourceImpl {
 				}
 			}
 		};
-		/*return new Part() {{
-			creator = CreatorUtil.toCreator(_portal,
-					_userLocalService.getUser(pv.getUserId()));
-			articleId = pv.getArticleId();
-			group = pv.getGroupName();
-			description = pv.getDescription();
-			id = pv.getSurrogateId();
-			name = pv.getName();
-			type = _toPartType(pv.getType());
-			attributes = ListUtil.toArray(pv.getAttributes(), VALUE_ACCESSOR);
-			chemicalNames = ListUtil.toArray(pv.getChemicalNames(), VALUE_ACCESSOR);
-			properties = ListUtil.toArray(pv.getProperties(), VALUE_ACCESSOR);
-			risks = ListUtil.toArray(pv.getRisks(), VALUE_ACCESSOR);
-			symptoms = ListUtil.toArray(pv.getSymptoms(), VALUE_ACCESSOR);
-		}};*/
 	}
 
 	private static final Logger _log = LoggerFactory.getLogger(
@@ -297,4 +246,6 @@ public class PartResourceImpl extends BasePartResourceImpl {
 	@Reference
 	private UserLocalService _userLocalService;
 
+	@Reference
+	private ServiceContextHelper _serviceContextHelper;
 }

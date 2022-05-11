@@ -37,6 +37,8 @@ public interface PartResource {
 		return FactoryHolder.factory.create();
 	}
 
+	public Part getPart(Long partId) throws Exception;
+
 	public Part patchPartApi(Long partId, Long addressId, Part part)
 		throws Exception;
 
@@ -51,9 +53,7 @@ public interface PartResource {
 	public Part postPart(Long siteId, Long addressId, Part part)
 		throws Exception;
 
-	public void deletePartApi(Long siteId, Long partId) throws Exception;
-
-	public Part getPart(Long siteId, Long partId) throws Exception;
+	public Part deletePartApi(Long siteId, Long partId) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

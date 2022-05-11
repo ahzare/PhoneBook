@@ -93,7 +93,7 @@ public class DepartmentServiceHttp {
 		}
 	}
 
-	public static void deleteDepartment(
+	public static com.sain.phonebook.model.Department deleteDepartment(
 			HttpPrincipal httpPrincipal, long departmentId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -105,8 +105,10 @@ public class DepartmentServiceHttp {
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, departmentId);
 
+			Object returnObj = null;
+
 			try {
-				TunnelUtil.invoke(httpPrincipal, methodHandler);
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
 				if (exception instanceof
@@ -119,6 +121,8 @@ public class DepartmentServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
+
+			return (com.sain.phonebook.model.Department)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {

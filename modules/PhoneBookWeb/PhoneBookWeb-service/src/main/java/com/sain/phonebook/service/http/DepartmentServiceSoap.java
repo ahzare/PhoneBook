@@ -83,11 +83,16 @@ public class DepartmentServiceSoap {
 		}
 	}
 
-	public static void deleteDepartment(long departmentId)
+	public static com.sain.phonebook.model.DepartmentSoap deleteDepartment(
+			long departmentId)
 		throws RemoteException {
 
 		try {
-			DepartmentServiceUtil.deleteDepartment(departmentId);
+			com.sain.phonebook.model.Department returnValue =
+				DepartmentServiceUtil.deleteDepartment(departmentId);
+
+			return com.sain.phonebook.model.DepartmentSoap.toSoapModel(
+				returnValue);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);

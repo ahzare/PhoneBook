@@ -111,7 +111,6 @@ public interface DepartmentLocalService
 	 * @return the department that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Department deleteDepartment(Department department);
 
 	/**
@@ -126,6 +125,7 @@ public interface DepartmentLocalService
 	 * @throws PortalException if a department with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Department deleteDepartment(long departmentId)
 		throws PortalException;
 

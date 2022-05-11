@@ -131,6 +131,23 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {departmentApi(departmentId: ___){id, name}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(description = "Retrieves the department via its ID.")
+	public Department departmentApi(
+			@GraphQLName("departmentId") Long departmentId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_departmentResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			departmentResource -> departmentResource.getDepartmentApi(
+				departmentId));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {departments(filter: ___, page: ___, pageSize: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
@@ -159,19 +176,14 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {departmentApi(departmentId: ___, siteKey: ___){id, name}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {part(partId: ___){address, id, internalPhone, name}}"}' -u 'test@liferay.com:test'
 	 */
-	@GraphQLField(description = "Retrieves the department via its ID.")
-	public Department departmentApi(
-			@GraphQLName("siteKey") @NotEmpty String siteKey,
-			@GraphQLName("departmentId") Long departmentId)
-		throws Exception {
-
+	@GraphQLField(description = "Retrieves the part via its ID.")
+	public Part part(@GraphQLName("partId") Long partId) throws Exception {
 		return _applyComponentServiceObjects(
-			_departmentResourceComponentServiceObjects,
+			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
-			departmentResource -> departmentResource.getDepartmentApi(
-				Long.valueOf(siteKey), departmentId));
+			partResource -> partResource.getPart(partId));
 	}
 
 	/**
@@ -200,24 +212,6 @@ public class Query {
 					_filterBiFunction.apply(partResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(partResource, sortsString))));
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {part(partId: ___, siteKey: ___){address, id, internalPhone, name}}"}' -u 'test@liferay.com:test'
-	 */
-	@GraphQLField(description = "Retrieves the part via its ID.")
-	public Part part(
-			@GraphQLName("siteKey") @NotEmpty String siteKey,
-			@GraphQLName("partId") Long partId)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_partResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			partResource -> partResource.getPart(
-				Long.valueOf(siteKey), partId));
 	}
 
 	/**

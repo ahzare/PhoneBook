@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.DateUtil;
 
 import com.sain.phonebook.exception.NoSuchPartException;
 import com.sain.phonebook.model.Part;
+import com.sain.phonebook.model.Person;
 import com.sain.phonebook.service.base.PartLocalServiceBaseImpl;
 
 import java.util.Date;
@@ -91,39 +92,22 @@ public class PartLocalServiceImpl extends PartLocalServiceBaseImpl {
 
 	@Indexable(type = IndexableType.DELETE)
 	@Override
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Part deletePart(long partId) throws PortalException {
-		Part part = fetchPart(partId);
+		Part part = partPersistence.findByPrimaryKey(partId);
 
 		if (part != null) {
+
+			/*resourceLocalService.deleteResource(
+					part.getCompanyId(),
+					Part.class.getName(),
+					ResourceConstants.SCOPE_INDIVIDUAL,
+					part.getPartId());*/
+
 			return deletePart(part);
 		}
 
 		return null;
-	}
-
-	@Indexable(type = IndexableType.DELETE)
-	@Override
-	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
-	public Part deletePart(Part part) {
-		/*try{
-			resourceLocalService.deleteResource(
-					part.getCompanyId(),
-					Part.class.getName(),
-					ResourceConstants.SCOPE_INDIVIDUAL,
-					part.getPartId());
-		}catch(PortalException exception){
-			_log.warn("Error deleting persisted part permissions: "+
-					exception.getMessage(), exception);
-		}*/
-
-		//        todo: delete part parts and departments
-
-		// call the super action method to try the delete.
-
-		return super.deletePart(part);
-
-		//        return partLocalService.deletePart(part);
-
 	}
 
 	public Part getPart(final long partId) {

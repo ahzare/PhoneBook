@@ -211,18 +211,16 @@ public class Mutation {
 	@GraphQLField(
 		description = "Deletes the department and returns a 204 if the operation succeeds."
 	)
-	public boolean deleteDepartmentApi(
+	public Department deleteDepartmentApi(
 			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("departmentId") Long departmentId)
 		throws Exception {
 
-		_applyVoidComponentServiceObjects(
+		return _applyComponentServiceObjects(
 			_departmentResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			departmentResource -> departmentResource.deleteDepartmentApi(
 				Long.valueOf(siteKey), departmentId));
-
-		return true;
 	}
 
 	@GraphQLField(
@@ -272,18 +270,16 @@ public class Mutation {
 	@GraphQLField(
 		description = "Deletes the part and returns a 204 if the operation succeeds."
 	)
-	public boolean deletePartApi(
+	public Part deletePartApi(
 			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("partId") Long partId)
 		throws Exception {
 
-		_applyVoidComponentServiceObjects(
+		return _applyComponentServiceObjects(
 			_partResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			partResource -> partResource.deletePartApi(
 				Long.valueOf(siteKey), partId));
-
-		return true;
 	}
 
 	@GraphQLField(

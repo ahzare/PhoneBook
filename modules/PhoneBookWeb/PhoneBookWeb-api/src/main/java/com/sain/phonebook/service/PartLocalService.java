@@ -114,6 +114,7 @@ public interface PartLocalService
 	 * @throws PortalException if a part with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Part deletePart(long partId) throws PortalException;
 
 	/**
@@ -127,7 +128,6 @@ public interface PartLocalService
 	 * @return the part that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Part deletePart(Part part);
 
 	/**

@@ -186,6 +186,63 @@ public abstract class BaseDepartmentResourceTestCase {
 	}
 
 	@Test
+	public void testGetDepartmentApi() throws Exception {
+		Department postDepartment = testGetDepartmentApi_addDepartment();
+
+		Department getDepartment = departmentResource.getDepartmentApi(
+			postDepartment.getId());
+
+		assertEquals(postDepartment, getDepartment);
+		assertValid(getDepartment);
+	}
+
+	protected Department testGetDepartmentApi_addDepartment() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetDepartmentApi() throws Exception {
+		Department department = testGraphQLDepartment_addDepartment();
+
+		Assert.assertTrue(
+			equals(
+				department,
+				DepartmentSerDes.toDTO(
+					JSONUtil.getValueAsString(
+						invokeGraphQLQuery(
+							new GraphQLField(
+								"departmentApi",
+								new HashMap<String, Object>() {
+									{
+										put("departmentId", department.getId());
+									}
+								},
+								getGraphQLFields())),
+						"JSONObject/data", "Object/departmentApi"))));
+	}
+
+	@Test
+	public void testGraphQLGetDepartmentApiNotFound() throws Exception {
+		Long irrelevantDepartmentId = RandomTestUtil.randomLong();
+
+		Assert.assertEquals(
+			"Not Found",
+			JSONUtil.getValueAsString(
+				invokeGraphQLQuery(
+					new GraphQLField(
+						"departmentApi",
+						new HashMap<String, Object>() {
+							{
+								put("departmentId", irrelevantDepartmentId);
+							}
+						},
+						getGraphQLFields())),
+				"JSONArray/errors", "Object/0", "JSONObject/extensions",
+				"Object/code"));
+	}
+
+	@Test
 	public void testPatchDepartment() throws Exception {
 		Assert.assertTrue(false);
 	}
@@ -559,10 +616,10 @@ public abstract class BaseDepartmentResourceTestCase {
 		assertHttpResponseStatusCode(
 			404,
 			departmentResource.getDepartmentApiHttpResponse(
-				null, department.getId()));
+				department.getId()));
 
 		assertHttpResponseStatusCode(
-			404, departmentResource.getDepartmentApiHttpResponse(null, 0L));
+			404, departmentResource.getDepartmentApiHttpResponse(0L));
 	}
 
 	protected Department testDeleteDepartmentApi_addDepartment()
@@ -570,70 +627,6 @@ public abstract class BaseDepartmentResourceTestCase {
 
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testGetDepartmentApi() throws Exception {
-		Department postDepartment = testGetDepartmentApi_addDepartment();
-
-		Department getDepartment = departmentResource.getDepartmentApi(
-			null, postDepartment.getId());
-
-		assertEquals(postDepartment, getDepartment);
-		assertValid(getDepartment);
-	}
-
-	protected Department testGetDepartmentApi_addDepartment() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testGraphQLGetDepartmentApi() throws Exception {
-		Department department = testGraphQLDepartment_addDepartment();
-
-		Assert.assertTrue(
-			equals(
-				department,
-				DepartmentSerDes.toDTO(
-					JSONUtil.getValueAsString(
-						invokeGraphQLQuery(
-							new GraphQLField(
-								"departmentApi",
-								new HashMap<String, Object>() {
-									{
-										put(
-											"siteKey",
-											"\"" + department.getSiteId() +
-												"\"");
-										put("departmentId", department.getId());
-									}
-								},
-								getGraphQLFields())),
-						"JSONObject/data", "Object/departmentApi"))));
-	}
-
-	@Test
-	public void testGraphQLGetDepartmentApiNotFound() throws Exception {
-		Long irrelevantDepartmentId = RandomTestUtil.randomLong();
-
-		Assert.assertEquals(
-			"Not Found",
-			JSONUtil.getValueAsString(
-				invokeGraphQLQuery(
-					new GraphQLField(
-						"departmentApi",
-						new HashMap<String, Object>() {
-							{
-								put(
-									"siteKey",
-									"\"" + irrelevantGroup.getGroupId() + "\"");
-								put("departmentId", irrelevantDepartmentId);
-							}
-						},
-						getGraphQLFields())),
-				"JSONArray/errors", "Object/0", "JSONObject/extensions",
-				"Object/code"));
 	}
 
 	@Rule

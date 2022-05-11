@@ -275,6 +275,29 @@ paths:
                     description:
                         Default Response
             tags: ["Department"]
+        get:
+            description:
+                Retrieves the department via its ID.
+            operationId: getDepartmentApi
+            parameters:
+                - in: path
+                  name: departmentId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Department"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Department"
+                    description:
+                        desc
+            tags: ["Department"]
     "/parts/{partId}":
         patch:
             description:
@@ -349,6 +372,29 @@ paths:
                                 $ref: "#/components/schemas/Part"
                     description:
                         Default Response
+            tags: ["Part"]
+        get:
+            description:
+                Retrieves the part via its ID.
+            operationId: getPart
+            parameters:
+                - in: path
+                  name: partId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Part"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Part"
+                    description:
+                        desc
             tags: ["Part"]
     "/persons/{personId}":
         get:
@@ -733,31 +779,6 @@ paths:
             responses:
                 204:
                     content:
-                        application/json: {}
-                        application/xml: {}
-                    description:
-                        desc
-            tags: ["Department"]
-        get:
-            description:
-                Retrieves the department via its ID.
-            operationId: getDepartmentApi
-            parameters:
-                - in: path
-                  name: siteId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-                - in: path
-                  name: departmentId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Department"
@@ -765,7 +786,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Department"
                     description:
-                        desc
+                        "Department successfully delete"
             tags: ["Department"]
     "/sites/{siteId}/excel":
         get:
@@ -935,31 +956,6 @@ paths:
             responses:
                 204:
                     content:
-                        application/json: {}
-                        application/xml: {}
-                    description:
-                        desc
-            tags: ["Part"]
-        get:
-            description:
-                Retrieves the part via its ID.
-            operationId: getPart
-            parameters:
-                - in: path
-                  name: siteId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-                - in: path
-                  name: partId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Part"
@@ -967,7 +963,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Part"
                     description:
-                        desc
+                        "Part successfully delete"
             tags: ["Part"]
     "/sites/{siteId}/persons":
         get:

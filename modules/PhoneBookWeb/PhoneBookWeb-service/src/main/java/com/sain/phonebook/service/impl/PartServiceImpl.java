@@ -57,13 +57,13 @@ public class PartServiceImpl extends PartServiceBaseImpl {
 			name, internalPhone, addressId, serviceContext);
 	}
 
-	public void deletePart(final long partId) throws PortalException {
+	public Part deletePart(final long partId) throws PortalException {
 
 		//        _partModelResourcePermission.check(
 		//        getPermissionChecker(), partLocalService.getPart(partId),
 		//        ActionKeys.DELETE);
 
-		partLocalService.deletePart(partId);
+		return partLocalService.deletePart(partId);
 	}
 
 	public List<Part> getAll() {

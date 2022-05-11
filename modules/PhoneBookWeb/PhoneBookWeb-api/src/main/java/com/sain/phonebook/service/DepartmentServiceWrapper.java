@@ -40,10 +40,11 @@ public class DepartmentServiceWrapper
 	}
 
 	@Override
-	public void deleteDepartment(long departmentId)
+	public com.sain.phonebook.model.Department deleteDepartment(
+			long departmentId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_departmentService.deleteDepartment(departmentId);
+		return _departmentService.deleteDepartment(departmentId);
 	}
 
 	@Override

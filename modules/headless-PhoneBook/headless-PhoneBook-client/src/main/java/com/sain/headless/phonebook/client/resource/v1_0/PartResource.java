@@ -26,6 +26,11 @@ public interface PartResource {
 		return new Builder();
 	}
 
+	public Part getPart(Long partId) throws Exception;
+
+	public HttpInvoker.HttpResponse getPartHttpResponse(Long partId)
+		throws Exception;
+
 	public Part patchPartApi(Long partId, Long addressId, Part part)
 		throws Exception;
 
@@ -57,15 +62,9 @@ public interface PartResource {
 			Long siteId, Long addressId, Part part)
 		throws Exception;
 
-	public void deletePartApi(Long siteId, Long partId) throws Exception;
+	public Part deletePartApi(Long siteId, Long partId) throws Exception;
 
 	public HttpInvoker.HttpResponse deletePartApiHttpResponse(
-			Long siteId, Long partId)
-		throws Exception;
-
-	public Part getPart(Long siteId, Long partId) throws Exception;
-
-	public HttpInvoker.HttpResponse getPartHttpResponse(
 			Long siteId, Long partId)
 		throws Exception;
 
@@ -139,6 +138,83 @@ public interface PartResource {
 	}
 
 	public static class PartResourceImpl implements PartResource {
+
+		public Part getPart(Long partId) throws Exception {
+			HttpInvoker.HttpResponse httpResponse = getPartHttpResponse(partId);
+
+			String content = httpResponse.getContent();
+
+			if ((httpResponse.getStatusCode() / 100) != 2) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response content: " + content);
+				_logger.log(
+					Level.WARNING,
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.log(
+					Level.WARNING,
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+			else {
+				_logger.fine("HTTP response content: " + content);
+				_logger.fine(
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.fine(
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+			}
+
+			try {
+				return PartSerDes.toDTO(content);
+			}
+			catch (Exception e) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response: " + content, e);
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+		}
+
+		public HttpInvoker.HttpResponse getPartHttpResponse(Long partId)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port +
+						"/o/headless-PhoneBook/v1.0/parts/{partId}");
+
+			httpInvoker.path("partId", partId);
+
+			httpInvoker.userNameAndPassword(
+				_builder._login + ":" + _builder._password);
+
+			return httpInvoker.invoke();
+		}
 
 		public Part patchPartApi(Long partId, Long addressId, Part part)
 			throws Exception {
@@ -504,88 +580,8 @@ public interface PartResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deletePartApi(Long siteId, Long partId) throws Exception {
+		public Part deletePartApi(Long siteId, Long partId) throws Exception {
 			HttpInvoker.HttpResponse httpResponse = deletePartApiHttpResponse(
-				siteId, partId);
-
-			String content = httpResponse.getContent();
-
-			if ((httpResponse.getStatusCode() / 100) != 2) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response content: " + content);
-				_logger.log(
-					Level.WARNING,
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.log(
-					Level.WARNING,
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-
-				throw new Problem.ProblemException(Problem.toDTO(content));
-			}
-			else {
-				_logger.fine("HTTP response content: " + content);
-				_logger.fine(
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.fine(
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-			}
-
-			try {
-				return;
-			}
-			catch (Exception e) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
-
-				throw new Problem.ProblemException(Problem.toDTO(content));
-			}
-		}
-
-		public HttpInvoker.HttpResponse deletePartApiHttpResponse(
-				Long siteId, Long partId)
-			throws Exception {
-
-			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			if (_builder._locale != null) {
-				httpInvoker.header(
-					"Accept-Language", _builder._locale.toLanguageTag());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._headers.entrySet()) {
-
-				httpInvoker.header(entry.getKey(), entry.getValue());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._parameters.entrySet()) {
-
-				httpInvoker.parameter(entry.getKey(), entry.getValue());
-			}
-
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
-
-			httpInvoker.path(
-				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
-						"/o/headless-PhoneBook/v1.0/sites/{siteId}/parts/{partId}");
-
-			httpInvoker.path("siteId", siteId);
-			httpInvoker.path("partId", partId);
-
-			httpInvoker.userNameAndPassword(
-				_builder._login + ":" + _builder._password);
-
-			return httpInvoker.invoke();
-		}
-
-		public Part getPart(Long siteId, Long partId) throws Exception {
-			HttpInvoker.HttpResponse httpResponse = getPartHttpResponse(
 				siteId, partId);
 
 			String content = httpResponse.getContent();
@@ -625,7 +621,7 @@ public interface PartResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getPartHttpResponse(
+		public HttpInvoker.HttpResponse deletePartApiHttpResponse(
 				Long siteId, Long partId)
 			throws Exception {
 
@@ -648,7 +644,7 @@ public interface PartResource {
 				httpInvoker.parameter(entry.getKey(), entry.getValue());
 			}
 
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +

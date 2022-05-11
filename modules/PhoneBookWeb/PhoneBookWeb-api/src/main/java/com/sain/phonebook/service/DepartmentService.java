@@ -56,7 +56,8 @@ public interface DepartmentService extends BaseService {
 	public Department addDepartment(String name, ServiceContext serviceContext)
 		throws PortalException;
 
-	public void deleteDepartment(long departmentId) throws PortalException;
+	public Department deleteDepartment(long departmentId)
+		throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Department> getAll();

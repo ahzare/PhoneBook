@@ -47,10 +47,10 @@ public class DepartmentServiceUtil {
 		return getService().addDepartment(name, serviceContext);
 	}
 
-	public static void deleteDepartment(long departmentId)
+	public static Department deleteDepartment(long departmentId)
 		throws PortalException {
 
-		getService().deleteDepartment(departmentId);
+		return getService().deleteDepartment(departmentId);
 	}
 
 	public static List<Department> getAll() {

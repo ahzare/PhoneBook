@@ -93,7 +93,8 @@ public class PartServiceHttp {
 		}
 	}
 
-	public static void deletePart(HttpPrincipal httpPrincipal, long partId)
+	public static com.sain.phonebook.model.Part deletePart(
+			HttpPrincipal httpPrincipal, long partId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
@@ -103,8 +104,10 @@ public class PartServiceHttp {
 
 			MethodHandler methodHandler = new MethodHandler(methodKey, partId);
 
+			Object returnObj = null;
+
 			try {
-				TunnelUtil.invoke(httpPrincipal, methodHandler);
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
 				if (exception instanceof
@@ -117,6 +120,8 @@ public class PartServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
+
+			return (com.sain.phonebook.model.Part)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {

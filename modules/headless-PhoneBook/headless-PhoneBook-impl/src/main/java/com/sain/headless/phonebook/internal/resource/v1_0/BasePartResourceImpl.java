@@ -72,6 +72,25 @@ public abstract class BasePartResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts/{partId}'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(description = "Retrieves the part via its ID.")
+	@Override
+	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "partId")})
+	@Path("/parts/{partId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Part")})
+	public Part getPart(
+			@NotNull @Parameter(hidden = true) @PathParam("partId") Long partId)
+		throws Exception {
+
+		return new Part();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-PhoneBook/v1.0/parts/{partId}' -d $'{"address": ___, "id": ___, "internalPhone": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Consumes({"application/json", "application/xml"})
@@ -206,30 +225,7 @@ public abstract class BasePartResourceImpl
 	@Path("/sites/{siteId}/parts/{partId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Part")})
-	public void deletePartApi(
-			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@NotNull @Parameter(hidden = true) @PathParam("partId") Long partId)
-		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/parts/{partId}'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(description = "Retrieves the part via its ID.")
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.PATH, name = "partId")
-		}
-	)
-	@Path("/sites/{siteId}/parts/{partId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Part")})
-	public Part getPart(
+	public Part deletePartApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("partId") Long partId)
 		throws Exception {

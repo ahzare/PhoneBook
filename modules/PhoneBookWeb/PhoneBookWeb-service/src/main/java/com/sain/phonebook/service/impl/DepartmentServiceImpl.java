@@ -58,7 +58,7 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 		return departmentLocalService.addDepartment(name, serviceContext);
 	}
 
-	public void deleteDepartment(final long departmentId)
+	public Department deleteDepartment(final long departmentId)
 		throws PortalException {
 
 		//        _departmentModelResourcePermission.check(
@@ -66,7 +66,7 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 		//        departmentLocalService.getDepartment(departmentId),
 		//        ActionKeys.DELETE);
 
-		departmentLocalService.deleteDepartment(departmentId);
+		return departmentLocalService.deleteDepartment(departmentId);
 	}
 
 	public List<Department> getAll() {

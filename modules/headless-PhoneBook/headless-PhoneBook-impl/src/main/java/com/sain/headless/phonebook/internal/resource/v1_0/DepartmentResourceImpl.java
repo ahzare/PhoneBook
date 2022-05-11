@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
+ * <p>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -14,18 +14,25 @@
 
 package com.sain.headless.phonebook.internal.resource.v1_0;
 
+import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
+import com.liferay.portal.vulcan.util.SearchUtil;
 import com.sain.headless.phonebook.dto.v1_0.Department;
+import com.sain.headless.phonebook.dto.v1_0.Person;
 import com.sain.headless.phonebook.resource.v1_0.DepartmentResource;
+import com.sain.headless.phonebook.util.ServiceContextHelper;
 import com.sain.phonebook.service.DepartmentService;
 
 import java.util.ArrayList;
@@ -44,136 +51,74 @@ import org.slf4j.LoggerFactory;
  * @author Amir
  */
 @Component(
-	properties = "OSGI-INF/liferay/rest/v1_0/department.properties",
-	scope = ServiceScope.PROTOTYPE, service = DepartmentResource.class
+        properties = "OSGI-INF/liferay/rest/v1_0/department.properties",
+        scope = ServiceScope.PROTOTYPE, service = DepartmentResource.class
 )
 public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
 
-	@Override
-	public void deleteDepartmentApi(Long siteId, Long departmentId)
-		throws Exception {
+    @Override
+    public Department deleteDepartmentApi(Long siteId, Long departmentId)
+            throws Exception {
+        return toDepartment(_departmentService.deleteDepartment(departmentId));
+    }
 
-		try {
+    @Override
+    public Department getDepartmentApi( Long departmentId)
+            throws Exception {
 
-			// super easy case, just pass through to the service layer.
+        try {
 
-			_departmentService.deleteDepartment(departmentId);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error deleting department: " + exception.getMessage(),
-				exception);
+            // fetch the entity class...
 
-			throw exception;
-		}
-	}
+            com.sain.phonebook.model.Department persistedDepartment =
+                    _departmentService.getDepartment(departmentId);
 
-	@Override
-	public Department getDepartmentApi(Long siteId, Long departmentId)
-		throws Exception {
+            if (persistedDepartment != null) {
+                return toDepartment(persistedDepartment);
+            } else {
+                return null;
+            }
+        } catch (Exception exception) {
+            _log.error(
+                    "Error getting department [" + departmentId + "]: " +
+                            exception.getMessage(),
+                    exception);
 
-		try {
+            throw exception;
+        }
+    }
 
-			// fetch the entity class...
+    @Override
+    public Page<Department> getDepartmentsPage(
+            Long siteId, String search, Filter filter, Pagination pagination,
+            Sort[] sorts)
+            throws Exception {
 
-			com.sain.phonebook.model.Department persistedDepartment =
-				_departmentService.getDepartment(departmentId);
+        System.out.println("getDepartmentsPage");
 
-			return toDepartment(persistedDepartment);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error getting department [" + departmentId + "]: " +
-					exception.getMessage(),
-				exception);
+        Page<Department> departmentPage = SearchUtil.search(
+                booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+                com.sain.phonebook.model.Department.class, search, pagination,
+                queryConfig -> queryConfig.setSelectedFieldNames(
+                        Field.ENTRY_CLASS_PK),
+                new UnsafeConsumer() {
 
-			throw exception;
-		}
-	}
+                    public void accept(Object object) throws Exception {
+                        SearchContext searchContext = (SearchContext) object;
 
-	@Override
-	public Page<Department> getDepartmentsPage(
-			Long siteId, String search, Filter filter, Pagination pagination,
-			Sort[] sorts)
-		throws Exception {
+                        searchContext.setCompanyId(contextCompany.getCompanyId());
+                    }
 
-		System.out.println("getDepartmentsPage");
+                },
+                document -> toDepartment(
+                        _departmentService.getDepartment(
+                                GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+                sorts);
 
-		/* return SearchUtil.search(
-		         null,
-		         booleanQuery -> {
-		         },
-		         filter, Department.class, search, pagination,
-		         queryConfig -> queryConfig.setSelectedFieldNames(
-		                 Field.ENTRY_CLASS_PK),
-		         searchContext -> {
-		             searchContext.setCompanyId(contextCompany.getCompanyId());
-		             searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
-		         },
-		         sorts,
-		         document -> _toDepartment(_persistedDepartmentService.getPersistedDepartment(document.get(Field.ENTRY_CLASS_PK))));
-*/
+        System.out.println("department page = " + departmentPage);
 
-		/* return SearchUtil.search(
-		       null,
-		         booleanQuery -> {
-		         },
-		         filter, Department.class, search, pagination,
-		         queryConfig -> queryConfig.setSelectedFieldNames(
-		                 Field.ENTRY_CLASS_PK),
-		         searchContext -> {
-		             searchContext.setAttribute(Field.NAME, search);
-		             searchContext.setCompanyId(contextCompany.getCompanyId());
-		             searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
-		         },
-		         sorts,
-		         document -> _toDepartment(
-		                 _persistedDepartmentService.getPersistedDepartment(
-		                         GetterUtil.getString(
-		                         document.get(Field.ENTRY_CLASS_PK)))));*/
-
-		/* List<Department> list = _persistedDepartmentService.getAll()
-		         .stream().map(persistedDepartment -> {
-		             try {
-		                 // adding for search
-		                 Department department = _toDepartment(persistedDepartment);
-		                 if (search != null) {
-		                     if (department.getName().contains(search)) {
-		                         return department;
-		                     }
-		                 } else {
-		                     return department;
-		                 }
-		                 //return _toDepartment(persistedDepartment);
-		             } catch (PortalException exception) {
-		                 exception.printStackTrace();
-		             }
-		             return new Department();
-		         }).collect(Collectors.toList());*/
-
-		List<com.sain.phonebook.model.Department> persistedDepartments =
-			_departmentService.getAll();
-		List<Department> list = new ArrayList<>();
-
-		for (com.sain.phonebook.model.Department persistedDepartment :
-				persistedDepartments) {
-
-			Department department = toDepartment(persistedDepartment);
-
-			if (search != null) {
-				String name = department.getName();
-
-				if (name.contains(search)) {
-					list.add(department);
-				}
-			}
-			else {
-				list.add(department);
-			}
-		}
-
-		return Page.of(list);
-	}
+        return departmentPage;
+    }
 
 	/*@Override
 	public EntityModel getEntityModel(MultivaluedMap multivaluedMap)
@@ -182,131 +127,115 @@ public class DepartmentResourceImpl extends BaseDepartmentResourceImpl {
 		return _departmentEntityModel;
 	}*/
 
-	@Override
-	public Department patchDepartment(
-			@NotNull Long departmentId, Department department)
-		throws Exception {
+    @Override
+    public Department patchDepartment(
+            @NotNull Long departmentId, Department department)
+            throws Exception {
 
-		try {
-			com.sain.phonebook.model.Department persistedDepartment =
-				_departmentService.patchDepartment(
-					departmentId, department.getName(), getServiceContext());
+        com.sain.phonebook.model.Department persistedDepartment1 =
+                _departmentService.getDepartment(departmentId);
 
-			return toDepartment(persistedDepartment);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error patching department: " + exception.getMessage(),
-				exception);
+        if (persistedDepartment1 != null) {
+            try {
+                com.sain.phonebook.model.Department persistedDepartment =
+                        _departmentService.patchDepartment(
+                                departmentId, department.getName(),
+                                _serviceContextHelper.getServiceContext(
+                                        persistedDepartment1.getGroupId()));
 
-			throw exception;
-		}
-	}
+                return toDepartment(persistedDepartment);
+            } catch (Exception exception) {
+                _log.error(
+                        "Error patching department: " + exception.getMessage(),
+                        exception);
 
-	@Override
-	public Department postDepartment(Long siteId, Department department)
-		throws Exception {
+                throw exception;
+            }
+        } else {
+            return null;
+        }
+    }
 
-		System.out.println("postDepartment");
+    @Override
+    public Department postDepartment(Long siteId, Department department)
+            throws Exception {
 
-		if (_log.isDebugEnabled()) {
-			_log.debug(
-				"Need to create a new department: %s\n", department.toString());
-		}
+        System.out.println("postDepartment");
 
-		_log.warn("hi ali");
+        if (_log.isDebugEnabled()) {
+            _log.debug(
+                    "Need to create a new department: %s\n", department.toString());
+        }
 
-		try {
-			com.sain.phonebook.model.Department persistedDepartment =
-				_departmentService.addDepartment(
-					department.getName(), getServiceContext());
+        try {
+            com.sain.phonebook.model.Department persistedDepartment =
+                    _departmentService.addDepartment(
+                            department.getName(),
+                            _serviceContextHelper.getServiceContext(siteId));
 
-			return toDepartment(persistedDepartment);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error creating department: " + exception.getMessage(),
-				exception);
+            return toDepartment(persistedDepartment);
+        } catch (Exception exception) {
+            _log.error(
+                    "Error creating department: " + exception.getMessage(),
+                    exception);
 
-			throw exception;
-		}
-	}
+            throw exception;
+        }
+    }
 
-	@Override
-	public Department putDepartment(
-			@NotNull Long departmentId, Department department)
-		throws Exception {
+    @Override
+    public Department putDepartment(
+            @NotNull Long departmentId, Department department)
+            throws Exception {
 
-		try {
-			com.sain.phonebook.model.Department persistedDepartment =
-				_departmentService.updateDepartment(
-					departmentId, department.getName(), getServiceContext());
+        com.sain.phonebook.model.Department persistedDepartment1 =
+                _departmentService.getDepartment(departmentId);
 
-			return toDepartment(persistedDepartment);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error putting department: " + exception.getMessage(),
-				exception);
+        if (persistedDepartment1 != null) {
+            try {
+                com.sain.phonebook.model.Department persistedDepartment =
+                        _departmentService.updateDepartment(
+                                departmentId, department.getName(),
+                                _serviceContextHelper.getServiceContext(
+                                        persistedDepartment1.getGroupId()));
 
-			throw exception;
-		}
-	}
+                return toDepartment(persistedDepartment);
+            } catch (Exception exception) {
+                _log.error(
+                        "Error putting department: " + exception.getMessage(),
+                        exception);
 
-	protected static Department toDepartment(
-			com.sain.phonebook.model.Department department)
-		throws PortalException {
+                throw exception;
+            }
+        } else {
+            return null;
+        }
+    }
 
-		return new Department() {
-			{
-				id = department.getDepartmentId();
-				name = department.getName();
-			}
-		};
-		/*return new Department() {{
-			creator = CreatorUtil.toCreator(_portal,
-					_userLocalService.getUser(pv.getUserId()));
-			articleId = pv.getArticleId();
-			group = pv.getGroupName();
-			description = pv.getDescription();
-			id = pv.getSurrogateId();
-			name = pv.getName();
-			type = _toDepartmentType(pv.getType());
-			attributes = ListUtil.toArray(pv.getAttributes(), VALUE_ACCESSOR);
-			chemicalNames = ListUtil.toArray(pv.getChemicalNames(), VALUE_ACCESSOR);
-			properties = ListUtil.toArray(pv.getProperties(), VALUE_ACCESSOR);
-			risks = ListUtil.toArray(pv.getRisks(), VALUE_ACCESSOR);
-			symptoms = ListUtil.toArray(pv.getSymptoms(), VALUE_ACCESSOR);
-		}};*/
-	}
+    protected static Department toDepartment(
+            com.sain.phonebook.model.Department department)
+            throws PortalException {
 
-	protected ServiceContext getServiceContext() throws PortalException {
-		ServiceContext serviceContext = new ServiceContext();
+        return new Department() {
+            {
+                id = department.getDepartmentId();
+                name = department.getName();
+            }
+        };
+    }
 
-		serviceContext.setCompanyId(contextCompany.getCompanyId());
+    private static final Logger _log = LoggerFactory.getLogger(
+            DepartmentResourceImpl.class);
 
-		// need the current user in the service context.
-		// will get easier in newer version of the REST Builder plugin...
-		// but for now, this is the only game in town.
+    @Reference
+    private DepartmentService _departmentService;
 
-		serviceContext.setUserId(PrincipalThreadLocal.getUserId());
+    @Reference
+    private Portal _portal;
 
-		return serviceContext;
-	}
+    @Reference
+    private UserLocalService _userLocalService;
 
-	private static final Logger _log = LoggerFactory.getLogger(
-		DepartmentResourceImpl.class);
-
-	//	private PersonEntityModel _departmentEntityModel =
-	//			new PersonEntityModel();
-
-	@Reference
-	private DepartmentService _departmentService;
-
-	@Reference
-	private Portal _portal;
-
-	@Reference
-	private UserLocalService _userLocalService;
-
+    @Reference
+    private ServiceContextHelper _serviceContextHelper;
 }

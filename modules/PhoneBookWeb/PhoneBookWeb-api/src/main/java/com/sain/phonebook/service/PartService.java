@@ -58,7 +58,7 @@ public interface PartService extends BaseService {
 			ServiceContext serviceContext)
 		throws PortalException;
 
-	public void deletePart(long partId) throws PortalException;
+	public Part deletePart(long partId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Part> getAll();

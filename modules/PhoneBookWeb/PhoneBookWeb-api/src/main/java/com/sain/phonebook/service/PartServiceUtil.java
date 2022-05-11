@@ -48,8 +48,8 @@ public class PartServiceUtil {
 			name, internalPhone, addressId, serviceContext);
 	}
 
-	public static void deletePart(long partId) throws PortalException {
-		getService().deletePart(partId);
+	public static Part deletePart(long partId) throws PortalException {
+		return getService().deletePart(partId);
 	}
 
 	public static List<Part> getAll() {

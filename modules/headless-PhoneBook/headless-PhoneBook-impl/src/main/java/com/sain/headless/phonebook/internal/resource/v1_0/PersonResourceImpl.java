@@ -73,7 +73,11 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 			com.sain.phonebook.model.Person persistedPerson =
 				_personService.getPerson(personId);
 
-			return toPerson(persistedPerson);
+			if (persistedPerson != null) {
+				return toPerson(persistedPerson);
+			} else {
+				return null;
+			}
 		}
 		catch (Exception exception) {
 			_log.error(
@@ -126,25 +130,28 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		com.sain.phonebook.model.Person persistedPerson1 =
 			_personService.getPerson(personId);
 
-		try {
-			com.sain.phonebook.model.Person persistedPerson =
-				_personService.patchPerson(
-					personId, person.getFirstName(), person.getLastName(),
-					person.getLocalPhoneNumber(), person.getPhoneNumber(),
-					person.getFaxNumber(), person.getRoomNumber(),
-					person.getEmail(), person.getWebsite(),
-					(departmentId != null) ? departmentId : 0,
-					(roleId != null) ? roleId : 0,
-					_serviceContextHelper.getServiceContext(
-						persistedPerson1.getGroupId()));
+		if (persistedPerson1 !=null) {
+			try {
+				com.sain.phonebook.model.Person persistedPerson =
+						_personService.patchPerson(
+								personId, person.getFirstName(), person.getLastName(),
+								person.getLocalPhoneNumber(), person.getPhoneNumber(),
+								person.getFaxNumber(), person.getRoomNumber(),
+								person.getEmail(), person.getWebsite(),
+								(departmentId != null) ? departmentId : 0,
+								(roleId != null) ? roleId : 0,
+								_serviceContextHelper.getServiceContext(
+										persistedPerson1.getGroupId()));
 
-			return toPerson(persistedPerson);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error patching person: " + exception.getMessage(), exception);
+				return toPerson(persistedPerson);
+			} catch (Exception exception) {
+				_log.error(
+						"Error patching person: " + exception.getMessage(), exception);
 
-			throw exception;
+				throw exception;
+			}
+		} else {
+			return null;
 		}
 	}
 
@@ -194,25 +201,28 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		com.sain.phonebook.model.Person persistedPerson1 =
 			_personService.getPerson(personId);
 
-		try {
-			com.sain.phonebook.model.Person persistedPerson =
-				_personService.updatePerson(
-					personId, person.getFirstName(), person.getLastName(),
-					person.getLocalPhoneNumber(), person.getPhoneNumber(),
-					person.getFaxNumber(), person.getRoomNumber(),
-					person.getEmail(), person.getWebsite(),
-					(departmentId != null) ? departmentId : 0,
-					(roleId != null) ? roleId : 0,
-					_serviceContextHelper.getServiceContext(
-						persistedPerson1.getGroupId()));
+		if (persistedPerson1 != null) {
+			try {
+				com.sain.phonebook.model.Person persistedPerson =
+						_personService.updatePerson(
+								personId, person.getFirstName(), person.getLastName(),
+								person.getLocalPhoneNumber(), person.getPhoneNumber(),
+								person.getFaxNumber(), person.getRoomNumber(),
+								person.getEmail(), person.getWebsite(),
+								(departmentId != null) ? departmentId : 0,
+								(roleId != null) ? roleId : 0,
+								_serviceContextHelper.getServiceContext(
+										persistedPerson1.getGroupId()));
 
-			return toPerson(persistedPerson);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error putting person: " + exception.getMessage(), exception);
+				return toPerson(persistedPerson);
+			} catch (Exception exception) {
+				_log.error(
+						"Error putting person: " + exception.getMessage(), exception);
 
-			throw exception;
+				throw exception;
+			}
+		} else {
+			return null;
 		}
 	}
 
@@ -285,9 +295,9 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	private RoleService _roleService;
 
 	@Reference
-	private ServiceContextHelper _serviceContextHelper;
+	private UserLocalService _userLocalService;
 
 	@Reference
-	private UserLocalService _userLocalService;
+	private ServiceContextHelper _serviceContextHelper;
 
 }
