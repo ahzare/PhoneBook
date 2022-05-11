@@ -57,15 +57,15 @@ public interface PersonResource {
 		throws Exception;
 
 	public Page<Person> getPersonsPage(
-			Long siteId, Long departmentId, Long roleId, String search,
-			Filter filter, Pagination pagination, Sort[] sorts)
+			Long siteId, String search, Filter filter, Pagination pagination,
+			Sort[] sorts)
 		throws Exception;
 
 	public Person postPerson(
 			Long siteId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
-	public void deletePersonApi(Long siteId, Long personId) throws Exception;
+	public Person deletePersonApi(Long siteId, Long personId) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

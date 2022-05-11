@@ -312,8 +312,8 @@ public abstract class BasePersonResourceTestCase {
 	@Test
 	public void testGetPersonsPage() throws Exception {
 		Page<Person> page = personResource.getPersonsPage(
-			testGetPersonsPage_getSiteId(), null, null,
-			RandomTestUtil.randomString(), null, Pagination.of(1, 2), null);
+			testGetPersonsPage_getSiteId(), RandomTestUtil.randomString(), null,
+			Pagination.of(1, 2), null);
 
 		Assert.assertEquals(0, page.getTotalCount());
 
@@ -325,8 +325,7 @@ public abstract class BasePersonResourceTestCase {
 				irrelevantSiteId, randomIrrelevantPerson());
 
 			page = personResource.getPersonsPage(
-				irrelevantSiteId, null, null, null, null, Pagination.of(1, 2),
-				null);
+				irrelevantSiteId, null, null, Pagination.of(1, 2), null);
 
 			Assert.assertEquals(1, page.getTotalCount());
 
@@ -340,7 +339,7 @@ public abstract class BasePersonResourceTestCase {
 		Person person2 = testGetPersonsPage_addPerson(siteId, randomPerson());
 
 		page = personResource.getPersonsPage(
-			siteId, null, null, null, null, Pagination.of(1, 2), null);
+			siteId, null, null, Pagination.of(1, 2), null);
 
 		Assert.assertEquals(2, page.getTotalCount());
 
@@ -366,8 +365,7 @@ public abstract class BasePersonResourceTestCase {
 
 		for (EntityField entityField : entityFields) {
 			Page<Person> page = personResource.getPersonsPage(
-				siteId, null, null, null,
-				getFilterString(entityField, "between", person1),
+				siteId, null, getFilterString(entityField, "between", person1),
 				Pagination.of(1, 2), null);
 
 			assertEquals(
@@ -394,8 +392,7 @@ public abstract class BasePersonResourceTestCase {
 
 		for (EntityField entityField : entityFields) {
 			Page<Person> page = personResource.getPersonsPage(
-				siteId, null, null, null,
-				getFilterString(entityField, "eq", person1),
+				siteId, null, getFilterString(entityField, "eq", person1),
 				Pagination.of(1, 2), null);
 
 			assertEquals(
@@ -415,14 +412,14 @@ public abstract class BasePersonResourceTestCase {
 		Person person3 = testGetPersonsPage_addPerson(siteId, randomPerson());
 
 		Page<Person> page1 = personResource.getPersonsPage(
-			siteId, null, null, null, null, Pagination.of(1, 2), null);
+			siteId, null, null, Pagination.of(1, 2), null);
 
 		List<Person> persons1 = (List<Person>)page1.getItems();
 
 		Assert.assertEquals(persons1.toString(), 2, persons1.size());
 
 		Page<Person> page2 = personResource.getPersonsPage(
-			siteId, null, null, null, null, Pagination.of(2, 2), null);
+			siteId, null, null, Pagination.of(2, 2), null);
 
 		Assert.assertEquals(3, page2.getTotalCount());
 
@@ -431,7 +428,7 @@ public abstract class BasePersonResourceTestCase {
 		Assert.assertEquals(persons2.toString(), 1, persons2.size());
 
 		Page<Person> page3 = personResource.getPersonsPage(
-			siteId, null, null, null, null, Pagination.of(1, 3), null);
+			siteId, null, null, Pagination.of(1, 3), null);
 
 		assertEqualsIgnoringOrder(
 			Arrays.asList(person1, person2, person3),
@@ -537,7 +534,7 @@ public abstract class BasePersonResourceTestCase {
 
 		for (EntityField entityField : entityFields) {
 			Page<Person> ascPage = personResource.getPersonsPage(
-				siteId, null, null, null, null, Pagination.of(1, 2),
+				siteId, null, null, Pagination.of(1, 2),
 				entityField.getName() + ":asc");
 
 			assertEquals(
@@ -545,7 +542,7 @@ public abstract class BasePersonResourceTestCase {
 				(List<Person>)ascPage.getItems());
 
 			Page<Person> descPage = personResource.getPersonsPage(
-				siteId, null, null, null, null, Pagination.of(1, 2),
+				siteId, null, null, Pagination.of(1, 2),
 				entityField.getName() + ":desc");
 
 			assertEquals(

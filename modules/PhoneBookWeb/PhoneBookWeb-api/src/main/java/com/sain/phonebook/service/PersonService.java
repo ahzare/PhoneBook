@@ -60,7 +60,7 @@ public interface PersonService extends BaseService {
 			ServiceContext serviceContext)
 		throws PortalException;
 
-	public void deletePerson(long personId) throws PortalException;
+	public Person deletePerson(long personId) throws PortalException;
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Person> getAll();

@@ -263,15 +263,13 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {persons(departmentId: ___, filter: ___, page: ___, pageSize: ___, roleId: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {persons(filter: ___, page: ___, pageSize: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
 		description = "Retrieves the list of persons. Results can be paginated, filtered, searched, and sorted."
 	)
 	public PersonPage persons(
 			@GraphQLName("siteKey") @NotEmpty String siteKey,
-			@GraphQLName("departmentId") Long departmentId,
-			@GraphQLName("roleId") Long roleId,
 			@GraphQLName("search") String search,
 			@GraphQLName("filter") String filterString,
 			@GraphQLName("pageSize") int pageSize,
@@ -284,7 +282,7 @@ public class Query {
 			this::_populateResourceContext,
 			personResource -> new PersonPage(
 				personResource.getPersonsPage(
-					Long.valueOf(siteKey), departmentId, roleId, search,
+					Long.valueOf(siteKey), search,
 					_filterBiFunction.apply(personResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(personResource, sortsString))));

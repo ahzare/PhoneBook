@@ -123,6 +123,7 @@ public interface PersonLocalService
 	 * @throws PortalException if a person with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Person deletePerson(long personId) throws PortalException;
 
 	/**
@@ -136,7 +137,6 @@ public interface PersonLocalService
 	 * @return the person that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Person deletePerson(Person person);
 
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)

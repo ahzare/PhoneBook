@@ -101,21 +101,29 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
 	@Indexable(type = IndexableType.DELETE)
 	@Override
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Person deletePerson(long personId) throws PortalException {
-		Person person = fetchPerson(personId);
+		Person person = personPersistence.findByPrimaryKey(personId);
 
 		if (person != null) {
+
+			/*resourceLocalService.deleteResource(
+					person.getCompanyId(),
+					Person.class.getName(),
+					ResourceConstants.SCOPE_INDIVIDUAL,
+					person.getPersonId());*/
+
 			return deletePerson(person);
 		}
 
 		return null;
 	}
 
-	@Indexable(type = IndexableType.DELETE)
+	/*@Indexable(type = IndexableType.DELETE)
 	@Override
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Person deletePerson(Person person) {
-		/* try{
+		*//* try{
 		     resourceLocalService.deleteResource(
 		             person.getCompanyId(),
 		             Person.class.getName(),
@@ -124,7 +132,7 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 		 }catch(PortalException exception){
 		     _log.warn("Error deleting persisted person permissions: "+
 		             exception.getMessage(), exception);
-		 }*/
+		 }*//*
 
 		//        todo: delete person roles and departments
 
@@ -134,7 +142,7 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
 		//        return personLocalService.deletePerson(person);
 
-	}
+	}*/
 
 	public Person getPerson(final long personId) {
 		return personPersistence.fetchByPersonId(personId);

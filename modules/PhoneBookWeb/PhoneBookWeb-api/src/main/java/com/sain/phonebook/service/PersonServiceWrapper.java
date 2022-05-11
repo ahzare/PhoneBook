@@ -44,10 +44,10 @@ public class PersonServiceWrapper
 	}
 
 	@Override
-	public void deletePerson(long personId)
+	public com.sain.phonebook.model.Person deletePerson(long personId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_personService.deletePerson(personId);
+		return _personService.deletePerson(personId);
 	}
 
 	@Override

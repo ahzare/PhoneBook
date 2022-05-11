@@ -51,8 +51,8 @@ public class PersonServiceUtil {
 			roomNumber, email, website, departmentId, roleId, serviceContext);
 	}
 
-	public static void deletePerson(long personId) throws PortalException {
-		getService().deletePerson(personId);
+	public static Person deletePerson(long personId) throws PortalException {
+		return getService().deletePerson(personId);
 	}
 
 	public static List<Person> getAll() {

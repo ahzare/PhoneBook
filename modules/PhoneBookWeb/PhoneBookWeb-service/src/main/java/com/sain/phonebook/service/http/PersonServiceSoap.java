@@ -87,9 +87,15 @@ public class PersonServiceSoap {
 		}
 	}
 
-	public static void deletePerson(long personId) throws RemoteException {
+	public static com.sain.phonebook.model.PersonSoap deletePerson(
+			long personId)
+		throws RemoteException {
+
 		try {
-			PersonServiceUtil.deletePerson(personId);
+			com.sain.phonebook.model.Person returnValue =
+				PersonServiceUtil.deletePerson(personId);
+
+			return com.sain.phonebook.model.PersonSoap.toSoapModel(returnValue);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);

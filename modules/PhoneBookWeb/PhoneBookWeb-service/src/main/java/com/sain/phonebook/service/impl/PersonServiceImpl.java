@@ -64,14 +64,14 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 			roomNumber, email, website, departmentId, roleId, serviceContext);
 	}
 
-	public void deletePerson(final long personId) throws PortalException {
+	public Person deletePerson(final long personId) throws PortalException {
 
 		//        _personModelResourcePermission.check(
 		//        getPermissionChecker(),
 		//        personLocalService.getPerson(personId),
 		//        ActionKeys.DELETE);
 
-		personLocalService.deletePerson(personId);
+		return personLocalService.deletePerson(personId);
 	}
 
 	public List<Person> getAll() {

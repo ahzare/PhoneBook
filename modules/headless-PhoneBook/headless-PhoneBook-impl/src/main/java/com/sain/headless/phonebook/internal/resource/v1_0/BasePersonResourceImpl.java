@@ -219,8 +219,6 @@ public abstract class BasePersonResourceImpl
 	@Parameters(
 		value = {
 			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.QUERY, name = "departmentId"),
-			@Parameter(in = ParameterIn.QUERY, name = "roleId"),
 			@Parameter(in = ParameterIn.QUERY, name = "search"),
 			@Parameter(in = ParameterIn.QUERY, name = "filter"),
 			@Parameter(in = ParameterIn.QUERY, name = "page"),
@@ -233,9 +231,6 @@ public abstract class BasePersonResourceImpl
 	@Tags(value = {@Tag(name = "Person")})
 	public Page<Person> getPersonsPage(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@Parameter(hidden = true) @QueryParam("departmentId") Long
-				departmentId,
-			@Parameter(hidden = true) @QueryParam("roleId") Long roleId,
 			@Parameter(hidden = true) @QueryParam("search") String search,
 			@Context Filter filter, @Context Pagination pagination,
 			@Context Sort[] sorts)
@@ -293,11 +288,13 @@ public abstract class BasePersonResourceImpl
 	@Path("/sites/{siteId}/persons/{personId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Person")})
-	public void deletePersonApi(
+	public Person deletePersonApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("personId") Long
 				personId)
 		throws Exception {
+
+		return new Person();
 	}
 
 	@Override

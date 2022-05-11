@@ -984,16 +984,6 @@ paths:
                       format: int64
                       type: integer
                 - in: query
-                  name: departmentId
-                  schema:
-                      format: int64
-                      type: integer
-                - in: query
-                  name: roleId
-                  schema:
-                      format: int64
-                      type: integer
-                - in: query
                   name: filter
                   schema:
                       type: string
@@ -1091,10 +1081,14 @@ paths:
             responses:
                 204:
                     content:
-                        application/json: {}
-                        application/xml: {}
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Person"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Person"
                     description:
-                        desc
+                        "Person successfully delete"
             tags: ["Person"]
     "/sites/{siteId}/roles":
         get:

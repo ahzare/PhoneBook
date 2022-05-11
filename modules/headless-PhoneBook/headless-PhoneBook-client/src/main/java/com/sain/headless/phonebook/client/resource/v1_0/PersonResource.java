@@ -66,13 +66,13 @@ public interface PersonResource {
 		throws Exception;
 
 	public Page<Person> getPersonsPage(
-			Long siteId, Long departmentId, Long roleId, String search,
-			String filterString, Pagination pagination, String sortString)
+			Long siteId, String search, String filterString,
+			Pagination pagination, String sortString)
 		throws Exception;
 
 	public HttpInvoker.HttpResponse getPersonsPageHttpResponse(
-			Long siteId, Long departmentId, Long roleId, String search,
-			String filterString, Pagination pagination, String sortString)
+			Long siteId, String search, String filterString,
+			Pagination pagination, String sortString)
 		throws Exception;
 
 	public Person postPerson(
@@ -83,7 +83,7 @@ public interface PersonResource {
 			Long siteId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
-	public void deletePersonApi(Long siteId, Long personId) throws Exception;
+	public Person deletePersonApi(Long siteId, Long personId) throws Exception;
 
 	public HttpInvoker.HttpResponse deletePersonApiHttpResponse(
 			Long siteId, Long personId)
@@ -600,13 +600,12 @@ public interface PersonResource {
 		}
 
 		public Page<Person> getPersonsPage(
-				Long siteId, Long departmentId, Long roleId, String search,
-				String filterString, Pagination pagination, String sortString)
+				Long siteId, String search, String filterString,
+				Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = getPersonsPageHttpResponse(
-				siteId, departmentId, roleId, search, filterString, pagination,
-				sortString);
+				siteId, search, filterString, pagination, sortString);
 
 			String content = httpResponse.getContent();
 
@@ -646,8 +645,8 @@ public interface PersonResource {
 		}
 
 		public HttpInvoker.HttpResponse getPersonsPageHttpResponse(
-				Long siteId, Long departmentId, Long roleId, String search,
-				String filterString, Pagination pagination, String sortString)
+				Long siteId, String search, String filterString,
+				Pagination pagination, String sortString)
 			throws Exception {
 
 			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
@@ -670,15 +669,6 @@ public interface PersonResource {
 			}
 
 			httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
-
-			if (departmentId != null) {
-				httpInvoker.parameter(
-					"departmentId", String.valueOf(departmentId));
-			}
-
-			if (roleId != null) {
-				httpInvoker.parameter("roleId", String.valueOf(roleId));
-			}
 
 			if (search != null) {
 				httpInvoker.parameter("search", String.valueOf(search));
@@ -805,7 +795,7 @@ public interface PersonResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deletePersonApi(Long siteId, Long personId)
+		public Person deletePersonApi(Long siteId, Long personId)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse = deletePersonApiHttpResponse(
@@ -837,7 +827,7 @@ public interface PersonResource {
 			}
 
 			try {
-				return;
+				return PersonSerDes.toDTO(content);
 			}
 			catch (Exception e) {
 				_logger.log(

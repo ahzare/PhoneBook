@@ -98,7 +98,8 @@ public class PersonServiceHttp {
 		}
 	}
 
-	public static void deletePerson(HttpPrincipal httpPrincipal, long personId)
+	public static com.sain.phonebook.model.Person deletePerson(
+			HttpPrincipal httpPrincipal, long personId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		try {
@@ -109,8 +110,10 @@ public class PersonServiceHttp {
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, personId);
 
+			Object returnObj = null;
+
 			try {
-				TunnelUtil.invoke(httpPrincipal, methodHandler);
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
 				if (exception instanceof
@@ -123,6 +126,8 @@ public class PersonServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
+
+			return (com.sain.phonebook.model.Person)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {
