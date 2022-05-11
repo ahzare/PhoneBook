@@ -327,6 +327,29 @@ paths:
                         Default Response
             tags: ["Part"]
     "/persons/{personId}":
+        get:
+            description:
+                Retrieves the person via its ID.
+            operationId: getPerson
+            parameters:
+                - in: path
+                  name: personId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Person"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Person"
+                    description:
+                        desc
+            tags: ["Person"]
         patch:
             description:
                 Replaces the person with the information sent in the request body. Any missing fields are deleted,
@@ -1070,35 +1093,6 @@ paths:
                     content:
                         application/json: {}
                         application/xml: {}
-                    description:
-                        desc
-            tags: ["Person"]
-        get:
-            description:
-                Retrieves the person via its ID.
-            operationId: getPerson
-            parameters:
-                - in: path
-                  name: siteId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-                - in: path
-                  name: personId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Person"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Person"
                     description:
                         desc
             tags: ["Person"]

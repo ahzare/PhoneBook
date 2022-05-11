@@ -39,6 +39,8 @@ public interface PersonResource {
 		return FactoryHolder.factory.create();
 	}
 
+	public Person getPerson(Long personId) throws Exception;
+
 	public Person patchPersonApi(
 			Long personId, Long departmentId, Long roleId, Person person)
 		throws Exception;
@@ -64,8 +66,6 @@ public interface PersonResource {
 		throws Exception;
 
 	public void deletePersonApi(Long siteId, Long personId) throws Exception;
-
-	public Person getPerson(Long siteId, Long personId) throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

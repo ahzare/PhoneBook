@@ -200,6 +200,62 @@ public abstract class BasePersonResourceTestCase {
 	}
 
 	@Test
+	public void testGetPerson() throws Exception {
+		Person postPerson = testGetPerson_addPerson();
+
+		Person getPerson = personResource.getPerson(postPerson.getId());
+
+		assertEquals(postPerson, getPerson);
+		assertValid(getPerson);
+	}
+
+	protected Person testGetPerson_addPerson() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetPerson() throws Exception {
+		Person person = testGraphQLPerson_addPerson();
+
+		Assert.assertTrue(
+			equals(
+				person,
+				PersonSerDes.toDTO(
+					JSONUtil.getValueAsString(
+						invokeGraphQLQuery(
+							new GraphQLField(
+								"person",
+								new HashMap<String, Object>() {
+									{
+										put("personId", person.getId());
+									}
+								},
+								getGraphQLFields())),
+						"JSONObject/data", "Object/person"))));
+	}
+
+	@Test
+	public void testGraphQLGetPersonNotFound() throws Exception {
+		Long irrelevantPersonId = RandomTestUtil.randomLong();
+
+		Assert.assertEquals(
+			"Not Found",
+			JSONUtil.getValueAsString(
+				invokeGraphQLQuery(
+					new GraphQLField(
+						"person",
+						new HashMap<String, Object>() {
+							{
+								put("personId", irrelevantPersonId);
+							}
+						},
+						getGraphQLFields())),
+				"JSONArray/errors", "Object/0", "JSONObject/extensions",
+				"Object/code"));
+	}
+
+	@Test
 	public void testPatchPersonApi() throws Exception {
 		Assert.assertTrue(false);
 	}
@@ -579,68 +635,6 @@ public abstract class BasePersonResourceTestCase {
 	protected Person testDeletePersonApi_addPerson() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testGetPerson() throws Exception {
-		Person postPerson = testGetPerson_addPerson();
-
-		Person getPerson = personResource.getPerson(null, postPerson.getId());
-
-		assertEquals(postPerson, getPerson);
-		assertValid(getPerson);
-	}
-
-	protected Person testGetPerson_addPerson() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testGraphQLGetPerson() throws Exception {
-		Person person = testGraphQLPerson_addPerson();
-
-		Assert.assertTrue(
-			equals(
-				person,
-				PersonSerDes.toDTO(
-					JSONUtil.getValueAsString(
-						invokeGraphQLQuery(
-							new GraphQLField(
-								"person",
-								new HashMap<String, Object>() {
-									{
-										put(
-											"siteKey",
-											"\"" + person.getSiteId() + "\"");
-										put("personId", person.getId());
-									}
-								},
-								getGraphQLFields())),
-						"JSONObject/data", "Object/person"))));
-	}
-
-	@Test
-	public void testGraphQLGetPersonNotFound() throws Exception {
-		Long irrelevantPersonId = RandomTestUtil.randomLong();
-
-		Assert.assertEquals(
-			"Not Found",
-			JSONUtil.getValueAsString(
-				invokeGraphQLQuery(
-					new GraphQLField(
-						"person",
-						new HashMap<String, Object>() {
-							{
-								put(
-									"siteKey",
-									"\"" + irrelevantGroup.getGroupId() + "\"");
-								put("personId", irrelevantPersonId);
-							}
-						},
-						getGraphQLFields())),
-				"JSONArray/errors", "Object/0", "JSONObject/extensions",
-				"Object/code"));
 	}
 
 	@Rule

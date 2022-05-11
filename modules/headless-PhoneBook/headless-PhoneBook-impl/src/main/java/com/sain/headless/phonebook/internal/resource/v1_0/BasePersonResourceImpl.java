@@ -74,6 +74,26 @@ public abstract class BasePersonResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/persons/{personId}'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(description = "Retrieves the person via its ID.")
+	@Override
+	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "personId")})
+	@Path("/persons/{personId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Person")})
+	public Person getPerson(
+			@NotNull @Parameter(hidden = true) @PathParam("personId") Long
+				personId)
+		throws Exception {
+
+		return new Person();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-PhoneBook/v1.0/persons/{personId}' -d $'{"department": ___, "email": ___, "faxNumber": ___, "firstName": ___, "id": ___, "lastName": ___, "localPhoneNumber": ___, "phoneNumber": ___, "role": ___, "roomNumber": ___, "website": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Consumes({"application/json", "application/xml"})
@@ -278,32 +298,6 @@ public abstract class BasePersonResourceImpl
 			@NotNull @Parameter(hidden = true) @PathParam("personId") Long
 				personId)
 		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/persons/{personId}'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(description = "Retrieves the person via its ID.")
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.PATH, name = "personId")
-		}
-	)
-	@Path("/sites/{siteId}/persons/{personId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Person")})
-	public Person getPerson(
-			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@NotNull @Parameter(hidden = true) @PathParam("personId") Long
-				personId)
-		throws Exception {
-
-		return new Person();
 	}
 
 	@Override

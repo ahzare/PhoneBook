@@ -226,6 +226,21 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {person(personId: ___){department, email, faxNumber, firstName, id, lastName, localPhoneNumber, phoneNumber, role, roomNumber, website}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(description = "Retrieves the person via its ID.")
+	public Person person(@GraphQLName("personId") Long personId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_personResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			personResource -> personResource.getPerson(personId));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {personsExcel(filter: ___, search: ___, siteKey: ___, sorts: ___){}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(description = "Retrieves all Persons to excel")
@@ -273,24 +288,6 @@ public class Query {
 					_filterBiFunction.apply(personResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(personResource, sortsString))));
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {person(personId: ___, siteKey: ___){department, email, faxNumber, firstName, id, lastName, localPhoneNumber, phoneNumber, role, roomNumber, website}}"}' -u 'test@liferay.com:test'
-	 */
-	@GraphQLField(description = "Retrieves the person via its ID.")
-	public Person person(
-			@GraphQLName("siteKey") @NotEmpty String siteKey,
-			@GraphQLName("personId") Long personId)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_personResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			personResource -> personResource.getPerson(
-				Long.valueOf(siteKey), personId));
 	}
 
 	/**
