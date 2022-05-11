@@ -83,9 +83,16 @@ public class AddressServiceSoap {
 		}
 	}
 
-	public static void deleteAddress(long addressId) throws RemoteException {
+	public static com.sain.phonebook.model.AddressSoap deleteAddress(
+			long addressId)
+		throws RemoteException {
+
 		try {
-			AddressServiceUtil.deleteAddress(addressId);
+			com.sain.phonebook.model.Address returnValue =
+				AddressServiceUtil.deleteAddress(addressId);
+
+			return com.sain.phonebook.model.AddressSoap.toSoapModel(
+				returnValue);
 		}
 		catch (Exception exception) {
 			_log.error(exception, exception);

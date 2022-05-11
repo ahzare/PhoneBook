@@ -73,6 +73,26 @@ public abstract class BaseAddressResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/addresses/{addressId}'  -u 'test@liferay.com:test'
+	 */
+	@GET
+	@Operation(description = "Retrieves the address via its ID.")
+	@Override
+	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "addressId")})
+	@Path("/addresses/{addressId}")
+	@Produces({"application/json", "application/xml"})
+	@Tags(value = {@Tag(name = "Address")})
+	public Address getAddressApi(
+			@NotNull @Parameter(hidden = true) @PathParam("addressId") Long
+				addressId)
+		throws Exception {
+
+		return new Address();
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'PATCH' 'http://localhost:8080/o/headless-PhoneBook/v1.0/addresses/{addressId}' -d $'{"id": ___, "name": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
 	 */
 	@Consumes({"application/json", "application/xml"})
@@ -227,31 +247,7 @@ public abstract class BaseAddressResourceImpl
 	@Path("/sites/{siteId}/addresses/{addressId}")
 	@Produces({"application/json", "application/xml"})
 	@Tags(value = {@Tag(name = "Address")})
-	public void deleteAddressApi(
-			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
-			@NotNull @Parameter(hidden = true) @PathParam("addressId") Long
-				addressId)
-		throws Exception {
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -X 'GET' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/addresses/{addressId}'  -u 'test@liferay.com:test'
-	 */
-	@GET
-	@Operation(description = "Retrieves the address via its ID.")
-	@Override
-	@Parameters(
-		value = {
-			@Parameter(in = ParameterIn.PATH, name = "siteId"),
-			@Parameter(in = ParameterIn.PATH, name = "addressId")
-		}
-	)
-	@Path("/sites/{siteId}/addresses/{addressId}")
-	@Produces({"application/json", "application/xml"})
-	@Tags(value = {@Tag(name = "Address")})
-	public Address getAddressApi(
+	public Address deleteAddressApi(
 			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
 			@NotNull @Parameter(hidden = true) @PathParam("addressId") Long
 				addressId)

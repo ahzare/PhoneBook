@@ -88,6 +88,21 @@ public class Query {
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {addressApi(addressId: ___){id, name}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField(description = "Retrieves the address via its ID.")
+	public Address addressApi(@GraphQLName("addressId") Long addressId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_addressResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			addressResource -> addressResource.getAddressApi(addressId));
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {addresses(filter: ___, page: ___, pageSize: ___, search: ___, siteKey: ___, sorts: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
 	 */
 	@GraphQLField(
@@ -111,24 +126,6 @@ public class Query {
 					_filterBiFunction.apply(addressResource, filterString),
 					Pagination.of(page, pageSize),
 					_sortsBiFunction.apply(addressResource, sortsString))));
-	}
-
-	/**
-	 * Invoke this method with the command line:
-	 *
-	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {addressApi(addressId: ___, siteKey: ___){id, name}}"}' -u 'test@liferay.com:test'
-	 */
-	@GraphQLField(description = "Retrieves the address via its ID.")
-	public Address addressApi(
-			@GraphQLName("siteKey") @NotEmpty String siteKey,
-			@GraphQLName("addressId") Long addressId)
-		throws Exception {
-
-		return _applyComponentServiceObjects(
-			_addressResourceComponentServiceObjects,
-			this::_populateResourceContext,
-			addressResource -> addressResource.getAddressApi(
-				Long.valueOf(siteKey), addressId));
 	}
 
 	/**

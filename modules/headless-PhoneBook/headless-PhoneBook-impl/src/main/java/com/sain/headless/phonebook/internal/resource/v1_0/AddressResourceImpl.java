@@ -14,18 +14,25 @@
 
 package com.sain.headless.phonebook.internal.resource.v1_0;
 
+import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.search.Field;
+import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
 import com.liferay.portal.kernel.security.auth.PrincipalThreadLocal;
 import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
+import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
 import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 
+import com.liferay.portal.vulcan.util.SearchUtil;
 import com.sain.headless.phonebook.dto.v1_0.Address;
+import com.sain.headless.phonebook.dto.v1_0.Person;
 import com.sain.headless.phonebook.resource.v1_0.AddressResource;
+import com.sain.headless.phonebook.util.ServiceContextHelper;
 import com.sain.phonebook.service.AddressService;
 
 import java.util.ArrayList;
@@ -50,23 +57,12 @@ import org.slf4j.LoggerFactory;
 public class AddressResourceImpl extends BaseAddressResourceImpl {
 
 	@Override
-	public void deleteAddressApi(Long siteId, Long addressId) throws Exception {
-		try {
-
-			// super easy case, just pass through to the service layer.
-
-			_addressService.deleteAddress(addressId);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error deleting address: " + exception.getMessage(), exception);
-
-			throw exception;
-		}
+	public Address deleteAddressApi(Long siteId, Long addressId) throws Exception {
+		return toAddress(_addressService.deleteAddress(addressId));
 	}
 
 	@Override
-	public Address getAddressApi(Long siteId, Long addressId) throws Exception {
+	public Address getAddressApi(Long addressId) throws Exception {
 		try {
 
 			// fetch the entity class...
@@ -94,90 +90,41 @@ public class AddressResourceImpl extends BaseAddressResourceImpl {
 
 		System.out.println("getAddressesPage");
 
-		/* return SearchUtil.search(
-		         null,
-		         booleanQuery -> {
-		         },
-		         filter, Address.class, search, pagination,
-		         queryConfig -> queryConfig.setSelectedFieldNames(
-		                 Field.ENTRY_CLASS_PK),
-		         searchContext -> {
-		             searchContext.setCompanyId(contextCompany.getCompanyId());
-		             searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
-		         },
-		         sorts,
-		         document -> _toAddress(_persistedAddressService.getPersistedAddress(document.get(Field.ENTRY_CLASS_PK))));
-*/
+		Page<Address> addressPage = SearchUtil.search(
+				booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+				com.sain.phonebook.model.Address.class, search, pagination,
+				queryConfig -> queryConfig.setSelectedFieldNames(
+						Field.ENTRY_CLASS_PK),
+				new UnsafeConsumer() {
 
-		/* return SearchUtil.search(
-		       null,
-		         booleanQuery -> {
-		         },
-		         filter, Address.class, search, pagination,
-		         queryConfig -> queryConfig.setSelectedFieldNames(
-		                 Field.ENTRY_CLASS_PK),
-		         searchContext -> {
-		             searchContext.setAttribute(Field.NAME, search);
-		             searchContext.setCompanyId(contextCompany.getCompanyId());
-		             searchContext.setGroupIds(new long[] {contextCompany.getGroupId()});
-		         },
-		         sorts,
-		         document -> _toAddress(
-		                 _persistedAddressService.getPersistedAddress(
-		                         GetterUtil.getString(
-		                         document.get(Field.ENTRY_CLASS_PK)))));*/
+					public void accept(Object object) throws Exception {
+						SearchContext searchContext = (SearchContext)object;
 
-		/* List<Address> list = _persistedAddressService.getAll()
-		         .stream().map(persistedAddress -> {
-		             try {
-		                 // adding for search
-		                 Address address = _toAddress(persistedAddress);
-		                 if (search != null) {
-		                     if (address.getName().contains(search)) {
-		                         return address;
-		                     }
-		                 } else {
-		                     return address;
-		                 }
-		                 //return _toAddress(persistedAddress);
-		             } catch (PortalException exception) {
-		                 exception.printStackTrace();
-		             }
-		             return new Address();
-		         }).collect(Collectors.toList());*/
+						searchContext.setCompanyId(contextCompany.getCompanyId());
+					}
 
-		List<com.sain.phonebook.model.Address> persistedAddresses =
-			_addressService.getAll();
-		List<Address> list = new ArrayList<>();
+				},
+				document -> toAddress(
+						_addressService.getAddress(
+								GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+				sorts);
 
-		for (com.sain.phonebook.model.Address persistedAddress :
-				persistedAddresses) {
+		System.out.println("address page = " + addressPage);
 
-			Address address = toAddress(persistedAddress);
-
-			if (search != null) {
-				String name = address.getName();
-
-				if (name.contains(search)) {
-					list.add(address);
-				}
-			}
-			else {
-				list.add(address);
-			}
-		}
-
-		return Page.of(list);
+		return addressPage;
 	}
 
 	@Override
 	public Address patchAddress(@NotNull Long addressId, Address address)
 		throws Exception {
-
+		com.sain.phonebook.model.Address persistedAddress1 =
+				_addressService.getAddress(addressId);
 		try {
 			com.sain.phonebook.model.Address persistedAddress =
 				_addressService.patchAddress(
-					addressId, address.getName(), getServiceContext());
+					addressId, address.getName(),
+						_serviceContextHelper.getServiceContext(
+								persistedAddress1.getGroupId()));
 
 			return toAddress(persistedAddress);
 		}
@@ -198,12 +145,11 @@ public class AddressResourceImpl extends BaseAddressResourceImpl {
 				"Need to create a new address: %s\n", address.toString());
 		}
 
-		_log.warn("hi ali");
-
 		try {
 			com.sain.phonebook.model.Address persistedAddress =
 				_addressService.addAddress(
-					address.getName(), getServiceContext());
+					address.getName(),
+						_serviceContextHelper.getServiceContext(siteId));
 
 			return toAddress(persistedAddress);
 		}
@@ -219,10 +165,15 @@ public class AddressResourceImpl extends BaseAddressResourceImpl {
 	public Address putAddress(@NotNull Long addressId, Address address)
 		throws Exception {
 
+		com.sain.phonebook.model.Address persistedAddress1 =
+				_addressService.getAddress(addressId);
+
 		try {
 			com.sain.phonebook.model.Address persistedAddress =
 				_addressService.updateAddress(
-					addressId, address.getName(), getServiceContext());
+					addressId, address.getName(),
+						_serviceContextHelper.getServiceContext(
+								persistedAddress1.getGroupId()));
 
 			return toAddress(persistedAddress);
 		}
@@ -268,20 +219,6 @@ public class AddressResourceImpl extends BaseAddressResourceImpl {
 		}};*/
 	}
 
-	protected ServiceContext getServiceContext() throws PortalException {
-		ServiceContext serviceContext = new ServiceContext();
-
-		serviceContext.setCompanyId(contextCompany.getCompanyId());
-
-		// need the current user in the service context.
-		// will get easier in newer version of the REST Builder plugin...
-		// but for now, this is the only game in town.
-
-		serviceContext.setUserId(PrincipalThreadLocal.getUserId());
-
-		return serviceContext;
-	}
-
 	private static final Logger _log = LoggerFactory.getLogger(
 		AddressResourceImpl.class);
 
@@ -293,5 +230,8 @@ public class AddressResourceImpl extends BaseAddressResourceImpl {
 
 	@Reference
 	private UserLocalService _userLocalService;
+
+	@Reference
+	private ServiceContextHelper _serviceContextHelper;
 
 }

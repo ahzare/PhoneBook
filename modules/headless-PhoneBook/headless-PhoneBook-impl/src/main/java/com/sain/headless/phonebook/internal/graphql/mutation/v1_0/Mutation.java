@@ -140,18 +140,16 @@ public class Mutation {
 	@GraphQLField(
 		description = "Deletes the address and returns a 204 if the operation succeeds."
 	)
-	public boolean deleteAddressApi(
+	public Address deleteAddressApi(
 			@GraphQLName("siteKey") @NotEmpty String siteKey,
 			@GraphQLName("addressId") Long addressId)
 		throws Exception {
 
-		_applyVoidComponentServiceObjects(
+		return _applyComponentServiceObjects(
 			_addressResourceComponentServiceObjects,
 			this::_populateResourceContext,
 			addressResource -> addressResource.deleteAddressApi(
 				Long.valueOf(siteKey), addressId));
-
-		return true;
 	}
 
 	@GraphQLField(

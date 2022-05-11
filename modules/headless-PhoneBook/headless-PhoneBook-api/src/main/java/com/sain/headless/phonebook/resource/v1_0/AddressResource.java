@@ -38,6 +38,8 @@ public interface AddressResource {
 		return FactoryHolder.factory.create();
 	}
 
+	public Address getAddressApi(Long addressId) throws Exception;
+
 	public Address patchAddress(Long addressId, Address address)
 		throws Exception;
 
@@ -53,9 +55,8 @@ public interface AddressResource {
 
 	public Address postAddress(Long siteId, Address address) throws Exception;
 
-	public void deleteAddressApi(Long siteId, Long addressId) throws Exception;
-
-	public Address getAddressApi(Long siteId, Long addressId) throws Exception;
+	public Address deleteAddressApi(Long siteId, Long addressId)
+		throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {

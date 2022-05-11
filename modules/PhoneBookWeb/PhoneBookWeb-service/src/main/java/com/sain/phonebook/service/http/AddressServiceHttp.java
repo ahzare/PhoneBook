@@ -93,7 +93,7 @@ public class AddressServiceHttp {
 		}
 	}
 
-	public static void deleteAddress(
+	public static com.sain.phonebook.model.Address deleteAddress(
 			HttpPrincipal httpPrincipal, long addressId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
@@ -105,8 +105,10 @@ public class AddressServiceHttp {
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, addressId);
 
+			Object returnObj = null;
+
 			try {
-				TunnelUtil.invoke(httpPrincipal, methodHandler);
+				returnObj = TunnelUtil.invoke(httpPrincipal, methodHandler);
 			}
 			catch (Exception exception) {
 				if (exception instanceof
@@ -119,6 +121,8 @@ public class AddressServiceHttp {
 				throw new com.liferay.portal.kernel.exception.SystemException(
 					exception);
 			}
+
+			return (com.sain.phonebook.model.Address)returnObj;
 		}
 		catch (com.liferay.portal.kernel.exception.SystemException
 					systemException) {

@@ -111,7 +111,6 @@ public interface AddressLocalService
 	 * @return the address that was removed
 	 */
 	@Indexable(type = IndexableType.DELETE)
-	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Address deleteAddress(Address address);
 
 	/**
@@ -126,6 +125,7 @@ public interface AddressLocalService
 	 * @throws PortalException if a address with the primary key could not be found
 	 */
 	@Indexable(type = IndexableType.DELETE)
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
 	public Address deleteAddress(long addressId) throws PortalException;
 
 	/**

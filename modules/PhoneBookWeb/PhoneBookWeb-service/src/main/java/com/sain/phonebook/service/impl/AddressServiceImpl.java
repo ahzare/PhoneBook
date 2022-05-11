@@ -55,14 +55,14 @@ public class AddressServiceImpl extends AddressServiceBaseImpl {
 		return addressLocalService.addAddress(name, serviceContext);
 	}
 
-	public void deleteAddress(final long addressId) throws PortalException {
+	public Address deleteAddress(final long addressId) throws PortalException {
 
 		//        _addressModelResourcePermission.check(
 		//        getPermissionChecker(),
 		//        addressLocalService.getAddress(addressId),
 		//        ActionKeys.DELETE);
 
-		addressLocalService.deleteAddress(addressId);
+		return addressLocalService.deleteAddress(addressId);
 	}
 
 	public Address getAddress(final long addressId) throws PortalException {

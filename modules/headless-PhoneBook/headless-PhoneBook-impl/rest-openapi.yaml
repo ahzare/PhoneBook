@@ -186,6 +186,30 @@ paths:
                         Default Response
             tags:
                 - Address
+        get:
+            description:
+                Retrieves the address via its ID.
+            operationId: getAddressApi
+            parameters:
+                - in: path
+                  name: addressId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                200:
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Address"
+                        application/xml:
+                            schema:
+                                $ref: "#/components/schemas/Address"
+                    description:
+                        desc
+            tags:
+                - Address
     "/departments/{departmentId}":
         patch:
             description:
@@ -599,32 +623,6 @@ paths:
             responses:
                 204:
                     content:
-                        application/json: {}
-                        application/xml: {}
-                    description:
-                        desc
-            tags:
-                - Address
-        get:
-            description:
-                Retrieves the address via its ID.
-            operationId: getAddressApi
-            parameters:
-                - in: path
-                  name: siteId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-                - in: path
-                  name: addressId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                200:
-                    content:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Address"
@@ -632,7 +630,7 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Address"
                     description:
-                        desc
+                        "Address successfully delete"
             tags:
                 - Address
     "/sites/{siteId}/departments":

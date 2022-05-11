@@ -186,6 +186,62 @@ public abstract class BaseAddressResourceTestCase {
 	}
 
 	@Test
+	public void testGetAddressApi() throws Exception {
+		Address postAddress = testGetAddressApi_addAddress();
+
+		Address getAddress = addressResource.getAddressApi(postAddress.getId());
+
+		assertEquals(postAddress, getAddress);
+		assertValid(getAddress);
+	}
+
+	protected Address testGetAddressApi_addAddress() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetAddressApi() throws Exception {
+		Address address = testGraphQLAddress_addAddress();
+
+		Assert.assertTrue(
+			equals(
+				address,
+				AddressSerDes.toDTO(
+					JSONUtil.getValueAsString(
+						invokeGraphQLQuery(
+							new GraphQLField(
+								"addressApi",
+								new HashMap<String, Object>() {
+									{
+										put("addressId", address.getId());
+									}
+								},
+								getGraphQLFields())),
+						"JSONObject/data", "Object/addressApi"))));
+	}
+
+	@Test
+	public void testGraphQLGetAddressApiNotFound() throws Exception {
+		Long irrelevantAddressId = RandomTestUtil.randomLong();
+
+		Assert.assertEquals(
+			"Not Found",
+			JSONUtil.getValueAsString(
+				invokeGraphQLQuery(
+					new GraphQLField(
+						"addressApi",
+						new HashMap<String, Object>() {
+							{
+								put("addressId", irrelevantAddressId);
+							}
+						},
+						getGraphQLFields())),
+				"JSONArray/errors", "Object/0", "JSONObject/extensions",
+				"Object/code"));
+	}
+
+	@Test
 	public void testPatchAddress() throws Exception {
 		Assert.assertTrue(false);
 	}
@@ -547,79 +603,15 @@ public abstract class BaseAddressResourceTestCase {
 				null, address.getId()));
 
 		assertHttpResponseStatusCode(
-			404,
-			addressResource.getAddressApiHttpResponse(null, address.getId()));
+			404, addressResource.getAddressApiHttpResponse(address.getId()));
 
 		assertHttpResponseStatusCode(
-			404, addressResource.getAddressApiHttpResponse(null, 0L));
+			404, addressResource.getAddressApiHttpResponse(0L));
 	}
 
 	protected Address testDeleteAddressApi_addAddress() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testGetAddressApi() throws Exception {
-		Address postAddress = testGetAddressApi_addAddress();
-
-		Address getAddress = addressResource.getAddressApi(
-			null, postAddress.getId());
-
-		assertEquals(postAddress, getAddress);
-		assertValid(getAddress);
-	}
-
-	protected Address testGetAddressApi_addAddress() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
-	}
-
-	@Test
-	public void testGraphQLGetAddressApi() throws Exception {
-		Address address = testGraphQLAddress_addAddress();
-
-		Assert.assertTrue(
-			equals(
-				address,
-				AddressSerDes.toDTO(
-					JSONUtil.getValueAsString(
-						invokeGraphQLQuery(
-							new GraphQLField(
-								"addressApi",
-								new HashMap<String, Object>() {
-									{
-										put(
-											"siteKey",
-											"\"" + address.getSiteId() + "\"");
-										put("addressId", address.getId());
-									}
-								},
-								getGraphQLFields())),
-						"JSONObject/data", "Object/addressApi"))));
-	}
-
-	@Test
-	public void testGraphQLGetAddressApiNotFound() throws Exception {
-		Long irrelevantAddressId = RandomTestUtil.randomLong();
-
-		Assert.assertEquals(
-			"Not Found",
-			JSONUtil.getValueAsString(
-				invokeGraphQLQuery(
-					new GraphQLField(
-						"addressApi",
-						new HashMap<String, Object>() {
-							{
-								put(
-									"siteKey",
-									"\"" + irrelevantGroup.getGroupId() + "\"");
-								put("addressId", irrelevantAddressId);
-							}
-						},
-						getGraphQLFields())),
-				"JSONArray/errors", "Object/0", "JSONObject/extensions",
-				"Object/code"));
 	}
 
 	@Rule

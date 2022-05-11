@@ -26,6 +26,11 @@ public interface AddressResource {
 		return new Builder();
 	}
 
+	public Address getAddressApi(Long addressId) throws Exception;
+
+	public HttpInvoker.HttpResponse getAddressApiHttpResponse(Long addressId)
+		throws Exception;
+
 	public Address patchAddress(Long addressId, Address address)
 		throws Exception;
 
@@ -62,15 +67,10 @@ public interface AddressResource {
 			Long siteId, Address address)
 		throws Exception;
 
-	public void deleteAddressApi(Long siteId, Long addressId) throws Exception;
-
-	public HttpInvoker.HttpResponse deleteAddressApiHttpResponse(
-			Long siteId, Long addressId)
+	public Address deleteAddressApi(Long siteId, Long addressId)
 		throws Exception;
 
-	public Address getAddressApi(Long siteId, Long addressId) throws Exception;
-
-	public HttpInvoker.HttpResponse getAddressApiHttpResponse(
+	public HttpInvoker.HttpResponse deleteAddressApiHttpResponse(
 			Long siteId, Long addressId)
 		throws Exception;
 
@@ -144,6 +144,85 @@ public interface AddressResource {
 	}
 
 	public static class AddressResourceImpl implements AddressResource {
+
+		public Address getAddressApi(Long addressId) throws Exception {
+			HttpInvoker.HttpResponse httpResponse = getAddressApiHttpResponse(
+				addressId);
+
+			String content = httpResponse.getContent();
+
+			if ((httpResponse.getStatusCode() / 100) != 2) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response content: " + content);
+				_logger.log(
+					Level.WARNING,
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.log(
+					Level.WARNING,
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+			else {
+				_logger.fine("HTTP response content: " + content);
+				_logger.fine(
+					"HTTP response message: " + httpResponse.getMessage());
+				_logger.fine(
+					"HTTP response status code: " +
+						httpResponse.getStatusCode());
+			}
+
+			try {
+				return AddressSerDes.toDTO(content);
+			}
+			catch (Exception e) {
+				_logger.log(
+					Level.WARNING,
+					"Unable to process HTTP response: " + content, e);
+
+				throw new Problem.ProblemException(Problem.toDTO(content));
+			}
+		}
+
+		public HttpInvoker.HttpResponse getAddressApiHttpResponse(
+				Long addressId)
+			throws Exception {
+
+			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
+
+			if (_builder._locale != null) {
+				httpInvoker.header(
+					"Accept-Language", _builder._locale.toLanguageTag());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._headers.entrySet()) {
+
+				httpInvoker.header(entry.getKey(), entry.getValue());
+			}
+
+			for (Map.Entry<String, String> entry :
+					_builder._parameters.entrySet()) {
+
+				httpInvoker.parameter(entry.getKey(), entry.getValue());
+			}
+
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+
+			httpInvoker.path(
+				_builder._scheme + "://" + _builder._host + ":" +
+					_builder._port +
+						"/o/headless-PhoneBook/v1.0/addresses/{addressId}");
+
+			httpInvoker.path("addressId", addressId);
+
+			httpInvoker.userNameAndPassword(
+				_builder._login + ":" + _builder._password);
+
+			return httpInvoker.invoke();
+		}
 
 		public Address patchAddress(Long addressId, Address address)
 			throws Exception {
@@ -573,93 +652,11 @@ public interface AddressResource {
 			return httpInvoker.invoke();
 		}
 
-		public void deleteAddressApi(Long siteId, Long addressId)
+		public Address deleteAddressApi(Long siteId, Long addressId)
 			throws Exception {
 
 			HttpInvoker.HttpResponse httpResponse =
 				deleteAddressApiHttpResponse(siteId, addressId);
-
-			String content = httpResponse.getContent();
-
-			if ((httpResponse.getStatusCode() / 100) != 2) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response content: " + content);
-				_logger.log(
-					Level.WARNING,
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.log(
-					Level.WARNING,
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-
-				throw new Problem.ProblemException(Problem.toDTO(content));
-			}
-			else {
-				_logger.fine("HTTP response content: " + content);
-				_logger.fine(
-					"HTTP response message: " + httpResponse.getMessage());
-				_logger.fine(
-					"HTTP response status code: " +
-						httpResponse.getStatusCode());
-			}
-
-			try {
-				return;
-			}
-			catch (Exception e) {
-				_logger.log(
-					Level.WARNING,
-					"Unable to process HTTP response: " + content, e);
-
-				throw new Problem.ProblemException(Problem.toDTO(content));
-			}
-		}
-
-		public HttpInvoker.HttpResponse deleteAddressApiHttpResponse(
-				Long siteId, Long addressId)
-			throws Exception {
-
-			HttpInvoker httpInvoker = HttpInvoker.newHttpInvoker();
-
-			if (_builder._locale != null) {
-				httpInvoker.header(
-					"Accept-Language", _builder._locale.toLanguageTag());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._headers.entrySet()) {
-
-				httpInvoker.header(entry.getKey(), entry.getValue());
-			}
-
-			for (Map.Entry<String, String> entry :
-					_builder._parameters.entrySet()) {
-
-				httpInvoker.parameter(entry.getKey(), entry.getValue());
-			}
-
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
-
-			httpInvoker.path(
-				_builder._scheme + "://" + _builder._host + ":" +
-					_builder._port +
-						"/o/headless-PhoneBook/v1.0/sites/{siteId}/addresses/{addressId}");
-
-			httpInvoker.path("siteId", siteId);
-			httpInvoker.path("addressId", addressId);
-
-			httpInvoker.userNameAndPassword(
-				_builder._login + ":" + _builder._password);
-
-			return httpInvoker.invoke();
-		}
-
-		public Address getAddressApi(Long siteId, Long addressId)
-			throws Exception {
-
-			HttpInvoker.HttpResponse httpResponse = getAddressApiHttpResponse(
-				siteId, addressId);
 
 			String content = httpResponse.getContent();
 
@@ -698,7 +695,7 @@ public interface AddressResource {
 			}
 		}
 
-		public HttpInvoker.HttpResponse getAddressApiHttpResponse(
+		public HttpInvoker.HttpResponse deleteAddressApiHttpResponse(
 				Long siteId, Long addressId)
 			throws Exception {
 
@@ -721,7 +718,7 @@ public interface AddressResource {
 				httpInvoker.parameter(entry.getKey(), entry.getValue());
 			}
 
-			httpInvoker.httpMethod(HttpInvoker.HttpMethod.GET);
+			httpInvoker.httpMethod(HttpInvoker.HttpMethod.DELETE);
 
 			httpInvoker.path(
 				_builder._scheme + "://" + _builder._host + ":" +

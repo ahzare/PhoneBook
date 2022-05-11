@@ -159,8 +159,6 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 			_log.debug("Need to create a new person: %s\n", person.toString());
 		}
 
-		_log.warn("hi ali");
-
 		try {
 			com.sain.phonebook.model.Person persistedPerson =
 				_personService.addPerson(

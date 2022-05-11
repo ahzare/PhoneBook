@@ -40,10 +40,10 @@ public class AddressServiceWrapper
 	}
 
 	@Override
-	public void deleteAddress(long addressId)
+	public com.sain.phonebook.model.Address deleteAddress(long addressId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
-		_addressService.deleteAddress(addressId);
+		return _addressService.deleteAddress(addressId);
 	}
 
 	@Override

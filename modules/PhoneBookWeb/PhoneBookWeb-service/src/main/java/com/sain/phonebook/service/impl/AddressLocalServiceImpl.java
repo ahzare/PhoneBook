@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.DateUtil;
 
 import com.sain.phonebook.exception.NoSuchAddressException;
 import com.sain.phonebook.model.Address;
+import com.sain.phonebook.model.Person;
 import com.sain.phonebook.service.base.AddressLocalServiceBaseImpl;
 
 import java.util.Date;
@@ -91,34 +92,17 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 	@Indexable(type = IndexableType.DELETE)
 	@Override
 	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
-	public Address deleteAddress(Address address) {
-		/*try{
-			resourceLocalService.deleteResource(
+	public Address deleteAddress(long addressId) throws PortalException {
+		Address address = addressPersistence.findByPrimaryKey(addressId);
+
+		if (address != null) {
+
+			/*resourceLocalService.deleteResource(
 					address.getCompanyId(),
 					Address.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL,
-					address.getAddressId());
-		}catch(PortalException exception){
-			_log.warn("Error deleting persisted address permissions: "+
-					exception.getMessage(), exception);
-		}*/
+					address.getAddressId());*/
 
-		//        todo: delete address addresss and departments
-
-		// call the super action method to try the delete.
-
-		return super.deleteAddress(address);
-
-		//        return addressLocalService.deleteAddress(address);
-
-	}
-
-	@Indexable(type = IndexableType.DELETE)
-	@Override
-	public Address deleteAddress(long addressId) throws PortalException {
-		Address address = fetchAddress(addressId);
-
-		if (address != null) {
 			return deleteAddress(address);
 		}
 

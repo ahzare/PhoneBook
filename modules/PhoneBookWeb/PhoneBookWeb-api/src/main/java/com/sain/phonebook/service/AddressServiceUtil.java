@@ -47,8 +47,8 @@ public class AddressServiceUtil {
 		return getService().addAddress(name, serviceContext);
 	}
 
-	public static void deleteAddress(long addressId) throws PortalException {
-		getService().deleteAddress(addressId);
+	public static Address deleteAddress(long addressId) throws PortalException {
+		return getService().deleteAddress(addressId);
 	}
 
 	public static Address getAddress(long addressId) throws PortalException {
