@@ -21,6 +21,7 @@ import com.liferay.portal.kernel.util.OrderByComparator;
 
 import com.sain.phonebook.model.Person;
 
+import java.io.InputStream;
 import java.io.Serializable;
 
 import java.util.List;
@@ -69,6 +70,14 @@ public class PersonLocalServiceUtil {
 		return getService().addPerson(
 			firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
 			roomNumber, email, website, departmentId, roleId, serviceContext);
+	}
+
+	public static void addPersonExcel(
+			Long siteId, InputStream inputStream,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		getService().addPersonExcel(siteId, inputStream, serviceContext);
 	}
 
 	/**

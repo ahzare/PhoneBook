@@ -98,6 +98,44 @@ public class PersonServiceHttp {
 		}
 	}
 
+	public static void addPersonExcel(
+			HttpPrincipal httpPrincipal, Long siteId,
+			java.io.InputStream inputStream,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		try {
+			MethodKey methodKey = new MethodKey(
+				PersonServiceUtil.class, "addPersonExcel",
+				_addPersonExcelParameterTypes1);
+
+			MethodHandler methodHandler = new MethodHandler(
+				methodKey, siteId, inputStream, serviceContext);
+
+			try {
+				TunnelUtil.invoke(httpPrincipal, methodHandler);
+			}
+			catch (Exception exception) {
+				if (exception instanceof
+						com.liferay.portal.kernel.exception.PortalException) {
+
+					throw (com.liferay.portal.kernel.exception.PortalException)
+						exception;
+				}
+
+				throw new com.liferay.portal.kernel.exception.SystemException(
+					exception);
+			}
+		}
+		catch (com.liferay.portal.kernel.exception.SystemException
+					systemException) {
+
+			_log.error(systemException, systemException);
+
+			throw systemException;
+		}
+	}
+
 	public static com.sain.phonebook.model.Person deletePerson(
 			HttpPrincipal httpPrincipal, long personId)
 		throws com.liferay.portal.kernel.exception.PortalException {
@@ -105,7 +143,7 @@ public class PersonServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				PersonServiceUtil.class, "deletePerson",
-				_deletePersonParameterTypes1);
+				_deletePersonParameterTypes2);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, personId);
@@ -143,7 +181,7 @@ public class PersonServiceHttp {
 
 		try {
 			MethodKey methodKey = new MethodKey(
-				PersonServiceUtil.class, "getAll", _getAllParameterTypes2);
+				PersonServiceUtil.class, "getAll", _getAllParameterTypes3);
 
 			MethodHandler methodHandler = new MethodHandler(methodKey);
 
@@ -175,7 +213,7 @@ public class PersonServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				PersonServiceUtil.class, "getPerson",
-				_getPersonParameterTypes3);
+				_getPersonParameterTypes4);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, personId);
@@ -219,7 +257,7 @@ public class PersonServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				PersonServiceUtil.class, "patchPerson",
-				_patchPersonParameterTypes4);
+				_patchPersonParameterTypes5);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, id, firstName, lastName, localPhoneNumber,
@@ -265,7 +303,7 @@ public class PersonServiceHttp {
 		try {
 			MethodKey methodKey = new MethodKey(
 				PersonServiceUtil.class, "updatePerson",
-				_updatePersonParameterTypes5);
+				_updatePersonParameterTypes6);
 
 			MethodHandler methodHandler = new MethodHandler(
 				methodKey, id, firstName, lastName, localPhoneNumber,
@@ -307,19 +345,24 @@ public class PersonServiceHttp {
 		String.class, String.class, String.class, long.class, long.class,
 		com.liferay.portal.kernel.service.ServiceContext.class
 	};
-	private static final Class<?>[] _deletePersonParameterTypes1 = new Class[] {
+	private static final Class<?>[] _addPersonExcelParameterTypes1 =
+		new Class[] {
+			Long.class, java.io.InputStream.class,
+			com.liferay.portal.kernel.service.ServiceContext.class
+		};
+	private static final Class<?>[] _deletePersonParameterTypes2 = new Class[] {
 		long.class
 	};
-	private static final Class<?>[] _getAllParameterTypes2 = new Class[] {};
-	private static final Class<?>[] _getPersonParameterTypes3 = new Class[] {
+	private static final Class<?>[] _getAllParameterTypes3 = new Class[] {};
+	private static final Class<?>[] _getPersonParameterTypes4 = new Class[] {
 		long.class
 	};
-	private static final Class<?>[] _patchPersonParameterTypes4 = new Class[] {
+	private static final Class<?>[] _patchPersonParameterTypes5 = new Class[] {
 		long.class, String.class, String.class, String.class, String.class,
 		String.class, String.class, String.class, String.class, long.class,
 		long.class, com.liferay.portal.kernel.service.ServiceContext.class
 	};
-	private static final Class<?>[] _updatePersonParameterTypes5 = new Class[] {
+	private static final Class<?>[] _updatePersonParameterTypes6 = new Class[] {
 		long.class, String.class, String.class, String.class, String.class,
 		String.class, String.class, String.class, String.class, long.class,
 		long.class, com.liferay.portal.kernel.service.ServiceContext.class

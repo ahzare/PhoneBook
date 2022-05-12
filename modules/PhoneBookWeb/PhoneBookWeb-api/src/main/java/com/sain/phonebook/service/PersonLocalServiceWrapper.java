@@ -60,6 +60,15 @@ public class PersonLocalServiceWrapper
 			roomNumber, email, website, departmentId, roleId, serviceContext);
 	}
 
+	@Override
+	public void addPersonExcel(
+			Long siteId, java.io.InputStream inputStream,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_personLocalService.addPersonExcel(siteId, inputStream, serviceContext);
+	}
+
 	/**
 	 * @throws PortalException
 	 */

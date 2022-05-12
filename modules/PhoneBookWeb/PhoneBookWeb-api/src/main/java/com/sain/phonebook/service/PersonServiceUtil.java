@@ -18,6 +18,8 @@ import com.liferay.portal.kernel.exception.PortalException;
 
 import com.sain.phonebook.model.Person;
 
+import java.io.InputStream;
+
 import java.util.List;
 
 /**
@@ -49,6 +51,14 @@ public class PersonServiceUtil {
 		return getService().addPerson(
 			firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
 			roomNumber, email, website, departmentId, roleId, serviceContext);
+	}
+
+	public static void addPersonExcel(
+			Long siteId, InputStream inputStream,
+			com.liferay.portal.kernel.service.ServiceContext serviceContext)
+		throws PortalException {
+
+		getService().addPersonExcel(siteId, inputStream, serviceContext);
 	}
 
 	public static Person deletePerson(long personId) throws PortalException {

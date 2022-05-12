@@ -26,6 +26,8 @@ import com.liferay.portal.kernel.transaction.Transactional;
 
 import com.sain.phonebook.model.Person;
 
+import java.io.InputStream;
+
 import java.util.List;
 
 import org.osgi.annotation.versioning.ProviderType;
@@ -58,6 +60,10 @@ public interface PersonService extends BaseService {
 			String phoneNumber, String faxNumber, String roomNumber,
 			String email, String website, long departmentId, long roleId,
 			ServiceContext serviceContext)
+		throws PortalException;
+
+	public void addPersonExcel(
+			Long siteId, InputStream inputStream, ServiceContext serviceContext)
 		throws PortalException;
 
 	public Person deletePerson(long personId) throws PortalException;

@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
+ * <p>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -27,6 +27,8 @@ import com.liferay.portal.kernel.util.DateUtil;
 import com.sain.phonebook.exception.NoSuchPersonException;
 import com.sain.phonebook.model.Person;
 import com.sain.phonebook.service.base.PersonLocalServiceBaseImpl;
+
+import java.io.InputStream;
 
 import java.util.Date;
 
@@ -99,24 +101,39 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 		return person;
 	}
 
-	@Indexable(type = IndexableType.DELETE)
-	@Override
-	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
-	public Person deletePerson(long personId) throws PortalException {
-		Person person = personPersistence.findByPrimaryKey(personId);
+	public void addPersonExcel(
+			Long siteId, InputStream inputStream,
+			final ServiceContext serviceContext)
+		throws PortalException {
 
-		if (person != null) {
+		// todo: read excel and save to db
 
-			/*resourceLocalService.deleteResource(
-					person.getCompanyId(),
-					Person.class.getName(),
-					ResourceConstants.SCOPE_INDIVIDUAL,
-					person.getPersonId());*/
+		//		InputStream inputStream = multipartBody.getBinaryFile(
+		//			"file"
+		//		).getInputStream();
 
-			return deletePerson(person);
-		}
+		//		try {
+		//			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
 
-		return null;
+		//
+		//			HSSFSheet sheet = workbook.getSheetAt(0); // Getting the first Sheet
+		//			Iterator<Row> rows = sheet.rowIterator(); // Getting the rows
+		//			int rowCount = 0;
+		//			while (rows.hasNext()) {   //Iterating the Rows
+		//				HSSFRow row = (HSSFRow)rows.next();  // Getting the First Row
+		//				for (int i = 0; i < 15; i++) {  //Iterating the First rows of 15 cells (Here i am assuming that i have filled only 15 cells for row
+		//					HSSFCell cell = row.getCell(i); //Getting the first Cell
+		//					if (cell != null) {
+		//						String val = cell.getRichStringCellValue(
+		//						).toString(); //Getting first cell value
+		//						System.out.println("Value is " + val);
+		//					}
+		//				}
+		//			}
+		//		}
+		//		catch (IOException e) {
+		//			e.printStackTrace();
+		//		}
 	}
 
 	/*@Indexable(type = IndexableType.DELETE)
@@ -143,6 +160,26 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 		//        return personLocalService.deletePerson(person);
 
 	}*/
+
+	@Indexable(type = IndexableType.DELETE)
+	@Override
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
+	public Person deletePerson(long personId) throws PortalException {
+		Person person = personPersistence.findByPrimaryKey(personId);
+
+		if (person != null) {
+
+			/*resourceLocalService.deleteResource(
+					person.getCompanyId(),
+					Person.class.getName(),
+					ResourceConstants.SCOPE_INDIVIDUAL,
+					person.getPersonId());*/
+
+			return deletePerson(person);
+		}
+
+		return null;
+	}
 
 	public Person getPerson(final long personId) {
 		return personPersistence.fetchByPersonId(personId);

@@ -1,4 +1,11 @@
 dependencies {
+	//	compileOnly group: "org.apache.poi", name: "ooxml-schemas", version: "1.3"
+	//	compileOnly group: "org.apache.poi", name: "poi", version: "3.13"
+	//	compileOnly group: "org.apache.poi", name: "poi-ooxml", version: "3.13" // For `.xlsx` files
+	//	compileOnly group: "org.apache.poi", name: "poi-ooxml-schemas", version: "3.13"
+	//	compileOnly group: "org.apache.poi", name: "poi-scratchpad", version: "3.17"
+	//	compileOnly group: "org.apache.xmlbeans", name: "xmlbeans", version: "2.6.0"
+
 	compile project(":modules:PhoneBookWeb:PhoneBookWeb-api")
 
 	compileOnly group: "com.liferay", name: "com.liferay.petra.function"
@@ -7,14 +14,13 @@ dependencies {
 	compileOnly group: "com.liferay", name: "com.liferay.portal.aop.api"
 	compileOnly group: "com.liferay", name: "com.liferay.portal.search.api"
 	compileOnly group: "com.liferay", name: "com.liferay.portal.search.spi"
-	compileOnly group: "com.liferay.portal", name: "release.portal.api" , version: "7.3.7-ga8"
+	compileOnly group: "com.liferay.portal", name: "release.portal.api", version: "7.3.7-ga8"
 	compileOnly group: "commons-lang", name: "commons-lang"
 	compileOnly group: "org.osgi", name: "org.osgi.annotation.versioning"
 	compileOnly group: "org.osgi", name: "org.osgi.core"
 	compileOnly group: "org.osgi", name: "org.osgi.service.component.annotations"
 	compileOnly group: "org.slf4j", name: "slf4j-api"
 }
-
 buildService {
 	apiDir = "../PhoneBookWeb-api/src/main/java"
 }

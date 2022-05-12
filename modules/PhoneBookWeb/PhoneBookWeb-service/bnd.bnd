@@ -2,6 +2,14 @@ Bundle-Name: PhoneBookWeb-service
 Bundle-SymbolicName: com.sain.phonebook.service
 Bundle-Version: 1.0.0
 Export-Package: com.sain.phonebook.internal.search
+Import-Package:\
+	!com.sun.*,\
+	!org.apache.*,\
+	!org.openxmlformats.schemas.*,\
+	!org.etsi.uri.x01903.v13,\
+	!org.apache.poi.ss.usermodel.*,\
+	!org.apache.poi.xssf.usermodel.*,\
+	*
 Liferay-Require-SchemaVersion: 1.0.0
 Liferay-Service: true
 -dsannotations-options: inherit

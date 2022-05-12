@@ -21,6 +21,8 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.sain.phonebook.model.Person;
 import com.sain.phonebook.service.base.PersonServiceBaseImpl;
 
+import java.io.InputStream;
+
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
@@ -62,6 +64,18 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 		return personLocalService.addPerson(
 			firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
 			roomNumber, email, website, departmentId, roleId, serviceContext);
+	}
+
+	public void addPersonExcel(
+			Long siteId, InputStream inputStream,
+			final ServiceContext serviceContext)
+		throws PortalException {
+
+		//        _personModelResourcePermission.check(
+		//        getPermissionChecker(), personLocalService.getPerson(oldId),
+		//        ActionKeys.UPDATE);
+
+		personLocalService.addPersonExcel(siteId, inputStream, serviceContext);
 	}
 
 	public Person deletePerson(final long personId) throws PortalException {

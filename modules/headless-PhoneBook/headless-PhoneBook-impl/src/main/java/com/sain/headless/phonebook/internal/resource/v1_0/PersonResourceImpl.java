@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
+ * <p>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -14,12 +14,17 @@
 
 package com.sain.headless.phonebook.internal.resource.v1_0;
 
+import com.liferay.expando.kernel.model.ExpandoBridge;
+import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.BaseModel;
+import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
+import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -35,7 +40,18 @@ import com.sain.phonebook.service.DepartmentService;
 import com.sain.phonebook.service.PersonService;
 import com.sain.phonebook.service.RoleService;
 
+import java.io.InputStream;
+
+import java.io.Serializable;
+import java.util.*;
+
 import javax.validation.constraints.NotNull;
+
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DateUtil;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
@@ -193,6 +209,74 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 	@Override
 	public void postPersonExcel(Long siteId, MultipartBody multipartBody)
 		throws Exception {
+
+		InputStream inputStream = multipartBody.getBinaryFile(
+			"file"
+		).getInputStream();
+
+		System.out.println(inputStream.toString());
+
+		XSSFWorkbook wb = new XSSFWorkbook(inputStream);
+
+		XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object
+		Map<Integer, List<String>> data = new HashMap<>();
+		int i = 0;
+
+		for (Row row : sheet) {
+			data.put(i, new ArrayList<String>());
+
+			for (Cell cell : row) {
+				switch (cell.getCellType()) {
+					case STRING:
+						System.out.println(
+							cell.getRichStringCellValue(
+							).getString());
+						data.get(
+							Integer.valueOf(i)
+						).add(
+							cell.getRichStringCellValue(
+							).getString()
+						);
+
+						break;
+					case NUMERIC:
+						if (DateUtil.isCellDateFormatted(cell)) {
+							System.out.println(cell.getDateCellValue());
+							data.get(
+								i
+							).add(
+								cell.getDateCellValue() + ""
+							);
+						}
+						else {
+							System.out.println(cell.getNumericCellValue());
+							data.get(
+								i
+							).add(
+								cell.getNumericCellValue() + ""
+							);
+						}
+
+						break;
+					//					case BOOLEAN: ... break;
+					//					case FORMULA: ... break;
+					default:
+						data.get(
+							Integer.valueOf(i)
+						).add(
+							" "
+						);
+				}
+			}
+
+			i++;
+
+
+		}
+		/**/
+
+		//		_personService.addPersonExcel(siteId, inputStream,
+		//				_serviceContextHelper.getServiceContext(siteId));
 	}
 
 	@Override
