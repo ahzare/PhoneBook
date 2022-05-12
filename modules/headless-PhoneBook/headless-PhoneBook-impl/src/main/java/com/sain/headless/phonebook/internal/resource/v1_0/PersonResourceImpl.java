@@ -14,17 +14,12 @@
 
 package com.sain.headless.phonebook.internal.resource.v1_0;
 
-import com.liferay.expando.kernel.model.ExpandoBridge;
-import com.liferay.exportimport.kernel.lar.StagedModelType;
 import com.liferay.petra.function.UnsafeConsumer;
 import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.model.BaseModel;
-import com.liferay.portal.kernel.model.CacheModel;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchContext;
 import com.liferay.portal.kernel.search.Sort;
 import com.liferay.portal.kernel.search.filter.Filter;
-import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.service.UserLocalService;
 import com.liferay.portal.kernel.util.GetterUtil;
 import com.liferay.portal.kernel.util.Portal;
@@ -33,7 +28,9 @@ import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.SearchUtil;
 
+import com.sain.headless.phonebook.dto.v1_0.Department;
 import com.sain.headless.phonebook.dto.v1_0.Person;
+import com.sain.headless.phonebook.dto.v1_0.Role;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 import com.sain.headless.phonebook.util.ServiceContextHelper;
 import com.sain.phonebook.service.DepartmentService;
@@ -41,9 +38,6 @@ import com.sain.phonebook.service.PersonService;
 import com.sain.phonebook.service.RoleService;
 
 import java.io.InputStream;
-
-import java.io.Serializable;
-import java.util.*;
 
 import javax.validation.constraints.NotNull;
 
@@ -64,15 +58,15 @@ import org.slf4j.LoggerFactory;
  * @author Amir
  */
 @Component(
-	properties = "OSGI-INF/liferay/rest/v1_0/person.properties",
-	scope = ServiceScope.PROTOTYPE, service = PersonResource.class
+        properties = "OSGI-INF/liferay/rest/v1_0/person.properties",
+        scope = ServiceScope.PROTOTYPE, service = PersonResource.class
 )
 public class PersonResourceImpl extends BasePersonResourceImpl {
 
-	@Override
-	public Person deletePersonApi(Long siteId, Long personId) throws Exception {
-		return toPerson(_personService.deletePerson(personId));
-	}
+    @Override
+    public Person deletePersonApi(Long siteId, Long personId) throws Exception {
+        return toPerson(_personService.deletePerson(personId));
+    }
 
 	/*@Override
 		public EntityModel getEntityModel(Map<String, List<String>> multivaluedMap)
@@ -80,152 +74,199 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 			return _personEntityModel;
 		}*/
 
-	@Override
-	public Person getPerson(Long personId) throws Exception {
-		try {
+    @Override
+    public Person getPerson(Long personId) throws Exception {
+        try {
 
-			// fetch the entity class...
+            // fetch the entity class...
 
-			com.sain.phonebook.model.Person persistedPerson =
-				_personService.getPerson(personId);
+            com.sain.phonebook.model.Person persistedPerson =
+                    _personService.getPerson(personId);
 
-			if (persistedPerson != null) {
-				return toPerson(persistedPerson);
-			}
+            if (persistedPerson != null) {
+                return toPerson(persistedPerson);
+            }
 
-			return null;
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error getting person [" + personId + "]: " +
-					exception.getMessage(),
-				exception);
+            return null;
+        } catch (Exception exception) {
+            _log.error(
+                    "Error getting person [" + personId + "]: " +
+                            exception.getMessage(),
+                    exception);
 
-			throw exception;
-		}
-	}
+            throw exception;
+        }
+    }
 
-	@Override
-	public Page<Person> getPersonsPage(
-			Long siteId, String search, Filter filter, Pagination pagination,
-			Sort[] sorts)
-		throws Exception {
+    @Override
+    public Page<Person> getPersonsPage(
+            Long siteId, String search, Filter filter, Pagination pagination,
+            Sort[] sorts)
+            throws Exception {
 
-		System.out.println("getPersonsPage");
+        System.out.println("getPersonsPage");
 
-		Page<Person> personPage = SearchUtil.search(
-			booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
-			com.sain.phonebook.model.Person.class, search, pagination,
-			queryConfig -> queryConfig.setSelectedFieldNames(
-				Field.ENTRY_CLASS_PK),
-			new UnsafeConsumer() {
+        Page<Person> personPage = SearchUtil.search(
+                booleanQuery -> booleanQuery.getPreBooleanFilter(), filter,
+                com.sain.phonebook.model.Person.class, search, pagination,
+                queryConfig -> queryConfig.setSelectedFieldNames(
+                        Field.ENTRY_CLASS_PK),
+                new UnsafeConsumer() {
 
-				public void accept(Object object) throws Exception {
-					SearchContext searchContext = (SearchContext)object;
+                    public void accept(Object object) throws Exception {
+                        SearchContext searchContext = (SearchContext) object;
 
-					searchContext.setCompanyId(contextCompany.getCompanyId());
-				}
+                        searchContext.setCompanyId(contextCompany.getCompanyId());
+                    }
 
-			},
-			document -> toPerson(
-				_personService.getPerson(
-					GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
-			sorts);
+                },
+                document -> toPerson(
+                        _personService.getPerson(
+                                GetterUtil.getLong(document.get(Field.ENTRY_CLASS_PK)))),
+                sorts);
 
-		System.out.println("person page = " + personPage);
+        System.out.println("person page = " + personPage);
 
-		return personPage;
-	}
+        return personPage;
+    }
 
-	@Override
-	public Person patchPerson(
-			@NotNull Long personId, Long roleId, Long departmentId,
-			Person person)
-		throws Exception {
+    @Override
+    public Person patchPerson(
+            @NotNull Long personId, Long roleId, Long departmentId,
+            Person person)
+            throws Exception {
 
-		com.sain.phonebook.model.Person persistedPerson1 =
-			_personService.getPerson(personId);
+        com.sain.phonebook.model.Person persistedPerson1 =
+                _personService.getPerson(personId);
 
-		if (persistedPerson1 != null) {
-			try {
-				com.sain.phonebook.model.Person persistedPerson =
-					_personService.patchPerson(
-						personId, person.getFirstName(), person.getLastName(),
-						person.getLocalPhoneNumber(), person.getPhoneNumber(),
-						person.getFaxNumber(), person.getRoomNumber(),
-						person.getEmail(), person.getWebsite(),
-						(departmentId != null) ? departmentId : 0,
-						(roleId != null) ? roleId : 0,
-						_serviceContextHelper.getServiceContext(
-							persistedPerson1.getGroupId()));
+        if (persistedPerson1 != null) {
+            try {
+                com.sain.phonebook.model.Person persistedPerson =
+                        _personService.patchPerson(
+                                personId, person.getFirstName(), person.getLastName(),
+                                person.getLocalPhoneNumber(), person.getPhoneNumber(),
+                                person.getFaxNumber(), person.getRoomNumber(),
+                                person.getEmail(), person.getWebsite(),
+                                (departmentId != null) ? departmentId : 0,
+                                (roleId != null) ? roleId : 0,
+                                _serviceContextHelper.getServiceContext(
+                                        persistedPerson1.getGroupId()));
 
-				return toPerson(persistedPerson);
-			}
-			catch (Exception exception) {
-				_log.error(
-					"Error patching person: " + exception.getMessage(),
-					exception);
+                return toPerson(persistedPerson);
+            } catch (Exception exception) {
+                _log.error(
+                        "Error patching person: " + exception.getMessage(),
+                        exception);
 
-				throw exception;
-			}
-		}
-		else {
-			return null;
-		}
-	}
+                throw exception;
+            }
+        } else {
+            return null;
+        }
+    }
 
-	@Override
-	public Person postPerson(
-			Long siteId, Long departmentId, Long roleId, Person person)
-		throws Exception {
+    @Override
+    public Person postPerson(
+            Long siteId, Long departmentId, Long roleId, Person person)
+            throws Exception {
 
-		System.out.println("postPerson");
+        System.out.println("postPerson");
 
-		if (_log.isDebugEnabled()) {
-			_log.debug("Need to create a new person: %s\n", person.toString());
-		}
+        if (_log.isDebugEnabled()) {
+            _log.debug("Need to create a new person: %s\n", person.toString());
+        }
 
-		try {
-			com.sain.phonebook.model.Person persistedPerson =
-				_personService.addPerson(
-					person.getFirstName(), person.getLastName(),
-					person.getLocalPhoneNumber(), person.getPhoneNumber(),
-					person.getFaxNumber(), person.getRoomNumber(),
-					person.getEmail(), person.getWebsite(),
-					(departmentId != null) ? departmentId : 0,
-					(roleId != null) ? roleId : 0,
-					_serviceContextHelper.getServiceContext(siteId));
+        try {
+            com.sain.phonebook.model.Person persistedPerson =
+                    _personService.addPerson(
+                            person.getFirstName(), person.getLastName(),
+                            person.getLocalPhoneNumber(), person.getPhoneNumber(),
+                            person.getFaxNumber(), person.getRoomNumber(),
+                            person.getEmail(), person.getWebsite(),
+                            (departmentId != null) ? departmentId : 0,
+                            (roleId != null) ? roleId : 0,
+                            _serviceContextHelper.getServiceContext(siteId));
 
-			return toPerson(persistedPerson);
-		}
-		catch (Exception exception) {
-			_log.error(
-				"Error creating person: " + exception.getMessage(), exception);
+            return toPerson(persistedPerson);
+        } catch (Exception exception) {
+            _log.error(
+                    "Error creating person: " + exception.getMessage(), exception);
 
-			throw exception;
-		}
-	}
+            throw exception;
+        }
+    }
 
-	@Override
-	public void postPersonExcel(Long siteId, MultipartBody multipartBody)
-		throws Exception {
+    @Override
+    public void postPersonExcel(Long siteId, MultipartBody multipartBody)
+            throws Exception {
 
-		InputStream inputStream = multipartBody.getBinaryFile(
-			"file"
-		).getInputStream();
+        InputStream inputStream = multipartBody.getBinaryFile(
+                "file"
+        ).getInputStream();
 
-		System.out.println(inputStream.toString());
+        System.out.println(inputStream.toString());
 
-		XSSFWorkbook wb = new XSSFWorkbook(inputStream);
+        XSSFWorkbook wb = new XSSFWorkbook(inputStream);
 
-		XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object
-		Map<Integer, List<String>> data = new HashMap<>();
-		int i = 0;
+        XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object
+//		Map<Integer, List<String>> data = new HashMap<>();
+//		int i = 0;
 
-		for (Row row : sheet) {
-			data.put(i, new ArrayList<String>());
+        boolean isFirst = true;
+        for (Row row : sheet) {
+//			data.put(i, new ArrayList<String>());
 
-			for (Cell cell : row) {
+            if (isFirst) {
+                isFirst = false;
+                continue;
+            }
+
+            Person person = new Person();
+
+
+            person.setLastName(_getCellValue(row, 0));
+            person.setFirstName(_getCellValue(row, 1));
+            person.setLocalPhoneNumber(_getCellValue(row, 2));
+
+            String roleName = _getCellValue(row, 3);
+            Long roleId = 0L;
+
+            String departmentName = _getCellValue(row, 4);
+            Long departmentId = 0L;
+
+            System.out.println(person.getFirstName() + ", " +
+                    person.getLastName() + ", " +
+                    person.getLocalPhoneNumber());
+
+            if (roleName != null) {
+                Role role = RoleResourceImpl.toRole(
+                        _roleService.addRole(roleName,
+                                _serviceContextHelper.getServiceContext(siteId)));
+
+                roleId = role.getId();
+            }
+
+            if (departmentName != null) {
+                Department department = DepartmentResourceImpl.toDepartment(
+                        _departmentService.addDepartment(departmentName,
+                                _serviceContextHelper.getServiceContext(siteId)));
+
+                departmentId = department.getId();
+            }
+
+            com.sain.phonebook.model.Person persistedPerson =
+                    _personService.addPerson(
+                            person.getFirstName(), person.getLastName(),
+                            person.getLocalPhoneNumber(), person.getPhoneNumber(),
+                            person.getFaxNumber(), person.getRoomNumber(),
+                            person.getEmail(), person.getWebsite(),
+                            (departmentId != null) ? departmentId : 0,
+                            (roleId != null) ? roleId : 0,
+                            _serviceContextHelper.getServiceContext(siteId));
+
+//            return toPerson(persistedPerson);
+		/*	{
+
 				switch (cell.getCellType()) {
 					case STRING:
 						System.out.println(
@@ -266,55 +307,78 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 						).add(
 							" "
 						);
-				}
+				}*/
 			}
 
-			i++;
+//			i++;
+/*
+        }
+       */ /**/
 
+        //		_personService.addPersonExcel(siteId, inputStream,
+        //				_serviceContextHelper.getServiceContext(siteId));
+    }
 
-		}
-		/**/
+    private String _getCellValue(Row row, int i) {
+        Cell cell = row.getCell(i);
 
-		//		_personService.addPersonExcel(siteId, inputStream,
-		//				_serviceContextHelper.getServiceContext(siteId));
-	}
+        switch (cell.getCellType()) {
+            case STRING:
+                System.out.println(cell.getRichStringCellValue().getString());
 
-	@Override
-	public Person putPersonApi(
-			@NotNull Long personId, Long roleId, Long departmentId,
-			Person person)
-		throws Exception {
+                return cell.getRichStringCellValue().getString();
 
-		com.sain.phonebook.model.Person persistedPerson1 =
-			_personService.getPerson(personId);
+            case NUMERIC:
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    System.out.println(cell.getDateCellValue());
+                    return String.valueOf(cell.getDateCellValue());
+                } else {
+                    System.out.println(cell.getNumericCellValue());
+                    return String.valueOf((int)(cell.getNumericCellValue()));
+                }
 
-		if (persistedPerson1 != null) {
-			try {
-				com.sain.phonebook.model.Person persistedPerson =
-					_personService.updatePerson(
-						personId, person.getFirstName(), person.getLastName(),
-						person.getLocalPhoneNumber(), person.getPhoneNumber(),
-						person.getFaxNumber(), person.getRoomNumber(),
-						person.getEmail(), person.getWebsite(),
-						(departmentId != null) ? departmentId : 0,
-						(roleId != null) ? roleId : 0,
-						_serviceContextHelper.getServiceContext(
-							persistedPerson1.getGroupId()));
+                //					case BOOLEAN: ... break;
+                //					case FORMULA: ... break;
+            default:
+                System.out.println("default");
+                return null;
+        }
+    }
 
-				return toPerson(persistedPerson);
-			}
-			catch (Exception exception) {
-				_log.error(
-					"Error putting person: " + exception.getMessage(),
-					exception);
+    @Override
+    public Person putPersonApi(
+            @NotNull Long personId, Long roleId, Long departmentId,
+            Person person)
+            throws Exception {
 
-				throw exception;
-			}
-		}
-		else {
-			return null;
-		}
-	}
+        com.sain.phonebook.model.Person persistedPerson1 =
+                _personService.getPerson(personId);
+
+        if (persistedPerson1 != null) {
+            try {
+                com.sain.phonebook.model.Person persistedPerson =
+                        _personService.updatePerson(
+                                personId, person.getFirstName(), person.getLastName(),
+                                person.getLocalPhoneNumber(), person.getPhoneNumber(),
+                                person.getFaxNumber(), person.getRoomNumber(),
+                                person.getEmail(), person.getWebsite(),
+                                (departmentId != null) ? departmentId : 0,
+                                (roleId != null) ? roleId : 0,
+                                _serviceContextHelper.getServiceContext(
+                                        persistedPerson1.getGroupId()));
+
+                return toPerson(persistedPerson);
+            } catch (Exception exception) {
+                _log.error(
+                        "Error putting person: " + exception.getMessage(),
+                        exception);
+
+                throw exception;
+            }
+        } else {
+            return null;
+        }
+    }
 
 	/*protected ServiceContext getServiceContext(Long siteId)
 		throws PortalException {
@@ -338,56 +402,56 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 		return serviceContext;
 	}*/
 
-	protected Person toPerson(com.sain.phonebook.model.Person person)
-		throws PortalException {
+    protected Person toPerson(com.sain.phonebook.model.Person person)
+            throws PortalException {
 
-		return new Person() {
-			{
-				email = person.getEmail();
-				faxNumber = person.getFaxNumber();
-				firstName = person.getFirstName();
-				id = person.getPersonId();
-				lastName = person.getLastName();
-				localPhoneNumber = person.getLocalPhoneNumber();
-				phoneNumber = person.getPhoneNumber();
-				roomNumber = person.getRoomNumber();
-				website = person.getWebsite();
+        return new Person() {
+            {
+                email = person.getEmail();
+                faxNumber = person.getFaxNumber();
+                firstName = person.getFirstName();
+                id = person.getPersonId();
+                lastName = person.getLastName();
+                localPhoneNumber = person.getLocalPhoneNumber();
+                phoneNumber = person.getPhoneNumber();
+                roomNumber = person.getRoomNumber();
+                website = person.getWebsite();
 
-				if (person.getDepartmentId() != 0) {
-					department = DepartmentResourceImpl.toDepartment(
-						_departmentService.getDepartment(
-							person.getDepartmentId()));
-				}
+                if (person.getDepartmentId() != 0) {
+                    department = DepartmentResourceImpl.toDepartment(
+                            _departmentService.getDepartment(
+                                    person.getDepartmentId()));
+                }
 
-				if (person.getRoleId() != 0) {
-					role = RoleResourceImpl.toRole(
-						_roleService.getRole(person.getRoleId()));
-				}
-			}
-		};
-	}
+                if (person.getRoleId() != 0) {
+                    role = RoleResourceImpl.toRole(
+                            _roleService.getRole(person.getRoleId()));
+                }
+            }
+        };
+    }
 
-	private static final Logger _log = LoggerFactory.getLogger(
-		PersonResourceImpl.class);
+    private static final Logger _log = LoggerFactory.getLogger(
+            PersonResourceImpl.class);
 
-	/*private static final EntityModel _personEntityModel =
-	    new PersonEntityModel();*/
-	@Reference
-	private DepartmentService _departmentService;
+    /*private static final EntityModel _personEntityModel =
+        new PersonEntityModel();*/
+    @Reference
+    private DepartmentService _departmentService;
 
-	@Reference
-	private PersonService _personService;
+    @Reference
+    private PersonService _personService;
 
-	@Reference
-	private Portal _portal;
+    @Reference
+    private Portal _portal;
 
-	@Reference
-	private RoleService _roleService;
+    @Reference
+    private RoleService _roleService;
 
-	@Reference
-	private ServiceContextHelper _serviceContextHelper;
+    @Reference
+    private ServiceContextHelper _serviceContextHelper;
 
-	@Reference
-	private UserLocalService _userLocalService;
+    @Reference
+    private UserLocalService _userLocalService;
 
 }
