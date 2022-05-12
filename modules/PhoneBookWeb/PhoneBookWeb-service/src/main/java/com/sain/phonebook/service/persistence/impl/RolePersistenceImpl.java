@@ -1656,6 +1656,242 @@ public class RolePersistenceImpl
 	private static final String _FINDER_COLUMN_ROLEID_ROLEID_2 =
 		"role_.roleId = ?";
 
+	private FinderPath _finderPathFetchByRoleName;
+	private FinderPath _finderPathCountByRoleName;
+
+	/**
+	 * Returns the role where name = &#63; or throws a <code>NoSuchRoleException</code> if it could not be found.
+	 *
+	 * @param name the name
+	 * @return the matching role
+	 * @throws NoSuchRoleException if a matching role could not be found
+	 */
+	@Override
+	public Role findByRoleName(String name) throws NoSuchRoleException {
+		Role role = fetchByRoleName(name);
+
+		if (role == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("name=");
+			sb.append(name);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchRoleException(sb.toString());
+		}
+
+		return role;
+	}
+
+	/**
+	 * Returns the role where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param name the name
+	 * @return the matching role, or <code>null</code> if a matching role could not be found
+	 */
+	@Override
+	public Role fetchByRoleName(String name) {
+		return fetchByRoleName(name, true);
+	}
+
+	/**
+	 * Returns the role where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param name the name
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching role, or <code>null</code> if a matching role could not be found
+	 */
+	@Override
+	public Role fetchByRoleName(String name, boolean useFinderCache) {
+		name = Objects.toString(name, "");
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {name};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByRoleName, finderArgs, this);
+		}
+
+		if (result instanceof Role) {
+			Role role = (Role)result;
+
+			if (!Objects.equals(name, role.getName())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_ROLE__WHERE);
+
+			boolean bindName = false;
+
+			if (name.isEmpty()) {
+				sb.append(_FINDER_COLUMN_ROLENAME_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				sb.append(_FINDER_COLUMN_ROLENAME_NAME_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindName) {
+					queryPos.add(name);
+				}
+
+				List<Role> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByRoleName, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {name};
+							}
+
+							_log.warn(
+								"RolePersistenceImpl.fetchByRoleName(String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Role role = list.get(0);
+
+					result = role;
+
+					cacheResult(role);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Role)result;
+		}
+	}
+
+	/**
+	 * Removes the role where name = &#63; from the database.
+	 *
+	 * @param name the name
+	 * @return the role that was removed
+	 */
+	@Override
+	public Role removeByRoleName(String name) throws NoSuchRoleException {
+		Role role = findByRoleName(name);
+
+		return remove(role);
+	}
+
+	/**
+	 * Returns the number of roles where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the number of matching roles
+	 */
+	@Override
+	public int countByRoleName(String name) {
+		name = Objects.toString(name, "");
+
+		FinderPath finderPath = _finderPathCountByRoleName;
+
+		Object[] finderArgs = new Object[] {name};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_ROLE__WHERE);
+
+			boolean bindName = false;
+
+			if (name.isEmpty()) {
+				sb.append(_FINDER_COLUMN_ROLENAME_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				sb.append(_FINDER_COLUMN_ROLENAME_NAME_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindName) {
+					queryPos.add(name);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_ROLENAME_NAME_2 =
+		"role_.name = ?";
+
+	private static final String _FINDER_COLUMN_ROLENAME_NAME_3 =
+		"(role_.name IS NULL OR role_.name = '')";
+
 	public RolePersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -1684,6 +1920,9 @@ public class RolePersistenceImpl
 
 		finderCache.putResult(
 			_finderPathFetchByRoleId, new Object[] {role.getRoleId()}, role);
+
+		finderCache.putResult(
+			_finderPathFetchByRoleName, new Object[] {role.getName()}, role);
 	}
 
 	/**
@@ -1764,6 +2003,13 @@ public class RolePersistenceImpl
 			_finderPathCountByRoleId, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByRoleId, args, roleModelImpl, false);
+
+		args = new Object[] {roleModelImpl.getName()};
+
+		finderCache.putResult(
+			_finderPathCountByRoleName, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByRoleName, args, roleModelImpl, false);
 	}
 
 	/**
@@ -2281,6 +2527,15 @@ public class RolePersistenceImpl
 		_finderPathCountByRoleId = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRoleId",
 			new String[] {Long.class.getName()}, new String[] {"roleId"},
+			false);
+
+		_finderPathFetchByRoleName = _createFinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchByRoleName",
+			new String[] {String.class.getName()}, new String[] {"name"}, true);
+
+		_finderPathCountByRoleName = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByRoleName",
+			new String[] {String.class.getName()}, new String[] {"name"},
 			false);
 	}
 

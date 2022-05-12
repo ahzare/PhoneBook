@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- * <p>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * <p>
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -105,35 +105,6 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 			Long siteId, InputStream inputStream,
 			final ServiceContext serviceContext)
 		throws PortalException {
-
-		// todo: read excel and save to db
-
-		//		InputStream inputStream = multipartBody.getBinaryFile(
-		//			"file"
-		//		).getInputStream();
-
-		//		try {
-		//			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
-
-		//
-		//			HSSFSheet sheet = workbook.getSheetAt(0); // Getting the first Sheet
-		//			Iterator<Row> rows = sheet.rowIterator(); // Getting the rows
-		//			int rowCount = 0;
-		//			while (rows.hasNext()) {   //Iterating the Rows
-		//				HSSFRow row = (HSSFRow)rows.next();  // Getting the First Row
-		//				for (int i = 0; i < 15; i++) {  //Iterating the First rows of 15 cells (Here i am assuming that i have filled only 15 cells for row
-		//					HSSFCell cell = row.getCell(i); //Getting the first Cell
-		//					if (cell != null) {
-		//						String val = cell.getRichStringCellValue(
-		//						).toString(); //Getting first cell value
-		//						System.out.println("Value is " + val);
-		//					}
-		//				}
-		//			}
-		//		}
-		//		catch (IOException e) {
-		//			e.printStackTrace();
-		//		}
 	}
 
 	/*@Indexable(type = IndexableType.DELETE)

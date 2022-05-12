@@ -434,6 +434,51 @@ public interface DepartmentPersistence extends BasePersistence<Department> {
 	public int countByDepartmentId(long departmentId);
 
 	/**
+	 * Returns the department where name = &#63; or throws a <code>NoSuchDepartmentException</code> if it could not be found.
+	 *
+	 * @param name the name
+	 * @return the matching department
+	 * @throws NoSuchDepartmentException if a matching department could not be found
+	 */
+	public Department findByDepartmentName(String name)
+		throws NoSuchDepartmentException;
+
+	/**
+	 * Returns the department where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param name the name
+	 * @return the matching department, or <code>null</code> if a matching department could not be found
+	 */
+	public Department fetchByDepartmentName(String name);
+
+	/**
+	 * Returns the department where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param name the name
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching department, or <code>null</code> if a matching department could not be found
+	 */
+	public Department fetchByDepartmentName(
+		String name, boolean useFinderCache);
+
+	/**
+	 * Removes the department where name = &#63; from the database.
+	 *
+	 * @param name the name
+	 * @return the department that was removed
+	 */
+	public Department removeByDepartmentName(String name)
+		throws NoSuchDepartmentException;
+
+	/**
+	 * Returns the number of departments where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the number of matching departments
+	 */
+	public int countByDepartmentName(String name);
+
+	/**
 	 * Caches the department in the entity cache if it is enabled.
 	 *
 	 * @param department the department

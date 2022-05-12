@@ -583,6 +583,62 @@ public class RoleUtil {
 	}
 
 	/**
+	 * Returns the role where name = &#63; or throws a <code>NoSuchRoleException</code> if it could not be found.
+	 *
+	 * @param name the name
+	 * @return the matching role
+	 * @throws NoSuchRoleException if a matching role could not be found
+	 */
+	public static Role findByRoleName(String name)
+		throws com.sain.phonebook.exception.NoSuchRoleException {
+
+		return getPersistence().findByRoleName(name);
+	}
+
+	/**
+	 * Returns the role where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param name the name
+	 * @return the matching role, or <code>null</code> if a matching role could not be found
+	 */
+	public static Role fetchByRoleName(String name) {
+		return getPersistence().fetchByRoleName(name);
+	}
+
+	/**
+	 * Returns the role where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param name the name
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching role, or <code>null</code> if a matching role could not be found
+	 */
+	public static Role fetchByRoleName(String name, boolean useFinderCache) {
+		return getPersistence().fetchByRoleName(name, useFinderCache);
+	}
+
+	/**
+	 * Removes the role where name = &#63; from the database.
+	 *
+	 * @param name the name
+	 * @return the role that was removed
+	 */
+	public static Role removeByRoleName(String name)
+		throws com.sain.phonebook.exception.NoSuchRoleException {
+
+		return getPersistence().removeByRoleName(name);
+	}
+
+	/**
+	 * Returns the number of roles where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the number of matching roles
+	 */
+	public static int countByRoleName(String name) {
+		return getPersistence().countByRoleName(name);
+	}
+
+	/**
 	 * Caches the role in the entity cache if it is enabled.
 	 *
 	 * @param role the role

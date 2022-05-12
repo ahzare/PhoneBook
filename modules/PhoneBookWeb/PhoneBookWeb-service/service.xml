@@ -78,7 +78,10 @@
 		<finder name="DepartmentId" return-type="Department">
 			<finder-column name="departmentId" />
 		</finder>
-
+		<!-- get department by name -->
+		<finder name="DepartmentName" return-type="Department">
+			<finder-column name="name" />
+		</finder>
 		<!-- References -->
 
 		<!--<reference entity="AssetEntry" package-path="com.liferay.portlet.asset"/>-->
@@ -209,6 +212,11 @@
 		<finder name="RoleId" return-type="Role">
 			<finder-column name="roleId" />
 		</finder>
+		<!-- get role by name -->
+		<finder name="RoleName" return-type="Role">
+			<finder-column name="name" />
+		</finder>
+
 		<!--<finder name="DepartmentId" return-type="Role">
 <finder-column name="departmentId" />
 		</finder>-->

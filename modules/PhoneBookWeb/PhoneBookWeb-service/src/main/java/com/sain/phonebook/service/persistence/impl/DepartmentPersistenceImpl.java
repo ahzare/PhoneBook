@@ -1669,6 +1669,248 @@ public class DepartmentPersistenceImpl
 	private static final String _FINDER_COLUMN_DEPARTMENTID_DEPARTMENTID_2 =
 		"department.departmentId = ?";
 
+	private FinderPath _finderPathFetchByDepartmentName;
+	private FinderPath _finderPathCountByDepartmentName;
+
+	/**
+	 * Returns the department where name = &#63; or throws a <code>NoSuchDepartmentException</code> if it could not be found.
+	 *
+	 * @param name the name
+	 * @return the matching department
+	 * @throws NoSuchDepartmentException if a matching department could not be found
+	 */
+	@Override
+	public Department findByDepartmentName(String name)
+		throws NoSuchDepartmentException {
+
+		Department department = fetchByDepartmentName(name);
+
+		if (department == null) {
+			StringBundler sb = new StringBundler(4);
+
+			sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+			sb.append("name=");
+			sb.append(name);
+
+			sb.append("}");
+
+			if (_log.isDebugEnabled()) {
+				_log.debug(sb.toString());
+			}
+
+			throw new NoSuchDepartmentException(sb.toString());
+		}
+
+		return department;
+	}
+
+	/**
+	 * Returns the department where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param name the name
+	 * @return the matching department, or <code>null</code> if a matching department could not be found
+	 */
+	@Override
+	public Department fetchByDepartmentName(String name) {
+		return fetchByDepartmentName(name, true);
+	}
+
+	/**
+	 * Returns the department where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param name the name
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching department, or <code>null</code> if a matching department could not be found
+	 */
+	@Override
+	public Department fetchByDepartmentName(
+		String name, boolean useFinderCache) {
+
+		name = Objects.toString(name, "");
+
+		Object[] finderArgs = null;
+
+		if (useFinderCache) {
+			finderArgs = new Object[] {name};
+		}
+
+		Object result = null;
+
+		if (useFinderCache) {
+			result = finderCache.getResult(
+				_finderPathFetchByDepartmentName, finderArgs, this);
+		}
+
+		if (result instanceof Department) {
+			Department department = (Department)result;
+
+			if (!Objects.equals(name, department.getName())) {
+				result = null;
+			}
+		}
+
+		if (result == null) {
+			StringBundler sb = new StringBundler(3);
+
+			sb.append(_SQL_SELECT_DEPARTMENT_WHERE);
+
+			boolean bindName = false;
+
+			if (name.isEmpty()) {
+				sb.append(_FINDER_COLUMN_DEPARTMENTNAME_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				sb.append(_FINDER_COLUMN_DEPARTMENTNAME_NAME_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindName) {
+					queryPos.add(name);
+				}
+
+				List<Department> list = query.list();
+
+				if (list.isEmpty()) {
+					if (useFinderCache) {
+						finderCache.putResult(
+							_finderPathFetchByDepartmentName, finderArgs, list);
+					}
+				}
+				else {
+					if (list.size() > 1) {
+						Collections.sort(list, Collections.reverseOrder());
+
+						if (_log.isWarnEnabled()) {
+							if (!useFinderCache) {
+								finderArgs = new Object[] {name};
+							}
+
+							_log.warn(
+								"DepartmentPersistenceImpl.fetchByDepartmentName(String, boolean) with parameters (" +
+									StringUtil.merge(finderArgs) +
+										") yields a result set with more than 1 result. This violates the logical unique restriction. There is no order guarantee on which result is returned by this finder.");
+						}
+					}
+
+					Department department = list.get(0);
+
+					result = department;
+
+					cacheResult(department);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		if (result instanceof List<?>) {
+			return null;
+		}
+		else {
+			return (Department)result;
+		}
+	}
+
+	/**
+	 * Removes the department where name = &#63; from the database.
+	 *
+	 * @param name the name
+	 * @return the department that was removed
+	 */
+	@Override
+	public Department removeByDepartmentName(String name)
+		throws NoSuchDepartmentException {
+
+		Department department = findByDepartmentName(name);
+
+		return remove(department);
+	}
+
+	/**
+	 * Returns the number of departments where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the number of matching departments
+	 */
+	@Override
+	public int countByDepartmentName(String name) {
+		name = Objects.toString(name, "");
+
+		FinderPath finderPath = _finderPathCountByDepartmentName;
+
+		Object[] finderArgs = new Object[] {name};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_DEPARTMENT_WHERE);
+
+			boolean bindName = false;
+
+			if (name.isEmpty()) {
+				sb.append(_FINDER_COLUMN_DEPARTMENTNAME_NAME_3);
+			}
+			else {
+				bindName = true;
+
+				sb.append(_FINDER_COLUMN_DEPARTMENTNAME_NAME_2);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				if (bindName) {
+					queryPos.add(name);
+				}
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String _FINDER_COLUMN_DEPARTMENTNAME_NAME_2 =
+		"department.name = ?";
+
+	private static final String _FINDER_COLUMN_DEPARTMENTNAME_NAME_3 =
+		"(department.name IS NULL OR department.name = '')";
+
 	public DepartmentPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -1700,6 +1942,10 @@ public class DepartmentPersistenceImpl
 		finderCache.putResult(
 			_finderPathFetchByDepartmentId,
 			new Object[] {department.getDepartmentId()}, department);
+
+		finderCache.putResult(
+			_finderPathFetchByDepartmentName,
+			new Object[] {department.getName()}, department);
 	}
 
 	/**
@@ -1782,6 +2028,13 @@ public class DepartmentPersistenceImpl
 			_finderPathCountByDepartmentId, args, Long.valueOf(1), false);
 		finderCache.putResult(
 			_finderPathFetchByDepartmentId, args, departmentModelImpl, false);
+
+		args = new Object[] {departmentModelImpl.getName()};
+
+		finderCache.putResult(
+			_finderPathCountByDepartmentName, args, Long.valueOf(1), false);
+		finderCache.putResult(
+			_finderPathFetchByDepartmentName, args, departmentModelImpl, false);
 	}
 
 	/**
@@ -2310,6 +2563,15 @@ public class DepartmentPersistenceImpl
 		_finderPathCountByDepartmentId = _createFinderPath(
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDepartmentId",
 			new String[] {Long.class.getName()}, new String[] {"departmentId"},
+			false);
+
+		_finderPathFetchByDepartmentName = _createFinderPath(
+			FINDER_CLASS_NAME_ENTITY, "fetchByDepartmentName",
+			new String[] {String.class.getName()}, new String[] {"name"}, true);
+
+		_finderPathCountByDepartmentName = _createFinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByDepartmentName",
+			new String[] {String.class.getName()}, new String[] {"name"},
 			false);
 	}
 

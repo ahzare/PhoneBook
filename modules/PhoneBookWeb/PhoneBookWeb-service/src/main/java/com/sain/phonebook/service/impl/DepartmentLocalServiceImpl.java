@@ -26,6 +26,7 @@ import com.liferay.portal.kernel.util.DateUtil;
 
 import com.sain.phonebook.exception.NoSuchDepartmentException;
 import com.sain.phonebook.model.Department;
+import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.DepartmentLocalServiceBaseImpl;
 
 import java.util.Date;
@@ -49,6 +50,11 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 	public Department addDepartment(
 			final String name, final ServiceContext serviceContext)
 		throws PortalException {
+
+		Department department1 = departmentPersistence.findByDepartmentName(name);
+		if (department1 != null){
+			return department1;
+		}
 
 		Department department = createDepartment(
 			counterLocalService.increment(Department.class.getName()));

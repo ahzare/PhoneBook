@@ -49,6 +49,11 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 	public Role addRole(final String name, final ServiceContext serviceContext)
 		throws PortalException {
 
+		Role role1 = rolePersistence.findByRoleName(name);
+		if (role1 != null){
+			return role1;
+		}
+
 		Role role = createRole(
 			counterLocalService.increment(Role.class.getName()));
 

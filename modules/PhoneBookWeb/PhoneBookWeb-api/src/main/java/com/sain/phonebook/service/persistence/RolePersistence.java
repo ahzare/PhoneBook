@@ -430,6 +430,48 @@ public interface RolePersistence extends BasePersistence<Role> {
 	public int countByRoleId(long roleId);
 
 	/**
+	 * Returns the role where name = &#63; or throws a <code>NoSuchRoleException</code> if it could not be found.
+	 *
+	 * @param name the name
+	 * @return the matching role
+	 * @throws NoSuchRoleException if a matching role could not be found
+	 */
+	public Role findByRoleName(String name) throws NoSuchRoleException;
+
+	/**
+	 * Returns the role where name = &#63; or returns <code>null</code> if it could not be found. Uses the finder cache.
+	 *
+	 * @param name the name
+	 * @return the matching role, or <code>null</code> if a matching role could not be found
+	 */
+	public Role fetchByRoleName(String name);
+
+	/**
+	 * Returns the role where name = &#63; or returns <code>null</code> if it could not be found, optionally using the finder cache.
+	 *
+	 * @param name the name
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the matching role, or <code>null</code> if a matching role could not be found
+	 */
+	public Role fetchByRoleName(String name, boolean useFinderCache);
+
+	/**
+	 * Removes the role where name = &#63; from the database.
+	 *
+	 * @param name the name
+	 * @return the role that was removed
+	 */
+	public Role removeByRoleName(String name) throws NoSuchRoleException;
+
+	/**
+	 * Returns the number of roles where name = &#63;.
+	 *
+	 * @param name the name
+	 * @return the number of matching roles
+	 */
+	public int countByRoleName(String name);
+
+	/**
 	 * Caches the role in the entity cache if it is enabled.
 	 *
 	 * @param role the role
