@@ -7,7 +7,7 @@ create table PhoneBook_Address (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	name VARCHAR(75) null
+	name VARCHAR(300) null
 );
 
 create table PhoneBook_Department (
@@ -19,7 +19,7 @@ create table PhoneBook_Department (
 	userName VARCHAR(75) null,
 	createDate DATE null,
 	modifiedDate DATE null,
-	name VARCHAR(75) null
+	name VARCHAR(300) null
 );
 
 create table PhoneBook_Part (

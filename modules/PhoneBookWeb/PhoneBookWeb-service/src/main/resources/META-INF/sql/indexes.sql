@@ -1,7 +1,7 @@
 create index IX_89DEEB26 on PhoneBook_Address (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_88540328 on PhoneBook_Address (uuid_[$COLUMN_LENGTH:75$], groupId);
 
-create index IX_3979D05F on PhoneBook_Department (name[$COLUMN_LENGTH:75$]);
+create index IX_3979D05F on PhoneBook_Department (name[$COLUMN_LENGTH:300$]);
 create index IX_13FE1294 on PhoneBook_Department (uuid_[$COLUMN_LENGTH:75$], companyId);
 create unique index IX_59522E16 on PhoneBook_Department (uuid_[$COLUMN_LENGTH:75$], groupId);
 

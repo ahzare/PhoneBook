@@ -99,7 +99,7 @@ public class AddressModelImpl
 	}
 
 	public static final String TABLE_SQL_CREATE =
-		"create table PhoneBook_Address (uuid_ VARCHAR(75) null,addressId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(75) null)";
+		"create table PhoneBook_Address (uuid_ VARCHAR(75) null,addressId LONG not null primary key,groupId LONG,companyId LONG,userId LONG,userName VARCHAR(75) null,createDate DATE null,modifiedDate DATE null,name VARCHAR(300) null)";
 
 	public static final String TABLE_SQL_DROP = "drop table PhoneBook_Address";
 
