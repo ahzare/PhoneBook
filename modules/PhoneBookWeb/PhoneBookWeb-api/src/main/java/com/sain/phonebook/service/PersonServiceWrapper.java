@@ -44,19 +44,17 @@ public class PersonServiceWrapper
 	}
 
 	@Override
-	public void addPersonExcel(
-			Long siteId, java.io.InputStream inputStream,
-			com.liferay.portal.kernel.service.ServiceContext serviceContext)
-		throws com.liferay.portal.kernel.exception.PortalException {
-
-		_personService.addPersonExcel(siteId, inputStream, serviceContext);
-	}
-
-	@Override
 	public com.sain.phonebook.model.Person deletePerson(long personId)
 		throws com.liferay.portal.kernel.exception.PortalException {
 
 		return _personService.deletePerson(personId);
+	}
+
+	@Override
+	public void deletePersons(Long[] personIds)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		_personService.deletePersons(personIds);
 	}
 
 	@Override

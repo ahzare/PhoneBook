@@ -65,6 +65,8 @@ public interface PersonResource {
 			Long siteId, Long departmentId, Long roleId, Person person)
 		throws Exception;
 
+	public void deletePersons(Long siteId, Long[] longs) throws Exception;
+
 	public Person deletePersonApi(Long siteId, Long personId) throws Exception;
 
 	public default void setContextAcceptLanguage(

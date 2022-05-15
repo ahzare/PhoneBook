@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- *
+ * <p>
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- *
+ * <p>
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -41,52 +41,52 @@ import org.slf4j.LoggerFactory;
  * @author Brian Wing Shun Chan
  */
 @Component(
-	property = "model.class.name=com.sain.phonebook.model.Person",
-	service = AopService.class
+        property = "model.class.name=com.sain.phonebook.model.Person",
+        service = AopService.class
 )
 public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
-	@Indexable(type = IndexableType.REINDEX)
-	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Person addPerson(
-			final String firstName, final String lastName,
-			final String localPhoneNumber, final String phoneNumber,
-			final String faxNumber, final String roomNumber, final String email,
-			final String website, final long departmentId, final long roleId,
-			final ServiceContext serviceContext)
-		throws PortalException {
+    @Indexable(type = IndexableType.REINDEX)
+    @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+    public Person addPerson(
+            final String firstName, final String lastName,
+            final String localPhoneNumber, final String phoneNumber,
+            final String faxNumber, final String roomNumber, final String email,
+            final String website, final long departmentId, final long roleId,
+            final ServiceContext serviceContext)
+            throws PortalException {
 
-		Person person = createPerson(
-			counterLocalService.increment(Person.class.getName()));
+        Person person = createPerson(
+                counterLocalService.increment(Person.class.getName()));
 
-		person.setPersonId(person.getPersonId());
-		person.setFirstName(firstName);
-		person.setLastName(lastName);
-		person.setLocalPhoneNumber(localPhoneNumber);
-		person.setPhoneNumber(phoneNumber);
-		person.setFaxNumber(faxNumber);
-		person.setRoomNumber(roomNumber);
-		person.setEmail(email);
-		person.setWebsite(website);
-		person.setDepartmentId(departmentId);
-		person.setRoleId(roleId);
+        person.setPersonId(person.getPersonId());
+        person.setFirstName(firstName);
+        person.setLastName(lastName);
+        person.setLocalPhoneNumber(localPhoneNumber);
+        person.setPhoneNumber(phoneNumber);
+        person.setFaxNumber(faxNumber);
+        person.setRoomNumber(roomNumber);
+        person.setEmail(email);
+        person.setWebsite(website);
+        person.setDepartmentId(departmentId);
+        person.setRoleId(roleId);
 
-		Date current = DateUtil.newDate();
+        Date current = DateUtil.newDate();
 
-		person.setCompanyId(serviceContext.getCompanyId());
-		person.setCreateDate(serviceContext.getCreateDate(current));
-		person.setGroupId(serviceContext.getScopeGroupId());
-		person.setModifiedDate(serviceContext.getModifiedDate(current));
-		person.setUserId(serviceContext.getUserId());
+        person.setCompanyId(serviceContext.getCompanyId());
+        person.setCreateDate(serviceContext.getCreateDate(current));
+        person.setGroupId(serviceContext.getScopeGroupId());
+        person.setModifiedDate(serviceContext.getModifiedDate(current));
+        person.setUserId(serviceContext.getUserId());
 
-		User user = userLocalService.fetchUser(serviceContext.getUserId());
+        User user = userLocalService.fetchUser(serviceContext.getUserId());
 
-		if (user != null) {
-			person.setUserName(user.getFullName());
-			person.setUserUuid(user.getUserUuid());
-		}
+        if (user != null) {
+            person.setUserName(user.getFullName());
+            person.setUserUuid(user.getUserUuid());
+        }
 
-		person = addPerson(person);
+        person = addPerson(person);
 
 		/*resourceLocalService.addResources(
 		        serviceContext.getCompanyId(),
@@ -98,14 +98,8 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 		        serviceContext.isAddGroupPermissions(),
 		        serviceContext.isAddGuestPermissions());*/
 
-		return person;
-	}
-
-	public void addPersonExcel(
-			Long siteId, InputStream inputStream,
-			final ServiceContext serviceContext)
-		throws PortalException {
-	}
+        return person;
+    }
 
 	/*@Indexable(type = IndexableType.DELETE)
 	@Override
@@ -132,13 +126,13 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 
 	}*/
 
-	@Indexable(type = IndexableType.DELETE)
-	@Override
-	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
-	public Person deletePerson(long personId) throws PortalException {
-		Person person = personPersistence.findByPrimaryKey(personId);
+    @Indexable(type = IndexableType.DELETE)
+    @Override
+    @SystemEvent(type = SystemEventConstants.TYPE_DELETE)
+    public Person deletePerson(long personId) throws PortalException {
+        Person person = personPersistence.findByPrimaryKey(personId);
 
-		if (person != null) {
+        if (person != null) {
 
 			/*resourceLocalService.deleteResource(
 					person.getCompanyId(),
@@ -146,174 +140,174 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 					ResourceConstants.SCOPE_INDIVIDUAL,
 					person.getPersonId());*/
 
-			return deletePerson(person);
-		}
+            return deletePerson(person);
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	public Person getPerson(final long personId) {
-		return personPersistence.fetchByPersonId(personId);
-	}
+    public Person getPerson(final long personId) {
+        return personPersistence.fetchByPersonId(personId);
+    }
 
-	@Indexable(type = IndexableType.REINDEX)
-	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Person patchPerson(
-			final long personId, final String firstName, final String lastName,
-			final String localPhoneNumber, final String phoneNumber,
-			final String faxNumber, final String roomNumber, final String email,
-			final String website, final long departmentId, final long roleId,
-			final ServiceContext serviceContext)
-		throws PortalException {
+    @Indexable(type = IndexableType.REINDEX)
+    @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+    public Person patchPerson(
+            final long personId, final String firstName, final String lastName,
+            final String localPhoneNumber, final String phoneNumber,
+            final String faxNumber, final String roomNumber, final String email,
+            final String website, final long departmentId, final long roleId,
+            final ServiceContext serviceContext)
+            throws PortalException {
 
-		// find our instance using the old id
+        // find our instance using the old id
 
-		Person person = fetchPerson(personId);
+        Person person = fetchPerson(personId);
 
-		if (person == null) {
-			_log.warn("Failed to find person using id [" + personId + "].");
+        if (person == null) {
+            _log.warn("Failed to find person using id [" + personId + "].");
 
-			throw new NoSuchPersonException(
-				"Could not find person [" + personId + "].");
-		}
+            throw new NoSuchPersonException(
+                    "Could not find person [" + personId + "].");
+        }
 
-		boolean changed = false;
+        boolean changed = false;
 
-		// a patch means that only provided fields are going to change
-		// to match what we are given.
+        // a patch means that only provided fields are going to change
+        // to match what we are given.
 
-		if (firstName != null) {
-			person.setFirstName(firstName);
-			changed = true;
-		}
+        if (firstName != null) {
+            person.setFirstName(firstName);
+            changed = true;
+        }
 
-		if (lastName != null) {
-			person.setLastName(lastName);
-			changed = true;
-		}
+        if (lastName != null) {
+            person.setLastName(lastName);
+            changed = true;
+        }
 
-		if (localPhoneNumber != null) {
-			person.setLocalPhoneNumber(localPhoneNumber);
-			changed = true;
-		}
+        if (localPhoneNumber != null) {
+            person.setLocalPhoneNumber(localPhoneNumber);
+            changed = true;
+        }
 
-		if (phoneNumber != null) {
-			person.setPhoneNumber(phoneNumber);
-			changed = true;
-		}
+        if (phoneNumber != null) {
+            person.setPhoneNumber(phoneNumber);
+            changed = true;
+        }
 
-		if (faxNumber != null) {
-			person.setFaxNumber(faxNumber);
-			changed = true;
-		}
+        if (faxNumber != null) {
+            person.setFaxNumber(faxNumber);
+            changed = true;
+        }
 
-		if (roomNumber != null) {
-			person.setRoomNumber(roomNumber);
-			changed = true;
-		}
+        if (roomNumber != null) {
+            person.setRoomNumber(roomNumber);
+            changed = true;
+        }
 
-		if (email != null) {
-			person.setEmail(email);
-			changed = true;
-		}
+        if (email != null) {
+            person.setEmail(email);
+            changed = true;
+        }
 
-		if (website != null) {
-			person.setWebsite(website);
-			changed = true;
-		}
+        if (website != null) {
+            person.setWebsite(website);
+            changed = true;
+        }
 
-		System.out.println("dep id = " + departmentId);
+        System.out.println("dep id = " + departmentId);
 
-		if ((departmentId != 0) && (departmentId != person.getDepartmentId())) {
-			person.setDepartmentId(departmentId);
-			changed = true;
-		}
+        if ((departmentId != 0) && (departmentId != person.getDepartmentId())) {
+            person.setDepartmentId(departmentId);
+            changed = true;
+        }
 
-		System.out.println("role id = " + departmentId);
+        System.out.println("role id = " + departmentId);
 
-		if ((roleId != 0) && (roleId != person.getRoleId())) {
-			person.setRoleId(roleId);
-			changed = true;
-		}
+        if ((roleId != 0) && (roleId != person.getRoleId())) {
+            person.setRoleId(roleId);
+            changed = true;
+        }
 
-		if (changed) {
-			Date current = DateUtil.newDate();
+        if (changed) {
+            Date current = DateUtil.newDate();
 
-			person.setUserId(serviceContext.getUserId());
-			person.setModifiedDate(serviceContext.getModifiedDate(current));
+            person.setUserId(serviceContext.getUserId());
+            person.setModifiedDate(serviceContext.getModifiedDate(current));
 
-			User user = userLocalService.fetchUser(serviceContext.getUserId());
+            User user = userLocalService.fetchUser(serviceContext.getUserId());
 
-			if (user != null) {
-				person.setUserName(user.getFullName());
-				person.setUserUuid(user.getUserUuid());
-			}
+            if (user != null) {
+                person.setUserName(user.getFullName());
+                person.setUserUuid(user.getUserUuid());
+            }
 
-			person = updatePerson(person);
-		}
+            person = updatePerson(person);
+        }
 
-		// good to go
+        // good to go
 
-		return person;
-	}
+        return person;
+    }
 
-	@Indexable(type = IndexableType.REINDEX)
-	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-	public Person updatePerson(
-			final long personId, final String firstName, final String lastName,
-			final String localPhoneNumber, final String phoneNumber,
-			final String faxNumber, final String roomNumber, final String email,
-			final String website, final long departmentId, final long roleId,
-			final ServiceContext serviceContext)
-		throws PortalException {
+    @Indexable(type = IndexableType.REINDEX)
+    @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+    public Person updatePerson(
+            final long personId, final String firstName, final String lastName,
+            final String localPhoneNumber, final String phoneNumber,
+            final String faxNumber, final String roomNumber, final String email,
+            final String website, final long departmentId, final long roleId,
+            final ServiceContext serviceContext)
+            throws PortalException {
 
-		// find our instance using the old id
+        // find our instance using the old id
 
-		Person person = fetchPerson(personId);
+        Person person = fetchPerson(personId);
 
-		if (person == null) {
-			_log.warn("Failed to find person using id [" + personId + "].");
+        if (person == null) {
+            _log.warn("Failed to find person using id [" + personId + "].");
 
-			throw new NoSuchPersonException(
-				"Could not find person [" + personId + "].");
-		}
+            throw new NoSuchPersonException(
+                    "Could not find person [" + personId + "].");
+        }
 
-		// an update means that
-		// all fields are going to change to match what we are given.
+        // an update means that
+        // all fields are going to change to match what we are given.
 
-		Date current = DateUtil.newDate();
+        Date current = DateUtil.newDate();
 
-		person.setPersonId(personId);
-		person.setFirstName(firstName);
-		person.setLastName(lastName);
-		person.setLocalPhoneNumber(localPhoneNumber);
-		person.setPhoneNumber(phoneNumber);
-		person.setFaxNumber(faxNumber);
-		person.setRoomNumber(roomNumber);
-		person.setEmail(email);
-		person.setWebsite(website);
-		person.setDepartmentId(departmentId);
-		person.setRoleId(roleId);
+        person.setPersonId(personId);
+        person.setFirstName(firstName);
+        person.setLastName(lastName);
+        person.setLocalPhoneNumber(localPhoneNumber);
+        person.setPhoneNumber(phoneNumber);
+        person.setFaxNumber(faxNumber);
+        person.setRoomNumber(roomNumber);
+        person.setEmail(email);
+        person.setWebsite(website);
+        person.setDepartmentId(departmentId);
+        person.setRoleId(roleId);
 
-		person.setModifiedDate(serviceContext.getModifiedDate(current));
+        person.setModifiedDate(serviceContext.getModifiedDate(current));
 
-		person.setUserId(serviceContext.getUserId());
+        person.setUserId(serviceContext.getUserId());
 
-		User user = userLocalService.fetchUser(serviceContext.getUserId());
+        User user = userLocalService.fetchUser(serviceContext.getUserId());
 
-		if (user != null) {
-			person.setUserName(user.getFullName());
-			person.setUserUuid(user.getUserUuid());
-		}
+        if (user != null) {
+            person.setUserName(user.getFullName());
+            person.setUserUuid(user.getUserUuid());
+        }
 
-		person = updatePerson(person);
+        person = updatePerson(person);
 
-		// good to go
+        // good to go
 
-		return person;
-	}
+        return person;
+    }
 
-	private static final Logger _log = LoggerFactory.getLogger(
-		PersonLocalServiceImpl.class);
+    private static final Logger _log = LoggerFactory.getLogger(
+            PersonLocalServiceImpl.class);
 
 }

@@ -350,6 +350,21 @@ public class Mutation {
 				Long.valueOf(siteKey), departmentId, roleId, person));
 	}
 
+	@GraphQLField(description = "Deletes persons.")
+	public boolean deletePersons(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("longs") Long[] longs)
+		throws Exception {
+
+		_applyVoidComponentServiceObjects(
+			_personResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			personResource -> personResource.deletePersons(
+				Long.valueOf(siteKey), longs));
+
+		return true;
+	}
+
 	@GraphQLField(
 		description = "Deletes the person and returns a 204 if the operation succeeds."
 	)

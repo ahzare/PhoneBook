@@ -104,6 +104,17 @@ public class PersonServiceSoap {
 		}
 	}
 
+	public static void deletePersons(Long[] personIds) throws RemoteException {
+		try {
+			PersonServiceUtil.deletePersons(personIds);
+		}
+		catch (Exception exception) {
+			_log.error(exception, exception);
+
+			throw new RemoteException(exception.getMessage());
+		}
+	}
+
 	public static com.sain.phonebook.model.PersonSoap[] getAll()
 		throws RemoteException {
 

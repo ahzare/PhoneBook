@@ -1077,6 +1077,39 @@ paths:
                     description:
                         desc
             tags: ["Person"]
+        put:
+            description:
+                Deletes persons.
+            operationId: deletePersons
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            items:
+                                format: int64
+                                type: integer
+                            type: array
+                    application/xml:
+                        schema:
+                            items:
+                                format: int64
+                                type: integer
+                            type: array
+            responses:
+                204:
+                    content:
+                        application/json: {}
+                        application/xml: {}
+                    description:
+                        "Person successfully delete"
+            tags: ["Person"]
     "/sites/{siteId}/persons/{personId}":
         delete:
             description:

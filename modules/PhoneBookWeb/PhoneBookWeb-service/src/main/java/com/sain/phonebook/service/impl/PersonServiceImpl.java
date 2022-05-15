@@ -66,17 +66,6 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 			roomNumber, email, website, departmentId, roleId, serviceContext);
 	}
 
-	public void addPersonExcel(
-			Long siteId, InputStream inputStream,
-			final ServiceContext serviceContext)
-		throws PortalException {
-
-		//        _personModelResourcePermission.check(
-		//        getPermissionChecker(), personLocalService.getPerson(oldId),
-		//        ActionKeys.UPDATE);
-
-		personLocalService.addPersonExcel(siteId, inputStream, serviceContext);
-	}
 
 	public Person deletePerson(final long personId) throws PortalException {
 
@@ -87,6 +76,14 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 
 		return personLocalService.deletePerson(personId);
 	}
+
+	public void deletePersons(Long[] personIds)
+			throws PortalException {
+		for (Long personId : personIds) {
+			deletePerson(personId);
+		}
+	}
+
 
 	public List<Person> getAll() {
 		return personPersistence.findAll();

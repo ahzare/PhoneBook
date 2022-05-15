@@ -272,6 +272,25 @@ public abstract class BasePersonResourceImpl
 	/**
 	 * Invoke this method with the command line:
 	 *
+	 * curl -X 'PUT' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/persons'  -u 'test@liferay.com:test'
+	 */
+	@Consumes({"application/json", "application/xml"})
+	@Operation(description = "Deletes persons.")
+	@Override
+	@Parameters(value = {@Parameter(in = ParameterIn.PATH, name = "siteId")})
+	@Path("/sites/{siteId}/persons")
+	@Produces({"application/json", "application/xml"})
+	@PUT
+	@Tags(value = {@Tag(name = "Person")})
+	public void deletePersons(
+			@NotNull @Parameter(hidden = true) @PathParam("siteId") Long siteId,
+			Long[] longs)
+		throws Exception {
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
 	 * curl -X 'DELETE' 'http://localhost:8080/o/headless-PhoneBook/v1.0/sites/{siteId}/persons/{personId}'  -u 'test@liferay.com:test'
 	 */
 	@DELETE

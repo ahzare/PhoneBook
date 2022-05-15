@@ -39,6 +39,7 @@ import com.sain.phonebook.service.PersonService;
 import com.sain.phonebook.service.RoleService;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Locale;
 
 import javax.validation.constraints.NotNull;
@@ -70,7 +71,12 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
         return toPerson(_personService.deletePerson(personId));
     }
 
-	/*@Override
+    @Override
+    public void deletePersons(Long siteId, Long[] longs) throws Exception {
+        _personService.deletePersons(longs);
+    }
+
+    /*@Override
 		public EntityModel getEntityModel(Map<String, List<String>> multivaluedMap)
 			throws Exception {
 			return _personEntityModel;

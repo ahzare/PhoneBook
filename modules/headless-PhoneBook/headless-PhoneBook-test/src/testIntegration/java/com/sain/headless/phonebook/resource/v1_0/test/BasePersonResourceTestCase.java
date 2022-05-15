@@ -640,6 +640,27 @@ public abstract class BasePersonResourceTestCase {
 	}
 
 	@Test
+	public void testDeletePersons() throws Exception {
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Person person = testDeletePersons_addPerson();
+
+		assertHttpResponseStatusCode(
+			204,
+			personResource.deletePersonsHttpResponse(
+				testGroup.getGroupId(), null));
+
+		assertHttpResponseStatusCode(
+			404,
+			personResource.deletePersonsHttpResponse(
+				testGroup.getGroupId(), null));
+	}
+
+	protected Person testDeletePersons_addPerson() throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
 	public void testDeletePersonApi() throws Exception {
 		@SuppressWarnings("PMD.UnusedLocalVariable")
 		Person person = testDeletePersonApi_addPerson();
