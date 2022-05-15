@@ -28,6 +28,7 @@ import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.SearchUtil;
 
+import com.sain.headless.phonebook.constants.PersonConstants;
 import com.sain.headless.phonebook.dto.v1_0.Department;
 import com.sain.headless.phonebook.dto.v1_0.Person;
 import com.sain.headless.phonebook.dto.v1_0.Role;
@@ -210,13 +211,12 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
         XSSFWorkbook wb = new XSSFWorkbook(inputStream);
 
         XSSFSheet sheet = wb.getSheetAt(0);     //creating a Sheet object to retrieve object
-//		Map<Integer, List<String>> data = new HashMap<>();
-//		int i = 0;
 
+        int i = 1;
+        int empties = 0;
         boolean isFirst = true;
-        for (Row row : sheet) {
-//			data.put(i, new ArrayList<String>());
 
+        for (Row row : sheet) {
             if (isFirst) {
                 isFirst = false;
                 continue;
@@ -224,28 +224,47 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
             Person person = new Person();
 
-            person.setLastName(_getCellValue(row, 0));
-            person.setFirstName(_getCellValue(row, 1));
-            person.setLocalPhoneNumber(_getCellValue(row, 2));
+            person.setLastName(_getCellValue(row, PersonConstants.EXCEL_ROW_LAST_NAME));
+            person.setFirstName(_getCellValue(row, PersonConstants.EXCEL_ROW_FIRST_NAME));
+            person.setLocalPhoneNumber(_getCellValue(row, PersonConstants.EXCEL_ROW_LOCAL_PHONE_NUMBER));
+            person.setPhoneNumber(_getCellValue(row, PersonConstants.EXCEL_ROW_PHONE_NUMBER));
+            person.setFaxNumber(_getCellValue(row, PersonConstants.EXCEL_ROW_FAX_NUMBER));
+            person.setRoomNumber(_getCellValue(row, PersonConstants.EXCEL_ROW_ROOM_NUMBER));
+            person.setEmail(_getCellValue(row, PersonConstants.EXCEL_ROW_EMAIL));
+            person.setWebsite(_getCellValue(row, PersonConstants.EXCEL_ROW_WEBSITE));
 
-            String roleName = _getCellValue(row, 3);
+            String roleName = _getCellValue(row, PersonConstants.EXCEL_ROW_ROLE);
             Long roleId = 0L;
 
-            String departmentName = _getCellValue(row, 4);
+            String departmentName = _getCellValue(row, PersonConstants.EXCEL_ROW_DEPARTMENT);
             Long departmentId = 0L;
 
-            System.out.println(person.getFirstName() + ", " +
+            System.out.println(i + " -> " + person.getFirstName() + ", " +
                     person.getLastName() + ", " +
-                    person.getLocalPhoneNumber());
+                    person.getLocalPhoneNumber() + ", " +
+                    person.getPhoneNumber());
 
-
-            if (roleName != null) {
-                Role role = RoleResourceImpl.toRole(
-                        _roleService.addRole(roleName,
-                                _serviceContextHelper.getServiceContext(siteId)));
-
-                roleId = role.getId();
+            if (person.getLastName() == null &&
+                    person.getFirstName() == null &&
+                    person.getLocalPhoneNumber() == null &&
+                    person.getPhoneNumber() == null &&
+                    person.getFaxNumber() == null &&
+                    person.getRoomNumber() == null &&
+                    person.getEmail() == null &&
+                    person.getWebsite() == null &&
+                    roleName == null &&
+                    departmentName == null){
+                System.out.println("row " + i + " is empty");
+                empties++;
+                continue;
             }
+                if (roleName != null) {
+                    Role role = RoleResourceImpl.toRole(
+                            _roleService.addRole(roleName,
+                                    _serviceContextHelper.getServiceContext(siteId)));
+
+                    roleId = role.getId();
+                }
 
             if (departmentName != null) {
                 Department department = DepartmentResourceImpl.toDepartment(
@@ -264,53 +283,13 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                             (departmentId != null) ? departmentId : 0,
                             (roleId != null) ? roleId : 0,
                             _serviceContextHelper.getServiceContext(siteId));
+
+            i++;
 //            return toPerson(persistedPerson);
-		/*	{
+        }
 
-				switch (cell.getCellType()) {
-					case STRING:
-						System.out.println(
-							cell.getRichStringCellValue(
-							).getString());
-						data.get(
-							Integer.valueOf(i)
-						).add(
-							cell.getRichStringCellValue(
-							).getString()
-						);
-
-						break;
-					case NUMERIC:
-						if (DateUtil.isCellDateFormatted(cell)) {
-							System.out.println(cell.getDateCellValue());
-							data.get(
-								i
-							).add(
-								cell.getDateCellValue() + ""
-							);
-						}
-						else {
-							System.out.println(cell.getNumericCellValue());
-							data.get(
-								i
-							).add(
-								cell.getNumericCellValue() + ""
-							);
-						}
-
-						break;
-					//					case BOOLEAN: ... break;
-					//					case FORMULA: ... break;
-					default:
-						data.get(
-							Integer.valueOf(i)
-						).add(
-							" "
-						);
-				}*/
-			}
-
-//			i++;
+        System.out.println((i-1) + " rows inserted.");
+        System.out.println(empties + " rows empty.");
 /*
         }
        */ /**/
@@ -319,16 +298,21 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
         //				_serviceContextHelper.getServiceContext(siteId));
     }
 
-    private String  _getCellValue(Row row, int i) {
+    private String _getCellValue(Row row, int i) {
+        if (row == null) {
+            return null;
+        }
+
         Cell cell = row.getCell(i);
 
-        System.out.println(cell.getCellType());
-
+        if (cell == null) {
+            return null;
+        }
         switch (cell.getCellType()) {
             case STRING:
                 System.out.println(cell.getRichStringCellValue().getString());
 
-                if (i == 2){
+                if (i == 2) {
                     // cell contains multiple numbers
                     return _getMultipleNumbers(
                             cell.getRichStringCellValue().getString()
@@ -342,7 +326,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                     return String.valueOf(cell.getDateCellValue());
                 } else {
                     System.out.println(cell.getNumericCellValue());
-                    return String.valueOf((int)(cell.getNumericCellValue()));
+                    return String.valueOf((int) (cell.getNumericCellValue()));
                 }
 
                 //					case BOOLEAN: ... break;
@@ -355,8 +339,8 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
     private String _getMultipleNumbers(String numbers) {
         numbers = numbers.toLowerCase(Locale.ROOT);
-        numbers = numbers.replaceAll("\\s+","");
-        numbers = numbers.replaceAll("-","\n");
+        numbers = numbers.replaceAll("\\s+", "");
+        numbers = numbers.replaceAll("-", "\n");
 
         System.out.println(numbers);
         return numbers;
