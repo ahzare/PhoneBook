@@ -583,6 +583,174 @@ public class PartUtil {
 	}
 
 	/**
+	 * Returns all the parts where addressId = &#63;.
+	 *
+	 * @param addressId the address ID
+	 * @return the matching parts
+	 */
+	public static List<Part> findByAddressId(long addressId) {
+		return getPersistence().findByAddressId(addressId);
+	}
+
+	/**
+	 * Returns a range of all the parts where addressId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PartModelImpl</code>.
+	 * </p>
+	 *
+	 * @param addressId the address ID
+	 * @param start the lower bound of the range of parts
+	 * @param end the upper bound of the range of parts (not inclusive)
+	 * @return the range of matching parts
+	 */
+	public static List<Part> findByAddressId(
+		long addressId, int start, int end) {
+
+		return getPersistence().findByAddressId(addressId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the parts where addressId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PartModelImpl</code>.
+	 * </p>
+	 *
+	 * @param addressId the address ID
+	 * @param start the lower bound of the range of parts
+	 * @param end the upper bound of the range of parts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching parts
+	 */
+	public static List<Part> findByAddressId(
+		long addressId, int start, int end,
+		OrderByComparator<Part> orderByComparator) {
+
+		return getPersistence().findByAddressId(
+			addressId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the parts where addressId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PartModelImpl</code>.
+	 * </p>
+	 *
+	 * @param addressId the address ID
+	 * @param start the lower bound of the range of parts
+	 * @param end the upper bound of the range of parts (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching parts
+	 */
+	public static List<Part> findByAddressId(
+		long addressId, int start, int end,
+		OrderByComparator<Part> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByAddressId(
+			addressId, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first part in the ordered set where addressId = &#63;.
+	 *
+	 * @param addressId the address ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching part
+	 * @throws NoSuchPartException if a matching part could not be found
+	 */
+	public static Part findByAddressId_First(
+			long addressId, OrderByComparator<Part> orderByComparator)
+		throws com.sain.phonebook.exception.NoSuchPartException {
+
+		return getPersistence().findByAddressId_First(
+			addressId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first part in the ordered set where addressId = &#63;.
+	 *
+	 * @param addressId the address ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching part, or <code>null</code> if a matching part could not be found
+	 */
+	public static Part fetchByAddressId_First(
+		long addressId, OrderByComparator<Part> orderByComparator) {
+
+		return getPersistence().fetchByAddressId_First(
+			addressId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last part in the ordered set where addressId = &#63;.
+	 *
+	 * @param addressId the address ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching part
+	 * @throws NoSuchPartException if a matching part could not be found
+	 */
+	public static Part findByAddressId_Last(
+			long addressId, OrderByComparator<Part> orderByComparator)
+		throws com.sain.phonebook.exception.NoSuchPartException {
+
+		return getPersistence().findByAddressId_Last(
+			addressId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last part in the ordered set where addressId = &#63;.
+	 *
+	 * @param addressId the address ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching part, or <code>null</code> if a matching part could not be found
+	 */
+	public static Part fetchByAddressId_Last(
+		long addressId, OrderByComparator<Part> orderByComparator) {
+
+		return getPersistence().fetchByAddressId_Last(
+			addressId, orderByComparator);
+	}
+
+	/**
+	 * Returns the parts before and after the current part in the ordered set where addressId = &#63;.
+	 *
+	 * @param partId the primary key of the current part
+	 * @param addressId the address ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next part
+	 * @throws NoSuchPartException if a part with the primary key could not be found
+	 */
+	public static Part[] findByAddressId_PrevAndNext(
+			long partId, long addressId,
+			OrderByComparator<Part> orderByComparator)
+		throws com.sain.phonebook.exception.NoSuchPartException {
+
+		return getPersistence().findByAddressId_PrevAndNext(
+			partId, addressId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the parts where addressId = &#63; from the database.
+	 *
+	 * @param addressId the address ID
+	 */
+	public static void removeByAddressId(long addressId) {
+		getPersistence().removeByAddressId(addressId);
+	}
+
+	/**
+	 * Returns the number of parts where addressId = &#63;.
+	 *
+	 * @param addressId the address ID
+	 * @return the number of matching parts
+	 */
+	public static int countByAddressId(long addressId) {
+		return getPersistence().countByAddressId(addressId);
+	}
+
+	/**
 	 * Caches the part in the entity cache if it is enabled.
 	 *
 	 * @param part the part

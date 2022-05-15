@@ -25,6 +25,7 @@ import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.DateUtil;
 
 import com.sain.phonebook.exception.NoSuchRoleException;
+import com.sain.phonebook.exception.RoleHasSomePersonsInRelationException;
 import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.RoleLocalServiceBaseImpl;
 
@@ -98,6 +99,8 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 
         if (role != null) {
 
+            _validateRoleForDeletion(role);
+
 			/*resourceLocalService.deleteResource(
 					role.getCompanyId(),
 					Role.class.getName(),
@@ -108,6 +111,14 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
         }
 
         return null;
+    }
+
+    private void _validateRoleForDeletion(Role role) throws PortalException {
+        int personsCount = personPersistence.countByRoleId(role.getRoleId());
+        if (personsCount > 0) {
+            throw new RoleHasSomePersonsInRelationException(
+                    "Role has Some Persons in relation.");
+        }
     }
 
     public Role getRole(final long roleId) {

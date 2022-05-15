@@ -24,8 +24,10 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.liferay.portal.kernel.systemevent.SystemEvent;
 import com.liferay.portal.kernel.util.DateUtil;
 
+import com.sain.phonebook.exception.DepartmentHasSomePersonsInRelationException;
 import com.sain.phonebook.exception.NoSuchDepartmentException;
 import com.sain.phonebook.exception.NoSuchRoleException;
+import com.sain.phonebook.exception.RoleHasSomePersonsInRelationException;
 import com.sain.phonebook.model.Department;
 import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.DepartmentLocalServiceBaseImpl;
@@ -108,6 +110,8 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 
         if (department != null) {
 
+            _validateDepartmentForDeletion(department);
+
 			/*resourceLocalService.deleteResource(
 					department.getCompanyId(),
 					Department.class.getName(),
@@ -118,6 +122,16 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
         }
 
         return null;
+    }
+
+    private void _validateDepartmentForDeletion(Department department)
+            throws PortalException {
+        int personsCount = personPersistence.countByDepartmentId(
+                department.getDepartmentId());
+        if (personsCount > 0) {
+            throw new DepartmentHasSomePersonsInRelationException(
+                    "Department has Some Persons in relation.");
+        }
     }
 
     public Department getDepartment(final long departmentId) {
