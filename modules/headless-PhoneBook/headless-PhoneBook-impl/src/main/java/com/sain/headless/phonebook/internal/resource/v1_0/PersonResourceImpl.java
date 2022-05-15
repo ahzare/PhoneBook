@@ -38,6 +38,7 @@ import com.sain.phonebook.service.PersonService;
 import com.sain.phonebook.service.RoleService;
 
 import java.io.InputStream;
+import java.util.Locale;
 
 import javax.validation.constraints.NotNull;
 
@@ -223,7 +224,6 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
 
             Person person = new Person();
 
-
             person.setLastName(_getCellValue(row, 0));
             person.setFirstName(_getCellValue(row, 1));
             person.setLocalPhoneNumber(_getCellValue(row, 2));
@@ -237,6 +237,7 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
             System.out.println(person.getFirstName() + ", " +
                     person.getLastName() + ", " +
                     person.getLocalPhoneNumber());
+
 
             if (roleName != null) {
                 Role role = RoleResourceImpl.toRole(
@@ -263,7 +264,6 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                             (departmentId != null) ? departmentId : 0,
                             (roleId != null) ? roleId : 0,
                             _serviceContextHelper.getServiceContext(siteId));
-
 //            return toPerson(persistedPerson);
 		/*	{
 
@@ -319,13 +319,21 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
         //				_serviceContextHelper.getServiceContext(siteId));
     }
 
-    private String _getCellValue(Row row, int i) {
+    private String  _getCellValue(Row row, int i) {
         Cell cell = row.getCell(i);
+
+        System.out.println(cell.getCellType());
 
         switch (cell.getCellType()) {
             case STRING:
                 System.out.println(cell.getRichStringCellValue().getString());
 
+                if (i == 2){
+                    // cell contains multiple numbers
+                    return _getMultipleNumbers(
+                            cell.getRichStringCellValue().getString()
+                    );
+                }
                 return cell.getRichStringCellValue().getString();
 
             case NUMERIC:
@@ -343,6 +351,15 @@ public class PersonResourceImpl extends BasePersonResourceImpl {
                 System.out.println("default");
                 return null;
         }
+    }
+
+    private String _getMultipleNumbers(String numbers) {
+        numbers = numbers.toLowerCase(Locale.ROOT);
+        numbers = numbers.replaceAll("\\s+","");
+        numbers = numbers.replaceAll("-","\n");
+
+        System.out.println(numbers);
+        return numbers;
     }
 
     @Override
