@@ -586,168 +586,6 @@ public class PersonUtil {
 	}
 
 	/**
-	 * Returns all the persons where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @return the matching persons
-	 */
-	public static List<Person> findByRoleId(long roleId) {
-		return getPersistence().findByRoleId(roleId);
-	}
-
-	/**
-	 * Returns a range of all the persons where roleId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PersonModelImpl</code>.
-	 * </p>
-	 *
-	 * @param roleId the role ID
-	 * @param start the lower bound of the range of persons
-	 * @param end the upper bound of the range of persons (not inclusive)
-	 * @return the range of matching persons
-	 */
-	public static List<Person> findByRoleId(long roleId, int start, int end) {
-		return getPersistence().findByRoleId(roleId, start, end);
-	}
-
-	/**
-	 * Returns an ordered range of all the persons where roleId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PersonModelImpl</code>.
-	 * </p>
-	 *
-	 * @param roleId the role ID
-	 * @param start the lower bound of the range of persons
-	 * @param end the upper bound of the range of persons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @return the ordered range of matching persons
-	 */
-	public static List<Person> findByRoleId(
-		long roleId, int start, int end,
-		OrderByComparator<Person> orderByComparator) {
-
-		return getPersistence().findByRoleId(
-			roleId, start, end, orderByComparator);
-	}
-
-	/**
-	 * Returns an ordered range of all the persons where roleId = &#63;.
-	 *
-	 * <p>
-	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PersonModelImpl</code>.
-	 * </p>
-	 *
-	 * @param roleId the role ID
-	 * @param start the lower bound of the range of persons
-	 * @param end the upper bound of the range of persons (not inclusive)
-	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
-	 * @param useFinderCache whether to use the finder cache
-	 * @return the ordered range of matching persons
-	 */
-	public static List<Person> findByRoleId(
-		long roleId, int start, int end,
-		OrderByComparator<Person> orderByComparator, boolean useFinderCache) {
-
-		return getPersistence().findByRoleId(
-			roleId, start, end, orderByComparator, useFinderCache);
-	}
-
-	/**
-	 * Returns the first person in the ordered set where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching person
-	 * @throws NoSuchPersonException if a matching person could not be found
-	 */
-	public static Person findByRoleId_First(
-			long roleId, OrderByComparator<Person> orderByComparator)
-		throws com.sain.phonebook.exception.NoSuchPersonException {
-
-		return getPersistence().findByRoleId_First(roleId, orderByComparator);
-	}
-
-	/**
-	 * Returns the first person in the ordered set where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the first matching person, or <code>null</code> if a matching person could not be found
-	 */
-	public static Person fetchByRoleId_First(
-		long roleId, OrderByComparator<Person> orderByComparator) {
-
-		return getPersistence().fetchByRoleId_First(roleId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last person in the ordered set where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching person
-	 * @throws NoSuchPersonException if a matching person could not be found
-	 */
-	public static Person findByRoleId_Last(
-			long roleId, OrderByComparator<Person> orderByComparator)
-		throws com.sain.phonebook.exception.NoSuchPersonException {
-
-		return getPersistence().findByRoleId_Last(roleId, orderByComparator);
-	}
-
-	/**
-	 * Returns the last person in the ordered set where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the last matching person, or <code>null</code> if a matching person could not be found
-	 */
-	public static Person fetchByRoleId_Last(
-		long roleId, OrderByComparator<Person> orderByComparator) {
-
-		return getPersistence().fetchByRoleId_Last(roleId, orderByComparator);
-	}
-
-	/**
-	 * Returns the persons before and after the current person in the ordered set where roleId = &#63;.
-	 *
-	 * @param personId the primary key of the current person
-	 * @param roleId the role ID
-	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
-	 * @return the previous, current, and next person
-	 * @throws NoSuchPersonException if a person with the primary key could not be found
-	 */
-	public static Person[] findByRoleId_PrevAndNext(
-			long personId, long roleId,
-			OrderByComparator<Person> orderByComparator)
-		throws com.sain.phonebook.exception.NoSuchPersonException {
-
-		return getPersistence().findByRoleId_PrevAndNext(
-			personId, roleId, orderByComparator);
-	}
-
-	/**
-	 * Removes all the persons where roleId = &#63; from the database.
-	 *
-	 * @param roleId the role ID
-	 */
-	public static void removeByRoleId(long roleId) {
-		getPersistence().removeByRoleId(roleId);
-	}
-
-	/**
-	 * Returns the number of persons where roleId = &#63;.
-	 *
-	 * @param roleId the role ID
-	 * @return the number of matching persons
-	 */
-	public static int countByRoleId(long roleId) {
-		return getPersistence().countByRoleId(roleId);
-	}
-
-	/**
 	 * Returns all the persons where departmentId = &#63;.
 	 *
 	 * @param departmentId the department ID
@@ -913,6 +751,168 @@ public class PersonUtil {
 	 */
 	public static int countByDepartmentId(long departmentId) {
 		return getPersistence().countByDepartmentId(departmentId);
+	}
+
+	/**
+	 * Returns all the persons where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @return the matching persons
+	 */
+	public static List<Person> findByRoleId(long roleId) {
+		return getPersistence().findByRoleId(roleId);
+	}
+
+	/**
+	 * Returns a range of all the persons where roleId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PersonModelImpl</code>.
+	 * </p>
+	 *
+	 * @param roleId the role ID
+	 * @param start the lower bound of the range of persons
+	 * @param end the upper bound of the range of persons (not inclusive)
+	 * @return the range of matching persons
+	 */
+	public static List<Person> findByRoleId(long roleId, int start, int end) {
+		return getPersistence().findByRoleId(roleId, start, end);
+	}
+
+	/**
+	 * Returns an ordered range of all the persons where roleId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PersonModelImpl</code>.
+	 * </p>
+	 *
+	 * @param roleId the role ID
+	 * @param start the lower bound of the range of persons
+	 * @param end the upper bound of the range of persons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching persons
+	 */
+	public static List<Person> findByRoleId(
+		long roleId, int start, int end,
+		OrderByComparator<Person> orderByComparator) {
+
+		return getPersistence().findByRoleId(
+			roleId, start, end, orderByComparator);
+	}
+
+	/**
+	 * Returns an ordered range of all the persons where roleId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>PersonModelImpl</code>.
+	 * </p>
+	 *
+	 * @param roleId the role ID
+	 * @param start the lower bound of the range of persons
+	 * @param end the upper bound of the range of persons (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching persons
+	 */
+	public static List<Person> findByRoleId(
+		long roleId, int start, int end,
+		OrderByComparator<Person> orderByComparator, boolean useFinderCache) {
+
+		return getPersistence().findByRoleId(
+			roleId, start, end, orderByComparator, useFinderCache);
+	}
+
+	/**
+	 * Returns the first person in the ordered set where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching person
+	 * @throws NoSuchPersonException if a matching person could not be found
+	 */
+	public static Person findByRoleId_First(
+			long roleId, OrderByComparator<Person> orderByComparator)
+		throws com.sain.phonebook.exception.NoSuchPersonException {
+
+		return getPersistence().findByRoleId_First(roleId, orderByComparator);
+	}
+
+	/**
+	 * Returns the first person in the ordered set where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching person, or <code>null</code> if a matching person could not be found
+	 */
+	public static Person fetchByRoleId_First(
+		long roleId, OrderByComparator<Person> orderByComparator) {
+
+		return getPersistence().fetchByRoleId_First(roleId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last person in the ordered set where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching person
+	 * @throws NoSuchPersonException if a matching person could not be found
+	 */
+	public static Person findByRoleId_Last(
+			long roleId, OrderByComparator<Person> orderByComparator)
+		throws com.sain.phonebook.exception.NoSuchPersonException {
+
+		return getPersistence().findByRoleId_Last(roleId, orderByComparator);
+	}
+
+	/**
+	 * Returns the last person in the ordered set where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching person, or <code>null</code> if a matching person could not be found
+	 */
+	public static Person fetchByRoleId_Last(
+		long roleId, OrderByComparator<Person> orderByComparator) {
+
+		return getPersistence().fetchByRoleId_Last(roleId, orderByComparator);
+	}
+
+	/**
+	 * Returns the persons before and after the current person in the ordered set where roleId = &#63;.
+	 *
+	 * @param personId the primary key of the current person
+	 * @param roleId the role ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next person
+	 * @throws NoSuchPersonException if a person with the primary key could not be found
+	 */
+	public static Person[] findByRoleId_PrevAndNext(
+			long personId, long roleId,
+			OrderByComparator<Person> orderByComparator)
+		throws com.sain.phonebook.exception.NoSuchPersonException {
+
+		return getPersistence().findByRoleId_PrevAndNext(
+			personId, roleId, orderByComparator);
+	}
+
+	/**
+	 * Removes all the persons where roleId = &#63; from the database.
+	 *
+	 * @param roleId the role ID
+	 */
+	public static void removeByRoleId(long roleId) {
+		getPersistence().removeByRoleId(roleId);
+	}
+
+	/**
+	 * Returns the number of persons where roleId = &#63;.
+	 *
+	 * @param roleId the role ID
+	 * @return the number of matching persons
+	 */
+	public static int countByRoleId(long roleId) {
+		return getPersistence().countByRoleId(roleId);
 	}
 
 	/**

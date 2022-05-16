@@ -1,11 +1,11 @@
 /**
  * Copyright (c) 2000-present Liferay, Inc. All rights reserved.
- * <p>
+ *
  * This library is free software; you can redistribute it and/or modify it under
  * the terms of the GNU Lesser General Public License as published by the Free
  * Software Foundation; either version 2.1 of the License, or (at your option)
  * any later version.
- * <p>
+ *
  * This library is distributed in the hope that it will be useful, but WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
@@ -26,9 +26,7 @@ import com.liferay.portal.kernel.util.DateUtil;
 
 import com.sain.phonebook.exception.AddressHasSomePartsInRelationException;
 import com.sain.phonebook.exception.NoSuchAddressException;
-import com.sain.phonebook.exception.RoleHasSomePersonsInRelationException;
 import com.sain.phonebook.model.Address;
-import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.AddressLocalServiceBaseImpl;
 
 import java.util.Date;
@@ -42,41 +40,41 @@ import org.slf4j.LoggerFactory;
  * @author Brian Wing Shun Chan
  */
 @Component(
-        property = "model.class.name=com.sain.phonebook.model.Address",
-        service = AopService.class
+	property = "model.class.name=com.sain.phonebook.model.Address",
+	service = AopService.class
 )
 public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 
-    @Indexable(type = IndexableType.REINDEX)
-    @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-    public Address addAddress(
-            final String name, final ServiceContext serviceContext)
-            throws PortalException {
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Address addAddress(
+			final String name, final ServiceContext serviceContext)
+		throws PortalException {
 
-        Address address = createAddress(
-                counterLocalService.increment(Address.class.getName()));
+		Address address = createAddress(
+			counterLocalService.increment(Address.class.getName()));
 
-        address.setAddressId(address.getAddressId());
-        address.setName(name);
+		address.setAddressId(address.getAddressId());
+		address.setName(name);
 
-        //        address.setDepartmentId(departmentId);
+		//        address.setDepartmentId(departmentId);
 
-        Date current = DateUtil.newDate();
+		Date current = DateUtil.newDate();
 
-        address.setCompanyId(serviceContext.getCompanyId());
-        address.setCreateDate(serviceContext.getCreateDate(current));
-        address.setGroupId(serviceContext.getScopeGroupId());
-        address.setModifiedDate(serviceContext.getModifiedDate(current));
-        address.setUserId(serviceContext.getUserId());
+		address.setCompanyId(serviceContext.getCompanyId());
+		address.setCreateDate(serviceContext.getCreateDate(current));
+		address.setGroupId(serviceContext.getScopeGroupId());
+		address.setModifiedDate(serviceContext.getModifiedDate(current));
+		address.setUserId(serviceContext.getUserId());
 
-        User user = userLocalService.fetchUser(serviceContext.getUserId());
+		User user = userLocalService.fetchUser(serviceContext.getUserId());
 
-        if (user != null) {
-            address.setUserName(user.getFullName());
-            address.setUserUuid(user.getUserUuid());
-        }
+		if (user != null) {
+			address.setUserName(user.getFullName());
+			address.setUserUuid(user.getUserUuid());
+		}
 
-        address = addAddress(address);
+		address = addAddress(address);
 
 		/*resourceLocalService.addResources(
 				serviceContext.getCompanyId(),
@@ -88,18 +86,17 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 				serviceContext.isAddGroupPermissions(),
 				serviceContext.isAddGuestPermissions());*/
 
-        return address;
-    }
+		return address;
+	}
 
-    @Indexable(type = IndexableType.DELETE)
-    @Override
-    @SystemEvent(type = SystemEventConstants.TYPE_DELETE)
-    public Address deleteAddress(long addressId) throws PortalException {
-        Address address = addressPersistence.findByPrimaryKey(addressId);
+	@Indexable(type = IndexableType.DELETE)
+	@Override
+	@SystemEvent(type = SystemEventConstants.TYPE_DELETE)
+	public Address deleteAddress(long addressId) throws PortalException {
+		Address address = addressPersistence.findByPrimaryKey(addressId);
 
-        if (address != null) {
-
-            _validateAddressForDeletion(address);
+		if (address != null) {
+			_validateAddressForDeletion(address);
 
 			/*resourceLocalService.deleteResource(
 					address.getCompanyId(),
@@ -107,130 +104,132 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 					ResourceConstants.SCOPE_INDIVIDUAL,
 					address.getAddressId());*/
 
-            return deleteAddress(address);
-        }
+			return deleteAddress(address);
+		}
 
-        return null;
-    }
+		return null;
+	}
 
-    private void _validateAddressForDeletion(Address address)
-            throws PortalException {
-        int partsCount = partPersistence.countByAddressId(address.getAddressId());
-        if (partsCount > 0) {
-            throw new AddressHasSomePartsInRelationException(
-                    "Address has Some Parts in relation.");
-        }
-    }
+	public Address getAddress(final long addressId) {
+		return addressPersistence.fetchByAddressId(addressId);
+	}
 
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Address patchAddress(
+			final long addressId, final String name,
+			final ServiceContext serviceContext)
+		throws PortalException {
 
-    public Address getAddress(final long addressId) {
-        return addressPersistence.fetchByAddressId(addressId);
-    }
+		// find our instance using the old id
 
-    @Indexable(type = IndexableType.REINDEX)
-    @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-    public Address patchAddress(
-            final long addressId, final String name,
-            final ServiceContext serviceContext)
-            throws PortalException {
+		Address address = fetchAddress(addressId);
 
-        // find our instance using the old id
+		if (address == null) {
+			_log.warn("Failed to find address using id [" + addressId + "].");
 
-        Address address = fetchAddress(addressId);
+			throw new NoSuchAddressException(
+				"Could not find address [" + addressId + "].");
+		}
 
-        if (address == null) {
-            _log.warn("Failed to find address using id [" + addressId + "].");
+		boolean changed = false;
 
-            throw new NoSuchAddressException(
-                    "Could not find address [" + addressId + "].");
-        }
+		// a patch means that only provided fields are going to change
+		// to match what we are given.
 
-        boolean changed = false;
-
-        // a patch means that only provided fields are going to change
-        // to match what we are given.
-
-        if (name != null) {
-            address.setName(name);
-            changed = true;
-        }
+		if (name != null) {
+			address.setName(name);
+			changed = true;
+		}
 		/*if (departmentId != address.getDepartmentId()) {
 		    address.setDepartmentId(departmentId);
 		    changed = true;
 		}*/
-        if (addressId != address.getAddressId()) {
-            address.setAddressId(addressId);
-            changed = true;
-        }
+		if (addressId != address.getAddressId()) {
+			address.setAddressId(addressId);
+			changed = true;
+		}
 
-        if (changed) {
-            Date current = DateUtil.newDate();
+		if (changed) {
+			Date current = DateUtil.newDate();
 
-            address.setUserId(serviceContext.getUserId());
-            address.setModifiedDate(serviceContext.getModifiedDate(current));
+			address.setUserId(serviceContext.getUserId());
+			address.setModifiedDate(serviceContext.getModifiedDate(current));
 
-            User user = userLocalService.fetchUser(serviceContext.getUserId());
+			User user = userLocalService.fetchUser(serviceContext.getUserId());
 
-            if (user != null) {
-                address.setUserName(user.getFullName());
-                address.setUserUuid(user.getUserUuid());
-            }
+			if (user != null) {
+				address.setUserName(user.getFullName());
+				address.setUserUuid(user.getUserUuid());
+			}
 
-            address = updateAddress(address);
-        }
+			address = updateAddress(address);
+		}
 
-        // good to go
+		// good to go
 
-        return address;
-    }
+		return address;
+	}
 
-    @Indexable(type = IndexableType.REINDEX)
-    @SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
-    public Address updateAddress(
-            final long addressId, final String name,
-            final ServiceContext serviceContext)
-            throws PortalException {
+	@Indexable(type = IndexableType.REINDEX)
+	@SystemEvent(type = SystemEventConstants.TYPE_DEFAULT)
+	public Address updateAddress(
+			final long addressId, final String name,
+			final ServiceContext serviceContext)
+		throws PortalException {
 
-        // find our instance using the old id
+		// find our instance using the old id
 
-        Address address = fetchAddress(addressId);
+		Address address = fetchAddress(addressId);
 
-        if (address == null) {
-            _log.warn("Failed to find address using id [" + addressId + "].");
+		if (address == null) {
+			_log.warn("Failed to find address using id [" + addressId + "].");
 
-            throw new NoSuchAddressException(
-                    "Could not find address [" + addressId + "].");
-        }
+			throw new NoSuchAddressException(
+				"Could not find address [" + addressId + "].");
+		}
 
-        // an update means
-        // that all fields are going to change to match what we are given.
+		// an update means
+		// that all fields are going to change to match what we are given.
 
-        Date current = DateUtil.newDate();
+		Date current = DateUtil.newDate();
 
-        address.setAddressId(addressId);
-        address.setName(name);
+		address.setAddressId(addressId);
+		address.setName(name);
 
-        //        address.setDepartmentId(departmentId);
+		//        address.setDepartmentId(departmentId);
 
-        address.setModifiedDate(serviceContext.getModifiedDate(current));
+		address.setModifiedDate(serviceContext.getModifiedDate(current));
 
-        address.setUserId(serviceContext.getUserId());
+		address.setUserId(serviceContext.getUserId());
 
-        User user = userLocalService.fetchUser(serviceContext.getUserId());
+		User user = userLocalService.fetchUser(serviceContext.getUserId());
 
-        if (user != null) {
-            address.setUserName(user.getFullName());
-            address.setUserUuid(user.getUserUuid());
-        }
+		if (user != null) {
+			address.setUserName(user.getFullName());
+			address.setUserUuid(user.getUserUuid());
+		}
 
-        address = updateAddress(address);
+		address = updateAddress(address);
 
-        // good to go
+		// good to go
 
-        return address;
-    }
+		return address;
+	}
 
-    private static final Logger _log = LoggerFactory.getLogger(
-            AddressLocalServiceImpl.class);
+	private void _validateAddressForDeletion(Address address)
+		throws PortalException {
+
+		int partsCount = partPersistence.countByAddressId(
+			address.getAddressId());
+
+		if (partsCount > 0) {
+			throw new AddressHasSomePartsInRelationException(
+				"Address has Some Parts in relation");
+		}
+	}
+
+	private static final Logger _log = LoggerFactory.getLogger(
+		AddressLocalServiceImpl.class);
 
 }

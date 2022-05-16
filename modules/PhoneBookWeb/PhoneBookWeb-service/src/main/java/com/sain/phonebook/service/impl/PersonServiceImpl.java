@@ -21,8 +21,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 import com.sain.phonebook.model.Person;
 import com.sain.phonebook.service.base.PersonServiceBaseImpl;
 
-import java.io.InputStream;
-
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
@@ -66,7 +64,6 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 			roomNumber, email, website, departmentId, roleId, serviceContext);
 	}
 
-
 	public Person deletePerson(final long personId) throws PortalException {
 
 		//        _personModelResourcePermission.check(
@@ -77,13 +74,11 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 		return personLocalService.deletePerson(personId);
 	}
 
-	public void deletePersons(Long[] personIds)
-			throws PortalException {
+	public void deletePersons(Long[] personIds) throws PortalException {
 		for (Long personId : personIds) {
 			deletePerson(personId);
 		}
 	}
-
 
 	public List<Person> getAll() {
 		return personPersistence.findAll();
