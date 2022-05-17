@@ -23,4 +23,7 @@ public class PhoneBookConstants {
 
 	public static final String SERVICE_NAME = "com.sain.phonebook";
 
+	public static final String PORTLET_NAME =
+			"com_sain_phonebook_web_portlet_PhonebookAdminPortlet";
+
 }

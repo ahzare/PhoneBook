@@ -16,6 +16,9 @@ package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionHelper;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import com.sain.phonebook.model.Role;
@@ -24,6 +27,9 @@ import com.sain.phonebook.service.base.RoleServiceBaseImpl;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Brian Wing Shun Chan
@@ -36,20 +42,20 @@ import org.osgi.service.component.annotations.Component;
 	service = AopService.class
 )
 public class RoleServiceImpl extends RoleServiceBaseImpl {
-	/*@Reference(
+	@Reference(
 			policy = ReferencePolicy.DYNAMIC,
 			policyOption= ReferencePolicyOption.GREEDY,
 			target ="(model.class.name=com.sain.phonebook.model.Role)"
 	)
 	private volatile ModelResourcePermission<Role>
-			_roleModelResourcePermission;*/
+			_roleModelResourcePermission;
 
 	public Role addRole(final String name, final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        ModelResourcePermissionHelper.check(
-		//        _roleModelResourcePermission, getPermissionChecker(),
-		//        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
+		        ModelResourcePermissionHelper.check(
+		        _roleModelResourcePermission, getPermissionChecker(),
+		        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
 
 		return roleLocalService.addRole(name, serviceContext);
 	}
@@ -70,8 +76,8 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 	public Role getRole(final long roleId) throws PortalException {
 		Role role = roleLocalService.getRole(roleId);
 
-		//        _roleModelResourcePermission.check(
-		//        getPermissionChecker(), role, ActionKeys.VIEW);
+		        _roleModelResourcePermission.check(
+		        getPermissionChecker(), role, ActionKeys.VIEW);
 
 		return role;
 	}
