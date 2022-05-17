@@ -4,5 +4,4 @@ Bundle-Version: 1.0.0
 Export-Package:\
 	com.sain.headless.phonebook.dto.v1_0,\
 	com.sain.headless.phonebook.resource.v1_0,\
-	com.sain.headless.phonebook.constants,\
 	com.sain.headless.phonebook.util

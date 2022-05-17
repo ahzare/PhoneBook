@@ -29,10 +29,10 @@ import com.liferay.portal.vulcan.pagination.Page;
 import com.liferay.portal.vulcan.pagination.Pagination;
 import com.liferay.portal.vulcan.util.SearchUtil;
 
-import com.sain.headless.phonebook.constants.PersonConstants;
 import com.sain.headless.phonebook.dto.v1_0.Department;
 import com.sain.headless.phonebook.dto.v1_0.Person;
 import com.sain.headless.phonebook.dto.v1_0.Role;
+import com.sain.headless.phonebook.internal.util.PersonConstants;
 import com.sain.headless.phonebook.resource.v1_0.PersonResource;
 import com.sain.headless.phonebook.util.ServiceContextHelper;
 import com.sain.phonebook.service.DepartmentService;
