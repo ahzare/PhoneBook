@@ -140,7 +140,7 @@ Resource Action Mapping 7.2.0//EN"
 			<supports>
 				<action-key>DELETE_ENTRY</action-key>
 				<action-key>PERMISSIONS</action-key>
-				<action-key>UPDATE</action-key>
+				<action-key>UPDATE_ENTRY</action-key>
 				<action-key>VIEW_ENTRY</action-key>
 			</supports>
 			<site-member-defaults>
@@ -152,7 +152,7 @@ Resource Action Mapping 7.2.0//EN"
 			<guest-unsupported>
 				<action-key>DELETE_ENTRY</action-key>
 				<action-key>PERMISSIONS</action-key>
-				<action-key>UPDATE</action-key>
+				<action-key>UPDATE_ENTRY</action-key>
 			</guest-unsupported>
 		</permissions>
 	</model-resource>

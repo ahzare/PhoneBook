@@ -99,9 +99,9 @@ private volatile PortletResourcePermission
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        _roleModelResourcePermission.check(
-		//        getPermissionChecker(), roleLocalService.getRole(oldId),
-		//        ActionKeys.UPDATE);
+		        _roleModelResourcePermission.check(
+		        getPermissionChecker(), roleLocalService.getRole(id),
+		        "UPDATE_ENTRY");
 
 		return roleLocalService.patchRole(id, name, serviceContext);
 	}
@@ -111,9 +111,9 @@ private volatile PortletResourcePermission
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        _roleModelResourcePermission.check(
-		//        getPermissionChecker(), roleLocalService.getRole(oldId),
-		//        ActionKeys.UPDATE);
+		        _roleModelResourcePermission.check(
+		        getPermissionChecker(), roleLocalService.getRole(id),
+		        "UPDATE_ENTRY");
 
 		return roleLocalService.updateRole(id, name, serviceContext);
 	}
