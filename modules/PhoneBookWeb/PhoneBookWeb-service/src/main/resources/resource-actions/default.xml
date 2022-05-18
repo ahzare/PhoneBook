@@ -12,6 +12,7 @@ Resource Action Mapping 7.2.0//EN"
 		<permissions>
 			<supports>
 				<action-key>ADD_ENTRY</action-key>
+				<action-key>ADD_ROLE</action-key>
 				<action-key>PERMISSIONS</action-key>
 			</supports>
 			<site-member-defaults/>
@@ -137,8 +138,7 @@ Resource Action Mapping 7.2.0//EN"
 		<weight>2</weight>
 		<permissions>
 			<supports>
-				<action-key>ADD_ENTRY</action-key>
-				<action-key>DELETE</action-key>
+				<action-key>DELETE_ENTRY</action-key>
 				<action-key>PERMISSIONS</action-key>
 				<action-key>UPDATE</action-key>
 				<action-key>VIEW_ENTRY</action-key>
@@ -150,7 +150,7 @@ Resource Action Mapping 7.2.0//EN"
 				<action-key>VIEW_ENTRY</action-key>
 			</guest-defaults>
 			<guest-unsupported>
-				<action-key>DELETE</action-key>
+				<action-key>DELETE_ENTRY</action-key>
 				<action-key>PERMISSIONS</action-key>
 				<action-key>UPDATE</action-key>
 			</guest-unsupported>

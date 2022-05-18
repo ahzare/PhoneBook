@@ -19,8 +19,11 @@ import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionHelper;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermissionFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 
+import com.sain.phonebook.constants.PhoneBookConstants;
 import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.RoleServiceBaseImpl;
 
@@ -50,21 +53,30 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 	private volatile ModelResourcePermission<Role>
 			_roleModelResourcePermission;
 
+	@Reference
+private volatile PortletResourcePermission
+		_portletResourcePermission /*= PortletResourcePermissionFactory.getInstance(
+		RoleServiceImpl.class, "_portletResourcePermission",
+		PhoneBookConstants.PORTLET_NAME)*/;
+
 	public Role addRole(final String name, final ServiceContext serviceContext)
 		throws PortalException {
 
-		        ModelResourcePermissionHelper.check(
-		        _roleModelResourcePermission, getPermissionChecker(),
-		        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
+//		        ModelResourcePermissionHelper.check(
+//		        _roleModelResourcePermission, getPermissionChecker(),
+//		        serviceContext.getScopeGroupId(), 0, "ADD_ROLE");
+
+//		_portletResourcePermission.check(getPermissionChecker(),
+//				serviceContext.getScopeGroupId(), "ADD_ROLE");
 
 		return roleLocalService.addRole(name, serviceContext);
 	}
 
 	public Role deleteRole(final long roleId) throws PortalException {
 
-		//        _roleModelResourcePermission.check(
-		//        getPermissionChecker(), roleLocalService.getRole(roleId),
-		//        ActionKeys.DELETE);
+		        _roleModelResourcePermission.check(
+		        getPermissionChecker(), roleId,
+		        "DELETE_ENTRY");
 
 		return roleLocalService.deleteRole(roleId);
 	}
