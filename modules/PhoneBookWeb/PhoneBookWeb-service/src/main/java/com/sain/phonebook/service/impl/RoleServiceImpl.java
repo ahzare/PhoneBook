@@ -77,7 +77,7 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 		Role role = roleLocalService.getRole(roleId);
 
 		        _roleModelResourcePermission.check(
-		        getPermissionChecker(), role, ActionKeys.VIEW);
+		        getPermissionChecker(), role, "VIEW_ENTRY");
 
 		return role;
 	}

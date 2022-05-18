@@ -16,6 +16,7 @@ package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
@@ -100,11 +101,11 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 		if (role != null) {
 			_validateRoleForDeletion(role);
 
-			/*resourceLocalService.deleteResource(
+			resourceLocalService.deleteResource(
 					role.getCompanyId(),
 					Role.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL,
-					role.getRoleId());*/
+					role.getRoleId());
 
 			return deleteRole(role);
 		}
