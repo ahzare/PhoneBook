@@ -113,8 +113,9 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 		return null;
 	}
 
-	public Role getRole(final long roleId) {
-		return rolePersistence.fetchByRoleId(roleId);
+	public Role getRole(final long roleId)
+			throws PortalException{
+		return rolePersistence.findByPrimaryKey(roleId);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)

@@ -53,30 +53,33 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 	private volatile ModelResourcePermission<Role>
 			_roleModelResourcePermission;
 
-	@Reference
-private volatile PortletResourcePermission
-		_portletResourcePermission /*= PortletResourcePermissionFactory.getInstance(
-		RoleServiceImpl.class, "_portletResourcePermission",
-		PhoneBookConstants.PORTLET_NAME)*/;
 
+	/*private volatile  PortletResourcePermission
+		_portletResourcePermission *//*= PortletResourcePermissionFactory.getInstance(
+		RoleServiceImpl.class, "_portletResourcePermission",
+		PhoneBookConstants.RESOURCE_NAME)*//*;
+*/
 	public Role addRole(final String name, final ServiceContext serviceContext)
 		throws PortalException {
 
 //		        ModelResourcePermissionHelper.check(
 //		        _roleModelResourcePermission, getPermissionChecker(),
-//		        serviceContext.getScopeGroupId(), 0, "ADD_ROLE");
+//		        serviceContext.getScopeGroupId(), 0, "ADD_SOME");
 
 //		_portletResourcePermission.check(getPermissionChecker(),
-//				serviceContext.getScopeGroupId(), "ADD_ROLE");
+//				serviceContext.getScopeGroupId(), "ADD_SOME");
 
 		return roleLocalService.addRole(name, serviceContext);
 	}
 
 	public Role deleteRole(final long roleId) throws PortalException {
+		Role role = roleLocalService.getRole(roleId);
 
-		        _roleModelResourcePermission.check(
-		        getPermissionChecker(), roleId,
-		        "DELETE_ENTRY");
+		if (role != null) {
+			_roleModelResourcePermission.check(
+					getPermissionChecker(), roleId,
+					ActionKeys.DELETE);
+		}
 
 		return roleLocalService.deleteRole(roleId);
 	}
@@ -88,9 +91,10 @@ private volatile PortletResourcePermission
 	public Role getRole(final long roleId) throws PortalException {
 		Role role = roleLocalService.getRole(roleId);
 
-		        _roleModelResourcePermission.check(
-		        getPermissionChecker(), role, "VIEW_ENTRY");
-
+		if (role != null) {
+		_roleModelResourcePermission.check(
+					getPermissionChecker(), role, ActionKeys.VIEW);
+		}
 		return role;
 	}
 
@@ -100,8 +104,8 @@ private volatile PortletResourcePermission
 		throws PortalException {
 
 		        _roleModelResourcePermission.check(
-		        getPermissionChecker(), roleLocalService.getRole(id),
-		        "UPDATE_ENTRY");
+		        getPermissionChecker(), id,
+		        ActionKeys.UPDATE);
 
 		return roleLocalService.patchRole(id, name, serviceContext);
 	}
@@ -112,10 +116,16 @@ private volatile PortletResourcePermission
 		throws PortalException {
 
 		        _roleModelResourcePermission.check(
-		        getPermissionChecker(), roleLocalService.getRole(id),
-		        "UPDATE_ENTRY");
+		        getPermissionChecker(), id,
+						ActionKeys.UPDATE);
 
 		return roleLocalService.updateRole(id, name, serviceContext);
 	}
 
+	/*private static volatile PortletResourcePermission
+			_portletResourcePermission =
+			PortletResourcePermissionFactory.getInstance(
+					RoleServiceImpl.class, "_portletResourcePermission",
+					PhoneBookConstants.RESOURCE_NAME);
+*/
 }
