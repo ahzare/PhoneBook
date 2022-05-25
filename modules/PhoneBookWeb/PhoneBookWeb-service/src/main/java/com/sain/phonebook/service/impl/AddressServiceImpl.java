@@ -16,14 +16,20 @@ package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import com.sain.phonebook.model.Address;
+import com.sain.phonebook.service.DepartmentLocalService;
 import com.sain.phonebook.service.base.AddressServiceBaseImpl;
 
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Brian Wing Shun Chan
@@ -36,13 +42,13 @@ import org.osgi.service.component.annotations.Component;
 	service = AopService.class
 )
 public class AddressServiceImpl extends AddressServiceBaseImpl {
-	/*@Reference(
+	@Reference(
 			policy = ReferencePolicy.DYNAMIC,
 			policyOption= ReferencePolicyOption.GREEDY,
 			target ="(model.class.name=com.sain.phonebook.model.Address)"
 	)
 	private volatile ModelResourcePermission<Address>
-			_addressModelResourcePermission;*/
+			_addressModelResourcePermission;
 
 	public Address addAddress(
 			final String name, final ServiceContext serviceContext)
@@ -56,11 +62,13 @@ public class AddressServiceImpl extends AddressServiceBaseImpl {
 	}
 
 	public Address deleteAddress(final long addressId) throws PortalException {
+		Address address = addressLocalService.getAddress(addressId);
 
-		//        _addressModelResourcePermission.check(
-		//        getPermissionChecker(),
-		//        addressLocalService.getAddress(addressId),
-		//        ActionKeys.DELETE);
+				if (address != null) {
+					_addressModelResourcePermission.check(
+							getPermissionChecker(), addressId,
+							ActionKeys.DELETE);
+				}
 
 		return addressLocalService.deleteAddress(addressId);
 	}
@@ -68,9 +76,10 @@ public class AddressServiceImpl extends AddressServiceBaseImpl {
 	public Address getAddress(final long addressId) throws PortalException {
 		Address address = addressLocalService.getAddress(addressId);
 
-		//        _addressModelResourcePermission.check(
-		//        getPermissionChecker(), address, ActionKeys.VIEW);
-
+				if (address != null) {
+		        _addressModelResourcePermission.check(
+		        getPermissionChecker(), address, ActionKeys.VIEW);
+		}
 		return address;
 	}
 
@@ -83,10 +92,9 @@ public class AddressServiceImpl extends AddressServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        _addressModelResourcePermission.check(
-		//        getPermissionChecker(),
-		//        addressLocalService.getAddress(oldId),
-		//        ActionKeys.UPDATE);
+		        _addressModelResourcePermission.check(
+		        getPermissionChecker(),id,
+		        ActionKeys.UPDATE);
 
 		return addressLocalService.patchAddress(id, name, serviceContext);
 	}
@@ -96,10 +104,9 @@ public class AddressServiceImpl extends AddressServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        _addressModelResourcePermission.check(
-		//        getPermissionChecker(),
-		//        addressLocalService.getAddress(oldId),
-		//        ActionKeys.UPDATE);
+		        _addressModelResourcePermission.check(
+		        getPermissionChecker(),id,
+		        ActionKeys.UPDATE);
 
 		return addressLocalService.updateAddress(id, name, serviceContext);
 	}

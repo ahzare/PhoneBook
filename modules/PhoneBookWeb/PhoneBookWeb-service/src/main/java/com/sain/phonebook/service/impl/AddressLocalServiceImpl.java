@@ -16,6 +16,7 @@ package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
@@ -76,7 +77,7 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 
 		address = addAddress(address);
 
-		/*resourceLocalService.addResources(
+		resourceLocalService.addResources(
 				serviceContext.getCompanyId(),
 				serviceContext.getScopeGroupId(),
 				serviceContext.getUserId(),
@@ -84,7 +85,7 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 				address.getAddressId(),
 				false,
 				serviceContext.isAddGroupPermissions(),
-				serviceContext.isAddGuestPermissions());*/
+				serviceContext.isAddGuestPermissions());
 
 		return address;
 	}
@@ -98,11 +99,11 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 		if (address != null) {
 			_validateAddressForDeletion(address);
 
-			/*resourceLocalService.deleteResource(
+			resourceLocalService.deleteResource(
 					address.getCompanyId(),
 					Address.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL,
-					address.getAddressId());*/
+					address.getAddressId());
 
 			return deleteAddress(address);
 		}

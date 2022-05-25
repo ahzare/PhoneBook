@@ -16,14 +16,20 @@ package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import com.sain.phonebook.model.Person;
+import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.PersonServiceBaseImpl;
 
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Brian Wing Shun Chan
@@ -36,16 +42,13 @@ import org.osgi.service.component.annotations.Component;
 	service = AopService.class
 )
 public class PersonServiceImpl extends PersonServiceBaseImpl {
-
-	// todo: for permissions
-
-	/*	@Reference(
+		@Reference(
 				policy = ReferencePolicy.DYNAMIC,
 				policyOption= ReferencePolicyOption.GREEDY,
 				target ="(model.class.name=com.sain.phonebook.model.Person)"
 		)
 		private volatile ModelResourcePermission<Person>
-				_personModelResourcePermission;*/
+				_personModelResourcePermission;
 
 	public Person addPerson(
 			final String firstName, final String lastName,
@@ -66,11 +69,14 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 
 	public Person deletePerson(final long personId) throws PortalException {
 
-		//        _personModelResourcePermission.check(
-		//        getPermissionChecker(),
-		//        personLocalService.getPerson(personId),
-		//        ActionKeys.DELETE);
+		Person person = personLocalService.getPerson(personId);
 
+		if (person != null) {
+
+		        _personModelResourcePermission.check(
+		        getPermissionChecker(),personId,
+		        ActionKeys.DELETE);
+	}
 		return personLocalService.deletePerson(personId);
 	}
 
@@ -87,9 +93,10 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 	public Person getPerson(final long personId) throws PortalException {
 		Person person = personLocalService.getPerson(personId);
 
-		//        _personModelResourcePermission.check(
-		//        getPermissionChecker(), person, ActionKeys.VIEW);
-
+				if (person != null) {
+		        _personModelResourcePermission.check(
+		        getPermissionChecker(), person, ActionKeys.VIEW);
+		}
 		return person;
 	}
 
@@ -101,9 +108,9 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        _personModelResourcePermission.check(
-		//        getPermissionChecker(), personLocalService.getPerson(oldId),
-		//        ActionKeys.UPDATE);
+		        _personModelResourcePermission.check(
+		        getPermissionChecker(),id,
+		        ActionKeys.UPDATE);
 
 		return personLocalService.patchPerson(
 			id, firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
@@ -118,9 +125,9 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        _personModelResourcePermission.check(
-		//        getPermissionChecker(), personLocalService.getPerson(oldId),
-		//        ActionKeys.UPDATE);
+		        _personModelResourcePermission.check(
+		        getPermissionChecker(), id,
+		        ActionKeys.UPDATE);
 
 		return personLocalService.updatePerson(
 			id, firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,

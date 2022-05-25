@@ -16,14 +16,20 @@ package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import com.sain.phonebook.model.Department;
+import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.DepartmentServiceBaseImpl;
 
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Brian Wing Shun Chan
@@ -39,13 +45,13 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 
 	// todo: for permissions
 
-	/*	@Reference(
+		@Reference(
 				policy = ReferencePolicy.DYNAMIC,
 				policyOption= ReferencePolicyOption.GREEDY,
 				target ="(model.class.name=com.sain.phonebook.model.Department)"
 		)
 		private volatile ModelResourcePermission<Department>
-				_departmentModelResourcePermission;*/
+				_departmentModelResourcePermission;
 
 	public Department addDepartment(
 			final String name, final ServiceContext serviceContext)
@@ -61,10 +67,14 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 	public Department deleteDepartment(final long departmentId)
 		throws PortalException {
 
-		//        _departmentModelResourcePermission.check(
-		//        getPermissionChecker(),
-		//        departmentLocalService.getDepartment(departmentId),
-		//        ActionKeys.DELETE);
+		Department department = departmentLocalService.getDepartment(departmentId);
+
+		if (department != null) {
+			_departmentModelResourcePermission.check(
+					getPermissionChecker(),
+					departmentId,
+					ActionKeys.DELETE);
+		}
 
 		return departmentLocalService.deleteDepartment(departmentId);
 	}
@@ -79,8 +89,10 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 		Department department = departmentLocalService.getDepartment(
 			departmentId);
 
-		//        _departmentModelResourcePermission.check(
-		//        getPermissionChecker(), department, ActionKeys.VIEW);
+		if (department != null) {
+			_departmentModelResourcePermission.check(
+					getPermissionChecker(), department, "VIEW_");
+		}
 
 		return department;
 	}
@@ -90,10 +102,9 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        _departmentModelResourcePermission.check(
-		//        getPermissionChecker(),
-		//        departmentLocalService.getDepartment(oldId),
-		//        ActionKeys.UPDATE);
+		        _departmentModelResourcePermission.check(
+		        getPermissionChecker(), id,
+		        ActionKeys.UPDATE);
 
 		return departmentLocalService.patchDepartment(id, name, serviceContext);
 	}
@@ -103,10 +114,9 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        _departmentModelResourcePermission.check(
-		//        getPermissionChecker(),
-		//        departmentLocalService.getDepartment(oldId),
-		//        ActionKeys.UPDATE);
+		        _departmentModelResourcePermission.check(
+		        getPermissionChecker(), id,
+		        ActionKeys.UPDATE);
 
 		return departmentLocalService.updateDepartment(
 			id, name, serviceContext);

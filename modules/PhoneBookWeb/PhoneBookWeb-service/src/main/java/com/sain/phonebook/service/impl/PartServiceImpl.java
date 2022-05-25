@@ -16,6 +16,8 @@ package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.security.permission.ActionKeys;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import com.sain.phonebook.model.Part;
@@ -24,85 +26,93 @@ import com.sain.phonebook.service.base.PartServiceBaseImpl;
 import java.util.List;
 
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.component.annotations.ReferencePolicyOption;
 
 /**
  * @author Brian Wing Shun Chan
  */
 @Component(
-	property = {
-		"json.web.service.context.name=phonebook",
-		"json.web.service.context.path=Part"
-	},
-	service = AopService.class
+        property = {
+                "json.web.service.context.name=phonebook",
+                "json.web.service.context.path=Part"
+        },
+        service = AopService.class
 )
 public class PartServiceImpl extends PartServiceBaseImpl {
-	/*@Reference(
-			policy = ReferencePolicy.DYNAMIC,
-			policyOption= ReferencePolicyOption.GREEDY,
-			target ="(model.class.name=com.sain.phonebook.model.Part)"
-	)
-	private volatile ModelResourcePermission<Part>
-			_partModelResourcePermission;*/
+    @Reference(
+            policy = ReferencePolicy.DYNAMIC,
+            policyOption = ReferencePolicyOption.GREEDY,
+            target = "(model.class.name=com.sain.phonebook.model.Part)"
+    )
+    private volatile ModelResourcePermission<Part>
+            _partModelResourcePermission;
 
-	public Part addPart(
-			final String name, final String internalPhone, final long addressId,
-			final ServiceContext serviceContext)
-		throws PortalException {
+    public Part addPart(
+            final String name, final String internalPhone, final long addressId,
+            final ServiceContext serviceContext)
+            throws PortalException {
 
-		//        ModelResourcePermissionHelper.check(
-		//        _partModelResourcePermission, getPermissionChecker(),
-		//        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
+        //        ModelResourcePermissionHelper.check(
+        //        _partModelResourcePermission, getPermissionChecker(),
+        //        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
 
-		return partLocalService.addPart(
-			name, internalPhone, addressId, serviceContext);
-	}
+        return partLocalService.addPart(
+                name, internalPhone, addressId, serviceContext);
+    }
 
-	public Part deletePart(final long partId) throws PortalException {
+    public Part deletePart(final long partId) throws PortalException {
+        Part part = partLocalService.getPart(partId);
 
-		//        _partModelResourcePermission.check(
-		//        getPermissionChecker(), partLocalService.getPart(partId),
-		//        ActionKeys.DELETE);
+        if (part != null) {
+            _partModelResourcePermission.check(
+                    getPermissionChecker(), partId,
+                    ActionKeys.DELETE);
+        }
+        return partLocalService.deletePart(partId);
+    }
 
-		return partLocalService.deletePart(partId);
-	}
+    public List<Part> getAll() {
+        return partPersistence.findAll();
+    }
 
-	public List<Part> getAll() {
-		return partPersistence.findAll();
-	}
+    public Part getPart(final long partId) throws PortalException {
+        Part part = partLocalService.getPart(partId);
 
-	public Part getPart(final long partId) throws PortalException {
-		Part part = partLocalService.getPart(partId);
+        if (part != null) {
 
-		//        _partModelResourcePermission.check(
-		//        getPermissionChecker(), part, ActionKeys.VIEW);
+            _partModelResourcePermission.check(
+                    getPermissionChecker(), part, ActionKeys.VIEW);
+        }
 
-		return part;
-	}
+        return part;
+    }
 
-	public Part patchPart(
-			final long id, final String name, final String internalPhone,
-			final long addressId, final ServiceContext serviceContext)
-		throws PortalException {
+    public Part patchPart(
+            final long id, final String name, final String internalPhone,
+            final long addressId, final ServiceContext serviceContext)
+            throws PortalException {
 
-		//        _partModelResourcePermission.check(
-		//        getPermissionChecker(), partLocalService.getPart(oldId),
-		//        ActionKeys.UPDATE);
+        _partModelResourcePermission.check(
+                getPermissionChecker(), id,
+                ActionKeys.UPDATE);
 
-		return partLocalService.patchPart(
-			id, name, internalPhone, addressId, serviceContext);
-	}
+        return partLocalService.patchPart(
+                id, name, internalPhone, addressId, serviceContext);
+    }
 
-	public Part updatePart(
-			final long id, final String name, final String internalPhone,
-			final long addressId, final ServiceContext serviceContext)
-		throws PortalException {
+    public Part updatePart(
+            final long id, final String name, final String internalPhone,
+            final long addressId, final ServiceContext serviceContext)
+            throws PortalException {
 
-		//        _partModelResourcePermission.check(
-		//        getPermissionChecker(), partLocalService.getPart(oldId),
-		//        ActionKeys.UPDATE);
+        _partModelResourcePermission.check(
+                getPermissionChecker(), id,
+                ActionKeys.UPDATE);
 
-		return partLocalService.updatePart(
-			id, name, internalPhone, addressId, serviceContext);
-	}
+        return partLocalService.updatePart(
+                id, name, internalPhone, addressId, serviceContext);
+    }
 
 }

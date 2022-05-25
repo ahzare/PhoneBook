@@ -16,6 +16,7 @@ package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
@@ -79,7 +80,7 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 			department = addDepartment(department);
 
 			System.out.println("dep = " + department);
-			/*resourceLocalService.addResources(
+			resourceLocalService.addResources(
 					serviceContext.getCompanyId(),
 					serviceContext.getScopeGroupId(),
 					serviceContext.getUserId(),
@@ -87,7 +88,7 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 					department.getDepartmentId(),
 					false,
 					serviceContext.isAddGroupPermissions(),
-					serviceContext.isAddGuestPermissions());*/
+					serviceContext.isAddGuestPermissions());
 
 			System.out.println(department);
 
@@ -107,11 +108,11 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 		if (department != null) {
 			_validateDepartmentForDeletion(department);
 
-			/*resourceLocalService.deleteResource(
+			resourceLocalService.deleteResource(
 					department.getCompanyId(),
 					Department.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL,
-					department.getDepartmentId());*/
+					department.getDepartmentId());
 
 			return deleteDepartment(department);
 		}

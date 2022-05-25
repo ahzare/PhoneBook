@@ -16,6 +16,7 @@ package com.sain.phonebook.service.impl;
 
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.model.ResourceConstants;
 import com.liferay.portal.kernel.model.SystemEventConstants;
 import com.liferay.portal.kernel.model.User;
 import com.liferay.portal.kernel.search.Indexable;
@@ -76,7 +77,7 @@ public class PartLocalServiceImpl extends PartLocalServiceBaseImpl {
 
 		part = addPart(part);
 
-		/*resourceLocalService.addResources(
+		resourceLocalService.addResources(
 		        serviceContext.getCompanyId(),
 		        serviceContext.getScopeGroupId(),
 		        serviceContext.getUserId(),
@@ -84,7 +85,7 @@ public class PartLocalServiceImpl extends PartLocalServiceBaseImpl {
 		        part.getPartId(),
 		        false,
 		        serviceContext.isAddGroupPermissions(),
-		        serviceContext.isAddGuestPermissions());*/
+		        serviceContext.isAddGuestPermissions());
 
 		return part;
 	}
@@ -97,11 +98,11 @@ public class PartLocalServiceImpl extends PartLocalServiceBaseImpl {
 
 		if (part != null) {
 
-			/*resourceLocalService.deleteResource(
+			resourceLocalService.deleteResource(
 					part.getCompanyId(),
 					Part.class.getName(),
 					ResourceConstants.SCOPE_INDIVIDUAL,
-					part.getPartId());*/
+					part.getPartId());
 
 			return deletePart(part);
 		}

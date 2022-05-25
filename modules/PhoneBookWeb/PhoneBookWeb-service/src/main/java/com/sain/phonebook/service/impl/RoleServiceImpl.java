@@ -115,7 +115,7 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		        _roleModelResourcePermission.check(
+		_roleModelResourcePermission.check(
 		        getPermissionChecker(), id,
 						ActionKeys.UPDATE);
 
