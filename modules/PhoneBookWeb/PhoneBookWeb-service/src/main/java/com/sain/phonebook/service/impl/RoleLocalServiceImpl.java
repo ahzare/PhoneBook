@@ -85,7 +85,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 			resourceLocalService.addResources(
 				serviceContext.getCompanyId(), serviceContext.getScopeGroupId(),
 				serviceContext.getUserId(), Role.class.getName(),
-				role.getRoleId(), false,false,false);
+				role.getRoleId(), false, false, false);
 
 			return role;
 		}
@@ -101,10 +101,8 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 			_validateRoleForDeletion(role);
 
 			resourceLocalService.deleteResource(
-					role.getCompanyId(),
-					Role.class.getName(),
-					ResourceConstants.SCOPE_INDIVIDUAL,
-					role.getRoleId());
+				role.getCompanyId(), Role.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, role.getRoleId());
 
 			return deleteRole(role);
 		}
@@ -112,8 +110,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 		return null;
 	}
 
-	public Role getRole(final long roleId)
-			throws PortalException{
+	public Role getRole(final long roleId) throws PortalException {
 		return rolePersistence.findByPrimaryKey(roleId);
 	}
 

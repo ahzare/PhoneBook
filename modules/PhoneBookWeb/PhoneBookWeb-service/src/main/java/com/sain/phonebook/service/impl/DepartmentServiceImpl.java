@@ -24,7 +24,6 @@ import com.liferay.portal.kernel.service.ServiceContext;
 
 import com.sain.phonebook.constants.PhoneBookConstants;
 import com.sain.phonebook.model.Department;
-import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.DepartmentServiceBaseImpl;
 
 import java.util.List;
@@ -46,33 +45,26 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 )
 public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 
-		@Reference(
-				policy = ReferencePolicy.DYNAMIC,
-				policyOption= ReferencePolicyOption.GREEDY,
-				target ="(model.class.name=com.sain.phonebook.model.Department)"
-		)
-		private volatile ModelResourcePermission<Department>
-				_departmentModelResourcePermission;
-
 	public Department addDepartment(
 			final String name, final ServiceContext serviceContext)
 		throws PortalException {
 
-		_portletResourcePermission.check(getPermissionChecker(),
-				serviceContext.getScopeGroupId(), ActionKeys.ADD_ENTRY);
+		_portletResourcePermission.check(
+			getPermissionChecker(), serviceContext.getScopeGroupId(),
+			ActionKeys.ADD_ENTRY);
+
 		return departmentLocalService.addDepartment(name, serviceContext);
 	}
 
 	public Department deleteDepartment(final long departmentId)
 		throws PortalException {
 
-		Department department = departmentLocalService.getDepartment(departmentId);
+		Department department = departmentLocalService.getDepartment(
+			departmentId);
 
 		if (department != null) {
 			_departmentModelResourcePermission.check(
-					getPermissionChecker(),
-					departmentId,
-					ActionKeys.DELETE);
+				getPermissionChecker(), departmentId, ActionKeys.DELETE);
 		}
 
 		return departmentLocalService.deleteDepartment(departmentId);
@@ -90,7 +82,7 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 
 		if (department != null) {
 			_departmentModelResourcePermission.check(
-					getPermissionChecker(), department, ActionKeys.VIEW);
+				getPermissionChecker(), department, ActionKeys.VIEW);
 		}
 
 		return department;
@@ -101,9 +93,8 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		        _departmentModelResourcePermission.check(
-		        getPermissionChecker(), id,
-		        ActionKeys.UPDATE);
+		_departmentModelResourcePermission.check(
+			getPermissionChecker(), id, ActionKeys.UPDATE);
 
 		return departmentLocalService.patchDepartment(id, name, serviceContext);
 	}
@@ -114,16 +105,24 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 		throws PortalException {
 
 		_departmentModelResourcePermission.check(
-		        getPermissionChecker(), id,
-		        ActionKeys.UPDATE);
+			getPermissionChecker(), id, ActionKeys.UPDATE);
 
 		return departmentLocalService.updateDepartment(
 			id, name, serviceContext);
 	}
 
 	private static volatile PortletResourcePermission
-			_portletResourcePermission =
+		_portletResourcePermission =
 			PortletResourcePermissionFactory.getInstance(
-					DepartmentServiceImpl.class, "_portletResourcePermission",
-					PhoneBookConstants.RESOURCE_NAME);
+				DepartmentServiceImpl.class, "_portletResourcePermission",
+				PhoneBookConstants.RESOURCE_NAME);
+
+	@Reference(
+		policy = ReferencePolicy.DYNAMIC,
+		policyOption = ReferencePolicyOption.GREEDY,
+		target = "(model.class.name=com.sain.phonebook.model.Department)"
+	)
+	private volatile ModelResourcePermission<Department>
+		_departmentModelResourcePermission;
+
 }

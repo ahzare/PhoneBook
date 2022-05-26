@@ -78,12 +78,9 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 		address = addAddress(address);
 
 		resourceLocalService.addResources(
-				serviceContext.getCompanyId(),
-				serviceContext.getScopeGroupId(),
-				serviceContext.getUserId(),
-				Address.class.getName(),
-				address.getAddressId(),
-				false,false,false);
+			serviceContext.getCompanyId(), serviceContext.getScopeGroupId(),
+			serviceContext.getUserId(), Address.class.getName(),
+			address.getAddressId(), false, false, false);
 
 		return address;
 	}
@@ -98,10 +95,8 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 			_validateAddressForDeletion(address);
 
 			resourceLocalService.deleteResource(
-					address.getCompanyId(),
-					Address.class.getName(),
-					ResourceConstants.SCOPE_INDIVIDUAL,
-					address.getAddressId());
+				address.getCompanyId(), Address.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, address.getAddressId());
 
 			return deleteAddress(address);
 		}

@@ -17,7 +17,9 @@ package com.sain.phonebook.service.impl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
-import com.liferay.portal.kernel.security.permission.resource.*;
+import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermissionFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import com.sain.phonebook.constants.PhoneBookConstants;
@@ -42,19 +44,13 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 	service = AopService.class
 )
 public class RoleServiceImpl extends RoleServiceBaseImpl {
-	@Reference(
-			policy = ReferencePolicy.DYNAMIC,
-			policyOption= ReferencePolicyOption.GREEDY,
-			target ="(model.class.name=com.sain.phonebook.model.Role)"
-	)
-	private volatile ModelResourcePermission<Role>
-			_roleModelResourcePermission;
 
 	public Role addRole(final String name, final ServiceContext serviceContext)
 		throws PortalException {
 
-		_portletResourcePermission.check(getPermissionChecker(),
-				serviceContext.getScopeGroupId(), ActionKeys.ADD_ENTRY);
+		_portletResourcePermission.check(
+			getPermissionChecker(), serviceContext.getScopeGroupId(),
+			ActionKeys.ADD_ENTRY);
 
 		return roleLocalService.addRole(name, serviceContext);
 	}
@@ -64,8 +60,7 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 
 		if (role != null) {
 			_roleModelResourcePermission.check(
-					getPermissionChecker(), roleId,
-					ActionKeys.DELETE);
+				getPermissionChecker(), roleId, ActionKeys.DELETE);
 		}
 
 		return roleLocalService.deleteRole(roleId);
@@ -79,10 +74,10 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 		Role role = roleLocalService.getRole(roleId);
 
 		if (role != null) {
-
 			_roleModelResourcePermission.check(
-					getPermissionChecker(), role, ActionKeys.VIEW);
+				getPermissionChecker(), role, ActionKeys.VIEW);
 		}
+
 		return role;
 	}
 
@@ -91,9 +86,8 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		        _roleModelResourcePermission.check(
-		        getPermissionChecker(), id,
-		        ActionKeys.UPDATE);
+		_roleModelResourcePermission.check(
+			getPermissionChecker(), id, ActionKeys.UPDATE);
 
 		return roleLocalService.patchRole(id, name, serviceContext);
 	}
@@ -104,16 +98,22 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 		throws PortalException {
 
 		_roleModelResourcePermission.check(
-		        getPermissionChecker(), id,
-						ActionKeys.UPDATE);
+			getPermissionChecker(), id, ActionKeys.UPDATE);
 
 		return roleLocalService.updateRole(id, name, serviceContext);
 	}
 
 	private static volatile PortletResourcePermission
-			_portletResourcePermission =
+		_portletResourcePermission =
 			PortletResourcePermissionFactory.getInstance(
-					RoleServiceImpl.class, "_portletResourcePermission",
-					PhoneBookConstants.RESOURCE_NAME);
+				RoleServiceImpl.class, "_portletResourcePermission",
+				PhoneBookConstants.RESOURCE_NAME);
+
+	@Reference(
+		policy = ReferencePolicy.DYNAMIC,
+		policyOption = ReferencePolicyOption.GREEDY,
+		target = "(model.class.name=com.sain.phonebook.model.Role)"
+	)
+	private volatile ModelResourcePermission<Role> _roleModelResourcePermission;
 
 }

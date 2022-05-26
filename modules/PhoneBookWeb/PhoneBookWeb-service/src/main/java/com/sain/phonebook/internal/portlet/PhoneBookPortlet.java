@@ -18,12 +18,14 @@ import com.liferay.petra.string.StringPool;
 import com.liferay.portal.kernel.portlet.bridges.mvc.MVCPortlet;
 import com.liferay.portal.kernel.service.PortletLocalService;
 import com.liferay.portal.kernel.util.Portal;
+
 import com.sain.phonebook.constants.PhoneBookConstants;
+
+import javax.portlet.Portlet;
+
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
-
-import javax.portlet.Portlet;
 
 /**
  * @author Amir
@@ -46,8 +48,8 @@ public class PhoneBookPortlet extends MVCPortlet {
 	protected void activate() {
 		for (long companyId : _portal.getCompanyIds()) {
 			_portletLocalService.updatePortlet(
-				companyId, PhoneBookConstants.PORTLET_NAME,
-				StringPool.BLANK, false);
+				companyId, PhoneBookConstants.PORTLET_NAME, StringPool.BLANK,
+				false);
 		}
 	}
 

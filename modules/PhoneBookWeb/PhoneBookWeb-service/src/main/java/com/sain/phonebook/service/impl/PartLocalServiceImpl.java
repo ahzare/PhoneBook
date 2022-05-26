@@ -78,12 +78,9 @@ public class PartLocalServiceImpl extends PartLocalServiceBaseImpl {
 		part = addPart(part);
 
 		resourceLocalService.addResources(
-		        serviceContext.getCompanyId(),
-		        serviceContext.getScopeGroupId(),
-		        serviceContext.getUserId(),
-		        Part.class.getName(),
-		        part.getPartId(),
-		        false,false,false);
+			serviceContext.getCompanyId(), serviceContext.getScopeGroupId(),
+			serviceContext.getUserId(), Part.class.getName(), part.getPartId(),
+			false, false, false);
 
 		return part;
 	}
@@ -95,12 +92,9 @@ public class PartLocalServiceImpl extends PartLocalServiceBaseImpl {
 		Part part = partPersistence.findByPrimaryKey(partId);
 
 		if (part != null) {
-
 			resourceLocalService.deleteResource(
-					part.getCompanyId(),
-					Part.class.getName(),
-					ResourceConstants.SCOPE_INDIVIDUAL,
-					part.getPartId());
+				part.getCompanyId(), Part.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, part.getPartId());
 
 			return deletePart(part);
 		}

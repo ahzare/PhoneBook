@@ -88,12 +88,9 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 		person = addPerson(person);
 
 		resourceLocalService.addResources(
-		        serviceContext.getCompanyId(),
-		        serviceContext.getScopeGroupId(),
-		        serviceContext.getUserId(),
-		        Person.class.getName(),
-		        person.getPersonId(),
-		        false,false,false);
+			serviceContext.getCompanyId(), serviceContext.getScopeGroupId(),
+			serviceContext.getUserId(), Person.class.getName(),
+			person.getPersonId(), false, false, false);
 
 		return person;
 	}
@@ -130,12 +127,9 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 		Person person = personPersistence.findByPrimaryKey(personId);
 
 		if (person != null) {
-
 			resourceLocalService.deleteResource(
-					person.getCompanyId(),
-					Person.class.getName(),
-					ResourceConstants.SCOPE_INDIVIDUAL,
-					person.getPersonId());
+				person.getCompanyId(), Person.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL, person.getPersonId());
 
 			return deletePerson(person);
 		}

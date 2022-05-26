@@ -81,12 +81,9 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 
 			System.out.println("dep = " + department);
 			resourceLocalService.addResources(
-					serviceContext.getCompanyId(),
-					serviceContext.getScopeGroupId(),
-					serviceContext.getUserId(),
-					Department.class.getName(),
-					department.getDepartmentId(),
-					false,false,false);
+				serviceContext.getCompanyId(), serviceContext.getScopeGroupId(),
+				serviceContext.getUserId(), Department.class.getName(),
+				department.getDepartmentId(), false, false, false);
 
 			System.out.println(department);
 
@@ -107,10 +104,9 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 			_validateDepartmentForDeletion(department);
 
 			resourceLocalService.deleteResource(
-					department.getCompanyId(),
-					Department.class.getName(),
-					ResourceConstants.SCOPE_INDIVIDUAL,
-					department.getDepartmentId());
+				department.getCompanyId(), Department.class.getName(),
+				ResourceConstants.SCOPE_INDIVIDUAL,
+				department.getDepartmentId());
 
 			return deleteDepartment(department);
 		}
