@@ -86,9 +86,7 @@ public class DepartmentLocalServiceImpl extends DepartmentLocalServiceBaseImpl {
 					serviceContext.getUserId(),
 					Department.class.getName(),
 					department.getDepartmentId(),
-					false,
-					serviceContext.isAddGroupPermissions(),
-					serviceContext.isAddGuestPermissions());
+					false,false,false);
 
 			System.out.println(department);
 

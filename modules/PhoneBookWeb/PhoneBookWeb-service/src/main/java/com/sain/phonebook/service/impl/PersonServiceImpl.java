@@ -95,7 +95,7 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 
 				if (person != null) {
 		        _personModelResourcePermission.check(
-		        getPermissionChecker(), person, ActionKeys.VIEW);
+		        getPermissionChecker(), person, "VIEW");
 		}
 		return person;
 	}

@@ -83,9 +83,7 @@ public class PartLocalServiceImpl extends PartLocalServiceBaseImpl {
 		        serviceContext.getUserId(),
 		        Part.class.getName(),
 		        part.getPartId(),
-		        false,
-		        serviceContext.isAddGroupPermissions(),
-		        serviceContext.isAddGuestPermissions());
+		        false,false,false);
 
 		return part;
 	}

@@ -18,8 +18,11 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermissionFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 
+import com.sain.phonebook.constants.PhoneBookConstants;
 import com.sain.phonebook.model.Part;
 import com.sain.phonebook.service.base.PartServiceBaseImpl;
 
@@ -114,5 +117,11 @@ public class PartServiceImpl extends PartServiceBaseImpl {
         return partLocalService.updatePart(
                 id, name, internalPhone, addressId, serviceContext);
     }
+
+    private static volatile PortletResourcePermission
+            _portletResourcePermission =
+            PortletResourcePermissionFactory.getInstance(
+                    RoleServiceImpl.class, "_portletResourcePermission",
+                    PhoneBookConstants.RESOURCE_NAME);
 
 }

@@ -83,9 +83,7 @@ public class AddressLocalServiceImpl extends AddressLocalServiceBaseImpl {
 				serviceContext.getUserId(),
 				Address.class.getName(),
 				address.getAddressId(),
-				false,
-				serviceContext.isAddGroupPermissions(),
-				serviceContext.isAddGuestPermissions());
+				false,false,false);
 
 		return address;
 	}

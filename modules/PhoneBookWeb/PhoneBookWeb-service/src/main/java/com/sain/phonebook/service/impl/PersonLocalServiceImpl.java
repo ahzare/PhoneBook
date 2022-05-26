@@ -93,9 +93,7 @@ public class PersonLocalServiceImpl extends PersonLocalServiceBaseImpl {
 		        serviceContext.getUserId(),
 		        Person.class.getName(),
 		        person.getPersonId(),
-		        false,
-		        serviceContext.isAddGroupPermissions(),
-		        serviceContext.isAddGuestPermissions());
+		        false,false,false);
 
 		return person;
 	}

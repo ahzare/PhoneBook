@@ -91,7 +91,7 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 
 		if (department != null) {
 			_departmentModelResourcePermission.check(
-					getPermissionChecker(), department, "VIEW_");
+					getPermissionChecker(), department, "VIEW");
 		}
 
 		return department;

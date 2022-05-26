@@ -85,8 +85,7 @@ public class RoleLocalServiceImpl extends RoleLocalServiceBaseImpl {
 			resourceLocalService.addResources(
 				serviceContext.getCompanyId(), serviceContext.getScopeGroupId(),
 				serviceContext.getUserId(), Role.class.getName(),
-				role.getRoleId(), false, serviceContext.isAddGroupPermissions(),
-				serviceContext.isAddGuestPermissions());
+				role.getRoleId(), false,false,false);
 
 			return role;
 		}

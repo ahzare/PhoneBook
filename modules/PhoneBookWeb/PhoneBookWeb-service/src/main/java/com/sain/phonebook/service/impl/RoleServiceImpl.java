@@ -17,10 +17,7 @@ package com.sain.phonebook.service.impl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
-import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
-import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermissionHelper;
-import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
-import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermissionFactory;
+import com.liferay.portal.kernel.security.permission.resource.*;
 import com.liferay.portal.kernel.service.ServiceContext;
 
 import com.sain.phonebook.constants.PhoneBookConstants;
@@ -66,8 +63,8 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 //		        _roleModelResourcePermission, getPermissionChecker(),
 //		        serviceContext.getScopeGroupId(), 0, "ADD_SOME");
 
-//		_portletResourcePermission.check(getPermissionChecker(),
-//				serviceContext.getScopeGroupId(), "ADD_SOME");
+		_portletResourcePermission.check(getPermissionChecker(),
+				serviceContext.getScopeGroupId(), "ADD_SOME");
 
 		return roleLocalService.addRole(name, serviceContext);
 	}
@@ -92,7 +89,8 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 		Role role = roleLocalService.getRole(roleId);
 
 		if (role != null) {
-		_roleModelResourcePermission.check(
+
+			_roleModelResourcePermission.check(
 					getPermissionChecker(), role, ActionKeys.VIEW);
 		}
 		return role;
@@ -121,6 +119,18 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 
 		return roleLocalService.updateRole(id, name, serviceContext);
 	}
+
+
+	/*private static volatile ModelResourcePermission<Role>
+			_lmsAssignmentModelResourcePermission =
+			ModelResourcePermissionFactory.getInstance(
+					RoleServiceImpl.class,
+					"_lmsAssignmentModelResourcePermission", Role.class);*/
+	private static volatile PortletResourcePermission
+			_portletResourcePermission =
+			PortletResourcePermissionFactory.getInstance(
+					RoleServiceImpl.class, "_portletResourcePermission",
+					PhoneBookConstants.RESOURCE_NAME);
 
 	/*private static volatile PortletResourcePermission
 			_portletResourcePermission =
