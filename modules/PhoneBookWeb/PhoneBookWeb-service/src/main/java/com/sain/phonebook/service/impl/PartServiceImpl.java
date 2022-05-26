@@ -57,9 +57,8 @@ public class PartServiceImpl extends PartServiceBaseImpl {
             final ServiceContext serviceContext)
             throws PortalException {
 
-        //        ModelResourcePermissionHelper.check(
-        //        _partModelResourcePermission, getPermissionChecker(),
-        //        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
+        _portletResourcePermission.check(getPermissionChecker(),
+				serviceContext.getScopeGroupId(), ActionKeys.ADD_ENTRY);
 
         return partLocalService.addPart(
                 name, internalPhone, addressId, serviceContext);
@@ -119,9 +118,8 @@ public class PartServiceImpl extends PartServiceBaseImpl {
     }
 
     private static volatile PortletResourcePermission
-            _portletResourcePermission =
-            PortletResourcePermissionFactory.getInstance(
-                    RoleServiceImpl.class, "_portletResourcePermission",
-                    PhoneBookConstants.RESOURCE_NAME);
-
+			_portletResourcePermission =
+			PortletResourcePermissionFactory.getInstance(
+					PartServiceImpl.class, "_portletResourcePermission",
+					PhoneBookConstants.RESOURCE_NAME);
 }

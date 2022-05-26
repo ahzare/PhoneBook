@@ -57,9 +57,8 @@ public class AddressServiceImpl extends AddressServiceBaseImpl {
 			final String name, final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        ModelResourcePermissionHelper.check(
-		//        _addressModelResourcePermission, getPermissionChecker(),
-		//        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
+		_portletResourcePermission.check(getPermissionChecker(),
+				serviceContext.getScopeGroupId(), ActionKeys.ADD_ENTRY);
 
 		return addressLocalService.addAddress(name, serviceContext);
 	}
@@ -117,8 +116,6 @@ public class AddressServiceImpl extends AddressServiceBaseImpl {
 	private static volatile PortletResourcePermission
 			_portletResourcePermission =
 			PortletResourcePermissionFactory.getInstance(
-					RoleServiceImpl.class, "_portletResourcePermission",
+					AddressServiceImpl.class, "_portletResourcePermission",
 					PhoneBookConstants.RESOURCE_NAME);
-
-
 }

@@ -18,8 +18,11 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermissionFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 
+import com.sain.phonebook.constants.PhoneBookConstants;
 import com.sain.phonebook.model.Person;
 import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.PersonServiceBaseImpl;
@@ -58,10 +61,8 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        ModelResourcePermissionHelper.check(
-		//        _personModelResourcePermission, getPermissionChecker(),
-		//        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
-
+		_portletResourcePermission.check(getPermissionChecker(),
+				serviceContext.getScopeGroupId(), ActionKeys.ADD_ENTRY);
 		return personLocalService.addPerson(
 			firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
 			roomNumber, email, website, departmentId, roleId, serviceContext);
@@ -95,7 +96,7 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 
 				if (person != null) {
 		        _personModelResourcePermission.check(
-		        getPermissionChecker(), person, "VIEW");
+		        getPermissionChecker(), person, ActionKeys.VIEW);
 		}
 		return person;
 	}
@@ -133,5 +134,9 @@ public class PersonServiceImpl extends PersonServiceBaseImpl {
 			id, firstName, lastName, localPhoneNumber, phoneNumber, faxNumber,
 			roomNumber, email, website, departmentId, roleId, serviceContext);
 	}
-
+private static volatile PortletResourcePermission
+			_portletResourcePermission =
+			PortletResourcePermissionFactory.getInstance(
+					PersonServiceImpl.class, "_portletResourcePermission",
+					PhoneBookConstants.RESOURCE_NAME);
 }

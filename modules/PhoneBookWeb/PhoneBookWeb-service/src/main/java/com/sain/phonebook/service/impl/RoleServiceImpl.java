@@ -50,21 +50,11 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 	private volatile ModelResourcePermission<Role>
 			_roleModelResourcePermission;
 
-
-	/*private volatile  PortletResourcePermission
-		_portletResourcePermission *//*= PortletResourcePermissionFactory.getInstance(
-		RoleServiceImpl.class, "_portletResourcePermission",
-		PhoneBookConstants.RESOURCE_NAME)*//*;
-*/
 	public Role addRole(final String name, final ServiceContext serviceContext)
 		throws PortalException {
 
-//		        ModelResourcePermissionHelper.check(
-//		        _roleModelResourcePermission, getPermissionChecker(),
-//		        serviceContext.getScopeGroupId(), 0, "ADD_SOME");
-
 		_portletResourcePermission.check(getPermissionChecker(),
-				serviceContext.getScopeGroupId(), "ADD_SOME");
+				serviceContext.getScopeGroupId(), ActionKeys.ADD_ENTRY);
 
 		return roleLocalService.addRole(name, serviceContext);
 	}
@@ -120,22 +110,10 @@ public class RoleServiceImpl extends RoleServiceBaseImpl {
 		return roleLocalService.updateRole(id, name, serviceContext);
 	}
 
-
-	/*private static volatile ModelResourcePermission<Role>
-			_lmsAssignmentModelResourcePermission =
-			ModelResourcePermissionFactory.getInstance(
-					RoleServiceImpl.class,
-					"_lmsAssignmentModelResourcePermission", Role.class);*/
 	private static volatile PortletResourcePermission
 			_portletResourcePermission =
 			PortletResourcePermissionFactory.getInstance(
 					RoleServiceImpl.class, "_portletResourcePermission",
 					PhoneBookConstants.RESOURCE_NAME);
 
-	/*private static volatile PortletResourcePermission
-			_portletResourcePermission =
-			PortletResourcePermissionFactory.getInstance(
-					RoleServiceImpl.class, "_portletResourcePermission",
-					PhoneBookConstants.RESOURCE_NAME);
-*/
 }

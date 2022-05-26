@@ -12,7 +12,6 @@ Resource Action Mapping 7.2.0//EN"
 		<permissions>
 			<supports>
 				<action-key>ADD_ENTRY</action-key>
-				<action-key>ADD_SOME</action-key>
 				<action-key>PERMISSIONS</action-key>
 			</supports>
 			<site-member-defaults/>

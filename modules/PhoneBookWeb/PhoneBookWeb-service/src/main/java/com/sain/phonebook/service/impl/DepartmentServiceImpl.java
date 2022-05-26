@@ -18,8 +18,11 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.security.permission.resource.ModelResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermission;
+import com.liferay.portal.kernel.security.permission.resource.PortletResourcePermissionFactory;
 import com.liferay.portal.kernel.service.ServiceContext;
 
+import com.sain.phonebook.constants.PhoneBookConstants;
 import com.sain.phonebook.model.Department;
 import com.sain.phonebook.model.Role;
 import com.sain.phonebook.service.base.DepartmentServiceBaseImpl;
@@ -43,8 +46,6 @@ import org.osgi.service.component.annotations.ReferencePolicyOption;
 )
 public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 
-	// todo: for permissions
-
 		@Reference(
 				policy = ReferencePolicy.DYNAMIC,
 				policyOption= ReferencePolicyOption.GREEDY,
@@ -57,10 +58,8 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 			final String name, final ServiceContext serviceContext)
 		throws PortalException {
 
-		//        ModelResourcePermissionHelper.check(
-		//        _departmentModelResourcePermission, getPermissionChecker(),
-		//        serviceContext.getScopeGroupId(), 0, ActionKeys.ADD_ENTRY);
-
+		_portletResourcePermission.check(getPermissionChecker(),
+				serviceContext.getScopeGroupId(), ActionKeys.ADD_ENTRY);
 		return departmentLocalService.addDepartment(name, serviceContext);
 	}
 
@@ -91,7 +90,7 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 
 		if (department != null) {
 			_departmentModelResourcePermission.check(
-					getPermissionChecker(), department, "VIEW");
+					getPermissionChecker(), department, ActionKeys.VIEW);
 		}
 
 		return department;
@@ -114,7 +113,7 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 			final ServiceContext serviceContext)
 		throws PortalException {
 
-		        _departmentModelResourcePermission.check(
+		_departmentModelResourcePermission.check(
 		        getPermissionChecker(), id,
 		        ActionKeys.UPDATE);
 
@@ -122,4 +121,9 @@ public class DepartmentServiceImpl extends DepartmentServiceBaseImpl {
 			id, name, serviceContext);
 	}
 
+	private static volatile PortletResourcePermission
+			_portletResourcePermission =
+			PortletResourcePermissionFactory.getInstance(
+					DepartmentServiceImpl.class, "_portletResourcePermission",
+					PhoneBookConstants.RESOURCE_NAME);
 }
